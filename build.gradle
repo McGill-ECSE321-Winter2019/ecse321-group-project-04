@@ -1,0 +1,4 @@
+task stage () {
+    dependsOn ':Backend:assemble'
+}
+
