@@ -8,52 +8,57 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Id;
 
 @Entity
-public class CoopCourseOffering{
-   private Integer year;
+public class CoopCourseOffering {
+	private Integer year;
 
-public void setYear(Integer value) {
-    this.year = value;
-}
-public Integer getYear() {
-    return this.year;
-}
-private Boolean active;
+	public void setYear(Integer value) {
+		this.year = value;
+	}
 
-public void setActive(Boolean value) {
-    this.active = value;
-}
-public Boolean getActive() {
-    return this.active;
-}
-private Set<StudentEnrollment> studentEnrollments;
+	public Integer getYear() {
+		return this.year;
+	}
 
-@OneToMany(mappedBy="coopCourseOffering" , cascade={CascadeType.ALL})
-public Set<StudentEnrollment> getStudentEnrollments() {
-   return this.studentEnrollments;
-}
+	private Boolean active;
 
-public void setStudentEnrollments(Set<StudentEnrollment> studentEnrollmentss) {
-   this.studentEnrollments = studentEnrollmentss;
-}
+	public void setActive(Boolean value) {
+		this.active = value;
+	}
 
-private CoopCourse coopCourse;
+	public Boolean getActive() {
+		return this.active;
+	}
 
-@ManyToOne(optional=false)
-public CoopCourse getCoopCourse() {
-   return this.coopCourse;
-}
+	private Set<StudentEnrollment> studentEnrollments;
 
-public void setCoopCourse(CoopCourse coopCourse) {
-   this.coopCourse = coopCourse;
-}
+	@OneToMany(mappedBy = "coopCourseOffering", cascade = { CascadeType.ALL })
+	public Set<StudentEnrollment> getStudentEnrollments() {
+		return this.studentEnrollments;
+	}
 
-private String offerID;
+	public void setStudentEnrollments(Set<StudentEnrollment> studentEnrollmentss) {
+		this.studentEnrollments = studentEnrollmentss;
+	}
 
-public void setOfferID(String value) {
-    this.offerID = value;
-}
-@Id
-public String getOfferID() {
-    return this.offerID;
-}
+	private CoopCourse coopCourse;
+
+	@ManyToOne(optional = false)
+	public CoopCourse getCoopCourse() {
+		return this.coopCourse;
+	}
+
+	public void setCoopCourse(CoopCourse coopCourse) {
+		this.coopCourse = coopCourse;
+	}
+
+	private String offerID;
+
+	public void setOfferID(String value) {
+		this.offerID = value;
+	}
+
+	@Id
+	public String getOfferID() {
+		return this.offerID;
+	}
 }

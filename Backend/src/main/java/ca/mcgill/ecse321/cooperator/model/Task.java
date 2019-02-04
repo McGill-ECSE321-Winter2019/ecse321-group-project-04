@@ -1,9 +1,10 @@
 package ca.mcgill.ecse321.cooperator.model;
+
 import javax.persistence.ManyToMany;
 
 import javax.persistence.Entity;
 import java.sql.Date;
-import javax.persistence.OneToOne;
+//import javax.persistence.OneToOne;
 import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -11,65 +12,69 @@ import javax.persistence.OneToMany;
 import javax.persistence.Id;
 
 @Entity
-public class Task{
-private Set<Document> documents;
-   
-   @ManyToMany(mappedBy="tasks" )
-   public Set<Document> getDocuments() {
-      return this.documents;
-   }
-   
-   public void setDocuments(Set<Document> documentss) {
-      this.documents = documentss;
-   }
-   
-   private String description;
+public class Task {
+	private Set<Document> documents;
 
-public void setDescription(String value) {
-    this.description = value;
-}
-public String getDescription() {
-    return this.description;
-}
-private Date dueDate;
+	@ManyToMany(mappedBy = "tasks")
+	public Set<Document> getDocuments() {
+		return this.documents;
+	}
 
-@OneToOne(optional=false)
-public Date getDueDate() {
-   return this.dueDate;
-}
+	public void setDocuments(Set<Document> documentss) {
+		this.documents = documentss;
+	}
 
-public void setDueDate(Date dueDate) {
-   this.dueDate = dueDate;
-}
-private StudentEnrollment studentEnrollment;
+	private String description;
 
-@ManyToOne(optional=false)
-public StudentEnrollment getStudentEnrollment() {
-   return this.studentEnrollment;
-}
+	public void setDescription(String value) {
+		this.description = value;
+	}
 
-public void setStudentEnrollment(StudentEnrollment studentEnrollment) {
-   this.studentEnrollment = studentEnrollment;
-}
+	public String getDescription() {
+		return this.description;
+	}
 
-private Set<Document> submitedDocuments;
+	private Date dueDate;
 
-@OneToMany(mappedBy="task" , cascade={CascadeType.ALL})
-public Set<Document> getSubmitedDocuments() {
-   return this.submitedDocuments;
-}
+	//@OneToOne(optional = false)
+	public Date getDueDate() {
+		return this.dueDate;
+	}
 
-public void setSubmitedDocuments(Set<Document> documentss) {
-   this.submitedDocuments = documentss;
-}
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
+	}
 
-private String taskID;
+	private StudentEnrollment studentEnrollment;
 
-public void setTaskID(String value) {
-    this.taskID = value;
-}
-@Id
-public String getTaskID() {
-    return this.taskID;
-}
+	@ManyToOne(optional = false)
+	public StudentEnrollment getStudentEnrollment() {
+		return this.studentEnrollment;
+	}
+
+	public void setStudentEnrollment(StudentEnrollment studentEnrollment) {
+		this.studentEnrollment = studentEnrollment;
+	}
+
+	private Set<Document> submitedDocuments;
+
+	@OneToMany(mappedBy = "task", cascade = { CascadeType.ALL })
+	public Set<Document> getSubmitedDocuments() {
+		return this.submitedDocuments;
+	}
+
+	public void setSubmitedDocuments(Set<Document> documentss) {
+		this.submitedDocuments = documentss;
+	}
+
+	private String taskID;
+
+	public void setTaskID(String value) {
+		this.taskID = value;
+	}
+
+	@Id
+	public String getTaskID() {
+		return this.taskID;
+	}
 }
