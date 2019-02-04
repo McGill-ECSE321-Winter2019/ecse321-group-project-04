@@ -24,13 +24,24 @@ import ca.mcgill.ecse321.cooperator.model.Term;
 @SpringBootTest
 public class Ecse321GroupProject04ApplicationTests {
 	
-	
+	// Employer
 	private static final String EMPLOYER_NAME = "Google";
 	private static final String EMPLOYER_EMAIL = "google@gmail.com";
-	
+	// Course
 	private static final String COURSE_CODE = "ECSE3XX";
 	private static final Integer COURSE_TERM = 2;
 	private static final String COURSE_ID = "ECSE3XX-W19";
+	// Student
+	private static final String STUDENT_FIRST_NAME = "first name";
+	private static final String STUDENT_LAST_NAME = "last name";
+	private static final Integer STUDENT_ID = 12345678;
+	private static final String STUDENT_EMAIL = "name@mail.mcgill.ca";
+	//Document
+	private static final String DOCUMENT_NAME = "some name";
+	private static final String DOCUMENT_URL = "www.onedrive.com/...";
+	private static final Task TASK = new Task();
+	
+	
 	
 	@Autowired
 	Ecse321GroupProject04ApplicationRepsitory dao;
@@ -66,6 +77,26 @@ public class Ecse321GroupProject04ApplicationTests {
 		assertEquals(COURSE_ID, id);
 	}
 	
+	@Test
+	public void testCreateStudent() {
+		// create a student
+		dao.createStudent(STUDENT_FIRST_NAME, STUDENT_LAST_NAME, STUDENT_ID, STUDENT_EMAIL);
+		// search for student by id 
+		Student s = dao.getStudent(STUDENT_ID);
+		
+		String firstName= s.getFirstName();
+		assertEquals(STUDENT_FIRST_NAME, firstName);
+		
+		String lastName = s.getLastName();
+		assertEquals(STUDENT_LAST_NAME, lastName);
+		
+		Integer studentID = s.getMcgillID();
+		assertEquals(STUDENT_ID, studentID);
+		
+		String studentEmail = s.getMcgillEmail();
+		assertEquals(STUDENT_EMAIL, studentEmail);
+	}
+	
 	/*The rest of the read/write tests need to be changed --classes with composition relations leave a null row in the table */
 	
 //	@Test
@@ -88,27 +119,19 @@ public class Ecse321GroupProject04ApplicationTests {
 //		System.out.println("Task Date: " + t.getDueDate().getDate() + " , " + t.getDueDate().getMonth() + " , " + t.getDueDate().getYear() +"\n");
 //	}
 //	
-//	@Test
-//	public void testCreateDocument() {
-//		// create a document
-//		CoopCourseOffering cco1 = new CoopCourseOffering();
-//		cco1.setOfferID("2");
-//		dao.createDocument("Some report", "www.onedrive.something",cco1, t1);
-//		// search for doc
-//		Document doc = dao.getDocument("www.onedrive.something");
-//		System.out.println("Document name: " + doc.getName() +"\n");
-//	}
-//	
-	//for some reason, dao.getStudent() returns null
-//	@Test
-//	public void testCreateStudent() {
-//		// create a student
-//		Integer id=12345;
-//		dao.createStudent("Remi", "Carriere", id, "remi.carriere@mail.mcgill.ca");
-//		// search for student by id 
-//		Student s = dao.getStudent(id);
-//		System.out.println("Student Name: " + s.getFirstName() + " " + s.getLastName());
-//		System.out.println("Student Email: " + s.getMcgillEmail() + "ID: " + s.getMcgillID()  +"\n");
-//	}
+	@Test
+	public void testCreateDocument() {
+		// create a document
+		dao.createDocument(DOCUMENT_NAME, DOCUMENT_URL, TASK);
+		// search for doc
+		Document doc = dao.getDocument(DOCUMENT_URL);
+		
+		String name = doc.getName();
+		assertEquals(DOCUMENT_NAME, name);
+		String url = doc.getUrl();
+		assertEquals(DOCUMENT_URL, url);
+	}
+	
+
 	
 }

@@ -6,6 +6,7 @@ import java.sql.Date;
 //import java.sql.Date;
 import javax.persistence.EntityManager;
 //import javax.persistence.TypedQuery;
+import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,6 +28,7 @@ import ca.mcgill.ecse321.cooperator.model.Term;
 public class Ecse321GroupProject04ApplicationRepsitory {
 	
 	@Autowired
+	@PersistenceContext
 	EntityManager entityManager;
 	/*Some methods here are incomplete (ones related to classes with compositions)*/
 	
@@ -38,6 +40,7 @@ public class Ecse321GroupProject04ApplicationRepsitory {
 		s.setMcgillID(id);
 		s.setMcgillEmail(email);
 		entityManager.persist(s);
+		System.out.println(entityManager.contains(s)) ; //check if s was persisted
 		return s;
 	}
 	
@@ -48,21 +51,21 @@ public class Ecse321GroupProject04ApplicationRepsitory {
 	}
 	
 
-	@Transactional
-	public StudentEnrollment createStudentEnrollment(Boolean active, CourseStatus status, String enrollmentID) {
-		StudentEnrollment se = new StudentEnrollment();
-		se.setActive(active);
-		se.setStatus(status);
-		se.setEnrollmentID(enrollmentID);
-		entityManager.persist(se);
-		return se;
-	}
-	
-	@Transactional
-	public StudentEnrollment getStudentEnrollment(Integer id) {
-		StudentEnrollment se = entityManager.find(StudentEnrollment.class, id);
-		return se;
-	}
+//	@Transactional
+//	public StudentEnrollment createStudentEnrollment(Boolean active, CourseStatus status, String enrollmentID) {
+//		StudentEnrollment se = new StudentEnrollment();
+//		se.setActive(active);
+//		se.setStatus(status);
+//		se.setEnrollmentID(enrollmentID);
+//		entityManager.persist(se);
+//		return se;
+//	}
+//	
+//	@Transactional
+//	public StudentEnrollment getStudentEnrollment(Integer id) {
+//		StudentEnrollment se = entityManager.find(StudentEnrollment.class, id);
+//		return se;
+//	}
 	
 	@Transactional
 	public Employer createEmployer(String name, String email) {
@@ -79,22 +82,22 @@ public class Ecse321GroupProject04ApplicationRepsitory {
 		return e;
 	}
 	
-	@Transactional
-	public CoopCourseOffering createCoopCourseOffering(Integer year, Term term, Boolean active, String offerID) {
-		CoopCourseOffering cco = new  CoopCourseOffering ();
-		cco.setYear(year);
-		cco.setTerm(term);
-		cco.setActive(active);
-		cco.setOfferID(offerID);
-		entityManager.persist(cco);
-		return cco;
-	}
-	
-	@Transactional
-	public CoopCourseOffering getCoopCourseOffering(String offerID) {
-		CoopCourseOffering cco = entityManager.find(CoopCourseOffering.class, offerID);
-		return cco;
-	}
+//	@Transactional
+//	public CoopCourseOffering createCoopCourseOffering(Integer year, Term term, Boolean active, String offerID) {
+//		CoopCourseOffering cco = new  CoopCourseOffering ();
+//		cco.setYear(year);
+//		cco.setTerm(term);
+//		cco.setActive(active);
+//		cco.setOfferID(offerID);
+//		entityManager.persist(cco);
+//		return cco;
+//	}
+//	
+//	@Transactional
+//	public CoopCourseOffering getCoopCourseOffering(String offerID) {
+//		CoopCourseOffering cco = entityManager.find(CoopCourseOffering.class, offerID);
+//		return cco;
+//	}
 	
 	@Transactional
 	public CoopCourse createCoopCourse(String courseCode, Integer coopTerm, String coopCourseID) {
@@ -113,29 +116,28 @@ public class Ecse321GroupProject04ApplicationRepsitory {
 	}
 
 	
+//	@Transactional
+//	public Task createTask(String description, Date dueDate, TaskStatus status, String taskID) {
+//		Task t = new Task();
+//		t.setDescription(description);
+//		t.setDueDate(dueDate);
+//		t.setStatus(status);
+//		t.setTaskID(taskID);
+//		entityManager.persist(t);
+//		return t;
+//	}
+//	
+//	@Transactional
+//	public Task getTask(String taskID) {
+//		Task t  = entityManager.find(Task.class, taskID);
+//		return t;
+//	}
+//	
 	@Transactional
-	public Task createTask(String description, Date dueDate, TaskStatus status, String taskID) {
-		Task t = new Task();
-		t.setDescription(description);
-		t.setDueDate(dueDate);
-		t.setStatus(status);
-		t.setTaskID(taskID);
-		entityManager.persist(t);
-		return t;
-	}
-	
-	@Transactional
-	public Task getTask(String taskID) {
-		Task t  = entityManager.find(Task.class, taskID);
-		return t;
-	}
-	
-	@Transactional
-	public Document createDocument(String name, String url, CoopCourseOffering coopCourseOffering, Task task) {
+	public Document createDocument(String name, String url, Task task) {
 		Document doc = new Document();
 		doc.setName(name);
 		doc.setUrl(url);
-		doc.setCoopCourseOffering(coopCourseOffering);
 		doc.setTask(task);
 		entityManager.persist(doc);
 		return doc;
