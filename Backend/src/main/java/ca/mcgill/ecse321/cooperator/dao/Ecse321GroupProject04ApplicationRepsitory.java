@@ -2,11 +2,14 @@ package ca.mcgill.ecse321.cooperator.dao;
 
 
 import java.sql.Date;
+import java.util.List;
+import java.util.Set;
 
 //import java.sql.Date;
 import javax.persistence.EntityManager;
 //import javax.persistence.TypedQuery;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,6 +30,7 @@ import ca.mcgill.ecse321.cooperator.model.Term;
 @Repository
 public class Ecse321GroupProject04ApplicationRepsitory {
 	
+	private static final Set<StudentEnrollment> studentEnrollmentss = null;
 	@Autowired
 	@PersistenceContext
 	EntityManager entityManager;
@@ -49,7 +53,6 @@ public class Ecse321GroupProject04ApplicationRepsitory {
 		Student s = entityManager.find(Student.class, id);
 		return s;
 	}
-	
 
 //	@Transactional
 //	public StudentEnrollment createStudentEnrollment(Boolean active, CourseStatus status, String enrollmentID) {

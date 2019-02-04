@@ -1,4 +1,6 @@
 package ca.mcgill.ecse321.cooperator.model;
+import javax.persistence.ManyToMany;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -6,6 +8,17 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Document{
+private Set<Task> tasks;
+   
+   @ManyToMany
+   public Set<Task> getTasks() {
+      return this.tasks;
+   }
+   
+   public void setTasks(Set<Task> taskss) {
+      this.tasks = taskss;
+   }
+   
    private String name;
 
 public void setName(String value) {
@@ -32,17 +45,6 @@ public String getUrl() {
    
    public void setTask(Task task) {
       this.task = task;
-   }
-   
-   private CoopCourseOffering coopCourseOffering;
-   
-   @ManyToOne(optional=false)
-   public CoopCourseOffering getCoopCourseOffering() {
-      return this.coopCourseOffering;
-   }
-   
-   public void setCoopCourseOffering(CoopCourseOffering coopCourseOffering) {
-      this.coopCourseOffering = coopCourseOffering;
    }
    
    }

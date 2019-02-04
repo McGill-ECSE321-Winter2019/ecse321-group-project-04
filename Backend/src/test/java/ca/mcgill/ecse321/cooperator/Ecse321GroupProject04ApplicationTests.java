@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.cooperator;
 import static org.junit.Assert.assertEquals;
 
 import java.sql.Date;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,7 @@ import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.Document;
 import ca.mcgill.ecse321.cooperator.model.Employer;
 import ca.mcgill.ecse321.cooperator.model.Student;
+import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
 import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.model.Term;
@@ -36,12 +38,18 @@ public class Ecse321GroupProject04ApplicationTests {
 	private static final String STUDENT_LAST_NAME = "last name";
 	private static final Integer STUDENT_ID = 12345678;
 	private static final String STUDENT_EMAIL = "name@mail.mcgill.ca";
+	//Co-op course Offering
+	private static final Integer YEAR = 2018;
+	private static final Term TERM = Term.FALL;
+	private static final Boolean ACTIVE = true;
+	private static final String OFFER_ID = "1";
+	private static final StudentEnrollment SE = new StudentEnrollment();
 	//Document
 	private static final String DOCUMENT_NAME = "some name";
 	private static final String DOCUMENT_URL = "www.onedrive.com/...";
 	private static final Task TASK = new Task();
-	
-	
+	//Task
+	private static final Date DATE = new Date(2019,1,1);
 	
 	@Autowired
 	Ecse321GroupProject04ApplicationRepsitory dao;
@@ -102,10 +110,9 @@ public class Ecse321GroupProject04ApplicationTests {
 //	@Test
 //	public void testCreateCoopCourseOffering() {
 //		// create Co-op course offering
-//		dao.createCoopCourseOffering(1999, Term.FALL, true , "123");
+//		dao.createCoopCourseOffering(YEAR, TERM, ACTIVE, OFFER_ID);
 //		// search for co-op course offering by ID
-//		CoopCourseOffering cco = dao.getCoopCourseOffering("123");
-//		System.out.println("cco" + cco.getYear() +"\n");
+//		CoopCourseOffering cco = dao.getCoopCourseOffering(OFFER_ID);
 //	}
 //	
 //	@Test
@@ -119,18 +126,22 @@ public class Ecse321GroupProject04ApplicationTests {
 //		System.out.println("Task Date: " + t.getDueDate().getDate() + " , " + t.getDueDate().getMonth() + " , " + t.getDueDate().getYear() +"\n");
 //	}
 //	
-	@Test
-	public void testCreateDocument() {
-		// create a document
-		dao.createDocument(DOCUMENT_NAME, DOCUMENT_URL, TASK);
-		// search for doc
-		Document doc = dao.getDocument(DOCUMENT_URL);
-		
-		String name = doc.getName();
-		assertEquals(DOCUMENT_NAME, name);
-		String url = doc.getUrl();
-		assertEquals(DOCUMENT_URL, url);
-	}
+//	@Test
+//	public void testCreateDocument() {
+//		// create a document
+//		TASK.setTaskID("1");
+//		TASK.setDueDate(DATE);
+//		TASK.setDescription("we");
+//		TASK.set
+//		dao.createDocument(DOCUMENT_NAME, DOCUMENT_URL, TASK);
+//		// search for doc
+//		Document doc = dao.getDocument(DOCUMENT_URL);
+//		
+//		String name = doc.getName();
+//		assertEquals(DOCUMENT_NAME, name);
+//		String url = doc.getUrl();
+//		assertEquals(DOCUMENT_URL, url);
+//	}
 	
 
 	
