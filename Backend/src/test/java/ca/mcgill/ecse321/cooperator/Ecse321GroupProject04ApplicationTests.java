@@ -50,6 +50,7 @@ public class Ecse321GroupProject04ApplicationTests {
 	private static final Task TASK = new Task();
 	//Task
 	private static final Date DATE = new Date(2019,1,1);
+	private static final TaskStatus STATUS = TaskStatus.COMPLETED; 
 	
 	@Autowired
 	Ecse321GroupProject04ApplicationRepsitory dao;
@@ -126,22 +127,22 @@ public class Ecse321GroupProject04ApplicationTests {
 //		System.out.println("Task Date: " + t.getDueDate().getDate() + " , " + t.getDueDate().getMonth() + " , " + t.getDueDate().getYear() +"\n");
 //	}
 //	
-//	@Test
-//	public void testCreateDocument() {
-//		// create a document
-//		TASK.setTaskID("1");
-//		TASK.setDueDate(DATE);
-//		TASK.setDescription("we");
-//		TASK.set
-//		dao.createDocument(DOCUMENT_NAME, DOCUMENT_URL, TASK);
-//		// search for doc
-//		Document doc = dao.getDocument(DOCUMENT_URL);
-//		
-//		String name = doc.getName();
-//		assertEquals(DOCUMENT_NAME, name);
-//		String url = doc.getUrl();
-//		assertEquals(DOCUMENT_URL, url);
-//	}
+	@Test
+	public void testCreateDocument() {
+		// create a document
+		TASK.setTaskID("1");
+		TASK.setDueDate(DATE);
+		TASK.setDescription("we");
+		TASK.setTaskStatus(STATUS);
+		dao.createDocument(DOCUMENT_NAME, DOCUMENT_URL, TASK);
+		// search for doc
+		Document doc = dao.getDocument(DOCUMENT_URL);
+		
+		String name = doc.getName();
+		assertEquals(DOCUMENT_NAME, name);
+		String url = doc.getUrl();
+		assertEquals(DOCUMENT_URL, url);
+	}
 	
 
 	
