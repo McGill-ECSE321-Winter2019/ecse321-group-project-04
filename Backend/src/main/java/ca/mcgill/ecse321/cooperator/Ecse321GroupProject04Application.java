@@ -13,8 +13,8 @@ public class Ecse321GroupProject04Application {
 		SpringApplication.run(Ecse321GroupProject04Application.class, args);
 	}
 
-  @RequestMapping("/")
-  public String greeting(){
-    return "Co-Op-Erator";
-  }
+	@RequestMapping("/")
+	public String greeting() {
+		return "Co-Op-Erator";
+	}
 }
