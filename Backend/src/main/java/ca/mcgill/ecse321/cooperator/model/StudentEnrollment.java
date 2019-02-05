@@ -2,11 +2,11 @@ package ca.mcgill.ecse321.cooperator.model;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import javax.persistence.Id;
+import java.util.HashSet;
 
 @Entity
 public class StudentEnrollment {
@@ -43,7 +43,7 @@ public class StudentEnrollment {
 
 	private Student enrolledStudent;
 
-	@OneToOne(optional = false)
+	@ManyToOne(optional = false)
 	public Student getEnrolledStudent() {
 		return this.enrolledStudent;
 	}
@@ -59,9 +59,15 @@ public class StudentEnrollment {
 		return this.courseTasks;
 	}
 
-	public void setCourseTasks(Set<Task> courseTaskss) {
-		this.courseTasks = courseTaskss;
+	public void setCourseTasks(Set<Task> courseTasks) {
+		this.courseTasks = courseTasks;
 	}
+
+        public void addCourseTask(Task task) {
+                if (courseTasks == null)
+                    courseTasks = new HashSet<Task>();
+                courseTasks.add(task);
+        }
 
 	private CoopCourseOffering coopCourseOffering;
 

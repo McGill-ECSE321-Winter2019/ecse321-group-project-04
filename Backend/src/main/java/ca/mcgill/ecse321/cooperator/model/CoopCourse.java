@@ -7,11 +7,12 @@ import javax.persistence.Id;
 
 @Entity
 public class CoopCourse{
-   private String courseCode;
+private String courseCode;
 
 public void setCourseCode(String value) {
     this.courseCode = value;
 }
+@Id
 public String getCourseCode() {
     return this.courseCode;
 }
@@ -34,13 +35,4 @@ public void setCoopCourseOffering(Set<CoopCourseOffering> coopCourseOfferings) {
    this.coopCourseOffering = coopCourseOfferings;
 }
 
-private String coopCourseID;
-
-public void setCoopCourseID(String value) {
-    this.coopCourseID = value;
-}
-@Id
-public String getCoopCourseID() {
-    return this.coopCourseID;
-}
 }

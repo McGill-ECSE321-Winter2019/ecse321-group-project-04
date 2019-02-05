@@ -43,8 +43,8 @@ public class Ecse321GroupProject04ApplicationRepsitory {
 		s.setLastName(lastName);
 		s.setMcgillID(id);
 		s.setMcgillEmail(email);
+
 		entityManager.persist(s);
-		System.out.println(entityManager.contains(s)) ; //check if s was persisted
 		return s;
 	}
 	
@@ -54,21 +54,39 @@ public class Ecse321GroupProject04ApplicationRepsitory {
 		return s;
 	}
 
+        @Transactional
+        public void removeStudent(Student s) {
+                entityManager.remove(entityManager.contains(s)? s: entityManager.merge(s));
+                entityManager.flush();
+        }
+
 	@Transactional
-	public StudentEnrollment createStudentEnrollment(Boolean active, CourseStatus status, String enrollmentID) {
+	public StudentEnrollment createStudentEnrollment(Student student, Employer employer, Boolean active, CourseStatus status, String enrollmentID, CoopCourseOffering cco) {
 		StudentEnrollment se = new StudentEnrollment();
+                se.setEnrolledStudent(student);
+                se.setStudentEmployer(employer);
 		se.setActive(active);
 		se.setStatus(status);
 		se.setEnrollmentID(enrollmentID);
+                se.setCoopCourseOffering(cco);
+
+                cco.addStudentEnrollment(se);
+
 		entityManager.persist(se);
 		return se;
 	}
 	
 	@Transactional
-	public StudentEnrollment getStudentEnrollment(Integer id) {
+	public StudentEnrollment getStudentEnrollment(String id) {
 		StudentEnrollment se = entityManager.find(StudentEnrollment.class, id);
 		return se;
 	}
+
+        @Transactional
+        public void removeStudentEnrollment(StudentEnrollment se) {
+                entityManager.remove(entityManager.contains(se)? se: entityManager.merge(se));
+                entityManager.flush();
+        }
 	
 	@Transactional
 	public Employer createEmployer(String name, String email) {
@@ -84,13 +102,33 @@ public class Ecse321GroupProject04ApplicationRepsitory {
 		Employer e  = entityManager.find(Employer.class, email);
 		return e;
 	}
+
+        @Transactional
+        public void removeEmployer(Employer employer) {
+                entityManager.remove(entityManager.contains(employer)? employer: entityManager.merge(employer));
+                entityManager.flush();
+        }
 	
 	@Transactional
-	public CoopCourseOffering createCoopCourseOffering(Integer year, Term term, Boolean active, String offerID) {
-		CoopCourseOffering cco = new  CoopCourseOffering ();
+	public CoopCourseOffering createCoopCourseOffering(Integer year, Term term, Boolean active, CoopCourse coopCourse) {
+		CoopCourseOffering cco = new CoopCourseOffering();
 		cco.setYear(year);
 		cco.setTerm(term);
 		cco.setActive(active);
+                cco.setCoopCourse(coopCourse);
+                String offerID = coopCourse.getCourseCode();
+                switch(term) {
+                    case FALL:
+                    offerID += "-F";
+                    break;
+                    case WINTER:
+                    offerID += "-W";
+                    break;
+                    case SUMMER:
+                    offerID += "-S";
+                    break;
+                }
+                offerID += year;
 		cco.setOfferID(offerID);
 		entityManager.persist(cco);
 		return cco;
@@ -101,13 +139,18 @@ public class Ecse321GroupProject04ApplicationRepsitory {
 		CoopCourseOffering cco = entityManager.find(CoopCourseOffering.class, offerID);
 		return cco;
 	}
+
+        @Transactional
+        public void removeCoopCourseOffering(CoopCourseOffering cco) {
+                entityManager.remove(entityManager.contains(cco)? cco: entityManager.merge(cco));
+                entityManager.flush();
+        }
 	
 	@Transactional
-	public CoopCourse createCoopCourse(String courseCode, Integer coopTerm, String coopCourseID) {
+	public CoopCourse createCoopCourse(String courseCode, Integer coopTerm) {
 		CoopCourse c = new CoopCourse();
 		c.setCourseCode(courseCode);
 		c.setCoopTerm(coopTerm);
-		c.setCoopCourseID(coopCourseID);
 		entityManager.persist(c);
 		return c;
 	}
@@ -118,14 +161,23 @@ public class Ecse321GroupProject04ApplicationRepsitory {
 		return c;
 	}
 
+        @Transactional
+        public void removeCoopCourse(CoopCourse c) {
+                entityManager.remove(entityManager.contains(c)? c: entityManager.merge(c));
+                entityManager.flush();
+        }
 	
 	@Transactional
-	public Task createTask(String description, Date dueDate, TaskStatus status, String taskID) {
+	public Task createTask(String description, Date dueDate, TaskStatus status, String taskID, StudentEnrollment se) {
 		Task t = new Task();
 		t.setDescription(description);
 		t.setDueDate(dueDate);
 		t.setTaskStatus(status);
 		t.setTaskID(taskID);
+                t.setStudentEnrollment(se);
+
+                se.addCourseTask(t);
+
 		entityManager.persist(t);
 		return t;
 	}
@@ -135,15 +187,24 @@ public class Ecse321GroupProject04ApplicationRepsitory {
 		Task t  = entityManager.find(Task.class, taskID);
 		return t;
 	}
+
+        @Transactional
+        public void removeTask(Task t) {
+                entityManager.remove(entityManager.contains(t)? t: entityManager.merge(t));
+                entityManager.flush();
+        }
 	
 	@Transactional
-	public Document createDocument(String name, String url, Task task) {
-		Document doc = new Document();
-		doc.setName(name);
-		doc.setUrl(url);
-		doc.setTask(task);
-		entityManager.persist(doc);
-		return doc;
+	public Document createDocument(String name, String url, Task t) {
+		Document d = new Document();
+		d.setName(name);
+		d.setUrl(url);
+		d.setTask(t);
+
+                t.addDocument(d);
+
+		entityManager.persist(d);
+		return d;
 	}
 	
 	@Transactional
@@ -151,6 +212,12 @@ public class Ecse321GroupProject04ApplicationRepsitory {
 		Document doc = entityManager.find(Document.class, url);
 		return doc;
 	}
+
+        @Transactional
+        public void removeDocument(Document d) {
+                entityManager.remove(entityManager.contains(d)? d: entityManager.merge(d));
+                entityManager.flush();
+        }
 	
 
 }

@@ -35,8 +35,8 @@ public class Employer {
 		return this.studentEnrollments;
 	}
 
-	public void setStudentEnrollments(Set<StudentEnrollment> studentEnrollmentss) {
-		this.studentEnrollments = studentEnrollmentss;
+	public void setStudentEnrollments(Set<StudentEnrollment> studentEnrollments) {
+		this.studentEnrollments = studentEnrollments;
 	}
 
 }
