@@ -95,13 +95,13 @@ public class Ecse321GroupProject04ApplicationTests {
     @Test
     public void testCreateStudent() {
         // create a student
-        dao.createStudent("first_name", "last_name", 260112233, "student@email.com");
+        dao.createStudent("first_name", "last_name", STUDENT_ID, "student@email.com");
         // search for student by id 
-        Student s = dao.getStudent(260112233);
+        Student s = dao.getStudent(STUDENT_ID);
 
         assertEquals("first_name", s.getFirstName());
         assertEquals("last_name", s.getLastName());
-        assertEquals((Integer)260112233, s.getMcgillID());
+        assertEquals(STUDENT_ID, s.getMcgillID());
         assertEquals("student@email.com", s.getMcgillEmail());
 
         dao.removeStudent(s);
