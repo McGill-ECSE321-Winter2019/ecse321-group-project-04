@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import ca.mcgill.ecse321.cooperator.dao.Ecse321GroupProject04ApplicationRepsitory;
+import ca.mcgill.ecse321.cooperator.dao.Ecse321GroupProject04ApplicationRepository;
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.CourseStatus;
@@ -58,45 +58,12 @@ public class Ecse321GroupProject04ApplicationTests {
     private static final String TASK_ID = "1234";
 
     @Autowired
-    Ecse321GroupProject04ApplicationRepsitory dao;
-
-    @Test
-    public void testCreateEmployer() {
-        // create an employer
-        dao.createEmployer(EMPLOYER_NAME, EMPLOYER_EMAIL);
-        // search for employer by email
-        Employer e = dao.getEmployer(EMPLOYER_EMAIL);
-
-        String name =e.getName();
-        assertEquals(EMPLOYER_NAME, name);
-
-        String email = e.getEmail();
-        assertEquals(EMPLOYER_EMAIL, email);
-
-        dao.removeEmployer(e);
-    }
-
-    @Test
-    public void testCreateCoopCourse() {
-        // create a Co-op Course
-        dao.createCoopCourse(COURSE_CODE, COURSE_TERM);
-        //search for co-op course by ID
-        CoopCourse c = dao.getCoopCourse(COURSE_CODE);
-
-        String code = c.getCourseCode();
-        assertEquals(COURSE_CODE, code);
-
-        Integer term = c.getCoopTerm();
-        assertEquals(COURSE_TERM, term);
-
-        dao.removeCoopCourse(c);
-    }
+    Ecse321GroupProject04ApplicationRepository dao;
 
     @Test
     public void testCreateStudent() {
-        // create a student
         dao.createStudent("first_name", "last_name", 260112233, "student@email.com");
-        // search for student by id 
+
         Student s = dao.getStudent(260112233);
 
         assertEquals("first_name", s.getFirstName());
@@ -107,21 +74,42 @@ public class Ecse321GroupProject04ApplicationTests {
         dao.removeStudent(s);
     }
 
-    /*The rest of the read/write tests need to be changed --classes with composition relations leave a null row in the table */
+    @Test
+    public void testCreateEmployer() {
+        dao.createEmployer("Google", "google@gmail.com");
+
+        Employer e = dao.getEmployer("google@gmail.com");
+
+        assertEquals("Google", e.getName());
+        assertEquals("google@gmail.com", e.getEmail());
+
+        dao.removeEmployer(e);
+    }
+
+    @Test
+    public void testCreateCoopCourse() {
+        dao.createCoopCourse("ECSE300", 1);
+
+        CoopCourse c = dao.getCoopCourse("ECSE300");
+
+        assertEquals("ECSE300", c.getCourseCode());
+        assertEquals((Integer)1, c.getCoopTerm());
+
+        dao.removeCoopCourse(c);
+    }
 
     @Test
     public void testCreateCoopCourseOffering() {
-        // create Co-op course offering
         CoopCourse c = dao.createCoopCourse("ECSE301", 1);
 
         dao.createCoopCourseOffering(2018, Term.WINTER, true, c);
-        // search for co-op course offering by ID
-        CoopCourseOffering cco = dao.getCoopCourseOffering("ECSE301-W2018");
+
+        CoopCourseOffering cco = dao.getCoopCourseOffering("ECSE301-W18");
 
         assertEquals((Integer)2018, cco.getYear());
         assertEquals(Term.WINTER, cco.getTerm());
         assertEquals(true, cco.getActive());
-        assertEquals("ECSE301-W2018", cco.getOfferID());
+        assertEquals("ECSE301-W18", cco.getOfferID());
 
         dao.removeCoopCourseOffering(cco);
         dao.removeCoopCourse(c);
@@ -134,12 +122,12 @@ public class Ecse321GroupProject04ApplicationTests {
         Student s = dao.createStudent("f_name", "l_name", 260654321, "test@mail.com");
         Employer e = dao.createEmployer("Facebook", "fb@email.com");
 
-        dao.createStudentEnrollment(s, e, true, CourseStatus.PASSED, "260123456-ECSE302-F2019", cco);
+        dao.createStudentEnrollment(true, CourseStatus.PASSED,s, e, cco);
 
-        StudentEnrollment se = dao.getStudentEnrollment("260123456-ECSE302-F2019");
+        StudentEnrollment se = dao.getStudentEnrollment("260654321-ECSE302-F19");
 
         assertEquals(true, se.getActive());
-        assertEquals("260123456-ECSE302-F2019", se.getEnrollmentID());
+        assertEquals("260654321-ECSE302-F19", se.getEnrollmentID());
         assertEquals(CourseStatus.PASSED, se.getStatus());
 
         dao.removeStudentEnrollment(se);
@@ -151,17 +139,15 @@ public class Ecse321GroupProject04ApplicationTests {
 
     @Test
     public void testCreateTask() {
-        // create a task
         Date dueDate =new Date(2019, 1, 1); 
         CoopCourse c = dao.createCoopCourse("ECSE302", 1);
         CoopCourseOffering cco = dao.createCoopCourseOffering(2019, Term.FALL, true, c);
         Student s = dao.createStudent("f_name", "l_name", 260654321, "test@mail.com");
         Employer e = dao.createEmployer("Facebook", "fb@email.com");
-
-        StudentEnrollment se = dao.createStudentEnrollment(s, e, true, CourseStatus.PASSED, "260123456-ECSE302-F2019", cco);
+        StudentEnrollment se = dao.createStudentEnrollment(true, CourseStatus.PASSED, s, e, cco);
 
         dao.createTask("Some description", dueDate , TaskStatus.COMPLETED, "1234", se);
-        // search for Task by task ID
+
         Task t = dao.getTask(TASK_ID);
 
         assertEquals("Some description", t.getDescription());
@@ -177,21 +163,18 @@ public class Ecse321GroupProject04ApplicationTests {
         dao.removeStudent(s);
     }
 
-
     @Test
     public void testCreateDocument() {
         Date dueDate =new Date(2019, 1, 1); 
-        CoopCourse c = dao.createCoopCourse("ECSE302", 1);
-        CoopCourseOffering cco = dao.createCoopCourseOffering(2019, Term.FALL, true, c);
-        Student s = dao.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-        Employer e = dao.createEmployer("Facebook", "fb@email.com");
-
-        StudentEnrollment se = dao.createStudentEnrollment(s, e, true, CourseStatus.PASSED, "260123456-ECSE302-F2019", cco);
-
-        Task t = dao.createTask("Some description", dueDate , TaskStatus.COMPLETED, "1234", se);
+        CoopCourse c = dao.createCoopCourse("ECSE303", 1);
+        CoopCourseOffering cco = dao.createCoopCourseOffering(2017, Term.FALL, true, c);
+        Student s = dao.createStudent("f_name", "l_name", 260654322, "test@mail.com");
+        Employer e = dao.createEmployer("Facebook", "fb@email.ca");
+        StudentEnrollment se = dao.createStudentEnrollment(true, CourseStatus.PASSED, s, e, cco);
+        Task t = dao.createTask("Some description", dueDate , TaskStatus.COMPLETED, "1235", se);
 
         dao.createDocument("doc name", "http://test-url.this/is/just/for/testing", t);
-        // search for doc
+
         Document d = dao.getDocument("http://test-url.this/is/just/for/testing");
 
         assertEquals("doc name", d.getName());

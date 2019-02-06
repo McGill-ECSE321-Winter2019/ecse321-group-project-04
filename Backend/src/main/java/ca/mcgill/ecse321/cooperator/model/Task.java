@@ -3,7 +3,6 @@ import javax.persistence.ManyToMany;
 
 import javax.persistence.Entity;
 import java.sql.Date;
-//import javax.persistence.OneToOne;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
@@ -13,36 +12,31 @@ import java.util.HashSet;
 
 @Entity
 public class Task{
-    private Set<Document> documents;
-
-    @ManyToMany(mappedBy="tasks" )
-    public Set<Document> getDocuments() {
-        return this.documents;
-    }
-
-    public void setDocuments(Set<Document> documentss) {
-        this.documents = documentss;
-    }
 
     private TaskStatus taskStatus;
+    private String description;
+    private Date dueDate;
+    private String taskID;
+    private StudentEnrollment studentEnrollment;
+    private Set<Document> submitedDocuments;
+    private Set<Document> documents;
 
     public void setTaskStatus(TaskStatus value) {
         this.taskStatus = value;
     }
+
     public TaskStatus getTaskStatus() {
         return this.taskStatus;
     }
-    private String description;
 
     public void setDescription(String value) {
         this.description = value;
     }
+
     public String getDescription() {
         return this.description;
     }
-    private Date dueDate;
 
-    //@OneToOne(optional=false)
     public Date getDueDate() {
         return this.dueDate;
     }
@@ -50,7 +44,6 @@ public class Task{
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
-    private StudentEnrollment studentEnrollment;
 
     @ManyToOne(optional=false)
     public StudentEnrollment getStudentEnrollment() {
@@ -60,8 +53,6 @@ public class Task{
     public void setStudentEnrollment(StudentEnrollment studentEnrollment) {
         this.studentEnrollment = studentEnrollment;
     }
-
-    private Set<Document> submitedDocuments;
 
     @OneToMany(mappedBy="task" , cascade={CascadeType.ALL})
     public Set<Document> getSubmitedDocuments() {
@@ -78,11 +69,10 @@ public class Task{
         submitedDocuments.add(d);
     }
 
-    private String taskID;
-
     public void setTaskID(String value) {
         this.taskID = value;
     }
+
     @Id
     public String getTaskID() {
         return this.taskID;

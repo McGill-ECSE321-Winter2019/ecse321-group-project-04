@@ -7,56 +7,53 @@ import java.util.Set;
 
 @Entity
 public class Student {
-	private String firstName;
 
-	public void setFirstName(String value) {
-		this.firstName = value;
-	}
+    private String firstName;
+    private String lastName;
+    private Integer mcgillID;
+    private String mcgillEmail;
+    private Set<StudentEnrollment> courseEnrollments;
 
-	public String getFirstName() {
-		return this.firstName;
-	}
+    public void setFirstName(String value) {
+        this.firstName = value;
+    }
 
-	private String lastName;
+    public String getFirstName() {
+        return this.firstName;
+    }
 
-	public void setLastName(String value) {
-		this.lastName = value;
-	}
+    public void setLastName(String value) {
+        this.lastName = value;
+    }
 
-	public String getLastName() {
-		return this.lastName;
-	}
+    public String getLastName() {
+        return this.lastName;
+    }
 
-	private Integer mcgillID;
+    public void setMcgillID(Integer value) {
+        this.mcgillID = value;
+    }
 
-	public void setMcgillID(Integer value) {
-		this.mcgillID = value;
-	}
+    @Id
+    public Integer getMcgillID() {
+        return this.mcgillID;
+    }
 
-	@Id
-	public Integer getMcgillID() {
-		return this.mcgillID;
-	}
+    public void setMcgillEmail(String value) {
+        this.mcgillEmail = value;
+    }
 
-	private String mcgillEmail;
+    public String getMcgillEmail() {
+        return this.mcgillEmail;
+    }
 
-	public void setMcgillEmail(String value) {
-		this.mcgillEmail = value;
-	}
+    @OneToMany(mappedBy = "enrolledStudent")
+    public Set<StudentEnrollment> getCourseEnrollments() {
+        return this.courseEnrollments;
+    }
 
-	public String getMcgillEmail() {
-		return this.mcgillEmail;
-	}
-
-	private Set<StudentEnrollment> courseEnrollments;
-
-	@OneToMany(mappedBy = "enrolledStudent")
-	public Set<StudentEnrollment> getCourseEnrollments() {
-		return this.courseEnrollments;
-	}
-
-	public void setCourseEnrollments(Set<StudentEnrollment> courseEnrollments) {
-		this.courseEnrollments = courseEnrollments;
-	}
+    public void setCourseEnrollments(Set<StudentEnrollment> courseEnrollments) {
+        this.courseEnrollments = courseEnrollments;
+    }
 
 }

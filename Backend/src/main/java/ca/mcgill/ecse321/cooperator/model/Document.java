@@ -9,47 +9,35 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Document {
-	private Set<Task> tasks;
 
-	@ManyToMany
-	public Set<Task> getTasks() {
-		return this.tasks;
-	}
+    private String name;
+    private String url;
+    private Task task;
 
-	public void setTasks(Set<Task> taskss) {
-		this.tasks = taskss;
-	}
+    public void setName(String value) {
+        this.name = value;
+    }
 
-	private String name;
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName(String value) {
-		this.name = value;
-	}
+    public void setUrl(String value) {
+        this.url = value;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    @Id
+    public String getUrl() {
+        return this.url;
+    }
 
-	private String url;
+    @ManyToOne(optional = false)
+    public Task getTask() {
+        return this.task;
+    }
 
-	public void setUrl(String value) {
-		this.url = value;
-	}
-
-	@Id
-	public String getUrl() {
-		return this.url;
-	}
-
-	private Task task;
-
-	@ManyToOne(optional = false)
-	public Task getTask() {
-		return this.task;
-	}
-
-	public void setTask(Task task) {
-		this.task = task;
-	}
+    public void setTask(Task task) {
+        this.task = task;
+    }
 
 }

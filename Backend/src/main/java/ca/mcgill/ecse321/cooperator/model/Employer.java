@@ -7,36 +7,35 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Employer {
-	private String name;
 
-	public void setName(String value) {
-		this.name = value;
-	}
+    private String name;
+    private String email;
+    private Set<StudentEnrollment> studentEnrollments;
 
-	public String getName() {
-		return this.name;
-	}
+    public void setName(String value) {
+        this.name = value;
+    }
 
-	private String email;
+    public String getName() {
+        return this.name;
+    }
 
-	public void setEmail(String value) {
-		this.email = value;
-	}
+    public void setEmail(String value) {
+        this.email = value;
+    }
 
-	@Id
-	public String getEmail() {
-		return this.email;
-	}
+    @Id
+    public String getEmail() {
+        return this.email;
+    }
 
-	private Set<StudentEnrollment> studentEnrollments;
+    @OneToMany(mappedBy = "studentEmployer")
+    public Set<StudentEnrollment> getStudentEnrollments() {
+        return this.studentEnrollments;
+    }
 
-	@OneToMany(mappedBy = "studentEmployer")
-	public Set<StudentEnrollment> getStudentEnrollments() {
-		return this.studentEnrollments;
-	}
-
-	public void setStudentEnrollments(Set<StudentEnrollment> studentEnrollments) {
-		this.studentEnrollments = studentEnrollments;
-	}
+    public void setStudentEnrollments(Set<StudentEnrollment> studentEnrollments) {
+        this.studentEnrollments = studentEnrollments;
+    }
 
 }

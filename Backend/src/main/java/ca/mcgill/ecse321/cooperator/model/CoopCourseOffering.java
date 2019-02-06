@@ -10,31 +10,37 @@ import java.util.HashSet;
 
 @Entity
 public class CoopCourseOffering{
+
     private Term term;
+    private Integer year;
+    private Boolean active;
+    private Set<StudentEnrollment> studentEnrollments;
+    private CoopCourse coopCourse;
+    private String offerID;
 
     public void setTerm(Term value) {
         this.term = value;
     }
+
     public Term getTerm() {
         return this.term;
     }
-    private Integer year;
 
     public void setYear(Integer value) {
         this.year = value;
     }
+
     public Integer getYear() {
         return this.year;
     }
-    private Boolean active;
 
     public void setActive(Boolean value) {
         this.active = value;
     }
+
     public Boolean getActive() {
         return this.active;
     }
-    private Set<StudentEnrollment> studentEnrollments;
 
     @OneToMany(mappedBy="coopCourseOffering" , cascade={CascadeType.ALL})
     public Set<StudentEnrollment> getStudentEnrollments() {
@@ -51,8 +57,6 @@ public class CoopCourseOffering{
         studentEnrollments.add(se);
     }
 
-    private CoopCourse coopCourse;
-
     @ManyToOne(optional=false)
     public CoopCourse getCoopCourse() {
         return this.coopCourse;
@@ -62,11 +66,10 @@ public class CoopCourseOffering{
         this.coopCourse = coopCourse;
     }
 
-    private String offerID;
-
     public void setOfferID(String value) {
         this.offerID = value;
     }
+
     @Id
     public String getOfferID() {
         return this.offerID;

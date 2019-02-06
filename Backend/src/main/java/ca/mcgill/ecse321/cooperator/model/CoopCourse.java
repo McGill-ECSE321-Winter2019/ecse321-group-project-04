@@ -7,32 +7,34 @@ import javax.persistence.Id;
 
 @Entity
 public class CoopCourse{
-private String courseCode;
+    private String courseCode;
+    private Integer coopTerm;
+    private Set<CoopCourseOffering> coopCourseOffering;
 
-public void setCourseCode(String value) {
-    this.courseCode = value;
-}
-@Id
-public String getCourseCode() {
-    return this.courseCode;
-}
-private Integer coopTerm;
+    public void setCourseCode(String value) {
+        this.courseCode = value;
+    }
 
-public void setCoopTerm(Integer value) {
-    this.coopTerm = value;
-}
-public Integer getCoopTerm() {
-    return this.coopTerm;
-}
-private Set<CoopCourseOffering> coopCourseOffering;
+    @Id
+    public String getCourseCode() {
+        return this.courseCode;
+    }
 
-@OneToMany(mappedBy="coopCourse" )
-public Set<CoopCourseOffering> getCoopCourseOffering() {
-   return this.coopCourseOffering;
-}
+    public void setCoopTerm(Integer value) {
+        this.coopTerm = value;
+    }
 
-public void setCoopCourseOffering(Set<CoopCourseOffering> coopCourseOfferings) {
-   this.coopCourseOffering = coopCourseOfferings;
-}
+    public Integer getCoopTerm() {
+        return this.coopTerm;
+    }
+
+    @OneToMany(mappedBy="coopCourse" )
+    public Set<CoopCourseOffering> getCoopCourseOffering() {
+        return this.coopCourseOffering;
+    }
+
+    public void setCoopCourseOffering(Set<CoopCourseOffering> coopCourseOfferings) {
+        this.coopCourseOffering = coopCourseOfferings;
+    }
 
 }
