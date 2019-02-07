@@ -1,37 +1,48 @@
-package ca.mcgill.ecse321.cooperator.dao;
-
+package ca.mcgill.ecse321.cooperator.service;
 
 import java.sql.Date;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
-import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
-import ca.mcgill.ecse321.cooperator.model.CourseStatus;
-import ca.mcgill.ecse321.cooperator.model.Document;
-import ca.mcgill.ecse321.cooperator.model.Employer;
-import ca.mcgill.ecse321.cooperator.model.Student;
-import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
 import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.model.Term;
+import ca.mcgill.ecse321.cooperator.model.Document;
+import ca.mcgill.ecse321.cooperator.model.Employer;
+import ca.mcgill.ecse321.cooperator.model.Student;
+import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
+import ca.mcgill.ecse321.cooperator.model.CourseStatus;
+import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
+import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
+import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
+import ca.mcgill.ecse321.cooperator.dao.EmployerRepository;
+import ca.mcgill.ecse321.cooperator.dao.StudentEnrollmentRepository;
+import ca.mcgill.ecse321.cooperator.dao.StudentRepository;
+import ca.mcgill.ecse321.cooperator.dao.TaskRepository;
+import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
 
-@Repository
-public class Ecse321GroupProject04ApplicationRepository {
-
-    @Autowired
-    @PersistenceContext
-    EntityManager em;
-
-    /*--- STUDENT METHODS ---*/
+@Service
+public class CooperatorService {
+	@Autowired
+	StudentRepository studentRepository;
+	@Autowired
+	EmployerRepository employerRepository;
+	@Autowired
+	CoopCourseRepository coopCourseRepository;
+	@Autowired
+	CoopCourseOfferingRepository coopCourseOfferingRepository;
+	@Autowired
+	StudentEnrollmentRepository studentEnrollmentRepository;
+	@Autowired
+	TaskRepository taskRepository;
+	@Autowired
+	DocumentRepository documentRepository;
+	
+	/*--- STUDENT METHODS ---*/
     @Transactional
     public Student createStudent(String firstName, String lastName, Integer id, String email) {
         Student s = new Student();
@@ -39,65 +50,46 @@ public class Ecse321GroupProject04ApplicationRepository {
         s.setLastName(lastName);
         s.setMcgillID(id);
         s.setMcgillEmail(email);
-
-        em.persist(s);
+        studentRepository.save(s);
         return s;
     }
-
+    
     @Transactional
     public Student getStudent(Integer id) {
-        Student s = em.find(Student.class, id);
+        Student s = studentRepository.findStudentByMcgillID(id);
         return s;
     }
-
-    @Transactional
-    public void removeStudent(Student s) {
-        em.remove(em.contains(s)? s: em.merge(s));
-        em.flush();
-    }
-
+    
     /*--- EMPLOYER METHODS ---*/
     @Transactional
     public Employer createEmployer(String name, String email) {
         Employer e = new Employer();
         e.setName(name);
         e.setEmail(email);
-        em.persist(e);
+        employerRepository.save(e);
         return e;
     }
 
     @Transactional
     public Employer getEmployer(String email) {
-        Employer e  = em.find(Employer.class, email);
+        Employer e = employerRepository.findEmloyerByEmail(email);
         return e;
     }
-
-    @Transactional
-    public void removeEmployer(Employer employer) {
-        em.remove(em.contains(employer)? employer: em.merge(employer));
-        em.flush();
-    }
-
+    
     /*--- COOP COURSE METHODS ---*/
     @Transactional
     public CoopCourse createCoopCourse(String courseCode, Integer coopTerm) {
         CoopCourse c = new CoopCourse();
         c.setCourseCode(courseCode);
         c.setCoopTerm(coopTerm);
-        em.persist(c);
+        coopCourseRepository.save(c);
         return c;
     }
 
     @Transactional
     public CoopCourse getCoopCourse(String coopCourseID) {
-        CoopCourse c  = em.find(CoopCourse.class, coopCourseID);
+        CoopCourse c  = coopCourseRepository.findCoopCourseByCourseCode(coopCourseID);
         return c;
-    }
-
-    @Transactional
-    public void removeCoopCourse(CoopCourse c) {
-        em.remove(em.contains(c)? c: em.merge(c));
-        em.flush();
     }
 
     /*--- COOP COURSE OFFERING METHODS ---*/
@@ -122,22 +114,16 @@ public class Ecse321GroupProject04ApplicationRepository {
         }
             offerID += year % 2000;
             cco.setOfferID(offerID);
-            em.persist(cco);
+            coopCourseOfferingRepository.save(cco);
             return cco;
     }
 
     @Transactional
     public CoopCourseOffering getCoopCourseOffering(String offerID) {
-        CoopCourseOffering cco = em.find(CoopCourseOffering.class, offerID);
+        CoopCourseOffering cco = coopCourseOfferingRepository.findCoopCourseOfferingByOfferID(offerID);
         return cco;
     }
-
-    @Transactional
-    public void removeCoopCourseOffering(CoopCourseOffering cco) {
-        em.remove(em.contains(cco)? cco: em.merge(cco));
-        em.flush();
-    }
-
+    
     /*--- STUDENT ENROLLMENT METHODS ---*/
     @Transactional
     public StudentEnrollment createStudentEnrollment(Boolean active, CourseStatus status, Student s, Employer e, CoopCourseOffering cco) {
@@ -151,22 +137,16 @@ public class Ecse321GroupProject04ApplicationRepository {
 
         cco.addStudentEnrollment(se);
 
-        em.persist(se);
+        studentEnrollmentRepository.save(se);
         return se;
     }
 
     @Transactional
     public StudentEnrollment getStudentEnrollment(String id) {
-        StudentEnrollment se = em.find(StudentEnrollment.class, id);
+        StudentEnrollment se = studentEnrollmentRepository.findStudentEnrollmentByEnrollmentID(id);
         return se;
     }
-
-    @Transactional
-    public void removeStudentEnrollment(StudentEnrollment se) {
-        em.remove(em.contains(se)? se: em.merge(se));
-        em.flush();
-    }
-
+	
     /*--- TASK METHODS ---*/
     @Transactional
     public Task createTask(String description, Date dueDate, TaskStatus status, String taskID, StudentEnrollment se) {
@@ -179,22 +159,16 @@ public class Ecse321GroupProject04ApplicationRepository {
 
         se.addCourseTask(t);
 
-        em.persist(t);
+        taskRepository.save(t);
         return t;
     }
 
     @Transactional
     public Task getTask(String taskID) {
-        Task t  = em.find(Task.class, taskID);
+        Task t  = taskRepository.findTaskByTaskID(taskID);
         return t;
     }
-
-    @Transactional
-    public void removeTask(Task t) {
-        em.remove(em.contains(t)? t: em.merge(t));
-        em.flush();
-    }
-
+    
     /*--- DOCUMENT METHODS ---*/
     @Transactional
     public Document createDocument(String name, String url, Task t) {
@@ -204,22 +178,14 @@ public class Ecse321GroupProject04ApplicationRepository {
         d.setTask(t);
 
         t.addDocument(d);
-
-        em.persist(d);
+        documentRepository.save(d);
         return d;
     }
 
     @Transactional
     public Document getDocument(String url) {
-        Document doc = em.find(Document.class, url);
+        Document doc = documentRepository.findDocumentByUrl(url);
         return doc;
     }
-
-    @Transactional
-    public void removeDocument(Document d) {
-        em.remove(em.contains(d)? d: em.merge(d));
-        em.flush();
-    }
-
 
 }

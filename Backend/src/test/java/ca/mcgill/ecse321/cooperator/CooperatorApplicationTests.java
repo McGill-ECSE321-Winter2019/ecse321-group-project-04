@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import ca.mcgill.ecse321.cooperator.dao.Ecse321GroupProject04ApplicationRepository;
+import ca.mcgill.ecse321.cooperator.dao.CooperatorApplicationRepository;
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.CourseStatus;
@@ -25,7 +25,7 @@ import ca.mcgill.ecse321.cooperator.model.Term;
 @SuppressWarnings("deprecation")
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class Ecse321GroupProject04ApplicationTests {
+public class CooperatorApplicationTests {
 
     // Employer
     private static final String EMPLOYER_NAME = "Google";
@@ -56,9 +56,12 @@ public class Ecse321GroupProject04ApplicationTests {
     private static final Date DATE = new Date(2019,1,1);
     private static final TaskStatus STATUS = TaskStatus.COMPLETED; 
     private static final String TASK_ID = "1234";
+    
+    private  CoopCourse c;
 
     @Autowired
-    Ecse321GroupProject04ApplicationRepository dao;
+    CooperatorApplicationRepository dao;
+    
 
     @Test
     public void testCreateStudent() {

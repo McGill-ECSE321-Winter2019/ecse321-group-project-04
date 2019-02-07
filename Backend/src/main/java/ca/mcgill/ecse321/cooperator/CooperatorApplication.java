@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @SpringBootApplication
-public class Ecse321GroupProject04Application {
-
+public class CooperatorApplication{
 	public static void main(String[] args) {
-		SpringApplication.run(Ecse321GroupProject04Application.class, args);
+		SpringApplication.run(CooperatorApplication.class, args);
 	}
 
 	@RequestMapping("/")
