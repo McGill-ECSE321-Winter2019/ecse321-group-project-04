@@ -26,7 +26,7 @@ their curriculum) for co-op programs offered by Mcgill University.
 |Angel Ortiz Regules|           |                        |
 |Marie Vu           |           |                        |
 
-Sprint 1 Documents
+Sprint 1 Documents:
 
-[Deliverabe 1] (https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04.wiki.git)
+[Deliverabe 1](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04.wiki.git),
 [Report](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-1-Report)
