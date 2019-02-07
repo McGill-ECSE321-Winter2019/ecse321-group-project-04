@@ -20,10 +20,12 @@ their curriculum) for co-op programs offered by Mcgill University.
 
 |Team member's name |Total hours|Responsibility          |
 |-------------------|-----------|------------------------|
-|Remi Carriere      |  _x_ hours|Mobile frontend lead    |
-|Naxin Fang         |  _y_ hours|Project management lead |
-|Boyang Ma          |...        |                        |
+|Remi Carriere      |           |                        |
+|Naxin Fang         |           |                        |
+|Boyang Ma          |           |                        |
 |Angel Ortiz Regules|           |                        |
 |Marie Vu           |           |                        |
 
-Deliverable 1 [report](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-1-Report)
+Sprint 1 Documents
+[Deliverabe 1] (https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04.wiki.git)
+[Report](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-1-Report)
