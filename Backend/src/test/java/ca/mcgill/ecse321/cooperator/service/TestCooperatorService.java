@@ -127,6 +127,7 @@ public class TestCooperatorService {
 
 		assertEquals(0, service.getAllStudents().size());
 	}
+
 	@Test
 	public void testCreateNullEmailStudent() {
 		String error = null;
@@ -368,7 +369,7 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertEquals("Your document details are incomplete!", error);
 
 		assertEquals(0, service.getAllDocuments().size());
