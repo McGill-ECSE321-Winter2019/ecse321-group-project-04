@@ -28,5 +28,5 @@ their curriculum) for co-op programs offered by Mcgill University.
 
 Sprint 1 Documents:
 
-[Deliverabe 1](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04.wiki.git),
+[Deliverabe 1](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Deliverable-1:--Requirements,-Domain-Model,-Database-Design),
 [Report](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-1-Report)
