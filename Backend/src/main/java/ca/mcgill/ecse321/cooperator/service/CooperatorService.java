@@ -264,10 +264,10 @@ public class CooperatorService {
 		}
 		return false;
 	}
-	
+
 	@Transactional
 	public Task replaceTaskDocument(String taskID, Document newDoc, String url) {
-		if (taskID==null || newDoc == null ) {
+		if (taskID == null || newDoc == null) {
 			throw new IllegalArgumentException("Your task details are incomplete!");
 		}
 		Task t = taskRepository.findTaskByTaskID(taskID);
