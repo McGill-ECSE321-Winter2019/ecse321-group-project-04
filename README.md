@@ -1,4 +1,5 @@
 # ECSE321 Project Group 04
+[![Build Status](https://travis-ci.com/McGill-ECSE321-Winter2019/ecse321-group-project-04.svg?token=KAZKVRpC6RVs5t8AvzT6&branch=master)](https://travis-ci.com/McGill-ECSE321-Winter2019/ecse321-group-project-04)
 
 ## Overview
 Co-op-perator is a software system whose purpose is to manage co-op 
