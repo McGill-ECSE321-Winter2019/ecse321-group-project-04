@@ -264,6 +264,19 @@ public class CooperatorService {
 		}
 		return false;
 	}
+	
+	@Transactional
+	public Task replaceTaskDocument(String taskID, Document newDoc, String url) {
+		if (taskID==null || newDoc == null ) {
+			throw new IllegalArgumentException("Your task details are incomplete!");
+		}
+		Task t = taskRepository.findTaskByTaskID(taskID);
+		documentRepository.deleteById(url);
+		newDoc.setTask(t);
+		taskRepository.save(t);
+		documentRepository.save(newDoc);
+		return t;
+	}
 
 	/*--- DOCUMENT METHODS ---*/
 	@Transactional
