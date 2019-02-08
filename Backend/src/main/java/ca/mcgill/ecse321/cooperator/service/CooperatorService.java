@@ -70,16 +70,8 @@ public class CooperatorService {
 	}
 
 	private boolean incorrectStudentDetails(String firstName, String lastName, Integer id, String email) {
-		if (firstName == null || firstName.trim().length() == 0) {
-			return true;
-		}
-		if (lastName == null || lastName.trim().length() == 0) {
-			return true;
-		}
-		if (id == null) {
-			return true;
-		}
-		if (email == null || email.trim().length() == 0) {
+		if (lastName == null || lastName.trim().length() == 0 || email == null || email.trim().length() == 0
+				|| id == null || firstName == null || firstName.trim().length() == 0) {
 			return true;
 		}
 		return false;
@@ -110,10 +102,9 @@ public class CooperatorService {
 	}
 
 	private boolean incorrectEmployerDetails(String name, String email) {
-		if (name == null || name.trim().length() == 0) {
+		if (name == null || name.trim().length() == 0 || email == null || email.trim().length() == 0) {
 			return true;
 		}
-		// TODO Other Cases
 		return false;
 	}
 
@@ -142,10 +133,9 @@ public class CooperatorService {
 	}
 
 	private boolean incorrectCourseDetails(String courseCode, Integer coopTerm) {
-		if (courseCode == null || courseCode.trim().length() == 0) {
+		if (courseCode == null || courseCode.trim().length() == 0 || coopTerm == null) {
 			return true;
 		}
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -190,10 +180,9 @@ public class CooperatorService {
 	}
 
 	private boolean incorrectCourseOfferingDetails(Integer year, Term term, Boolean active, CoopCourse coopCourse) {
-		if (year == null) {
+		if (year == null || term == null || active == null || coopCourse == null) {
 			return true;
 		}
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -231,10 +220,9 @@ public class CooperatorService {
 
 	private boolean incorrectStudentEnrollmentDetails(Boolean active, CourseStatus status, Student s, Employer e,
 			CoopCourseOffering cco) {
-		if (active == null) {
+		if (active == null || status == null || s == null || e == null) {
 			return true;
 		}
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -270,10 +258,10 @@ public class CooperatorService {
 
 	private boolean incorrectTaskDetails(String description, Date dueDate, TaskStatus status, String taskID,
 			StudentEnrollment se) {
-		if (description == null || description.trim().length() == 0) {
+		if (description == null || description.trim().length() == 0 || taskID == null || taskID.trim().length() == 0
+				|| dueDate == null || status == null) {
 			return true;
 		}
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -303,12 +291,11 @@ public class CooperatorService {
 	public List<Document> getAllDocuments() {
 		return toList(documentRepository.findAll());
 	}
-	
+
 	private boolean incorrectDocumentDetails(String name, String url, Task t) {
-		if (name == null|| name.trim().length() == 0) {
+		if (name == null || name.trim().length() == 0 || url == null || url.trim().length() == 0 || t == null) {
 			return true;
 		}
-		// TODO Auto-generated method stub
 		return false;
 	}
 
