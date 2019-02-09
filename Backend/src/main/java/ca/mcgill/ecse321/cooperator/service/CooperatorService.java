@@ -133,11 +133,7 @@ public class CooperatorService {
 	}
 
 	private boolean incorrectCourseDetails(String courseCode, Integer coopTerm) {
-<<<<<<< HEAD
 		if (courseCode == null || courseCode.trim().length() == 0 || coopTerm == null || !(coopTerm >= 1)) {
-=======
-		if (courseCode == null || courseCode.trim().length() == 0 || coopTerm == null) {
->>>>>>> 157b1cfd715881149095860f616e2509adf23e45
 			return true;
 		}
 		return false;
@@ -184,11 +180,7 @@ public class CooperatorService {
 	}
 
 	private boolean incorrectCourseOfferingDetails(Integer year, Term term, Boolean active, CoopCourse coopCourse) {
-<<<<<<< HEAD
-		if (year == null || term == null || active == null) {
-=======
 		if (year == null || term == null || active == null || coopCourse == null) {
->>>>>>> 157b1cfd715881149095860f616e2509adf23e45
 			return true;
 		}
 		return false;

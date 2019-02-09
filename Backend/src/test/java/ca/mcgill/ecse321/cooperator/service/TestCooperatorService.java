@@ -201,8 +201,7 @@ public class TestCooperatorService {
 
 		assertEquals(0, service.getAllCoopCourses().size());
 	}
-	
-	@Test
+							
 	public void testCreateNullTermCoopCourse() {
 		String error = null;
 		try {
@@ -216,32 +215,18 @@ public class TestCooperatorService {
 	}
 
 	@Test
-<<<<<<< HEAD
 	public void testCreateNegativeTermCoopCourse() {
 		String error = null;
 		try {
 			service.createCoopCourse("ECSE300", -5);
-=======
-	public void testCreateNullTermCoopCourse() {
-		String error = null;
-		try {
-			service.createCoopCourse("ECSE300", null);
->>>>>>> 157b1cfd715881149095860f616e2509adf23e45
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
 		assertEquals("Your course details are incomplete!", error);
-<<<<<<< HEAD
 		
 		assertEquals(0, service.getAllCoopCourses().size());
 	}
-	
-=======
 
-		assertEquals(0, service.getAllCoopCourses().size());
-	}
-
->>>>>>> 157b1cfd715881149095860f616e2509adf23e45
 	/*--- CO-OP COURSE OFEERING TESTS ---*/
 	@Test
 	public void testCreateCoopCourseOffering() {
@@ -297,21 +282,6 @@ public class TestCooperatorService {
 		String error = null;
 		try {
 			service.createCoopCourseOffering(2018, Term.WINTER, null, c);
-		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-		assertEquals("Your course offering details are incomplete!", error);
-
-		assertEquals(0, service.getAllCoopCourseOfferings().size());
-	}
-	
-
-	@Test
-	public void testCreateNullTermCoopCourseOffering() {
-		CoopCourse c = service.createCoopCourse("ECSE301", 1);
-		String error = null;
-		try {
-			service.createCoopCourseOffering(2018, null, true, c);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
