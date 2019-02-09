@@ -11,4 +11,4 @@ deploy:
     secure: abbd43ef-e17e-466a-92cb-68e03e2affeb
   app: cooperator-backend-0000
   on:
-    repo: McGill-ECSE321-Winter2019/ecse321-group-project-04/Backend
+    repo: McGill-ECSE321-Winter2019/ecse321-group-project-04
