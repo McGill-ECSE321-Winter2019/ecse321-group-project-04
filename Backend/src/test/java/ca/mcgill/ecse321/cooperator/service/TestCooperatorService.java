@@ -406,7 +406,7 @@ public class TestCooperatorService {
 
 	/* Really messy, but I think it works? */
 	@Test
-	public void replaceDocument() {
+	public void testReplaceDocument() {
 		@SuppressWarnings("deprecation")
 		Date dueDate = new Date(2019, 1, 1);
 		CoopCourse c = service.createCoopCourse("ECSE303", 1);
