@@ -142,7 +142,7 @@ public class CooperatorService {
 	}
 
 	private boolean incorrectCourseDetails(String courseCode, Integer coopTerm) {
-		if (courseCode == null || courseCode.trim().length() == 0) {
+		if (courseCode == null || courseCode.trim().length() == 0 || coopTerm == null || !(coopTerm >= 1)) {
 			return true;
 		}
 		// TODO Auto-generated method stub
@@ -190,7 +190,7 @@ public class CooperatorService {
 	}
 
 	private boolean incorrectCourseOfferingDetails(Integer year, Term term, Boolean active, CoopCourse coopCourse) {
-		if (year == null) {
+		if (year == null || term == null || active == null) {
 			return true;
 		}
 		// TODO Auto-generated method stub
