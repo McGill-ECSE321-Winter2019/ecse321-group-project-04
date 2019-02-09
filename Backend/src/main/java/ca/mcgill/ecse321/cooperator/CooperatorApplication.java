@@ -4,8 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-//Test Travis CI integration
-
 @RestController
 @SpringBootApplication
 public class CooperatorApplication{
@@ -15,6 +13,6 @@ public class CooperatorApplication{
 
 	@RequestMapping("/")
 	public String greeting() {
-		return "Co-Op-Erator";
+		return "Co-Op-Erator Backend";
 	}
 }
