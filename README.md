@@ -10,7 +10,7 @@ their curriculum) for co-op programs offered by Mcgill University.
 
 |     Team members      |        Major        | Year |
 |-----------------------|---------------------|------|   
-|**Remi Carriere**      | Software Engineering|  U3  |
+|**Remi Carriere**      | Software Engineering|  U2  |
 |**Naxin Fang**         | Computer Science    |  U1  |
 |**Boyang Ma**          | Computer Engineering|  U2  |
 |**Angel Ortiz Regules**| Computer Engineering|  U3  |
