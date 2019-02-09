@@ -329,6 +329,7 @@ public class TestCooperatorService {
 		assertEquals(dueDate, t.getDueDate());
 		assertEquals(TaskStatus.COMPLETED, t.getTaskStatus());
 		assertEquals("1234", t.getTaskID());
+		assertEquals("260654321-ECSE302-F19",t.getStudentEnrollment().getEnrollmentID()); //Test references between objects
 
 		assertEquals(1, service.getAllTasks().size());
 	}
