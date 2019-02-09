@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import ca.mcgill.ecse321.cooperator.dao.CooperatorApplicationRepository;
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.CourseStatus;
@@ -58,7 +57,10 @@ public class CooperatorApplicationTests {
     private static final String TASK_ID = "1234";
     
     private  CoopCourse c;
+    
+    @Test
+    public void contextLoads() {
 
-
+    }
 
 }
