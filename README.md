@@ -35,5 +35,6 @@ co-op acceptance, submit required documents and track their co-op program progre
 
 ## Sprint 1 Documents:
 
-[Deliverabe 1](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Deliverable-1:--Requirements,-Domain-Model,-Database-Design),
-[Report](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-1-Report)
+[Deliverable 1](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Deliverable-1:--Requirements,-Domain-Model,-Database-Design)
+
+[Report 1](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-1-Report)
