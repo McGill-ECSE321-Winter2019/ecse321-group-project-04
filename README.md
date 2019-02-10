@@ -3,7 +3,7 @@
 ## Project  Overview
 The number of co-op programs may increase at McGill Univeristy in the future. 
 The objective of this project is to develop a software system called Co-op-perator
-for managing co-op terms for such co-op programs.The project will be completed in a 
+for managing co-op terms for such co-op programs. The project will be completed in a 
 team of five students which we will gather requirements, design a multi-tier software 
 solution to satisfy the requirements, implement the system, validate the system and develop
 a release pipeline to automate the software delivery process. Our team has been assigned to 
@@ -29,7 +29,7 @@ co-op acceptance, submit required documents and track their co-op program progre
 |**Remi Carriere**      |     6     |UML Class Daigram, Build System, Persistence Layer, Test Suite |
 |**Naxin Fang**         |     6     |Functional Requirements, Contiuous Integration                 | 
 |**Boyang Ma**          |     6     |Use Case Daigrams, Deliverable 1 Documentation, Sprint 1 Report|
-|**Angel Ortiz Regules**|     6     |Domail Model, Test Suite                                       |
+|**Angel Ortiz Regules**|     6     |Domain Model, Test Suite                                       |
 |**Marie Vu**           |     6     |Domain Model, Sprint 1 Report                                  |
 
 
