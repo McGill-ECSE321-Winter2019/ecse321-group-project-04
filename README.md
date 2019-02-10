@@ -18,13 +18,13 @@ their curriculum) for co-op programs offered by Mcgill University.
 
 ## Deliverable 1
 
-|     Team members    |Total hours|     Responsibility     |
-|---------------------|-----------|------------------------|
-|**Remi Carriere      |     6     |                        |
-|**Naxin Fang         |     6     |                        |
-|**Boyang Ma          |     6     |                        |
-|**Angel Ortiz Regules|     6     |                        |
-|**Marie Vu           |     6     |                        |
+|     Team members      |Total hours|     Responsibility     |
+|-----------------------|-----------|------------------------|
+|**Remi Carriere**      |     6     |                        |
+|**Naxin Fang**         |     6     |                        |
+|**Boyang Ma**          |     6     |                        |
+|**Angel Ortiz Regules**|     6     |                        |
+|**Marie Vu**           |     6     |                        |
 
 Sprint 1 Documents:
 
