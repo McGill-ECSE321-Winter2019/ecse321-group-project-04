@@ -26,11 +26,11 @@ co-op acceptance, submit required documents and track their co-op program progre
 
 |     Team members      |Total hours|                          Responsibility                       |
 |-----------------------|-----------|---------------------------------------------------------------|
-|**Remi Carriere**      |     6     |UML Class Daigram, Build System, Persistence Layer, Test Suite |
-|**Naxin Fang**         |     6     |Functional Requirements, Contiuous Integration                 | 
-|**Boyang Ma**          |     6     |Use Case Daigrams, Deliverable 1 Documentation, Sprint 1 Report|
-|**Angel Ortiz Regules**|     6     |Domain Model, Persistence Layer, Test Suite                                       |
-|**Marie Vu**           |     6     |Domain Model, Sprint 1 Report                                  |
+|**Remi Carriere**      |     19    |UML Class Daigram, Build System, Persistence Layer, Test Suite |
+|**Naxin Fang**         |     16    |Functional Requirements, Contiuous Integration                 | 
+|**Boyang Ma**          |     18    |Use Case Daigrams, Deliverable 1 Documentation, Sprint 1 Report|
+|**Angel Ortiz Regules**|     17    |Domain Model, Persistence Layer, Test Suite                                       |
+|**Marie Vu**           |     16    |Domain Model, Sprint 1 Report                                  |
 
 
 ## Sprint 1 Documents:
