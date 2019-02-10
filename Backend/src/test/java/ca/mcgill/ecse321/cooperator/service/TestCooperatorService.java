@@ -70,20 +70,21 @@ public class TestCooperatorService {
 	/*--- STUDENT TESTS ---*/
 	@Test
 	public void testCreateStudent() {
+		// Create and persist a student
 		try {
 			service.createStudent("first_name", "last_name", 260112233, "student@email.com");
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
+		// find the student by id
 		Student s = service.getStudent(260112233);
-
+		// Check attributes
 		assertEquals("first_name", s.getFirstName());
 		assertEquals("last_name", s.getLastName());
 		assertEquals((Integer) 260112233, s.getMcgillID());
 		assertEquals("student@email.com", s.getMcgillEmail());
 
 		assertEquals(1, service.getAllStudents().size());
-		assertEquals((Integer) 260112233, service.getAllStudents().get(0).getMcgillID()); // probably not necessary
 	}
 
 	@Test
@@ -94,9 +95,9 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-
+		// check error message
 		assertEquals("Your student details are incomplete!", error);
-
+		// check nothing was added
 		assertEquals(0, service.getAllStudents().size());
 	}
 
@@ -108,7 +109,7 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-
+		// check error message
 		assertEquals("Your student details are incomplete!", error);
 
 		assertEquals(0, service.getAllStudents().size());
@@ -122,9 +123,9 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-
+		// check error message
 		assertEquals("Your student details are incomplete!", error);
-
+		// check nothing was added
 		assertEquals(0, service.getAllStudents().size());
 	}
 
@@ -136,9 +137,9 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-
+		// check error message
 		assertEquals("Your student details are incomplete!", error);
-
+		// check nothing was added
 		assertEquals(0, service.getAllStudents().size());
 	}
 
@@ -152,7 +153,7 @@ public class TestCooperatorService {
 		}
 
 		Employer e = service.getEmployer("google@gmail.com");
-
+		// Check attributes
 		assertEquals("Google", e.getName());
 		assertEquals("google@gmail.com", e.getEmail());
 
@@ -167,9 +168,9 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-
+		// check error message
 		assertEquals("Your employer details are incomplete!", error);
-
+		// check nothing was added
 		assertEquals(0, service.getAllEmployers().size());
 	}
 
@@ -182,7 +183,7 @@ public class TestCooperatorService {
 			fail();
 		}
 		CoopCourse c = service.getCoopCourse("ECSE300");
-
+		// Check attributes
 		assertEquals("ECSE300", c.getCourseCode());
 		assertEquals((Integer) 1, c.getCoopTerm());
 
@@ -197,11 +198,12 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
+		// check error message
 		assertEquals("Your course details are incomplete!", error);
-
+		// check nothing was added
 		assertEquals(0, service.getAllCoopCourses().size());
 	}
-							
+
 	public void testCreateNullTermCoopCourse() {
 		String error = null;
 		try {
@@ -209,8 +211,9 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
+		// check error message
 		assertEquals("Your course details are incomplete!", error);
-		
+		// check nothing was added
 		assertEquals(0, service.getAllCoopCourses().size());
 	}
 
@@ -222,8 +225,9 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
+		// check error message
 		assertEquals("Your course details are incomplete!", error);
-		
+		// check nothing was added
 		assertEquals(0, service.getAllCoopCourses().size());
 	}
 
@@ -239,11 +243,13 @@ public class TestCooperatorService {
 		}
 
 		CoopCourseOffering cco = service.getCoopCourseOffering("ECSE301-W18");
-
+		// Check attributes
 		assertEquals((Integer) 2018, cco.getYear());
 		assertEquals(Term.WINTER, cco.getTerm());
 		assertEquals(true, cco.getActive());
 		assertEquals("ECSE301-W18", cco.getOfferID());
+		// Check references
+		assertEquals("ECSE301", cco.getCoopCourse().getCourseCode());
 
 		assertEquals(1, service.getAllCoopCourseOfferings().size());
 	}
@@ -257,11 +263,12 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
+		// check error message
 		assertEquals("Your course offering details are incomplete!", error);
-
+		// check nothing was added
 		assertEquals(0, service.getAllCoopCourseOfferings().size());
 	}
-	
+
 	@Test
 	public void testCreateNullTermCoopCourseOffering() {
 		CoopCourse c = service.createCoopCourse("ECSE301", 1);
@@ -271,11 +278,12 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
+		// check error message
 		assertEquals("Your course offering details are incomplete!", error);
-
+		// check nothing was added
 		assertEquals(0, service.getAllCoopCourseOfferings().size());
 	}
-	
+
 	@Test
 	public void testCreateNullActiveCoopCourseOffering() {
 		CoopCourse c = service.createCoopCourse("ECSE301", 1);
@@ -285,8 +293,9 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
+		// check error message
 		assertEquals("Your course offering details are incomplete!", error);
-
+		// check nothing was added
 		assertEquals(0, service.getAllCoopCourseOfferings().size());
 	}
 
@@ -304,10 +313,14 @@ public class TestCooperatorService {
 			fail();
 		}
 		StudentEnrollment se = service.getStudentEnrollment("260654321-ECSE302-F19");
-
+		// Check attributes
 		assertEquals(true, se.getActive());
 		assertEquals("260654321-ECSE302-F19", se.getEnrollmentID());
 		assertEquals(CourseStatus.PASSED, se.getStatus());
+		// check references
+		assertEquals("ECSE302-F19", se.getCoopCourseOffering().getOfferID());
+		assertEquals("test@mail.com", se.getEnrolledStudent().getMcgillEmail());
+		assertEquals("fb@email.com", se.getStudentEmployer().getEmail());
 
 		assertEquals(1, service.getAllStudentEnrollments().size());
 
@@ -326,9 +339,9 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-
+		// check error message
 		assertEquals("Your student enrollment details are incomplete!", error);
-
+		// check nothing was added
 		assertEquals(0, service.getAllStudentEnrollments().size());
 
 	}
@@ -350,12 +363,14 @@ public class TestCooperatorService {
 			fail();
 		}
 		Task t = service.getTask("1234");
-
+		// check attributes
 		assertEquals("Some description", t.getDescription());
 		assertEquals(dueDate, t.getDueDate());
 		assertEquals(TaskStatus.COMPLETED, t.getTaskStatus());
 		assertEquals("1234", t.getTaskID());
-		assertEquals("260654321-ECSE302-F19",t.getStudentEnrollment().getEnrollmentID()); //Test references between objects
+		// check references
+		assertEquals("260654321-ECSE302-F19", t.getStudentEnrollment().getEnrollmentID()); // Test references between //
+																							// objects
 
 		assertEquals(1, service.getAllTasks().size());
 	}
@@ -376,9 +391,9 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-
+		// check error message
 		assertEquals("Your task details are incomplete!", error);
-
+		// check nothing was added
 		assertEquals(0, service.getAllTasks().size());
 
 	}
@@ -400,10 +415,12 @@ public class TestCooperatorService {
 			fail();
 		}
 		Document d = service.getDocument("http://test-url.this/is/just/for/testing");
-
+		// Check attributes
 		assertEquals("doc name", d.getName());
 		assertEquals("http://test-url.this/is/just/for/testing", d.getUrl());
 		assertEquals(t.getTaskID(), d.getTask().getTaskID());
+		// check references
+		assertEquals("1235", d.getTask().getTaskID());
 
 		assertEquals(1, service.getAllDocuments().size());
 	}
@@ -424,9 +441,9 @@ public class TestCooperatorService {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-
+		// check error message
 		assertEquals("Your document details are incomplete!", error);
-
+		// check nothing was added
 		assertEquals(0, service.getAllDocuments().size());
 	}
 
