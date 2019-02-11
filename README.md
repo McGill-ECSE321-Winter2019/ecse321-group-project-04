@@ -24,16 +24,15 @@ co-op acceptance, submit required documents and track their co-op program progre
 
 ## Deliverable 1
 
-|     Team members      |Total hours|                          Responsibility                       |
-|-----------------------|-----------|---------------------------------------------------------------|
-|**Remi Carriere**      |     19    |UML Class Daigram, Build System, Persistence Layer, Test Suite |
-|**Naxin Fang**         |     16    |Functional Requirements, Contiuous Integration                 | 
-|**Boyang Ma**          |     18    |Use Case Daigrams, Deliverable 1 Documentation, Sprint 1 Report|
-|**Angel Ortiz Regules**|     17    |Domain Model, Persistence Layer, Test Suite                                       |
-|**Marie Vu**           |     16    |Domain Model, Sprint 1 Report                                  |
+|     Team members      |Total hours|                          Responsibility                        |
+|-----------------------|-----------|----------------------------------------------------------------|
+|**Remi Carriere**      |     19    |UML Class Diagram, Build System, Persistence Layer, Test Suite  |
+|**Naxin Fang**         |     16    |Functional Requirements, Continuous Integration                 | 
+|**Boyang Ma**          |     18    |Use Case Diagrams, Deliverable 1 Documentation, Sprint 1 Report |
+|**Angel Ortiz Regules**|     17    |Domain Model, Persistence Layer, Test Suite                     |
+|**Marie Vu**           |     16    |Domain Model, Sprint 1 Report                                   |
 
-
-## Sprint 1 Documents:
+**Sprint 1 Documents**:
 
 [Deliverable 1](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Deliverable-1:--Requirements,-Domain-Model,-Database-Design)
 
