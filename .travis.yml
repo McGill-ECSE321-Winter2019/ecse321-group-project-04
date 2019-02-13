@@ -1,16 +1,3 @@
 language: java
-env:
-  SPRING_DATASOURCE_URL=jdbc:postgresql://ec2-23-21-244-254.compute-1.amazonaws.com:5432/dcfa13rb5qfhb0?user=faobbeheumttch&password=d6868b4e2c2de8884f98caf9495f1d3672a37a47b060e8217a4a5834e1dc3925&sslmode=require
-before_install: 
-  - chmod +x gradlew
 script:
-- ./gradlew build
-
-
-deploy:
-  provider: heroku
-  api_key:
-    secure: abbd43ef-e17e-466a-92cb-68e03e2affeb
-  app: cooperator-backend-0000
-  on:
-    repo: McGill-ECSE321-Winter2019/ecse321-group-project-04
+- gradle build
