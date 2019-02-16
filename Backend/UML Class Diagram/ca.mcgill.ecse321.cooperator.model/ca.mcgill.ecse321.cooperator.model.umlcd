@@ -71,7 +71,7 @@
   <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_4XneACcJEempO9y7V5X7EQ" sourceAnchor="162.0,62.0" targetAnchor="166.0,0.0" target="_pIfFkScCEempO9y7V5X7EQ" source="_g5Wg8ScCEempO9y7V5X7EQ">
     <modelElement href="ca.mcgill.ecse321.cooperator.model.uml#_4Xlo0CcJEempO9y7V5X7EQ"/>
     <visualProperties xmi:id="_4XneAScJEempO9y7V5X7EQ"/>
-    <bendpoints xmi:id="_JvOCsDIxEemqQcOw4TA0mQ" sourceX="15" targetY="-407"/>
+    <bendpoints xmi:id="_JvOCsDIxEemqQcOw4TA0mQ" sourceX="18" targetX="3" targetY="-408"/>
     <nameVisual xmi:id="_4XneAicJEempO9y7V5X7EQ" text="">
       <visualProperties xmi:id="_4cev4icJEempO9y7V5X7EQ" position="-13.0,195.0"/>
     </nameVisual>
@@ -150,7 +150,7 @@
   <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_wDfRcCs3EemlGoq6eh042w" sourceAnchor="91.0,92.0" targetAnchor="142.0,41.0" target="_7ekFACcCEempO9y7V5X7EQ" source="_pt78ACcCEempO9y7V5X7EQ">
     <modelElement href="ca.mcgill.ecse321.cooperator.model.uml#_wDbAACs3EemlGoq6eh042w"/>
     <visualProperties xmi:id="_wDfRcSs3EemlGoq6eh042w"/>
-    <bendpoints xmi:id="_JvOCsTIxEemqQcOw4TA0mQ" sourceX="2" sourceY="153" targetX="333" targetY="-3"/>
+    <bendpoints xmi:id="_JvOCsTIxEemqQcOw4TA0mQ" sourceX="2" sourceY="158" targetX="332" targetY="2"/>
     <nameVisual xmi:id="_wDfRcis3EemlGoq6eh042w" text="">
       <visualProperties xmi:id="_wIma8Ss3EemlGoq6eh042w" position="-171.0,-19.0"/>
     </nameVisual>
@@ -652,9 +652,6 @@
   <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:EnumerationVisual" xmi:id="_8Og7QCcCEempO9y7V5X7EQ" containment="_EgtosCcIEempO9y7V5X7EQ" name="TaskStatus" package="_OWRAQScCEempO9y7V5X7EQ">
     <modelElement href="ca.mcgill.ecse321.cooperator.model.uml#_8OgUMCcCEempO9y7V5X7EQ"/>
     <visualProperties xmi:id="_8Og7QScCEempO9y7V5X7EQ" position="1002.0,1178.0" size="184.0,122.0"/>
-    <stereotypes xmi:id="_F5g84CfzEempO9y7V5X7EQ" name="PrimaryKeyJoinColumns">
-      <modelElement href="ca.mcgill.ecse321.cooperator.model.uml#_F5cEYCfzEempO9y7V5X7EQ"/>
-    </stereotypes>
     <visibility xmi:id="_8Og7QicCEempO9y7V5X7EQ" label="+"/>
     <literals xmi:id="_MCxMQScFEempO9y7V5X7EQ" name="COMPLETED">
       <modelElement href="ca.mcgill.ecse321.cooperator.model.uml#_MCxMQCcFEempO9y7V5X7EQ"/>

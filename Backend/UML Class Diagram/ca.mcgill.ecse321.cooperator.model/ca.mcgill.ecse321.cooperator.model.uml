@@ -261,7 +261,6 @@
   <Persistency:PrimaryKey xmi:id="_nKiQ4CdfEempO9y7V5X7EQ" base_Property="_B6dtoCdUEempO9y7V5X7EQ"/>
   <Persistency:PrimaryKey xmi:id="_pUWdECdfEempO9y7V5X7EQ" base_Property="_35pwACdTEempO9y7V5X7EQ"/>
   <Persistency:PrimaryKey xmi:id="_p3XqkCdfEempO9y7V5X7EQ" base_Property="_zvRooCcDEempO9y7V5X7EQ"/>
-  <Persistency:PrimaryKeyJoinColumns xmi:id="_F5cEYCfzEempO9y7V5X7EQ" base_Element="_8OgUMCcCEempO9y7V5X7EQ"/>
   <UMLLabProfile:StyledElement xmi:id="_5UJXYDIwEemqQcOw4TA0mQ" base_Element="_wIBOECcDEempO9y7V5X7EQ"/>
   <UMLLabProfile:StyledElement xmi:id="_5UJ-cDIwEemqQcOw4TA0mQ" base_Element="_wu62ACcDEempO9y7V5X7EQ"/>
   <UMLLabProfile:StyledElement xmi:id="_5UKlgDIwEemqQcOw4TA0mQ" base_Element="_pJxCgCcDEempO9y7V5X7EQ"/>
