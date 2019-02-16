@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.cooperator.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -11,8 +13,10 @@ import java.util.HashSet;
 @Entity
 public class StudentEnrollment {
 
-    private Boolean active;
+    @Enumerated(EnumType.STRING)
     private CourseStatus status;
+    
+    private Boolean active;    
     private Employer studentEmployer;
     private Student enrolledStudent;
     private Set<Task> courseTasks;

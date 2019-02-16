@@ -2,6 +2,9 @@ package ca.mcgill.ecse321.cooperator.model;
 import javax.persistence.ManyToMany;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import java.sql.Date;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
@@ -12,8 +15,9 @@ import java.util.HashSet;
 
 @Entity
 public class Task{
-
+	@Enumerated(EnumType.STRING)
     private TaskStatus taskStatus;
+	
     private String description;
     private Date dueDate;
     private String taskID;
