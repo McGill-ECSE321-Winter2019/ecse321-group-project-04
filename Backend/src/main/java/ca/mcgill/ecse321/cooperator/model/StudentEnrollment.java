@@ -57,19 +57,13 @@ public class StudentEnrollment {
         this.enrolledStudent = enrolledStudent;
     }
 
-    @OneToMany(mappedBy = "studentEnrollment", cascade = { CascadeType.ALL })
+    @OneToMany(cascade = { CascadeType.ALL })
     public Set<Task> getCourseTasks() {
         return this.courseTasks;
     }
 
     public void setCourseTasks(Set<Task> courseTasks) {
         this.courseTasks = courseTasks;
-    }
-
-    public void addCourseTask(Task task) {
-        if (courseTasks == null)
-            courseTasks = new HashSet<Task>();
-        courseTasks.add(task);
     }
 
     @ManyToOne(optional = false)

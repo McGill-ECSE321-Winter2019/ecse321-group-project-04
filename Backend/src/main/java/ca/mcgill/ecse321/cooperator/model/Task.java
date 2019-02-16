@@ -21,9 +21,8 @@ public class Task{
     private String description;
     private Date dueDate;
     private String taskID;
-    private StudentEnrollment studentEnrollment;
-    private Set<Document> submitedDocuments;
-    private Set<Document> documents;
+    private Set<Document> document;
+
 
     public void setTaskStatus(TaskStatus value) {
         this.taskStatus = value;
@@ -49,29 +48,7 @@ public class Task{
         this.dueDate = dueDate;
     }
 
-    @ManyToOne(optional=false)
-    public StudentEnrollment getStudentEnrollment() {
-        return this.studentEnrollment;
-    }
 
-    public void setStudentEnrollment(StudentEnrollment studentEnrollment) {
-        this.studentEnrollment = studentEnrollment;
-    }
-
-    @OneToMany(mappedBy="task" , cascade={CascadeType.ALL})
-    public Set<Document> getSubmitedDocuments() {
-        return this.submitedDocuments;
-    }
-
-    public void setSubmitedDocuments(Set<Document> documentss) {
-        this.submitedDocuments = documentss;
-    }
-
-    public void addDocument(Document d) {
-        if (submitedDocuments == null)
-            submitedDocuments = new HashSet<Document>();
-        submitedDocuments.add(d);
-    }
 
     public void setTaskID(String value) {
         this.taskID = value;
@@ -80,5 +57,14 @@ public class Task{
     @Id
     public String getTaskID() {
         return this.taskID;
+    }
+    
+    @OneToMany
+    public Set<Document> getDocument() {
+       return this.document;
+    }
+    
+    public void setDocument(Set<Document> documents) {
+       this.document = documents;
     }
 }

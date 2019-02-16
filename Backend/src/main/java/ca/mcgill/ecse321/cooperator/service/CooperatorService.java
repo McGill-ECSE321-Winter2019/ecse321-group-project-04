@@ -228,8 +228,8 @@ public class CooperatorService {
 
 	/*--- TASK METHODS ---*/
 	@Transactional
-	public Task createTask(String description, Date dueDate, TaskStatus status, String taskID, StudentEnrollment se) {
-		if (incorrectTaskDetails(description, dueDate, status, taskID, se)) {
+	public Task createTask(String description, Date dueDate, TaskStatus status, String taskID) {
+		if (incorrectTaskDetails(description, dueDate, status, taskID)) {
 			throw new IllegalArgumentException("Your task details are incomplete!");
 		}
 		Task t = new Task();
@@ -237,9 +237,6 @@ public class CooperatorService {
 		t.setDueDate(dueDate);
 		t.setTaskStatus(status);
 		t.setTaskID(taskID);
-		t.setStudentEnrollment(se);
-
-		se.addCourseTask(t);
 
 		taskRepository.save(t);
 		return t;
@@ -256,8 +253,7 @@ public class CooperatorService {
 		return toList(taskRepository.findAll());
 	}
 
-	private boolean incorrectTaskDetails(String description, Date dueDate, TaskStatus status, String taskID,
-			StudentEnrollment se) {
+	private boolean incorrectTaskDetails(String description, Date dueDate, TaskStatus status, String taskID) {
 		if (description == null || description.trim().length() == 0 || taskID == null || taskID.trim().length() == 0
 				|| dueDate == null || status == null) {
 			return true;
@@ -265,31 +261,28 @@ public class CooperatorService {
 		return false;
 	}
 
-	@Transactional
-	public Task replaceTaskDocument(String taskID, Document newDoc, String url) {
-		if (taskID == null || newDoc == null) {
-			throw new IllegalArgumentException("Your task details are incomplete!");
-		}
-		Task t = taskRepository.findTaskByTaskID(taskID);
-		documentRepository.deleteById(url);
-		newDoc.setTask(t);
-		taskRepository.save(t);
-		documentRepository.save(newDoc);
-		return t;
-	}
+//	@Transactional
+//	public Task replaceTaskDocument(String taskID, Document newDoc, String url) {
+//		if (taskID == null || newDoc == null) {
+//			throw new IllegalArgumentException("Your task details are incomplete!");
+//		}
+//		Task t = taskRepository.findTaskByTaskID(taskID);
+//		documentRepository.deleteById(url);
+//		newDoc.setTask(t);
+//		taskRepository.save(t);
+//		documentRepository.save(newDoc);
+//		return t;
+//	}
 
 	/*--- DOCUMENT METHODS ---*/
 	@Transactional
-	public Document createDocument(String name, String url, Task t) {
-		if (incorrectDocumentDetails(name, url, t)) {
+	public Document createDocument(String name, String url) {
+		if (incorrectDocumentDetails(name, url)) {
 			throw new IllegalArgumentException("Your document details are incomplete!");
 		}
 		Document d = new Document();
 		d.setName(name);
 		d.setUrl(url);
-		d.setTask(t);
-
-		t.addDocument(d);
 		documentRepository.save(d);
 		return d;
 	}
@@ -305,8 +298,8 @@ public class CooperatorService {
 		return toList(documentRepository.findAll());
 	}
 
-	private boolean incorrectDocumentDetails(String name, String url, Task t) {
-		if (name == null || name.trim().length() == 0 || url == null || url.trim().length() == 0 || t == null) {
+	private boolean incorrectDocumentDetails(String name, String url) {
+		if (name == null || name.trim().length() == 0 || url == null || url.trim().length() == 0) {
 			return true;
 		}
 		return false;

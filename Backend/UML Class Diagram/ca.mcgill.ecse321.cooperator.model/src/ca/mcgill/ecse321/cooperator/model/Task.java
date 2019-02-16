@@ -10,6 +10,14 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Task{
+private TaskStatus status;
+
+private void setStatus(TaskStatus value) {
+this.status = value;
+}
+private TaskStatus getStatus() {
+return this.status;
+}
    private String description;
 
 private void setDescription(String value) {

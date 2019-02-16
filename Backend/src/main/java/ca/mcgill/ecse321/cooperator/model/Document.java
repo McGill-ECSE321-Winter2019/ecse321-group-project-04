@@ -31,13 +31,4 @@ public class Document {
         return this.url;
     }
 
-    @ManyToOne(optional = false)
-    public Task getTask() {
-        return this.task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
-    }
-
 }

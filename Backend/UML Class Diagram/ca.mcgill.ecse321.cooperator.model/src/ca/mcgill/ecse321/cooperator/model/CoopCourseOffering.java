@@ -9,6 +9,14 @@ import javax.persistence.Id;
 
 @Entity
 public class CoopCourseOffering{
+private Term term;
+
+private void setTerm(Term value) {
+this.term = value;
+}
+private Term getTerm() {
+return this.term;
+}
    private Integer year;
 
 private void setYear(Integer value) {

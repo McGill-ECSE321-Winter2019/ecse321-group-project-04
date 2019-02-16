@@ -351,14 +351,9 @@ public class TestCooperatorService {
 	public void testCreateTask() {
 		@SuppressWarnings("deprecation")
 		Date dueDate = new Date(2019, 1, 1);
-		CoopCourse c = service.createCoopCourse("ECSE302", 1);
-		CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
-		Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-		Employer emp = service.createEmployer("Facebook", "fb@email.com");
-		StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco);
 
 		try {
-			service.createTask("Some description", dueDate, TaskStatus.COMPLETED, "1234", se);
+			service.createTask("Some description", dueDate, TaskStatus.COMPLETED, "1234");
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
@@ -368,9 +363,6 @@ public class TestCooperatorService {
 		assertEquals(dueDate, t.getDueDate());
 		assertEquals(TaskStatus.COMPLETED, t.getTaskStatus());
 		assertEquals("1234", t.getTaskID());
-		// check references
-		assertEquals("260654321-ECSE302-F19", t.getStudentEnrollment().getEnrollmentID()); // Test references between //
-																							// objects
 
 		assertEquals(1, service.getAllTasks().size());
 	}
@@ -380,14 +372,9 @@ public class TestCooperatorService {
 		String error = null;
 		@SuppressWarnings("deprecation")
 		Date dueDate = new Date(2019, 1, 1);
-		CoopCourse c = service.createCoopCourse("ECSE302", 1);
-		CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
-		Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-		Employer emp = service.createEmployer("Facebook", "fb@email.com");
-		StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco);
 
 		try {
-			service.createTask(null, dueDate, TaskStatus.COMPLETED, "1234", se);
+			service.createTask(null, dueDate, TaskStatus.COMPLETED, "1234");
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -401,26 +388,15 @@ public class TestCooperatorService {
 	/*--- DOCUMENT TESTS ---*/
 	@Test
 	public void testCreateDocument() {
-		@SuppressWarnings("deprecation")
-		Date dueDate = new Date(2019, 1, 1);
-		CoopCourse c = service.createCoopCourse("ECSE303", 1);
-		CoopCourseOffering cco = service.createCoopCourseOffering(2017, Term.FALL, true, c);
-		Student s = service.createStudent("f_name", "l_name", 260654322, "test@mail.com");
-		Employer emp = service.createEmployer("Facebook", "fb@email.ca");
-		StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco);
-		Task t = service.createTask("Some description", dueDate, TaskStatus.COMPLETED, "1235", se);
 		try {
-			service.createDocument("doc name", "http://test-url.this/is/just/for/testing", t);
+			service.createDocument("doc name", "http://test-url.this/is/just/for/testing");
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
 		Document d = service.getDocument("http://test-url.this/is/just/for/testing");
-		// Check attributes
+		
 		assertEquals("doc name", d.getName());
 		assertEquals("http://test-url.this/is/just/for/testing", d.getUrl());
-		assertEquals(t.getTaskID(), d.getTask().getTaskID());
-		// check references
-		assertEquals("1235", d.getTask().getTaskID());
 
 		assertEquals(1, service.getAllDocuments().size());
 	}
@@ -428,16 +404,9 @@ public class TestCooperatorService {
 	@Test
 	public void testCreateNullNameDocument() {
 		String error = null;
-		@SuppressWarnings("deprecation")
-		Date dueDate = new Date(2019, 1, 1);
-		CoopCourse c = service.createCoopCourse("ECSE303", 1);
-		CoopCourseOffering cco = service.createCoopCourseOffering(2017, Term.FALL, true, c);
-		Student s = service.createStudent("f_name", "l_name", 260654322, "test@mail.com");
-		Employer emp = service.createEmployer("Facebook", "fb@email.ca");
-		StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco);
-		Task t = service.createTask("Some description", dueDate, TaskStatus.COMPLETED, "1235", se);
+
 		try {
-			service.createDocument(null, "http://test-url.this/is/just/for/testing", t);
+			service.createDocument(null, "http://test-url.this/is/just/for/testing");
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -448,41 +417,41 @@ public class TestCooperatorService {
 	}
 
 	/* Really messy, but I think it works? */
-	@Test
-	public void testReplaceDocument() {
-		@SuppressWarnings("deprecation")
-		Date dueDate = new Date(2019, 1, 1);
-		CoopCourse c = service.createCoopCourse("ECSE303", 1);
-		CoopCourseOffering cco = service.createCoopCourseOffering(2017, Term.FALL, true, c);
-		Student s = service.createStudent("f_name", "l_name", 260654322, "test@mail.com");
-		Employer emp = service.createEmployer("Facebook", "fb@email.ca");
-		StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco);
-		Task t = service.createTask("Some description", dueDate, TaskStatus.COMPLETED, "1235", se);
-		try {
-			service.createDocument("doc name", "http://test-url.this/is/just/for/testing", t);
-		} catch (IllegalArgumentException e) {
-			fail();
-		}
-		Document oldDoc = service.getDocument("http://test-url.this/is/just/for/testing");
-		// check that old doc was persisted
-		assertEquals("doc name", oldDoc.getName());
-		assertEquals("http://test-url.this/is/just/for/testing", oldDoc.getUrl());
-		assertEquals(t.getTaskID(), oldDoc.getTask().getTaskID());
-
-		// create a new doc
-		Document newDoc = service.createDocument("doc name", "http://replacement/doc", t);
-
-		// delete the old doc and persist the new doc
-		service.replaceTaskDocument(t.getTaskID(), newDoc, oldDoc.getUrl());
-
-		// find the new doc assuming it should be associated with the same task ID
-		t = service.getTask("1235");
-		newDoc = service.getDocument("http://replacement/doc");
-
-		assertEquals(t.getTaskID(), newDoc.getTask().getTaskID()); // old task id same as task id associated with new
-																	// document
-		assertEquals(1, service.getAllDocuments().size()); // there should only be one doc since the other is deleted in
-															// the transaction
-	}
+//	@Test
+//	public void testReplaceDocument() {
+//		@SuppressWarnings("deprecation")
+//		Date dueDate = new Date(2019, 1, 1);
+//		CoopCourse c = service.createCoopCourse("ECSE303", 1);
+//		CoopCourseOffering cco = service.createCoopCourseOffering(2017, Term.FALL, true, c);
+//		Student s = service.createStudent("f_name", "l_name", 260654322, "test@mail.com");
+//		Employer emp = service.createEmployer("Facebook", "fb@email.ca");
+//		StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco);
+//		Task t = service.createTask("Some description", dueDate, TaskStatus.COMPLETED, "1235", se);
+//		try {
+//			service.createDocument("doc name", "http://test-url.this/is/just/for/testing", t);
+//		} catch (IllegalArgumentException e) {
+//			fail();
+//		}
+//		Document oldDoc = service.getDocument("http://test-url.this/is/just/for/testing");
+//		// check that old doc was persisted
+//		assertEquals("doc name", oldDoc.getName());
+//		assertEquals("http://test-url.this/is/just/for/testing", oldDoc.getUrl());
+//		assertEquals(t.getTaskID(), oldDoc.getTask().getTaskID());
+//
+//		// create a new doc
+//		Document newDoc = service.createDocument("doc name", "http://replacement/doc", t);
+//
+//		// delete the old doc and persist the new doc
+//		service.replaceTaskDocument(t.getTaskID(), newDoc, oldDoc.getUrl());
+//
+//		// find the new doc assuming it should be associated with the same task ID
+//		t = service.getTask("1235");
+//		newDoc = service.getDocument("http://replacement/doc");
+//
+//		assertEquals(t.getTaskID(), newDoc.getTask().getTaskID()); // old task id same as task id associated with new
+//																	// document
+//		assertEquals(1, service.getAllDocuments().size()); // there should only be one doc since the other is deleted in
+//															// the transaction
+//	}
 
 }
