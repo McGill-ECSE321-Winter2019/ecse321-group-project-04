@@ -23,15 +23,5 @@ private void setUrl(String value) {
 private String getUrl() {
     return this.url;
 }
-   private Task task;
-   
-   @ManyToOne(optional=false)
-   public Task getTask() {
-      return this.task;
-   }
-   
-   public void setTask(Task task) {
-      this.task = task;
-   }
    
    }

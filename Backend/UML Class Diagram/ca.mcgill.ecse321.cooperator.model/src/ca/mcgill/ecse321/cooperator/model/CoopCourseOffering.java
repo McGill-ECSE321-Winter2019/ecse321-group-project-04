@@ -17,14 +17,6 @@ private void setYear(Integer value) {
 private Integer getYear() {
     return this.year;
 }
-private Term term;
-
-private void setTerm(Term value) {
-    this.term = value;
-}
-private Term getTerm() {
-    return this.term;
-}
 private Boolean active;
 
 private void setActive(Boolean value) {

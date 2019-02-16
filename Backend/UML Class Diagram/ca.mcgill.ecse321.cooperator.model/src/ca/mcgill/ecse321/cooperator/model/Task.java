@@ -29,25 +29,6 @@ private void setDueDate(Date dueDate) {
    this.dueDate = dueDate;
 }
 
-private TaskStatus status;
-
-private void setStatus(TaskStatus value) {
-    this.status = value;
-}
-private TaskStatus getStatus() {
-    return this.status;
-}
-private StudentEnrollment studentEnrollment;
-
-@ManyToOne(optional=false)
-public StudentEnrollment getStudentEnrollment() {
-   return this.studentEnrollment;
-}
-
-public void setStudentEnrollment(StudentEnrollment studentEnrollment) {
-   this.studentEnrollment = studentEnrollment;
-}
-
 private String taskID;
 
 private void setTaskID(String value) {
@@ -59,7 +40,7 @@ private String getTaskID() {
 }
    private Set<Document> document;
    
-   @OneToMany(mappedBy="task" )
+   @OneToMany
    public Set<Document> getDocument() {
       return this.document;
    }

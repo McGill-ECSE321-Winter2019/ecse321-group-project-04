@@ -17,14 +17,6 @@ private void setActive(Boolean value) {
 private Boolean getActive() {
     return this.active;
 }
-private CourseStatus status;
-
-private void setStatus(CourseStatus value) {
-    this.status = value;
-}
-private CourseStatus getStatus() {
-    return this.status;
-}
 private Employer studentEmployer;
 
 @ManyToOne(optional=false)
@@ -49,7 +41,7 @@ public void setEnrolledStudent(Student enrolledStudent) {
 
 private Set<Task> courseTasks;
 
-@OneToMany(mappedBy="studentEnrollment" , cascade={CascadeType.ALL})
+@OneToMany(cascade={CascadeType.ALL})
 public Set<Task> getCourseTasks() {
    return this.courseTasks;
 }
