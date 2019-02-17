@@ -4,6 +4,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 
 import java.sql.Date;
 import javax.persistence.ManyToOne;
@@ -15,12 +16,12 @@ import java.util.HashSet;
 
 @Entity
 public class Task{
-	@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private TaskStatus taskStatus;
 	
+    private long taskID;
     private String description;
     private Date dueDate;
-    private String taskID;
     private Set<Document> document;
 
 
@@ -48,14 +49,13 @@ public class Task{
         this.dueDate = dueDate;
     }
 
-
-
-    public void setTaskID(String value) {
+    public void setTaskID(long value) {
         this.taskID = value;
     }
 
     @Id
-    public String getTaskID() {
+    @GeneratedValue
+    public long getTaskID() {
         return this.taskID;
     }
     

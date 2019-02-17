@@ -33,18 +33,20 @@ public class TestTask {
 	public void testCreateTask() {
 		@SuppressWarnings("deprecation")
 		Date dueDate = new Date(2019, 1, 1);
+                long taskID = -1;
 
 		try {
-			service.createTask("Some description", dueDate, TaskStatus.COMPLETED, "1234");
+			Task t = service.createTask("Some description", dueDate, TaskStatus.COMPLETED);
+                        taskID = t.getTaskID();
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		Task t = service.getTask("1234");
+		Task t = service.getTask(taskID);
 		// check attributes
 		assertEquals("Some description", t.getDescription());
 		assertEquals(dueDate, t.getDueDate());
 		assertEquals(TaskStatus.COMPLETED, t.getTaskStatus());
-		assertEquals("1234", t.getTaskID());
+		assertEquals(taskID, t.getTaskID());
 
 		assertEquals(1, service.getAllTasks().size());
 	}
@@ -56,7 +58,7 @@ public class TestTask {
 		Date dueDate = new Date(2019, 1, 1);
 
 		try {
-			service.createTask(null, dueDate, TaskStatus.COMPLETED, "1234");
+			service.createTask(null, dueDate, TaskStatus.COMPLETED);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}

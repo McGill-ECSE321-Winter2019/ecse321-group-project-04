@@ -66,7 +66,8 @@ public class TestDocument {
 //		Student s = service.createStudent("f_name", "l_name", 260654322, "test@mail.com");
 //		Employer emp = service.createEmployer("Facebook", "fb@email.ca");
 //		StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco);
-//		Task t = service.createTask("Some description", dueDate, TaskStatus.COMPLETED, "1235", se);
+//		Task t = service.createTask("Some description", dueDate, TaskStatus.COMPLETED, se);
+//		long taskID = t.getTaskID();
 //		try {
 //			service.createDocument("doc name", "http://test-url.this/is/just/for/testing", t);
 //		} catch (IllegalArgumentException e) {
@@ -85,7 +86,7 @@ public class TestDocument {
 //		service.replaceTaskDocument(t.getTaskID(), newDoc, oldDoc.getUrl());
 //
 //		// find the new doc assuming it should be associated with the same task ID
-//		t = service.getTask("1235");
+//		t = service.getTask(taskID);
 //		newDoc = service.getDocument("http://replacement/doc");
 //
 //		assertEquals(t.getTaskID(), newDoc.getTask().getTaskID()); // old task id same as task id associated with new

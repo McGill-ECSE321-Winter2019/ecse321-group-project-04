@@ -228,22 +228,21 @@ public class CooperatorService {
 
 	/*--- TASK METHODS ---*/
 	@Transactional
-	public Task createTask(String description, Date dueDate, TaskStatus status, String taskID) {
-		if (incorrectTaskDetails(description, dueDate, status, taskID)) {
+	public Task createTask(String description, Date dueDate, TaskStatus status) {
+		if (incorrectTaskDetails(description, dueDate, status)) {
 			throw new IllegalArgumentException("Your task details are incomplete!");
 		}
 		Task t = new Task();
 		t.setDescription(description);
 		t.setDueDate(dueDate);
 		t.setTaskStatus(status);
-		t.setTaskID(taskID);
 
 		taskRepository.save(t);
 		return t;
 	}
 
 	@Transactional
-	public Task getTask(String taskID) {
+	public Task getTask(long taskID) {
 		Task t = taskRepository.findTaskByTaskID(taskID);
 		return t;
 	}
@@ -253,9 +252,8 @@ public class CooperatorService {
 		return toList(taskRepository.findAll());
 	}
 
-	private boolean incorrectTaskDetails(String description, Date dueDate, TaskStatus status, String taskID) {
-		if (description == null || description.trim().length() == 0 || taskID == null || taskID.trim().length() == 0
-				|| dueDate == null || status == null) {
+	private boolean incorrectTaskDetails(String description, Date dueDate, TaskStatus status) {
+		if (description == null || description.trim().length() == 0 || dueDate == null || status == null) {
 			return true;
 		}
 		return false;
