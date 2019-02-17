@@ -49,7 +49,7 @@ public class TestStudentEnrollment {
 		coopCourseOfferingRepository.deleteAll();
 		coopCourseRepository.deleteAll();
 	}
-
+	
 	@Test
 	public void testCreateStudentEnrollment() {
 		CoopCourse c = service.createCoopCourse("ECSE302", 1);
@@ -71,11 +71,13 @@ public class TestStudentEnrollment {
 		assertEquals("ECSE302-F19", se.getCoopCourseOffering().getOfferID());
 		assertEquals("test@mail.com", se.getEnrolledStudent().getMcgillEmail());
 		assertEquals("fb@email.com", se.getStudentEmployer().getEmail());
+		/*This should probably be moved to a different test*/
+		assertEquals(se.getEnrollmentID(), service.getEmployersStudentEnrollments(emp).get(0).getEnrollmentID());
 
 		assertEquals(1, service.getAllStudentEnrollments().size());
 
 	}
-
+	
 	@Test
 	public void testCreateNullStatusStudentEnrollment() {
 		String error = null;

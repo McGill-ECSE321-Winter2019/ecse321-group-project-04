@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.cooperator.model.Task;
 
 public interface TaskRepository extends CrudRepository<Task, Long> {
-	Task findTaskByTaskID(Long id);
+	Task findByTaskID(Long id);
 }

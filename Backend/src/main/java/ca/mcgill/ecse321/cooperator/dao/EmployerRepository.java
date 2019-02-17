@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.cooperator.model.Employer;
 
 public interface EmployerRepository extends CrudRepository<Employer, String> {
-	Employer findEmloyerByEmail(String email);
+	Employer findByEmail(String email);
 }

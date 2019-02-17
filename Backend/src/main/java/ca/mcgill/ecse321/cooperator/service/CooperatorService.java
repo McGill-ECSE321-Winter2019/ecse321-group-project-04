@@ -60,7 +60,7 @@ public class CooperatorService {
 
 	@Transactional
 	public Student getStudent(Integer id) {
-		Student s = studentRepository.findStudentByMcgillID(id);
+		Student s = studentRepository.findByMcgillID(id);
 		return s;
 	}
 
@@ -92,7 +92,7 @@ public class CooperatorService {
 
 	@Transactional
 	public Employer getEmployer(String email) {
-		Employer e = employerRepository.findEmloyerByEmail(email);
+		Employer e = employerRepository.findByEmail(email);
 		return e;
 	}
 
@@ -123,7 +123,7 @@ public class CooperatorService {
 
 	@Transactional
 	public CoopCourse getCoopCourse(String coopCourseID) {
-		CoopCourse c = coopCourseRepository.findCoopCourseByCourseCode(coopCourseID);
+		CoopCourse c = coopCourseRepository.findByCourseCode(coopCourseID);
 		return c;
 	}
 
@@ -170,7 +170,7 @@ public class CooperatorService {
 
 	@Transactional
 	public CoopCourseOffering getCoopCourseOffering(String offerID) {
-		CoopCourseOffering cco = coopCourseOfferingRepository.findCoopCourseOfferingByOfferID(offerID);
+		CoopCourseOffering cco = coopCourseOfferingRepository.findByOfferID(offerID);
 		return cco;
 	}
 
@@ -209,13 +209,18 @@ public class CooperatorService {
 
 	@Transactional
 	public StudentEnrollment getStudentEnrollment(String id) {
-		StudentEnrollment se = studentEnrollmentRepository.findStudentEnrollmentByEnrollmentID(id);
+		StudentEnrollment se = studentEnrollmentRepository.findByEnrollmentID(id);
 		return se;
 	}
 
 	@Transactional
 	public List<StudentEnrollment> getAllStudentEnrollments() {
 		return toList(studentEnrollmentRepository.findAll());
+	}
+	
+	@Transactional
+	public List<StudentEnrollment> getEmployersStudentEnrollments(Employer emp) {
+		return toList(studentEnrollmentRepository.findByStudentEmployer(emp));
 	}
 
 	private boolean incorrectStudentEnrollmentDetails(Boolean active, CourseStatus status, Student s, Employer e,
@@ -243,7 +248,7 @@ public class CooperatorService {
 
 	@Transactional
 	public Task getTask(long taskID) {
-		Task t = taskRepository.findTaskByTaskID(taskID);
+		Task t = taskRepository.findByTaskID(taskID);
 		return t;
 	}
 
@@ -274,7 +279,7 @@ public class CooperatorService {
 
 	@Transactional
 	public Document getDocument(String url) {
-		Document doc = documentRepository.findDocumentByUrl(url);
+		Document doc = documentRepository.findByUrl(url);
 		return doc;
 	}
 

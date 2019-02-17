@@ -7,5 +7,5 @@ import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 
 public interface CoopCourseOfferingRepository extends CrudRepository<CoopCourseOffering, String> {
 
-	CoopCourseOffering findCoopCourseOfferingByOfferID(String id);
+	CoopCourseOffering findByOfferID(String id);
 }

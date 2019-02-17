@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.cooperator.model.Document;
 
 public interface DocumentRepository extends CrudRepository<Document, String> {
-	Document findDocumentByUrl(String url);
+	Document findByUrl(String url);
 }

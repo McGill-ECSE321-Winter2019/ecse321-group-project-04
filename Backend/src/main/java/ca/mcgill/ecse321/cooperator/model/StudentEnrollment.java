@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import javax.persistence.Id;
-import java.util.HashSet;
 
 @Entity
 public class StudentEnrollment {
