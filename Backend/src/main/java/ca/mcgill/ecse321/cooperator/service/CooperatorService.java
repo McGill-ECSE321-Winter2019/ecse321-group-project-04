@@ -69,6 +69,7 @@ public class CooperatorService {
 		return toList(studentRepository.findAll());
 	}
 
+	// Method that checks if Student attributes are in a invalid form
 	private boolean incorrectStudentDetails(String firstName, String lastName, Integer id, String email) {
 		if (lastName == null || lastName.trim().length() == 0 || email == null || email.trim().length() == 0
 				|| id == null || firstName == null || firstName.trim().length() == 0) {
@@ -101,6 +102,7 @@ public class CooperatorService {
 		return toList(employerRepository.findAll());
 	}
 
+	// Method that checks if Employer attributes are in a invalid form
 	private boolean incorrectEmployerDetails(String name, String email) {
 		if (name == null || name.trim().length() == 0 || email == null || email.trim().length() == 0) {
 			return true;
@@ -132,6 +134,7 @@ public class CooperatorService {
 		return toList(coopCourseRepository.findAll());
 	}
 
+	// Method that checks if Course attributes are in a invalid form
 	private boolean incorrectCourseDetails(String courseCode, Integer coopTerm) {
 		if (courseCode == null || courseCode.trim().length() == 0 || coopTerm == null || !(coopTerm >= 1)) {
 			return true;
@@ -178,7 +181,8 @@ public class CooperatorService {
 	public List<CoopCourseOffering> getAllCoopCourseOfferings() {
 		return toList(coopCourseOfferingRepository.findAll());
 	}
-
+	
+	// Method that checks if Course attributes are in a invalid form
 	private boolean incorrectCourseOfferingDetails(Integer year, Term term, Boolean active, CoopCourse coopCourse) {
 		if (year == null || term == null || active == null || coopCourse == null) {
 			return true;
@@ -223,6 +227,7 @@ public class CooperatorService {
 		return toList(studentEnrollmentRepository.findByStudentEmployer(emp));
 	}
 
+	// Method that checks if Student Enrollment attributes are in a invalid form
 	private boolean incorrectStudentEnrollmentDetails(Boolean active, CourseStatus status, Student s, Employer e,
 			CoopCourseOffering cco) {
 		if (active == null || status == null || s == null || e == null) {
@@ -257,6 +262,7 @@ public class CooperatorService {
 		return toList(taskRepository.findAll());
 	}
 
+	// Method that checks if Task attributes are in a invalid form
 	private boolean incorrectTaskDetails(String description, Date dueDate, TaskStatus status) {
 		if (description == null || description.trim().length() == 0 || dueDate == null || status == null) {
 			return true;
@@ -287,7 +293,8 @@ public class CooperatorService {
 	public List<Document> getAllDocuments() {
 		return toList(documentRepository.findAll());
 	}
-
+	
+	// Method that checks if Document attributes are in a invalid form
 	private boolean incorrectDocumentDetails(String name, String url) {
 		if (name == null || name.trim().length() == 0 || url == null || url.trim().length() == 0) {
 			return true;
