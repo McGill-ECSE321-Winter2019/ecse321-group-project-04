@@ -9,5 +9,6 @@ import ca.mcgill.ecse321.cooperator.model.Student;
 @RepositoryRestResource(collectionResourceRel = "students", path = "students")
 public interface StudentRepository extends CrudRepository<Student, Integer> {
 	Student findByMcgillID(@Param(value = "id") Integer id);
-	Student findByLastName(@Param(value = "name")String name); //For testing only, if used in practice, use list
+
+	Student findByLastName(@Param(value = "name") String name); // For testing only, if used in practice, use list
 }

@@ -9,8 +9,10 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import ca.mcgill.ecse321.cooperator.model.Employer;
 import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
 
-@RepositoryRestResource(collectionResourceRel = "studentEnrollments", path = "studentEnrollments")
+@RepositoryRestResource(collectionResourceRel = "enrollments", path = "enrollments")
+
 public interface StudentEnrollmentRepository extends CrudRepository<StudentEnrollment, String> {
 	StudentEnrollment findByEnrollmentID(@Param(value = "id") String id);
+
 	List<StudentEnrollment> findByStudentEmployer(@Param(value = "employerEmail") Employer employerEmail);
 }
