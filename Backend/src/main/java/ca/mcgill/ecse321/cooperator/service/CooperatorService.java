@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.stereotype.Service;
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.TaskStatus;
@@ -25,6 +25,7 @@ import ca.mcgill.ecse321.cooperator.dao.StudentRepository;
 import ca.mcgill.ecse321.cooperator.dao.TaskRepository;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
 
+@Service
 public class CooperatorService {
 	@Autowired
 	StudentRepository studentRepository;
@@ -483,4 +484,5 @@ public class CooperatorService {
 		}
 		return resultList;
 	}
+
 }
