@@ -55,7 +55,7 @@ public class TestCourse {
 		// check nothing was added
 		assertEquals(0, service.getAllCoopCourses().size());
 	}
-
+	
 	public void testCreateNullTermCoopCourse() {
 		String error = null;
 		try {
@@ -68,7 +68,7 @@ public class TestCourse {
 		// check nothing was added
 		assertEquals(0, service.getAllCoopCourses().size());
 	}
-
+	
 	@Test
 	public void testCreateNegativeTermCoopCourse() {
 		String error = null;
