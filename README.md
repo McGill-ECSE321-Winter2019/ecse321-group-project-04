@@ -37,3 +37,20 @@ co-op acceptance, submit required documents and track their co-op program progre
 [Deliverable 1](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Deliverable-1:--Requirements,-Domain-Model,-Database-Design)
 
 [Report 1](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-1-Report)
+
+## Deliverable 2
+
+|     Team members      |Total hours|                          Responsibility                        |
+|-----------------------|-----------|----------------------------------------------------------------|
+|**Remi Carriere**      |           |                                                                |
+|**Naxin Fang**         |           |                                                                |
+|**Boyang Ma**          |           |                                                                |
+|**Angel Ortiz Regules**|           |                                                                |
+|**Marie Vu**           |           |                                                                |
+
+**Sprint 2 Documents**:
+
+[Deliverable 2](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Deliverable-2:-Backend,-Testing)
+
+[Report 2](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-2-Report)
+
