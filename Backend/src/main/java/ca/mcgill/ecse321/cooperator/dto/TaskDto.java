@@ -18,12 +18,42 @@ public class TaskDto {
     public TaskDto () { 
     }
     
-    public TaskDto( String description, Date dueDate) { 
+    public TaskDto( String description, Date dueDate, TaskStatus taskStatus) { 
     	this.description = description; 
-    	this.dueDate = dueDate; 
+    	this.dueDate = dueDate;
+    	this.taskStatus = taskStatus; 
     }
     
+    public String getDescription() {
+        return this.description;
+    }
+
+    public Date getDueDate() {
+        return this.dueDate;
+    }
     
+    public void setTaskStatus(TaskStatus value) {
+        this.taskStatus = value;
+    }
+
+    public TaskStatus getTaskStatus() {
+        return this.taskStatus;
+    }
     
+    public void setTaskID(long value) {
+        this.taskID = value;
+    }
+
+    public long getTaskID() {
+        return this.taskID;
+    }
+    
+    public Set<Document> getDocument() {
+        return this.document;
+     }
+     
+    public void setDocument(Set<Document> documents) {
+       this.document = documents;
+    }
 
 }
