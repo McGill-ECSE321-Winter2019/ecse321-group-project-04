@@ -22,7 +22,7 @@ import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.service.CooperatorService;
 import ca.mcgill.ecse321.cooperator.dto.EmployerDto;
 import ca.mcgill.ecse321.cooperator.dto.StudentDto;
-import ca.mcgill.ecse321.cooperator.dto.StudentEnrollmentDto;
+import ca.mcgill.ecse321.cooperator.dto.StudentEnrolmentDto;
 import ca.mcgill.ecse321.cooperator.dto.TaskDto;
 import ca.mcgill.ecse321.cooperator.dto.CoopCourseDto;
 import ca.mcgill.ecse321.cooperator.dto.CoopCourseOfferingDto;
@@ -102,7 +102,7 @@ public class CooperatorRestController {
 	/******** StudentEnrollment Controller ********/
 	
 	@PostMapping(value = {"/tasks/{status}/{active}" })
-	public StudentEnrollmentDto createStudentEnrollment(@PathVariable("status") CourseStatus status, 
+	public StudentEnrolmentDto createStudentEnrollment(@PathVariable("status") CourseStatus status, 
 			@PathVariable("active") Boolean active, 
 			@RequestParam(name = "studentEmployer") Employer employerDto, 
 			@RequestParam(name = "enrolledStudent") Student studentDto, 
@@ -114,8 +114,8 @@ public class CooperatorRestController {
 		return convertToDto(se); 
 	}
 	
-	private StudentEnrollmentDto convertToDto(StudentEnrollment se) { 
-		StudentEnrollmentDto seDto = new StudentEnrollmentDto(se.getStatus(), se.getActive(), se.getStudentEmployer(), 
+	private StudentEnrolmentDto convertToDto(StudentEnrollment se) { 
+		StudentEnrolmentDto seDto = new StudentEnrolmentDto(se.getStatus(), se.getActive(), se.getStudentEmployer(), 
 				se.getEnrolledStudent(), se.getCoopCourseOffering()); 
 		seDto.setEnrollmentID(se.getEnrollmentID());
 		seDto.setCourseTasks(se.getCourseTasks());
