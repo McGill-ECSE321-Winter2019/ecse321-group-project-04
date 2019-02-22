@@ -23,12 +23,12 @@ public class StudentEnrollmentDto {
     }
     
     public StudentEnrollmentDto(CourseStatus status, Boolean active, Employer studentEmployer,
-    Student student, CoopCourseOffering cco) {
+    Student enrolledStudent, CoopCourseOffering cco) {
     	
     	this.status = status; 
     	this.active = active; 
     	this.studentEmployer = studentEmployer; 
-    	this.enrolledStudent = student; 
+    	this.enrolledStudent = enrolledStudent; 
     	this.coopCourseOffering = cco; 
     	
     }
