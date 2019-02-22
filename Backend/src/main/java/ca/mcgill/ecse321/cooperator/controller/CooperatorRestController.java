@@ -9,14 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
+import ca.mcgill.ecse321.cooperator.model.Document;
 import ca.mcgill.ecse321.cooperator.model.Employer;
 import ca.mcgill.ecse321.cooperator.model.Student;
 import ca.mcgill.ecse321.cooperator.model.Term;
+import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.service.CooperatorService;
 import ca.mcgill.ecse321.cooperator.dto.EmployerDto;
 import ca.mcgill.ecse321.cooperator.dto.StudentDto;
 import ca.mcgill.ecse321.cooperator.dto.CoopCourseDto;
 import ca.mcgill.ecse321.cooperator.dto.CoopCourseOfferingDto;
+import ca.mcgill.ecse321.cooperator.dto.DocumentDto;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -88,5 +91,22 @@ public class CooperatorRestController {
 		ccoDto.setStudentEnrollments(cco.getStudentEnrollments());
 		return ccoDto;
 	}
-
+	
+	/******** Document Controller ********/
+	
+	@PostMapping(value = { "/Document/{name}/{url}/{task}" })
+	public DocumentDto createDocument(
+			@PathVariable("name") String name,
+			@PathVariable("url") String url,
+			@PathVariable("task") Task task) {
+		Document doc = service.createDocument(name, url);
+		return convertToDto(doc);		
+	}
+	
+	private DocumentDto convertToDto(Document doc) {
+		// TBD later
+		return null; 
+		
+	}
+	
 }
