@@ -141,8 +141,8 @@ public class CooperatorRestController {
 	
 	/******** Document Controller ********/
 	//There is a problem here, will resolve later
-	/*
-	@PostMapping(value = { "/Document/{name}/{url}" })
+	
+	/*@PostMapping(value = { "/Document/{name}/{url}" })
 	public DocumentDto createDocument(@PathVariable("name") String name, @PathVariable("url") String url,
 			@RequestParam("task") Task task) {
 		Document doc = service.createDocument(name, );
