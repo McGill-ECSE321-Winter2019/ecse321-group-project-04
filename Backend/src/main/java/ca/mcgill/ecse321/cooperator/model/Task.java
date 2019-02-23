@@ -1,5 +1,4 @@
 package ca.mcgill.ecse321.cooperator.model;
-import javax.persistence.ManyToMany;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,12 +6,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 
 import java.sql.Date;
-import javax.persistence.ManyToOne;
-import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import javax.persistence.Id;
 import java.util.Set;
-import java.util.HashSet;
 
 @Entity
 public class Task{

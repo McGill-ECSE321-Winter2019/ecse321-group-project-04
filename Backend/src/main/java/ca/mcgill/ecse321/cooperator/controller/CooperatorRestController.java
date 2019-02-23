@@ -140,20 +140,17 @@ public class CooperatorRestController {
 	}
 	
 	/******** Document Controller ********/
-	//There is a problem here, will resolve later
 	
-	/*@PostMapping(value = { "/Document/{name}/{url}" })
-	public DocumentDto createDocument(@PathVariable("name") String name, @PathVariable("url") String url,
-			@RequestParam("task") Task task) {
-		Document doc = service.createDocument(name, );
+	@PostMapping(value = { "/Document/{name}/{url}" })
+	public DocumentDto createDocument(@PathVariable("name") String name, @PathVariable("url") String url) {
+		Document doc = service.createDocument(name, url);
 		return convertToDto(doc);		
 	}
 	
 	private DocumentDto convertToDto(Document doc) {
-		// TBD later
-		return null; 
-		
-	}*/ 
+		DocumentDto dDto = new DocumentDto(doc.getName(), doc.getUrl());
+		return dDto; 
+	}
 	
 	
 }

@@ -1,18 +1,13 @@
 package ca.mcgill.ecse321.cooperator.model;
 
-import javax.persistence.ManyToMany;
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Document {
 
     private String name;
     private String url;
-    private Task task;
 
     public void setName(String value) {
         this.name = value;
