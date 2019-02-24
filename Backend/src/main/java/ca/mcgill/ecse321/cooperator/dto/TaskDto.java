@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.cooperator.dto;
 
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import ca.mcgill.ecse321.cooperator.model.TaskStatus;
@@ -50,6 +51,12 @@ public class TaskDto {
     public Set<DocumentDto> getDocument() {
         return this.document;
      }
+    
+	public void addDocument(DocumentDto doc) {
+		if (document == null)
+			document = new HashSet<DocumentDto>();
+		document.add(doc);
+	}
      
     public void setDocument(Set<DocumentDto> documents) {
        this.document = documents;

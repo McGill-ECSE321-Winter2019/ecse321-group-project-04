@@ -315,6 +315,8 @@ public class CooperatorService {
 		se.setCoopCourseOffering(cco);
 
 		cco.addStudentEnrollment(se);
+		e.addStudentEnrollment(se);
+		s.addCourseEnrollment(se);
 
 		studentEnrollmentRepository.save(se);
 		return se;

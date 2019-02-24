@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import java.sql.Date;
 import javax.persistence.OneToMany;
 import javax.persistence.Id;
+
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -59,6 +61,12 @@ public class Task{
     public Set<Document> getDocument() {
        return this.document;
     }
+    
+	public void addDocument(Document doc) {
+		if (document == null)
+			document = new HashSet<Document>();
+		document.add(doc);
+	}
     
     public void setDocument(Set<Document> documents) {
        this.document = documents;

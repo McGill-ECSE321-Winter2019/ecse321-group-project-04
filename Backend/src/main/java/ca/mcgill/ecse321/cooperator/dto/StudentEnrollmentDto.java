@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.cooperator.dto;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import ca.mcgill.ecse321.cooperator.model.CourseStatus;
@@ -55,6 +56,12 @@ public class StudentEnrollmentDto {
 	    public Set<TaskDto> getCourseTasks() {
 	        return this.courseTasks;
 	    }
+	    
+		public void addCourseTasks(TaskDto t) {
+			if (courseTasks == null)
+				courseTasks = new HashSet<TaskDto>();
+			courseTasks.add(t);
+		}
 
 	    public void setCourseTasks(Set<TaskDto> courseTasks) {
 	        this.courseTasks = courseTasks;

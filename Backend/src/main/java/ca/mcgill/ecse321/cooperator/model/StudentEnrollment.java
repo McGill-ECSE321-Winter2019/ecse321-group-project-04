@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
+
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
@@ -60,6 +62,11 @@ public class StudentEnrollment {
     public Set<Task> getCourseTasks() {
         return this.courseTasks;
     }
+	public void addCourseTasks(Task t) {
+		if (courseTasks == null)
+			courseTasks = new HashSet<Task>();
+		courseTasks.add(t);
+	}
 
     public void setCourseTasks(Set<Task> courseTasks) {
         this.courseTasks = courseTasks;

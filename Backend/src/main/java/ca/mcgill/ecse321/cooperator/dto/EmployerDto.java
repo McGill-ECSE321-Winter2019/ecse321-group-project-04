@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.cooperator.dto;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class EmployerDto {
@@ -26,6 +27,11 @@ public class EmployerDto {
 
 	public Set<StudentEnrollmentDto> getStudentEnrollments() {
 		return this.studentEnrollments;
+	}
+	public void addStudentEnrollment(StudentEnrollmentDto se) {
+		if (studentEnrollments == null)
+			studentEnrollments = new HashSet<StudentEnrollmentDto>();
+		studentEnrollments.add(se);
 	}
 
 	public void setStudentEnrollments(Set<StudentEnrollmentDto> studentEnrollments) {

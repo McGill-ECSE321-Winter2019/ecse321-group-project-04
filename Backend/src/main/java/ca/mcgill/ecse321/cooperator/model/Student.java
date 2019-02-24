@@ -3,6 +3,8 @@ package ca.mcgill.ecse321.cooperator.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -51,6 +53,12 @@ public class Student {
     public Set<StudentEnrollment> getCourseEnrollments() {
         return this.courseEnrollments;
     }
+    
+	public void addCourseEnrollment(StudentEnrollment se) {
+		if (courseEnrollments == null)
+			courseEnrollments = new HashSet<StudentEnrollment>();
+		courseEnrollments.add(se);
+	}
 
     public void setCourseEnrollments(Set<StudentEnrollment> courseEnrollments) {
         this.courseEnrollments = courseEnrollments;
