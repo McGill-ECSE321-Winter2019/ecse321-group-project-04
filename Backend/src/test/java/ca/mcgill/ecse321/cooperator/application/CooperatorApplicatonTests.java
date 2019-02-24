@@ -25,7 +25,7 @@ import org.mockito.invocation.InvocationOnMock;
 import ca.mcgill.ecse321.cooperator.controller.CooperatorRestController;
 
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;	
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -34,7 +34,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class cooperatorApplicatonTests {
+public class CooperatorApplicatonTests {
 	
 	@Mock
 	private CoopCourseOfferingRepository coopCourseOfferingDto;
