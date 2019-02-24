@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.cooperator.dto;
 import java.sql.Date;
 import java.util.Set;
 
-import ca.mcgill.ecse321.cooperator.model.Document;
 import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 
 public class TaskDto {
@@ -13,7 +12,7 @@ public class TaskDto {
     private long taskID;
     private String description;
     private Date dueDate;
-    private Set<Document> document;
+    private Set<DocumentDto> document;
     
     public TaskDto () { 
     }
@@ -48,11 +47,11 @@ public class TaskDto {
         return this.taskID;
     }
     
-    public Set<Document> getDocument() {
+    public Set<DocumentDto> getDocument() {
         return this.document;
      }
      
-    public void setDocument(Set<Document> documents) {
+    public void setDocument(Set<DocumentDto> documents) {
        this.document = documents;
     }
 

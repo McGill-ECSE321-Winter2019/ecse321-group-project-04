@@ -8,7 +8,7 @@ public class EmployerDto {
 
 	private String name;
 	private String email;
-	private Set<StudentEnrollment> studentEnrollments;
+	private Set<StudentEnrollmentDto> studentEnrollments;
 
 	public EmployerDto() {
 	}
@@ -26,11 +26,11 @@ public class EmployerDto {
 		return this.email;
 	}
 
-	public Set<StudentEnrollment> getStudentEnrollments() {
+	public Set<StudentEnrollmentDto> getStudentEnrollments() {
 		return this.studentEnrollments;
 	}
 
-	public void setStudentEnrollments(Set<StudentEnrollment> studentEnrollments) {
+	public void setStudentEnrollments(Set<StudentEnrollmentDto> studentEnrollments) {
 		this.studentEnrollments = studentEnrollments;
 	}
 

@@ -1,7 +1,5 @@
 package ca.mcgill.ecse321.cooperator.dto;
 
-import ca.mcgill.ecse321.cooperator.model.Task;
-
 public class DocumentDto {
 	private String name;
     private String url;

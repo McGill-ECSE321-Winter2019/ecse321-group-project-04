@@ -51,7 +51,6 @@ public class TestCourseOffering {
 		assertEquals("ECSE301-W18", cco.getOfferID());
 		// Check references
 		assertEquals("ECSE301", cco.getCoopCourse().getCourseCode());
-
 		assertEquals(1, service.getAllCoopCourseOfferings().size());
 	}
 

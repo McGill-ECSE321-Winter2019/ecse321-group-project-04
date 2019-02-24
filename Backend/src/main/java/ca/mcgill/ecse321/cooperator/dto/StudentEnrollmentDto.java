@@ -8,21 +8,21 @@ import ca.mcgill.ecse321.cooperator.model.Employer;
 import ca.mcgill.ecse321.cooperator.model.Student;
 import ca.mcgill.ecse321.cooperator.model.Task;
 
-public class StudentEnrolmentDto {
+public class StudentEnrollmentDto {
 	 private CourseStatus status;
 	    
 	    private Boolean active;    
-	    private Employer studentEmployer;
-	    private Student enrolledStudent;
-	    private Set<Task> courseTasks;
-	    private CoopCourseOffering coopCourseOffering;
+	    private EmployerDto studentEmployer;
+	    private StudentDto enrolledStudent;
+	    private Set<TaskDto> courseTasks;
+	    private CoopCourseOfferingDto coopCourseOffering;
 	    private String enrollmentID;
 	    
-	    public StudentEnrolmentDto() {
+	    public StudentEnrollmentDto() {
 	    }
 	    
-	    public StudentEnrolmentDto(CourseStatus status, Boolean active, Employer studentEmployer,
-	    Student enrolledStudent, CoopCourseOffering cco) {
+	    public StudentEnrollmentDto(CourseStatus status, Boolean active, EmployerDto studentEmployer,
+	    StudentDto enrolledStudent, CoopCourseOfferingDto cco) {
 	    	
 	    	this.status = status; 
 	    	this.active = active; 
@@ -44,23 +44,23 @@ public class StudentEnrolmentDto {
 	        return this.active;
 	    }
 	    
-	    public Employer getStudentEmployer() {
+	    public EmployerDto getStudentEmployer() {
 	        return this.studentEmployer;
 	    }
 	    
-	    public Student getEnrolledStudent() {
+	    public StudentDto getEnrolledStudent() {
 	        return this.enrolledStudent;
 	    }
 	    
-	    public CoopCourseOffering getCoopCourseOffering() {
+	    public CoopCourseOfferingDto getCoopCourseOffering() {
 	        return this.coopCourseOffering;
 	    }
 	    
-	    public Set<Task> getCourseTasks() {
+	    public Set<TaskDto> getCourseTasks() {
 	        return this.courseTasks;
 	    }
 
-	    public void setCourseTasks(Set<Task> courseTasks) {
+	    public void setCourseTasks(Set<TaskDto> courseTasks) {
 	        this.courseTasks = courseTasks;
 	    }
 	    

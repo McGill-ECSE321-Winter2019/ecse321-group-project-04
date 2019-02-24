@@ -247,6 +247,9 @@ public class CooperatorService {
 		}
 		offerID += year % 2000;
 		cco.setOfferID(offerID);
+		
+		coopCourse.addCourseOffering(cco);
+		
 		coopCourseOfferingRepository.save(cco);
 		return cco;
 	}

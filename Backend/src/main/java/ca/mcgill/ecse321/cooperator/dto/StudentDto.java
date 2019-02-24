@@ -9,7 +9,7 @@ public class StudentDto {
 	private String lastName;
 	private Integer mcgillID;
 	private String mcgillEmail;
-	private Set<StudentEnrollment> courseEnrollments;
+	private Set<StudentEnrollmentDto> courseEnrollments;
 
 	public StudentDto() {
 	}
@@ -37,11 +37,11 @@ public class StudentDto {
 		return this.mcgillEmail;
 	}
 
-	public Set<StudentEnrollment> getCourseEnrollments() {
+	public Set<StudentEnrollmentDto> getCourseEnrollments() {
 		return this.courseEnrollments;
 	}
 
-	public void setCourseEnrollments(Set<StudentEnrollment> courseEnrollments) {
+	public void setCourseEnrollments(Set<StudentEnrollmentDto> courseEnrollments) {
 		this.courseEnrollments = courseEnrollments;
 	}
 

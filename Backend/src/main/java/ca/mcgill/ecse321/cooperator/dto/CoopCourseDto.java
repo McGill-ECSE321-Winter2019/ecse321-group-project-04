@@ -1,13 +1,12 @@
 package ca.mcgill.ecse321.cooperator.dto;
 
+import java.util.HashSet;
 import java.util.Set;
-
-import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 
 public class CoopCourseDto {
 	private String courseCode;
 	private Integer coopTerm;
-	private Set<CoopCourseOffering> coopCourseOffering;
+	private Set<CoopCourseOfferingDto> coopCourseOffering;
 
 	public CoopCourseDto() {
 	}
@@ -25,11 +24,17 @@ public class CoopCourseDto {
 		return this.coopTerm;
 	}
 
-	public Set<CoopCourseOffering> getCoopCourseOffering() {
+	public Set<CoopCourseOfferingDto> getCoopCourseOffering() {
 		return this.coopCourseOffering;
 	}
 
-	public void setCoopCourseOffering(Set<CoopCourseOffering> coopCourseOfferings) {
+	public void addCourseOffering(CoopCourseOfferingDto cco) {
+		if (coopCourseOffering == null)
+			coopCourseOffering = new HashSet<CoopCourseOfferingDto>();
+		coopCourseOffering.add(cco);
+	}
+
+	public void setCoopCourseOffering(Set<CoopCourseOfferingDto> coopCourseOfferings) {
 		this.coopCourseOffering = coopCourseOfferings;
 	}
 

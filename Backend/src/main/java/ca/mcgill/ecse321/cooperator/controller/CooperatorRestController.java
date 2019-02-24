@@ -1,11 +1,17 @@
 package ca.mcgill.ecse321.cooperator.controller;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +28,7 @@ import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.service.CooperatorService;
 import ca.mcgill.ecse321.cooperator.dto.EmployerDto;
 import ca.mcgill.ecse321.cooperator.dto.StudentDto;
-import ca.mcgill.ecse321.cooperator.dto.StudentEnrolmentDto;
+import ca.mcgill.ecse321.cooperator.dto.StudentEnrollmentDto;
 import ca.mcgill.ecse321.cooperator.dto.TaskDto;
 import ca.mcgill.ecse321.cooperator.dto.CoopCourseDto;
 import ca.mcgill.ecse321.cooperator.dto.CoopCourseOfferingDto;
@@ -37,7 +43,7 @@ public class CooperatorRestController {
 
 	/******** Student Controller ********/
 
-	@PostMapping(value = { "/students/{id}/{firstName}/{lastName}/{email}" })
+	@PostMapping(value = { "/student/{id}/{firstName}/{lastName}/{email}" })
 	public StudentDto createStudent(@PathVariable("firstName") String firstName,
 			@PathVariable("lastName") String lastName, @PathVariable("id") Integer id,
 			@PathVariable("email") String email) {
@@ -45,112 +51,234 @@ public class CooperatorRestController {
 		return convertToDto(s);
 	}
 
+	@GetMapping(value = { "/student" })
+	public StudentDto getStudentByID(@RequestParam(name = "id") Integer id) {
+		Student s = service.getStudent(id);
+		return convertToDto(s);
+	}
+
+	@GetMapping(value = { "/student/All" })
+	public List<StudentDto> getAllStudents() {
+		List<StudentDto> sDtos = new ArrayList<>();
+		for (Student s : service.getAllStudents()) {
+			sDtos.add(convertToDto(s));
+		}
+		return sDtos;
+	}
+
 	private StudentDto convertToDto(Student s) {
 		StudentDto sDto = new StudentDto(s.getFirstName(), s.getLastName(), s.getMcgillID(), s.getMcgillEmail());
-		sDto.setCourseEnrollments(s.getCourseEnrollments());
+		// sDto.setCourseEnrollments(convertSudentEnrollmentsToDto(s.getCourseEnrollments()));
 		return sDto;
+	}
+
+	private Set<StudentEnrollmentDto> convertSudentEnrollmentsToDto(Set<StudentEnrollment> courseEnrollments) {
+		Set<StudentEnrollmentDto> seDtos = new HashSet<StudentEnrollmentDto>();
+		if (courseEnrollments != null)
+			for (StudentEnrollment se : courseEnrollments) {
+				seDtos.add(convertToDto(se));
+			}
+		return seDtos;
 	}
 
 	/******** Coop Course Controller ********/
 
-	@PostMapping(value = { "/coopCourses/{courseCode}/{coopTerm}" })
+	@PostMapping(value = { "/coopCourse/{courseCode}/{coopTerm}" })
 	public CoopCourseDto createCoopCourse(@PathVariable("courseCode") String courseCode,
 			@PathVariable("coopTerm") Integer coopTerm) {
 		CoopCourse c = service.createCoopCourse(courseCode, coopTerm);
 		return convertToDto(c);
 	}
 
+	@GetMapping(value = { "/coopCourse" })
+	public CoopCourseDto getCourseByCourseCode(@RequestParam(name = "courseCode") String courseCode) {
+		CoopCourse c = service.getCoopCourse(courseCode);
+		return convertToDto(c);
+	}
+
+	@GetMapping(value = { "/coopCourse/All" })
+	public List<CoopCourseDto> getAllCourses() {
+		List<CoopCourseDto> cDtos = new ArrayList<>();
+		for (CoopCourse c : service.getAllCoopCourses()) {
+			cDtos.add(convertToDto(c));
+		}
+		return cDtos;
+	}
+
 	private CoopCourseDto convertToDto(CoopCourse c) {
 		CoopCourseDto cDto = new CoopCourseDto(c.getCourseCode(), c.getCoopTerm());
-		cDto.setCoopCourseOffering(c.getCoopCourseOffering());
+		// cDto.setCoopCourseOffering(convertCcosToDto(c.getCoopCourseOffering()));
 		return cDto;
+	}
+
+	private Set<CoopCourseOfferingDto> convertCcosToDto(Set<CoopCourseOffering> coopCourseOffering) {
+		Set<CoopCourseOfferingDto> ccoDtos = new HashSet<CoopCourseOfferingDto>();
+		if (coopCourseOffering != null)
+			for (CoopCourseOffering cco : coopCourseOffering) {
+				ccoDtos.add(convertToDto(cco));
+			}
+		return ccoDtos;
 	}
 
 	/******** Employer Controller ********/
 
-	@PostMapping(value = { "/employers/{email}/{name}" })
+	@PostMapping(value = { "/employer/{email}/{name}" })
 	public EmployerDto createEmployer(@PathVariable("name") String name, @PathVariable("email") String email) {
 		Employer e = service.createEmployer(name, email);
 		return convertToDto(e);
 	}
 
+	@GetMapping(value = { "/employer" })
+	public EmployerDto getEmployerByEmail(@RequestParam(name = "email") String email) {
+		Employer e = service.getEmployer(email);
+		return convertToDto(e);
+	}
+
+	@GetMapping(value = { "/employer/All" })
+	public List<EmployerDto> getAllEmployers() {
+		List<EmployerDto> eDtos = new ArrayList<>();
+		for (Employer e : service.getAllEmployers()) {
+			eDtos.add(convertToDto(e));
+		}
+		return eDtos;
+	}
+
 	private EmployerDto convertToDto(Employer e) {
 		EmployerDto eDto = new EmployerDto(e.getName(), e.getEmail());
-		eDto.setStudentEnrollments(e.getStudentEnrollments());
+		// eDto.setStudentEnrollments(convertSudentEnrollmentsToDto(e.getStudentEnrollments()));
 		return eDto;
 	}
 
 	/******** Coop Course Offering Controller ********/
 
-	@PostMapping(value = { "/coopCourseOfferings/{year}/{term}/{active}" })
+	@PostMapping(value = { "/coopCourseOffering/{year}/{term}/{active}" })
 	public CoopCourseOfferingDto createCoopCourseOffering(@PathVariable("year") Integer year,
-			@PathVariable("term") Term term, @PathVariable("active") Boolean active,
-			@RequestParam(name = "coopCourse") CoopCourseDto cDto) {
+			@PathVariable("term") Term term, @PathVariable("active") Boolean active, @RequestBody CoopCourseDto cDto) {
 		CoopCourse c = service.getCoopCourse(cDto.getCourseCode());
 		CoopCourseOffering cco = service.createCoopCourseOffering(year, term, active, c);
 		return convertToDto(cco);
 	}
 
+	@GetMapping(value = { "/coopCourseOffering" })
+	public CoopCourseOfferingDto getOfferingByID(@RequestParam(name = "id") String id) {
+		CoopCourseOffering cco = service.getCoopCourseOffering(id);
+		return convertToDto(cco);
+	}
+
+	@GetMapping(value = { "/coopcourseOffering/All" })
+	public List<CoopCourseOfferingDto> getAllCourseOfferings() {
+		List<CoopCourseOfferingDto> ccoDtos = new ArrayList<>();
+		for (CoopCourseOffering cco : service.getAllCoopCourseOfferings()) {
+			ccoDtos.add(convertToDto(cco));
+		}
+		return ccoDtos;
+	}
+
 	private CoopCourseOfferingDto convertToDto(CoopCourseOffering cco) {
-		CoopCourseOfferingDto ccoDto = new CoopCourseOfferingDto(cco.getYear(), cco.getTerm(), cco.getActive(),
-				cco.getCoopCourse());
+		CoopCourseDto cDto = convertToDto(cco.getCoopCourse());
+		CoopCourseOfferingDto ccoDto = new CoopCourseOfferingDto(cco.getYear(), cco.getTerm(), cco.getActive(), cDto);
 		ccoDto.setOfferID(cco.getOfferID());
-		ccoDto.setStudentEnrollments(cco.getStudentEnrollments());
+		// ccoDto.setStudentEnrollments(convertSudentEnrollmentsToDto(cco.getStudentEnrollments()));
 		return ccoDto;
 	}
-	
+
 	/******** StudentEnrollment Controller ********/
-	
-	@PostMapping(value = {"/tasks/{status}/{active}" })
-	public StudentEnrolmentDto createStudentEnrollment(@PathVariable("status") CourseStatus status, 
-			@PathVariable("active") Boolean active, 
-			@RequestParam(name = "studentEmployer") Employer employerDto, 
-			@RequestParam(name = "enrolledStudent") Student studentDto, 
+
+	@PostMapping(value = { "/studentEnrollment/{status}/{active}" })
+	public StudentEnrollmentDto createStudentEnrollment(@PathVariable("status") CourseStatus status,
+			@PathVariable("active") Boolean active, @RequestParam(name = "studentEmployer") Employer employerDto,
+			@RequestParam(name = "enrolledStudent") Student studentDto,
 			@RequestParam(name = "CoopCourseOffering") CoopCourseOffering ccoDto) {
-		Employer e = service.getEmployer(employerDto.getEmail()); 
-		Student s = service.getStudent(studentDto.getMcgillID()); 
-		CoopCourseOffering cco = service.getCoopCourseOffering(ccoDto.getOfferID()); 
-		StudentEnrollment se = service.createStudentEnrollment(active, status, s, e, cco); 
-		return convertToDto(se); 
+		Employer e = service.getEmployer(employerDto.getEmail());
+		Student s = service.getStudent(studentDto.getMcgillID());
+		CoopCourseOffering cco = service.getCoopCourseOffering(ccoDto.getOfferID());
+		StudentEnrollment se = service.createStudentEnrollment(active, status, s, e, cco);
+		return convertToDto(se);
 	}
-	
-	private StudentEnrolmentDto convertToDto(StudentEnrollment se) { 
-		StudentEnrolmentDto seDto = new StudentEnrolmentDto(se.getStatus(), se.getActive(), se.getStudentEmployer(), 
-				se.getEnrolledStudent(), se.getCoopCourseOffering()); 
+
+	@GetMapping(value = { "/studentEnrollment" })
+	public StudentEnrollmentDto getEnrollmentByID(@RequestParam(name = "id") String id) {
+		StudentEnrollment se = service.getStudentEnrollment(id);
+		return convertToDto(se);
+	}
+
+	@GetMapping(value = { "/studentEnrollment/All" })
+	public List<StudentEnrollmentDto> getAllStudentEnrollments() {
+		List<StudentEnrollmentDto> seDtos = new ArrayList<>();
+		for (StudentEnrollment se : service.getAllStudentEnrollments()) {
+			seDtos.add(convertToDto(se));
+		}
+		return seDtos;
+	}
+
+	private StudentEnrollmentDto convertToDto(StudentEnrollment se) {
+		EmployerDto eDto = convertToDto(se.getStudentEmployer());
+		StudentDto sDto = convertToDto(se.getEnrolledStudent());
+		CoopCourseOfferingDto ccoDto = convertToDto(se.getCoopCourseOffering());
+
+		StudentEnrollmentDto seDto = new StudentEnrollmentDto(se.getStatus(), se.getActive(), eDto, sDto, ccoDto);
+
 		seDto.setEnrollmentID(se.getEnrollmentID());
-		seDto.setCourseTasks(se.getCourseTasks());
-		return seDto; 
+		// seDto.setCourseTasks(se.getCourseTasks());
+		return seDto;
 	}
-			
-			
+
 	/******** Task Controller ********/
-	
-	@PostMapping(value = {"/tasks/{description}/{dueDate}/{taskStatus}" })
-	public TaskDto createTask(@PathVariable("description") String description, 
-			@PathVariable("dueDate") Date dueDate, 
+
+	@PostMapping(value = { "/task/{description}/{dueDate}/{taskStatus}" })
+	public TaskDto createTask(@PathVariable("description") String description, @PathVariable("dueDate") Date dueDate,
 			@PathVariable("taskStatus") TaskStatus taskStatus) {
-		Task task = service.createTask(description, dueDate, taskStatus); 
-		return convertToDto(task); 
+		Task task = service.createTask(description, dueDate, taskStatus);
+		return convertToDto(task);
 	}
-	
-	private TaskDto convertToDto(Task task) { 
-		TaskDto tDto = new TaskDto(task.getDescription(), task.getDueDate(), task.getTaskStatus()); 
-		tDto.setDocument(task.getDocument());
-		return tDto; 
+
+	@GetMapping(value = { "/task" })
+	public TaskDto gettasksByID(@RequestParam(name = "id") long id) {
+		Task t = service.getTask(id);
+		return convertToDto(t);
 	}
-	
+
+	@GetMapping(value = { "/task/All" })
+	public List<TaskDto> getAllTasks() {
+		List<TaskDto> tDtos = new ArrayList<>();
+		for (Task t : service.getAllTasks()) {
+			tDtos.add(convertToDto(t));
+		}
+		return tDtos;
+	}
+
+	private TaskDto convertToDto(Task task) {
+		TaskDto tDto = new TaskDto(task.getDescription(), task.getDueDate(), task.getTaskStatus());
+		// tDto.setDocument(task.getDocument());
+		return tDto;
+	}
+
 	/******** Document Controller ********/
-	
-	@PostMapping(value = { "/Document/{name}/{url}" })
+
+	@PostMapping(value = { "/document/{name}/{url}" })
 	public DocumentDto createDocument(@PathVariable("name") String name, @PathVariable("url") String url) {
 		Document doc = service.createDocument(name, url);
-		return convertToDto(doc);		
+		return convertToDto(doc);
 	}
-	
+
+	@GetMapping(value = { "/document" })
+	public DocumentDto getDocumentByID(@RequestParam(name = "url") String url) {
+		Document d = service.getDocument(url);
+		return convertToDto(d);
+	}
+
+	@GetMapping(value = { "/document/All" })
+	public List<DocumentDto> getAllDocuments() {
+		List<DocumentDto> dDtos = new ArrayList<>();
+		for (Document d : service.getAllDocuments()) {
+			dDtos.add(convertToDto(d));
+		}
+		return dDtos;
+	}
+
 	private DocumentDto convertToDto(Document doc) {
 		DocumentDto dDto = new DocumentDto(doc.getName(), doc.getUrl());
-		return dDto; 
+		return dDto;
 	}
-	
-	
+
 }
