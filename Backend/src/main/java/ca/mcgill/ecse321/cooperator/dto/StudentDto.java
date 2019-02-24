@@ -2,8 +2,6 @@ package ca.mcgill.ecse321.cooperator.dto;
 
 import java.util.Set;
 
-import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
-
 public class StudentDto {
 	private String firstName;
 	private String lastName;

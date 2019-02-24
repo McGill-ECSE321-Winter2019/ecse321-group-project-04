@@ -2,11 +2,7 @@ package ca.mcgill.ecse321.cooperator.dto;
 
 import java.util.Set;
 
-import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.CourseStatus;
-import ca.mcgill.ecse321.cooperator.model.Employer;
-import ca.mcgill.ecse321.cooperator.model.Student;
-import ca.mcgill.ecse321.cooperator.model.Task;
 
 public class StudentEnrollmentDto {
 	 private CourseStatus status;

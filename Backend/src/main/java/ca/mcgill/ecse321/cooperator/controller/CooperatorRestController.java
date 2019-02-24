@@ -41,7 +41,7 @@ public class CooperatorRestController {
 	@Autowired
 	private CooperatorService service;
 
-	/******** Student Controller ********/
+	/*------- Student Controller -------*/
 
 	@PostMapping(value = { "/student/{id}/{firstName}/{lastName}/{email}" })
 	public StudentDto createStudent(@PathVariable("firstName") String firstName,
@@ -81,7 +81,7 @@ public class CooperatorRestController {
 		return seDtos;
 	}
 
-	/******** Coop Course Controller ********/
+	/*------- Coop Course Controller -------*/
 
 	@PostMapping(value = { "/coopCourse/{courseCode}/{coopTerm}" })
 	public CoopCourseDto createCoopCourse(@PathVariable("courseCode") String courseCode,
@@ -120,7 +120,7 @@ public class CooperatorRestController {
 		return ccoDtos;
 	}
 
-	/******** Employer Controller ********/
+	/*------- Employer Controller -------*/
 
 	@PostMapping(value = { "/employer/{email}/{name}" })
 	public EmployerDto createEmployer(@PathVariable("name") String name, @PathVariable("email") String email) {
@@ -149,7 +149,7 @@ public class CooperatorRestController {
 		return eDto;
 	}
 
-	/******** Coop Course Offering Controller ********/
+	/*------- Coop Course Offering Controller -------*/
 
 	@PostMapping(value = { "/coopCourseOffering/{year}/{term}/{active}" })
 	public CoopCourseOfferingDto createCoopCourseOffering(@PathVariable("year") Integer year,
@@ -165,7 +165,7 @@ public class CooperatorRestController {
 		return convertToDto(cco);
 	}
 
-	@GetMapping(value = { "/coopcourseOffering/All" })
+	@GetMapping(value = { "/coopCourseOffering/All" })
 	public List<CoopCourseOfferingDto> getAllCourseOfferings() {
 		List<CoopCourseOfferingDto> ccoDtos = new ArrayList<>();
 		for (CoopCourseOffering cco : service.getAllCoopCourseOfferings()) {
@@ -182,16 +182,17 @@ public class CooperatorRestController {
 		return ccoDto;
 	}
 
-	/******** StudentEnrollment Controller ********/
-
+	/*------- StudentEnrollment Controller -------*/
+	//This method does not work since you can only have one @requestBody, @request param is for get only
 	@PostMapping(value = { "/studentEnrollment/{status}/{active}" })
 	public StudentEnrollmentDto createStudentEnrollment(@PathVariable("status") CourseStatus status,
-			@PathVariable("active") Boolean active, @RequestParam(name = "studentEmployer") Employer employerDto,
-			@RequestParam(name = "enrolledStudent") Student studentDto,
-			@RequestParam(name = "CoopCourseOffering") CoopCourseOffering ccoDto) {
+			@PathVariable("active") Boolean active, @RequestBody EmployerDto employerDto,
+			@RequestBody StudentDto studentDto, @RequestBody CoopCourseOfferingDto ccoDto) {
+		
 		Employer e = service.getEmployer(employerDto.getEmail());
 		Student s = service.getStudent(studentDto.getMcgillID());
 		CoopCourseOffering cco = service.getCoopCourseOffering(ccoDto.getOfferID());
+		
 		StudentEnrollment se = service.createStudentEnrollment(active, status, s, e, cco);
 		return convertToDto(se);
 	}
@@ -223,7 +224,7 @@ public class CooperatorRestController {
 		return seDto;
 	}
 
-	/******** Task Controller ********/
+	/*------- Task Controller -------*/
 
 	@PostMapping(value = { "/task/{description}/{dueDate}/{taskStatus}" })
 	public TaskDto createTask(@PathVariable("description") String description, @PathVariable("dueDate") Date dueDate,
@@ -253,10 +254,10 @@ public class CooperatorRestController {
 		return tDto;
 	}
 
-	/******** Document Controller ********/
-
-	@PostMapping(value = { "/document/{name}/{url}" })
-	public DocumentDto createDocument(@PathVariable("name") String name, @PathVariable("url") String url) {
+	/*------- Document Controller -------*/
+	//Used @request param for Post because url in path causes issues, we could also change to requestbody
+	@PostMapping(value = { "/document/{name}" })
+	public DocumentDto createDocument(@PathVariable("name") String name, @RequestParam(name = "url") String url) {
 		Document doc = service.createDocument(name, url);
 		return convertToDto(doc);
 	}
