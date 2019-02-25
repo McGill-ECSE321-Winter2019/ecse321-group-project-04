@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
 import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
@@ -24,10 +23,12 @@ import ca.mcgill.ecse321.cooperator.service.CooperatorService;
 import org.mockito.invocation.InvocationOnMock;
 import ca.mcgill.ecse321.cooperator.controller.CooperatorRestController;
 
+import ca.mcgill.ecse321.cooperator.model.Student;
 
 import static org.junit.Assert.assertEquals;	
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -37,9 +38,9 @@ import static org.mockito.Mockito.when;
 public class CooperatorApplicatonTests {
 	
 	@Mock
-	private CoopCourseOfferingRepository coopCourseOfferingDto;
+	private CoopCourseOfferingRepository coopCourseOfferingDao;
 	@Mock
-	private CoopCourseRepository coopCourseDto;
+	private CoopCourseRepository coopCourseDao;
 	@Mock
 	private DocumentRepository documentDao;
 	@Mock
@@ -49,7 +50,7 @@ public class CooperatorApplicatonTests {
 	@Mock
 	private StudentRepository studentDao;
 	@Mock
-	private TaskRepository taskDto;
+	private TaskRepository taskDao;
 	
 	@InjectMocks
 	private CooperatorService service;
@@ -60,9 +61,10 @@ public class CooperatorApplicatonTests {
 	@InjectMocks
 	private CooperatorRestController controller;
 	
-    @Test
-    public void contextLoads() {
+//    @Test
+//    public void contextLoads() {
+//    	
+//    }
 
-    }
 
 }
