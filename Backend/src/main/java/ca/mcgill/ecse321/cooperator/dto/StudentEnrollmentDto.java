@@ -1,8 +1,5 @@
 package ca.mcgill.ecse321.cooperator.dto;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import ca.mcgill.ecse321.cooperator.model.CourseStatus;
 
 public class StudentEnrollmentDto {
@@ -11,7 +8,6 @@ public class StudentEnrollmentDto {
 	    private Boolean active;    
 	    private EmployerDto studentEmployer;
 	    private StudentDto enrolledStudent;
-	    private Set<TaskDto> courseTasks;
 	    private CoopCourseOfferingDto coopCourseOffering;
 	    private String enrollmentID;
 	    
@@ -51,20 +47,6 @@ public class StudentEnrollmentDto {
 	    
 	    public CoopCourseOfferingDto getCoopCourseOffering() {
 	        return this.coopCourseOffering;
-	    }
-	    
-	    public Set<TaskDto> getCourseTasks() {
-	        return this.courseTasks;
-	    }
-	    
-		public void addCourseTasks(TaskDto t) {
-			if (courseTasks == null)
-				courseTasks = new HashSet<TaskDto>();
-			courseTasks.add(t);
-		}
-
-	    public void setCourseTasks(Set<TaskDto> courseTasks) {
-	        this.courseTasks = courseTasks;
 	    }
 	    
 	    public void setEnrollmentID(String value) {

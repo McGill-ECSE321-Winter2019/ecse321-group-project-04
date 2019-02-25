@@ -42,11 +42,11 @@ public class CooperatorService {
 	@Autowired
 	DocumentRepository documentRepository;
 
-
 	/*--- STUDENT METHODS ---*/
-	
+
 	/**
 	 * Method to create a student
+	 * 
 	 * @param firstName
 	 * @param lastName
 	 * @param id
@@ -67,9 +67,9 @@ public class CooperatorService {
 		return s;
 	}
 
-	
 	/**
 	 * Method to find a student by its McGill ID
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -81,6 +81,7 @@ public class CooperatorService {
 
 	/**
 	 * Method to get a list of all students
+	 * 
 	 * @return
 	 */
 	@Transactional
@@ -88,9 +89,9 @@ public class CooperatorService {
 		return toList(studentRepository.findAll());
 	}
 
-	
 	/**
 	 * Method checks if Student attributes are in an invalid form
+	 * 
 	 * @param firstName
 	 * @param lastName
 	 * @param id
@@ -106,9 +107,10 @@ public class CooperatorService {
 	}
 
 	/*--- EMPLOYER METHODS ---*/
-	
+
 	/**
 	 * Method to create an employer
+	 * 
 	 * @param name
 	 * @param email
 	 * @return
@@ -125,9 +127,9 @@ public class CooperatorService {
 		return e;
 	}
 
-	
 	/**
 	 * Method to find an employer by email
+	 * 
 	 * @param email
 	 * @return
 	 */
@@ -139,6 +141,7 @@ public class CooperatorService {
 
 	/**
 	 * Method returns in a list all employers
+	 * 
 	 * @return
 	 */
 	@Transactional
@@ -148,6 +151,7 @@ public class CooperatorService {
 
 	/**
 	 * Method checks if Employer attributes are in an invalid form
+	 * 
 	 * @param name
 	 * @param email
 	 * @return
@@ -160,10 +164,10 @@ public class CooperatorService {
 	}
 
 	/*--- COOP COURSE METHODS ---*/
-	
-	
+
 	/**
 	 * Method to create a coop course
+	 * 
 	 * @param courseCode
 	 * @param coopTerm
 	 * @return
@@ -182,6 +186,7 @@ public class CooperatorService {
 
 	/**
 	 * Method to find a course by its ID
+	 * 
 	 * @param coopCourseID
 	 * @return
 	 */
@@ -193,6 +198,7 @@ public class CooperatorService {
 
 	/**
 	 * Method to list all coop courses
+	 * 
 	 * @return
 	 */
 	@Transactional
@@ -202,6 +208,7 @@ public class CooperatorService {
 
 	/**
 	 * Method checks if the Course attributes are in an invalid form
+	 * 
 	 * @param courseCode
 	 * @param coopTerm
 	 * @return
@@ -214,9 +221,10 @@ public class CooperatorService {
 	}
 
 	/*--- COOP COURSE OFFERING METHODS ---*/
-	
+
 	/**
 	 * Method creates a coop course offering
+	 * 
 	 * @param year
 	 * @param term
 	 * @param active
@@ -247,15 +255,16 @@ public class CooperatorService {
 		}
 		offerID += year % 2000;
 		cco.setOfferID(offerID);
-		
-		coopCourse.addCourseOffering(cco);
-		
+
+		// coopCourse.addCourseOffering(cco); //should this be saved after?
+
 		coopCourseOfferingRepository.save(cco);
 		return cco;
 	}
 
 	/**
 	 * Method to find a course offering by its ID
+	 * 
 	 * @param offerID
 	 * @return
 	 */
@@ -267,15 +276,17 @@ public class CooperatorService {
 
 	/**
 	 * Method returns a list of all coop course offering
+	 * 
 	 * @return
 	 */
 	@Transactional
 	public List<CoopCourseOffering> getAllCoopCourseOfferings() {
 		return toList(coopCourseOfferingRepository.findAll());
 	}
-	
+
 	/**
 	 * Method checks if Course attributes are in an invalid form
+	 * 
 	 * @param year
 	 * @param term
 	 * @param active
@@ -290,9 +301,10 @@ public class CooperatorService {
 	}
 
 	/*--- STUDENT ENROLLMENT METHODS ---*/
-	
+
 	/**
 	 * Method created a student enrollment
+	 * 
 	 * @param active
 	 * @param status
 	 * @param s
@@ -314,9 +326,9 @@ public class CooperatorService {
 		se.setEnrollmentID(s.getMcgillID() + "-" + cco.getOfferID());
 		se.setCoopCourseOffering(cco);
 
-		cco.addStudentEnrollment(se);
-		e.addStudentEnrollment(se);
-		s.addCourseEnrollment(se);
+//		cco.addStudentEnrollment(se);
+//		e.addStudentEnrollment(se);
+//		s.addCourseEnrollment(se);//should these be saved after?
 
 		studentEnrollmentRepository.save(se);
 		return se;
@@ -324,6 +336,7 @@ public class CooperatorService {
 
 	/**
 	 * Method to find a student enrollment by its ID
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -335,15 +348,17 @@ public class CooperatorService {
 
 	/**
 	 * Method to list all enrollments
+	 * 
 	 * @return
 	 */
 	@Transactional
 	public List<StudentEnrollment> getAllStudentEnrollments() {
 		return toList(studentEnrollmentRepository.findAll());
 	}
-	
+
 	/**
 	 * Method to list all student enrollments
+	 * 
 	 * @param emp
 	 * @return
 	 */
@@ -354,6 +369,7 @@ public class CooperatorService {
 
 	/**
 	 * Method checks if Student Enrollment attributes are in an invalid form
+	 * 
 	 * @param active
 	 * @param status
 	 * @param s
@@ -370,9 +386,10 @@ public class CooperatorService {
 	}
 
 	/*--- TASK METHODS ---*/
-	
+
 	/**
 	 * Method to create a task
+	 * 
 	 * @param description
 	 * @param dueDate
 	 * @param status
@@ -394,6 +411,7 @@ public class CooperatorService {
 
 	/**
 	 * Method to find a task by its ID
+	 * 
 	 * @param taskID
 	 * @return
 	 */
@@ -405,6 +423,7 @@ public class CooperatorService {
 
 	/**
 	 * Method to list all tasks
+	 * 
 	 * @return
 	 */
 	@Transactional
@@ -414,6 +433,7 @@ public class CooperatorService {
 
 	/**
 	 * Method checks if Task attributes are in an invalid form
+	 * 
 	 * @param description
 	 * @param dueDate
 	 * @param status
@@ -427,10 +447,10 @@ public class CooperatorService {
 	}
 
 	/*--- DOCUMENT METHODS ---*/
-	
-	
+
 	/**
 	 * Method to create a document
+	 * 
 	 * @param name
 	 * @param url
 	 * @return
@@ -448,7 +468,8 @@ public class CooperatorService {
 	}
 
 	/**
-	 *Method to find a document by its URL
+	 * Method to find a document by its URL
+	 * 
 	 * @param url
 	 * @return
 	 */
@@ -460,15 +481,17 @@ public class CooperatorService {
 
 	/**
 	 * Method to list all documents
+	 * 
 	 * @return
 	 */
 	@Transactional
 	public List<Document> getAllDocuments() {
 		return toList(documentRepository.findAll());
 	}
-	
+
 	/**
 	 * Method checks if Document attributes are in an invalid form
+	 * 
 	 * @param name
 	 * @param url
 	 * @return
@@ -481,7 +504,7 @@ public class CooperatorService {
 	}
 
 	/*--- UTILITY METHODS ---*/
-	
+
 	private <T> List<T> toList(Iterable<T> iterable) {
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {

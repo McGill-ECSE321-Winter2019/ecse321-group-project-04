@@ -2,9 +2,7 @@ package ca.mcgill.ecse321.cooperator.controller;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,6 +25,7 @@ import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.service.CooperatorService;
 import ca.mcgill.ecse321.cooperator.dto.EmployerDto;
+import ca.mcgill.ecse321.cooperator.dto.EnrollmentWrapper;
 import ca.mcgill.ecse321.cooperator.dto.StudentDto;
 import ca.mcgill.ecse321.cooperator.dto.StudentEnrollmentDto;
 import ca.mcgill.ecse321.cooperator.dto.TaskDto;
@@ -68,17 +67,7 @@ public class CooperatorRestController {
 
 	private StudentDto convertToDto(Student s) {
 		StudentDto sDto = new StudentDto(s.getFirstName(), s.getLastName(), s.getMcgillID(), s.getMcgillEmail());
-		// sDto.setCourseEnrollments(convertSudentEnrollmentsToDto(s.getCourseEnrollments()));
 		return sDto;
-	}
-
-	private Set<StudentEnrollmentDto> convertSudentEnrollmentsToDto(Set<StudentEnrollment> courseEnrollments) {
-		Set<StudentEnrollmentDto> seDtos = new HashSet<StudentEnrollmentDto>();
-		if (courseEnrollments != null)
-			for (StudentEnrollment se : courseEnrollments) {
-				seDtos.add(convertToDto(se));
-			}
-		return seDtos;
 	}
 
 	/*------- Coop Course Controller -------*/
@@ -107,17 +96,7 @@ public class CooperatorRestController {
 
 	private CoopCourseDto convertToDto(CoopCourse c) {
 		CoopCourseDto cDto = new CoopCourseDto(c.getCourseCode(), c.getCoopTerm());
-		// cDto.setCoopCourseOffering(convertCcosToDto(c.getCoopCourseOffering()));
 		return cDto;
-	}
-
-	private Set<CoopCourseOfferingDto> convertCcosToDto(Set<CoopCourseOffering> coopCourseOffering) {
-		Set<CoopCourseOfferingDto> ccoDtos = new HashSet<CoopCourseOfferingDto>();
-		if (coopCourseOffering != null)
-			for (CoopCourseOffering cco : coopCourseOffering) {
-				ccoDtos.add(convertToDto(cco));
-			}
-		return ccoDtos;
 	}
 
 	/*------- Employer Controller -------*/
@@ -145,7 +124,6 @@ public class CooperatorRestController {
 
 	private EmployerDto convertToDto(Employer e) {
 		EmployerDto eDto = new EmployerDto(e.getName(), e.getEmail());
-		// eDto.setStudentEnrollments(convertSudentEnrollmentsToDto(e.getStudentEnrollments()));
 		return eDto;
 	}
 
@@ -178,21 +156,21 @@ public class CooperatorRestController {
 		CoopCourseDto cDto = convertToDto(cco.getCoopCourse());
 		CoopCourseOfferingDto ccoDto = new CoopCourseOfferingDto(cco.getYear(), cco.getTerm(), cco.getActive(), cDto);
 		ccoDto.setOfferID(cco.getOfferID());
-		// ccoDto.setStudentEnrollments(convertSudentEnrollmentsToDto(cco.getStudentEnrollments()));
 		return ccoDto;
 	}
 
 	/*------- StudentEnrollment Controller -------*/
-	//This method does not work since you can only have one @requestBody, @request param is for get only
 	@PostMapping(value = { "/studentEnrollment/{status}/{active}" })
 	public StudentEnrollmentDto createStudentEnrollment(@PathVariable("status") CourseStatus status,
-			@PathVariable("active") Boolean active, @RequestBody EmployerDto employerDto,
-			@RequestBody StudentDto studentDto, @RequestBody CoopCourseOfferingDto ccoDto) {
-		
-		Employer e = service.getEmployer(employerDto.getEmail());
-		Student s = service.getStudent(studentDto.getMcgillID());
-		CoopCourseOffering cco = service.getCoopCourseOffering(ccoDto.getOfferID());
-		
+			@PathVariable("active") Boolean active, @RequestBody EnrollmentWrapper ew) {
+
+		Employer e = service.getEmployer(ew.getEmployer().getEmail());
+		if (e == null) {
+			System.out.println("null emp");
+		}
+		Student s = service.getStudent(ew.getStudent().getMcgillID());
+		CoopCourseOffering cco = service.getCoopCourseOffering(ew.getCco().getOfferID());
+
 		StudentEnrollment se = service.createStudentEnrollment(active, status, s, e, cco);
 		return convertToDto(se);
 	}
@@ -220,15 +198,14 @@ public class CooperatorRestController {
 		StudentEnrollmentDto seDto = new StudentEnrollmentDto(se.getStatus(), se.getActive(), eDto, sDto, ccoDto);
 
 		seDto.setEnrollmentID(se.getEnrollmentID());
-		// seDto.setCourseTasks(se.getCourseTasks());
 		return seDto;
 	}
 
 	/*------- Task Controller -------*/
 
-	@PostMapping(value = { "/task/{description}/{dueDate}/{taskStatus}" })
-	public TaskDto createTask(@PathVariable("description") String description, @PathVariable("dueDate") Date dueDate,
-			@PathVariable("taskStatus") TaskStatus taskStatus) {
+	@PostMapping(value = { "/task/{description}/{taskStatus}" })
+	public TaskDto createTask(@PathVariable("description") String description,
+			@PathVariable("taskStatus") TaskStatus taskStatus, @RequestParam(name = "dueDate") Date dueDate) {
 		Task task = service.createTask(description, dueDate, taskStatus);
 		return convertToDto(task);
 	}
@@ -250,12 +227,12 @@ public class CooperatorRestController {
 
 	private TaskDto convertToDto(Task task) {
 		TaskDto tDto = new TaskDto(task.getDescription(), task.getDueDate(), task.getTaskStatus());
-		// tDto.setDocument(task.getDocument());
 		return tDto;
 	}
 
 	/*------- Document Controller -------*/
-	//Used @request param for Post because url in path causes issues, we could also change to requestbody
+	// Used @request param for Post because url in path causes issues, we could also
+	// change to requestbody
 	@PostMapping(value = { "/document/{name}" })
 	public DocumentDto createDocument(@PathVariable("name") String name, @RequestParam(name = "url") String url) {
 		Document doc = service.createDocument(name, url);
