@@ -61,10 +61,10 @@ public class CooperatorApplicatonTests {
 	@InjectMocks
 	private CooperatorRestController controller;
 	
-//    @Test
-//    public void contextLoads() {
-//    	
-//    }
+    @Test
+    public void contextLoads() {
+    	
+    }
 
 
 }
