@@ -3,14 +3,16 @@ package ca.mcgill.ecse321.cooperator.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Student {
-
+	
     private String firstName;
+    @NotBlank(message = "last name cannot be blank")
     private String lastName;
     private Integer mcgillID;
     private String mcgillEmail;

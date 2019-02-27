@@ -6,10 +6,11 @@ import javax.persistence.Id;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Employer {
-
+	@NotBlank(message = "Enter your f*cking name b*tch")
     private String name;
     private String email;
     private Set<StudentEnrollment> studentEnrollments;

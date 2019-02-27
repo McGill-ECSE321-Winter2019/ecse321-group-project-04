@@ -5,45 +5,48 @@ import javax.persistence.Entity;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.OneToMany;
-
+import javax.validation.constraints.NegativeOrZero;
+import javax.validation.constraints.NotNull;
 import javax.persistence.Id;
 
 @Entity
-public class CoopCourse{
-    private String courseCode;
-    private Integer coopTerm;
-    private Set<CoopCourseOffering> coopCourseOffering;
+public class CoopCourse {
+	private String courseCode;
+//    @NotNull
+//    @NegativeOrZero(message = "MotherF*cker, enter your Coop Term")
+	private Integer coopTerm;
+	private Set<CoopCourseOffering> coopCourseOffering;
 
-    public void setCourseCode(String value) {
-        this.courseCode = value;
-    }
+	public void setCourseCode(String value) {
+		this.courseCode = value;
+	}
 
-    @Id
-    public String getCourseCode() {
-        return this.courseCode;
-    }
+	@Id
+	public String getCourseCode() {
+		return this.courseCode;
+	}
 
-    public void setCoopTerm(Integer value) {
-        this.coopTerm = value;
-    }
+	public void setCoopTerm(Integer value) {
+		this.coopTerm = value;
+	}
 
-    public Integer getCoopTerm() {
-        return this.coopTerm;
-    }
+	public Integer getCoopTerm() {
+		return this.coopTerm;
+	}
 
-    @OneToMany(mappedBy="coopCourse" )
-    public Set<CoopCourseOffering> getCoopCourseOffering() {
-        return this.coopCourseOffering;
-    }
-    
+	@OneToMany(mappedBy = "coopCourse")
+	public Set<CoopCourseOffering> getCoopCourseOffering() {
+		return this.coopCourseOffering;
+	}
+
 	public void addCourseOffering(CoopCourseOffering cco) {
 		if (coopCourseOffering == null)
 			coopCourseOffering = new HashSet<CoopCourseOffering>();
 		coopCourseOffering.add(cco);
 	}
 
-    public void setCoopCourseOffering(Set<CoopCourseOffering> coopCourseOfferings) {
-        this.coopCourseOffering = coopCourseOfferings;
-    }
+	public void setCoopCourseOffering(Set<CoopCourseOffering> coopCourseOfferings) {
+		this.coopCourseOffering = coopCourseOfferings;
+	}
 
 }
