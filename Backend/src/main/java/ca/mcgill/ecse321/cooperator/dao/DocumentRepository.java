@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import ca.mcgill.ecse321.cooperator.model.Document;
 
 //@RepositoryRestResource(collectionResourceRel = "documents", path = "documents")
-public interface DocumentRepository extends CrudRepository<Document, String> {
+public interface DocumentRepository extends CrudRepository<Document, Long> {
 	Document findByUrl(@Param(value = "url") String url);
 }

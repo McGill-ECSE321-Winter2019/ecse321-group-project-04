@@ -5,15 +5,13 @@ import javax.persistence.Entity;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NegativeOrZero;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.persistence.Id;
 
 @Entity
 public class CoopCourse {
+	@NotBlank(message = "course code cannot be blank")
 	private String courseCode;
-//    @NotNull
-//    @NegativeOrZero(message = "MotherF*cker, enter your Coop Term")
 	private Integer coopTerm;
 	private Set<CoopCourseOffering> coopCourseOffering;
 

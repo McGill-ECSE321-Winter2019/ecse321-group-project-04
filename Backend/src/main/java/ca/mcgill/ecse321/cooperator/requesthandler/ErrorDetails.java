@@ -1,3 +1,5 @@
+/*A PORTION OF THIS CODE WAS SOURCED FROM A SPRING BOOT TUTORIAL:
+ * http://www.springboottutorial.com/spring-boot-validation-for-rest-services*/
 package ca.mcgill.ecse321.cooperator.requesthandler;
 
 import java.util.Date;

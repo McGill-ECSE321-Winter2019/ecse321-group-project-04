@@ -10,8 +10,9 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Employer {
-	@NotBlank(message = "Enter your f*cking name b*tch")
+	@NotBlank(message = "employer name cannot be blank")
     private String name;
+	@NotBlank(message = "document name cannot be blank")
     private String email;
     private Set<StudentEnrollment> studentEnrollments;
 

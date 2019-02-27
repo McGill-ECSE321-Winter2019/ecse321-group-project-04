@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 
 import java.sql.Date;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
 import javax.persistence.Id;
 
 import java.util.HashSet;
@@ -20,6 +21,7 @@ public class Task{
     private TaskStatus taskStatus;
 	
     private long taskID;
+    @NotBlank(message = "description cannot be blank")
     private String description;
     private Date dueDate;
     private Set<Document> document;

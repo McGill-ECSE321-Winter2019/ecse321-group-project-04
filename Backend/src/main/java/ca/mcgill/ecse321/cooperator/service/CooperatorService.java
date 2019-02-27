@@ -77,8 +77,8 @@ public class CooperatorService {
 	 */
 	@Transactional
 	public Student createStudent(Student s) {
-		studentRepository.save(s);
-		return s;
+		Student savedStudent = createStudent(s.getFirstName(), s.getLastName(), s.getMcgillID(), s.getMcgillEmail());
+		return savedStudent;
 	}
 
 	/**
@@ -90,8 +90,8 @@ public class CooperatorService {
 	@Transactional
 	public Student getStudent(Integer id) {
 		Student s = studentRepository.findByMcgillID(id);
-                if (s == null)
-                    throw new EntityNotFoundException("Could not find a Student with ID " + id);
+		if (s == null)
+			throw new EntityNotFoundException("Could not find a Student with ID " + id);
 		return s;
 	}
 
@@ -143,16 +143,16 @@ public class CooperatorService {
 		return e;
 	}
 
-        /**
-         * Method to create an employer
-         *
-         * @param e
-         */
-        @Transactional
-        public Employer createEmployer(Employer e) {
-                employerRepository.save(e);
-                return e;
-        }
+	/**
+	 * Method to create an employer
+	 *
+	 * @param e
+	 */
+	@Transactional
+	public Employer createEmployer(Employer e) {
+		Employer savedEmployer = createEmployer(e.getName(), e.getEmail());
+		return savedEmployer;
+	}
 
 	/**
 	 * Method to find an employer by email
@@ -163,8 +163,8 @@ public class CooperatorService {
 	@Transactional
 	public Employer getEmployer(String email) {
 		Employer e = employerRepository.findByEmail(email);
-                if (e == null)
-                    throw new EntityNotFoundException("Could not find an Employer with email " + email);
+		if (e == null)
+			throw new EntityNotFoundException("Could not find an Employer with email " + email);
 		return e;
 	}
 
@@ -213,16 +213,16 @@ public class CooperatorService {
 		return c;
 	}
 
-        /**
-         * Method to create a Coop Course
-         *
-         * @param cc
-         */
-        @Transactional
-        public CoopCourse createCoopCourse(CoopCourse cc) {
-                coopCourseRepository.save(cc);
-                return cc;
-        }
+	/**
+	 * Method to create a Coop Course
+	 *
+	 * @param cc
+	 */
+	@Transactional
+	public CoopCourse createCoopCourse(CoopCourse cc) {
+		CoopCourse savedCourse = createCoopCourse(cc.getCourseCode(), cc.getCoopTerm());
+		return savedCourse;
+	}
 
 	/**
 	 * Method to find a course by its ID
@@ -233,8 +233,8 @@ public class CooperatorService {
 	@Transactional
 	public CoopCourse getCoopCourse(String coopCourseID) {
 		CoopCourse c = coopCourseRepository.findByCourseCode(coopCourseID);
-                if (c == null)
-                    throw new EntityNotFoundException("Could not find a CO-OP Course with ID " + coopCourseID);
+		if (c == null)
+			throw new EntityNotFoundException("Could not find a CO-OP Course with ID " + coopCourseID);
 		return c;
 	}
 
@@ -296,9 +296,9 @@ public class CooperatorService {
 	 * @return
 	 */
 	@Transactional
-	public CoopCourseOffering createCoopCourseOffering(CoopCourseOffering cco) {
-		coopCourseOfferingRepository.save(cco);
-		return cco;
+	public CoopCourseOffering createCoopCourseOffering(CoopCourseOffering cco, CoopCourse c) {
+		CoopCourseOffering savedCco = createCoopCourseOffering(cco.getYear(), cco.getTerm(), cco.getActive(), c);
+		return savedCco;
 	}
 
 	/**
@@ -310,8 +310,8 @@ public class CooperatorService {
 	@Transactional
 	public CoopCourseOffering getCoopCourseOffering(String offerID) {
 		CoopCourseOffering cco = coopCourseOfferingRepository.findByOfferID(offerID);
-                if (cco == null)
-                    throw new EntityNotFoundException("Could not find a CO-OP Course Offering with ID " + offerID);
+		if (cco == null)
+			throw new EntityNotFoundException("Could not find a CO-OP Course Offering with ID " + offerID);
 		return cco;
 	}
 
@@ -369,61 +369,61 @@ public class CooperatorService {
 
 		studentEnrollmentRepository.save(se);
 
-                // Create the required initial taks and populate them.
-                populateStudentEnrollment(se, coopAcceptanceForm, employerContract);
+		// Create the required initial taks and populate them.
+		populateStudentEnrollment(se, coopAcceptanceForm, employerContract);
 		return se;
 	}
 
-        /**
-         * Method to create a Student Enrollment
-         *
-         * @param se
-         * @param coopAcceptanceForm
-         * @param employerContract
-         */
-        public StudentEnrollment createStudentEnrollment(StudentEnrollment se, String coopAcceptanceForm, String employerContract) {
+	/**
+	 * Method to create a Student Enrollment
+	 *
+	 * @param se
+	 * @param coopAcceptanceForm
+	 * @param employerContract
+	 */
+	public StudentEnrollment createStudentEnrollment(StudentEnrollment se, Student s, Employer e,
+			CoopCourseOffering cco, String coopAcceptanceForm, String employerContract) {
+
+		StudentEnrollment savedSe = createStudentEnrollment(se.getActive(), se.getStatus(), s, e, cco,
+				coopAcceptanceForm, employerContract);
+		return savedSe;
+	}
+
+	/**
+	 * Method to create the initial tasks of a Student Enrollment.
+	 * <p>
+	 * This method requires that the {@code StudentEnrollment} passed as argument
+	 * has already been persisted to the database.
+	 *
+	 * @param se
+	 * @param coopAcceptanceForm
+	 * @param employerContract
+	 */
+	private void populateStudentEnrollment(StudentEnrollment se, String coopAcceptanceForm, String employerContract) {
+		// Create the first two tasks which are completed at the time of registration
+		Calendar currentCal = Calendar.getInstance();
+		Date currentDate = new Date(currentCal.getTimeInMillis());
+		Task t1 = createTask("Submit the CO-OP position acceptance form.", currentDate, TaskStatus.COMPLETED, se);
+		Document d1 = createDocument("CO-OP position acceptance form.", coopAcceptanceForm, t1);
+
+		Task t2 = createTask("Submit the employer contract document.", currentDate, TaskStatus.COMPLETED, se);
+		Document d2 = createDocument("Employer Contract", employerContract, t2);
+
+		// Create the rest of the tasks that need to be completed throughout the
+		// course offering.
+		Calendar dateInTwoWeeks = Calendar.getInstance();
+		dateInTwoWeeks.add(Calendar.DAY_OF_MONTH, +14);
+		Calendar dateInFourMonths = Calendar.getInstance();
+		dateInFourMonths.add(Calendar.MONTH, +4);
+		createTask("Submit an initial report of the tasks and workload of the internship.",
+				new Date(dateInTwoWeeks.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
+		createTask("Submit the term technical report about the internship experience.",
+				new Date(dateInFourMonths.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
+		createTask("Submit the final evaluation report for the internship experience.",
+				new Date(dateInFourMonths.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
+
 		studentEnrollmentRepository.save(se);
-                populateStudentEnrollment(se, coopAcceptanceForm, employerContract);
-                return se;
-        }
-
-        /**
-         * Method to create the initial tasks of a Student Enrollment.
-         * <p>
-         * This method requires that the {@code StudentEnrollment} passed as argument
-         * has already been persisted to the database.
-         *
-         * @param se
-         * @param coopAcceptanceForm
-         * @param employerContract
-         */
-        private void populateStudentEnrollment(StudentEnrollment se, String coopAcceptanceForm, String employerContract) {
-                // Create the first two tasks which are completed at the time of registration
-                Calendar currentCal = Calendar.getInstance();
-                Date currentDate = new Date(currentCal.getTimeInMillis());
-                Task t1 = createTask("Submit the CO-OP position acceptance form.",
-                                        currentDate, TaskStatus.COMPLETED, se);
-                Document d1 = createDocument("CO-OP position acceptance form.", coopAcceptanceForm, t1);
-
-                Task t2 = createTask("Submit the employer contract document.",
-                                        currentDate, TaskStatus.COMPLETED, se);
-                Document d2 = createDocument("Employer Contract", employerContract, t2);
-
-                // Create the rest of the tasks that need to be completed throughout the
-                // course offering.
-                Calendar dateInTwoWeeks = Calendar.getInstance();
-                dateInTwoWeeks.add(Calendar.DAY_OF_MONTH, + 14);
-                Calendar dateInFourMonths = Calendar.getInstance();
-                dateInFourMonths.add(Calendar.MONTH, + 4);
-                createTask("Submit an initial report of the tasks and workload of the internship.",
-                            new Date(dateInTwoWeeks.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
-                createTask("Submit the term technical report about the internship experience.",
-                            new Date(dateInFourMonths.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
-                createTask("Submit the final evaluation report for the internship experience.",
-                            new Date(dateInFourMonths.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
-    
-		studentEnrollmentRepository.save(se);
-        }
+	}
 
 	/**
 	 * Method to find a student enrollment by its ID
@@ -434,8 +434,8 @@ public class CooperatorService {
 	@Transactional
 	public StudentEnrollment getStudentEnrollment(String id) {
 		StudentEnrollment se = studentEnrollmentRepository.findByEnrollmentID(id);
-                if (se == null)
-                    throw new EntityNotFoundException("Could not find a Student Enrollment with ID " + id);
+		if (se == null)
+			throw new EntityNotFoundException("Could not find a Student Enrollment with ID " + id);
 		return se;
 	}
 
@@ -473,7 +473,7 @@ public class CooperatorService {
 	private boolean incorrectStudentEnrollmentDetails(Boolean active, CourseStatus status, Student s, Employer e,
 			CoopCourseOffering cco, String coopAcceptanceForm, String employerContract) {
 		if (active == null || status == null || s == null || e == null || coopAcceptanceForm == null
-                    || coopAcceptanceForm.equals("") || employerContract == null || employerContract.equals("")) {
+				|| coopAcceptanceForm.equals("") || employerContract == null || employerContract.equals("")) {
 			return true;
 		}
 		return false;
@@ -498,8 +498,8 @@ public class CooperatorService {
 		t.setDescription(description);
 		t.setDueDate(dueDate);
 		t.setTaskStatus(status);
-                
-                se.addCourseTasks(t);
+
+		se.addCourseTasks(t);
 		taskRepository.save(t);
 		return t;
 	}
@@ -513,9 +513,8 @@ public class CooperatorService {
 	 */
 	@Transactional
 	public Task createTask(Task t, StudentEnrollment se) {
-                se.addCourseTasks(t);
-		taskRepository.save(t);
-		return t;
+		Task savedTask = createTask(t.getDescription(), t.getDueDate(), t.getTaskStatus(), se);
+		return savedTask;
 	}
 
 	/**
@@ -527,8 +526,8 @@ public class CooperatorService {
 	@Transactional
 	public Task getTask(long taskID) {
 		Task t = taskRepository.findByTaskID(taskID);
-                if (t == null)
-                    throw new EntityNotFoundException("Could not find a Task with ID " + taskID);
+		if (t == null)
+			throw new EntityNotFoundException("Could not find a Task with ID " + taskID);
 		return t;
 	}
 
@@ -551,7 +550,8 @@ public class CooperatorService {
 	 * @return
 	 */
 	private boolean incorrectTaskDetails(String description, Date dueDate, TaskStatus status, StudentEnrollment se) {
-		if (description == null || description.trim().length() == 0 || dueDate == null || status == null || se == null) {
+		if (description == null || description.trim().length() == 0 || dueDate == null || status == null
+				|| se == null) {
 			return true;
 		}
 		return false;
@@ -575,7 +575,7 @@ public class CooperatorService {
 		d.setName(name);
 		d.setUrl(url);
 
-                t.addDocument(d);
+		t.addDocument(d);
 		documentRepository.save(d);
 		return d;
 	}
@@ -589,9 +589,8 @@ public class CooperatorService {
 	 */
 	@Transactional
 	public Document createDocument(Document d, Task t) {
-                t.addDocument(d);
-		documentRepository.save(d);
-		return d;
+		Document savedDocument = createDocument(d.getName(), d.getUrl(), t);
+		return savedDocument;
 	}
 
 	/**
@@ -603,8 +602,8 @@ public class CooperatorService {
 	@Transactional
 	public Document getDocument(String url) {
 		Document doc = documentRepository.findByUrl(url);
-                if (doc == null)
-                    throw new EntityNotFoundException("Could not find a Document with URL " + url);
+		if (doc == null)
+			throw new EntityNotFoundException("Could not find a Document with URL " + url);
 		return doc;
 	}
 
@@ -626,8 +625,7 @@ public class CooperatorService {
 	 * @return
 	 */
 	private boolean incorrectDocumentDetails(String name, String url, Task t) {
-		if (name == null || name.trim().length() == 0 || url == null || url.trim().length() == 0
-                    || t == null) {
+		if (name == null || name.trim().length() == 0 || url == null || url.trim().length() == 0 || t == null) {
 			return true;
 		}
 		return false;
