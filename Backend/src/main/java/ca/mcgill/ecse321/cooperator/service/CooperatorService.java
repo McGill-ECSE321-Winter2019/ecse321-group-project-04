@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -69,6 +70,18 @@ public class CooperatorService {
 	}
 
 	/**
+	 * Method to create a student
+	 * 
+	 * @param s
+	 * @return
+	 */
+	@Transactional
+	public Student createStudent(Student s) {
+		studentRepository.save(s);
+		return s;
+	}
+
+	/**
 	 * Method to find a student by its McGill ID
 	 * 
 	 * @param id
@@ -77,6 +90,8 @@ public class CooperatorService {
 	@Transactional
 	public Student getStudent(Integer id) {
 		Student s = studentRepository.findByMcgillID(id);
+                if (s == null)
+                    throw new EntityNotFoundException("Could not find a Student with ID " + id);
 		return s;
 	}
 
@@ -137,6 +152,8 @@ public class CooperatorService {
 	@Transactional
 	public Employer getEmployer(String email) {
 		Employer e = employerRepository.findByEmail(email);
+                if (e == null)
+                    throw new EntityNotFoundException("Could not find an Employer with email " + email);
 		return e;
 	}
 
@@ -194,6 +211,8 @@ public class CooperatorService {
 	@Transactional
 	public CoopCourse getCoopCourse(String coopCourseID) {
 		CoopCourse c = coopCourseRepository.findByCourseCode(coopCourseID);
+                if (c == null)
+                    throw new EntityNotFoundException("Could not find a CO-OP Course with ID " + coopCourseID);
 		return c;
 	}
 
@@ -242,20 +261,7 @@ public class CooperatorService {
 		cco.setTerm(term);
 		cco.setActive(active);
 		cco.setCoopCourse(coopCourse);
-		String offerID = coopCourse.getCourseCode();
-		switch (term) {
-		case FALL:
-			offerID += "-F";
-			break;
-		case WINTER:
-			offerID += "-W";
-			break;
-		case SUMMER:
-			offerID += "-S";
-			break;
-		}
-		offerID += year % 2000;
-		cco.setOfferID(offerID);
+		cco.setOfferID(coopCourse, term, year);
 
 		coopCourseOfferingRepository.save(cco);
 		return cco;
@@ -270,6 +276,8 @@ public class CooperatorService {
 	@Transactional
 	public CoopCourseOffering getCoopCourseOffering(String offerID) {
 		CoopCourseOffering cco = coopCourseOfferingRepository.findByOfferID(offerID);
+                if (cco == null)
+                    throw new EntityNotFoundException("Could not find a CO-OP Course Offering with ID " + offerID);
 		return cco;
 	}
 
@@ -322,7 +330,7 @@ public class CooperatorService {
 		se.setStudentEmployer(e);
 		se.setActive(active);
 		se.setStatus(status);
-		se.setEnrollmentID(s.getMcgillID() + "-" + cco.getOfferID());
+		se.setEnrollmentID(s, cco);
 		se.setCoopCourseOffering(cco);
 
 		studentEnrollmentRepository.save(se);
@@ -364,6 +372,8 @@ public class CooperatorService {
 	@Transactional
 	public StudentEnrollment getStudentEnrollment(String id) {
 		StudentEnrollment se = studentEnrollmentRepository.findByEnrollmentID(id);
+                if (se == null)
+                    throw new EntityNotFoundException("Could not find a Student Enrollment with ID " + id);
 		return se;
 	}
 
@@ -441,6 +451,8 @@ public class CooperatorService {
 	@Transactional
 	public Task getTask(long taskID) {
 		Task t = taskRepository.findByTaskID(taskID);
+                if (t == null)
+                    throw new EntityNotFoundException("Could not find a Task with ID " + taskID);
 		return t;
 	}
 
@@ -501,6 +513,8 @@ public class CooperatorService {
 	@Transactional
 	public Document getDocument(String url) {
 		Document doc = documentRepository.findByUrl(url);
+                if (doc == null)
+                    throw new EntityNotFoundException("Could not find a Document with URL " + url);
 		return doc;
 	}
 

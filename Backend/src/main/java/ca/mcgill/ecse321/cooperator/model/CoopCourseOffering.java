@@ -75,6 +75,24 @@ public class CoopCourseOffering {
 		this.offerID = value;
 	}
 
+        public void setOfferID(CoopCourse cc, Term term, Integer year) {
+                String offerID = coopCourse.getCourseCode();
+                switch (term) {
+                case FALL:
+                        offerID += "-F";
+                        break;
+                case WINTER:
+                        offerID += "-W";
+                        break;
+                case SUMMER:
+                        offerID += "-S";
+                        break;
+                }
+                offerID += year % 2000;
+
+                this.offerID = offerID;
+        }
+
 	@Id
 	public String getOfferID() {
 		return this.offerID;

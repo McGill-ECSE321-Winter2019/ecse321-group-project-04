@@ -87,6 +87,10 @@ public class StudentEnrollment {
         this.enrollmentID = value;
     }
 
+    public void setEnrollmentID(Student s, CoopCourseOffering cco) {
+        this.enrollmentID = s.getMcgillID() + "-" + cco.getOfferID();
+    }
+
     @Id
     public String getEnrollmentID() {
         return this.enrollmentID;
