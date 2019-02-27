@@ -29,17 +29,24 @@ import ca.mcgill.ecse321.cooperator.model.Term;
 import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.service.CooperatorService;
-import ca.mcgill.ecse321.cooperator.dto.EmployerDto;
-import ca.mcgill.ecse321.cooperator.dto.EnrollmentWrapper;
-import ca.mcgill.ecse321.cooperator.dto.StudentDto;
-import ca.mcgill.ecse321.cooperator.dto.StudentEnrollmentDto;
-import ca.mcgill.ecse321.cooperator.dto.TaskDto;
+
+//import ca.mcgill.ecse321.cooperator.dto.EmployerDto;
+//import ca.mcgill.ecse321.cooperator.dto.EnrollmentWrapper;
+//import ca.mcgill.ecse321.cooperator.dto.StudentDto;
+//import ca.mcgill.ecse321.cooperator.dto.StudentEnrollmentDto;
+//import ca.mcgill.ecse321.cooperator.dto.TaskDto;
+//import ca.mcgill.ecse321.cooperator.dto.CoopCourseDto;
+//import ca.mcgill.ecse321.cooperator.dto.CoopCourseOfferingDto;
+//import ca.mcgill.ecse321.cooperator.dto.DocumentDto;
+
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
+import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
+import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
 import ca.mcgill.ecse321.cooperator.dao.EmployerRepository;
+import ca.mcgill.ecse321.cooperator.dao.StudentEnrollmentRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentRepository;
-import ca.mcgill.ecse321.cooperator.dto.CoopCourseDto;
-import ca.mcgill.ecse321.cooperator.dto.CoopCourseOfferingDto;
-import ca.mcgill.ecse321.cooperator.dto.DocumentDto;
+import ca.mcgill.ecse321.cooperator.dao.TaskRepository;
+
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -48,16 +55,22 @@ public class CooperatorRestController {
 	@Autowired
 	private CooperatorService service;
 	@Autowired
-	private StudentRepository studentRepository;
+	private CoopCourseRepository coopCourseRepository;
+	@Autowired
+	private DocumentRepository documentRepository;
 	@Autowired
 	private EmployerRepository employerRepository;
 	@Autowired
-	private CoopCourseRepository coopCourseRepository;
-
+	private StudentEnrollmentRepository studentEnrollmentRepository;
+	@Autowired
+	private StudentRepository studentRepository;
+	@Autowired
+	private TaskRepository taskRepository;
+	
 	/*------- Student Controller -------*/
 	@PostMapping("/student")
 	public ResponseEntity<Object> createStudent(@Valid @RequestBody Student student) {
-		Student savedStudent =  studentRepository.save(student);
+		Student savedStudent = studentRepository.save(student);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(savedStudent.getMcgillID()).toUri();
@@ -69,7 +82,7 @@ public class CooperatorRestController {
 
 	@PostMapping("/coopCourse")
 	public ResponseEntity<Object> createCoopCourse(@Valid @RequestBody CoopCourse coopCourse) {
-		CoopCourse savedCoopCourse =  coopCourseRepository.save(coopCourse);
+		CoopCourse savedCoopCourse = coopCourseRepository.save(coopCourse);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(savedCoopCourse.getCourseCode()).toUri();
@@ -79,8 +92,8 @@ public class CooperatorRestController {
 
 	/*------- Employer Controller -------*/
 	@PostMapping("/employer")
-	public ResponseEntity<Object> createEmlpyer(@Valid @RequestBody Employer employer) {
-		Employer savedEmployer =  employerRepository.save(employer);
+	public ResponseEntity<Object> createEmployer(@Valid @RequestBody Employer employer) {
+		Employer savedEmployer = employerRepository.save(employer);
 		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(savedEmployer.getEmail()).toUri();
