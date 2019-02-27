@@ -143,6 +143,17 @@ public class CooperatorService {
 		return e;
 	}
 
+        /**
+         * Method to create an employer
+         *
+         * @param e
+         */
+        @Transactional
+        public Employer createEmployer(Employer e) {
+                employerRepository.save(e);
+                return e;
+        }
+
 	/**
 	 * Method to find an employer by email
 	 * 
@@ -201,6 +212,17 @@ public class CooperatorService {
 		coopCourseRepository.save(c);
 		return c;
 	}
+
+        /**
+         * Method to create a Coop Course
+         *
+         * @param cc
+         */
+        @Transactional
+        public CoopCourse createCoopCourse(CoopCourse cc) {
+                coopCourseRepository.save(cc);
+                return cc;
+        }
 
 	/**
 	 * Method to find a course by its ID
@@ -261,8 +283,20 @@ public class CooperatorService {
 		cco.setTerm(term);
 		cco.setActive(active);
 		cco.setCoopCourse(coopCourse);
-		cco.setOfferID(coopCourse, term, year);
+		cco.setOfferID();
 
+		coopCourseOfferingRepository.save(cco);
+		return cco;
+	}
+
+	/**
+	 * Method creates a coop course offering
+	 * 
+	 * @param cco
+	 * @return
+	 */
+	@Transactional
+	public CoopCourseOffering createCoopCourseOffering(CoopCourseOffering cco) {
 		coopCourseOfferingRepository.save(cco);
 		return cco;
 	}
@@ -336,6 +370,35 @@ public class CooperatorService {
 		studentEnrollmentRepository.save(se);
 
                 // Create the required initial taks and populate them.
+                populateStudentEnrollment(se, coopAcceptanceForm, employerContract);
+		return se;
+	}
+
+        /**
+         * Method to create a Student Enrollment
+         *
+         * @param se
+         * @param coopAcceptanceForm
+         * @param employerContract
+         */
+        public StudentEnrollment createStudentEnrollment(StudentEnrollment se, String coopAcceptanceForm, String employerContract) {
+		studentEnrollmentRepository.save(se);
+                populateStudentEnrollment(se, coopAcceptanceForm, employerContract);
+                return se;
+        }
+
+        /**
+         * Method to create the initial tasks of a Student Enrollment.
+         * <p>
+         * This method requires that the {@code StudentEnrollment} passed as argument
+         * has already been persisted to the database.
+         *
+         * @param se
+         * @param coopAcceptanceForm
+         * @param employerContract
+         */
+        private void populateStudentEnrollment(StudentEnrollment se, String coopAcceptanceForm, String employerContract) {
+                // Create the first two tasks which are completed at the time of registration
                 Calendar currentCal = Calendar.getInstance();
                 Date currentDate = new Date(currentCal.getTimeInMillis());
                 Task t1 = createTask("Submit the CO-OP position acceptance form.",
@@ -360,8 +423,7 @@ public class CooperatorService {
                             new Date(dateInFourMonths.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
     
 		studentEnrollmentRepository.save(se);
-		return se;
-	}
+        }
 
 	/**
 	 * Method to find a student enrollment by its ID
@@ -443,6 +505,20 @@ public class CooperatorService {
 	}
 
 	/**
+	 * Method to create a task
+	 * 
+	 * @param t
+	 * @param se
+	 * @return
+	 */
+	@Transactional
+	public Task createTask(Task t, StudentEnrollment se) {
+                se.addCourseTasks(t);
+		taskRepository.save(t);
+		return t;
+	}
+
+	/**
 	 * Method to find a task by its ID
 	 * 
 	 * @param taskID
@@ -499,6 +575,20 @@ public class CooperatorService {
 		d.setName(name);
 		d.setUrl(url);
 
+                t.addDocument(d);
+		documentRepository.save(d);
+		return d;
+	}
+
+	/**
+	 * Method to create a document
+	 * 
+	 * @param d
+	 * @param t
+	 * @return
+	 */
+	@Transactional
+	public Document createDocument(Document d, Task t) {
                 t.addDocument(d);
 		documentRepository.save(d);
 		return d;

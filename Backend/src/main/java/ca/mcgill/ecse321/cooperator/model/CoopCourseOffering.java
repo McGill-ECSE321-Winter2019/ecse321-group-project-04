@@ -75,9 +75,15 @@ public class CoopCourseOffering {
 		this.offerID = value;
 	}
 
-        public void setOfferID(CoopCourse cc, Term term, Integer year) {
+        // This method required that the instance already has
+        // populated coopCourse, term and year attributes
+        public void setOfferID() {
+                if (this.coopCourse == null || this.term == null || this.year == null) {
+                    throw new IllegalArgumentException("The student enrollment must have a term and a year to generate the ID.");
+                }
+
                 String offerID = coopCourse.getCourseCode();
-                switch (term) {
+                switch (this.term) {
                 case FALL:
                         offerID += "-F";
                         break;
@@ -88,7 +94,7 @@ public class CoopCourseOffering {
                         offerID += "-S";
                         break;
                 }
-                offerID += year % 2000;
+                offerID += this.year % 2000;
 
                 this.offerID = offerID;
         }
