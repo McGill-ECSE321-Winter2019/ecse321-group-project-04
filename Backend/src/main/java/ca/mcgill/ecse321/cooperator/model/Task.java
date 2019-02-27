@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.FetchType;
+import javax.persistence.CascadeType;
 
 import java.sql.Date;
 import javax.persistence.OneToMany;
@@ -57,16 +59,16 @@ public class Task{
         return this.taskID;
     }
     
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
     public Set<Document> getDocument() {
        return this.document;
     }
     
-	public void addDocument(Document doc) {
-		if (document == null)
-			document = new HashSet<Document>();
-		document.add(doc);
-	}
+    public void addDocument(Document doc) {
+            if (document == null)
+                    document = new HashSet<Document>();
+            document.add(doc);
+    }
     
     public void setDocument(Set<Document> documents) {
        this.document = documents;

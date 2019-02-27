@@ -15,6 +15,8 @@ import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
 import ca.mcgill.ecse321.cooperator.dao.EmployerRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentEnrollmentRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentRepository;
+import ca.mcgill.ecse321.cooperator.dao.TaskRepository;
+import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.CourseStatus;
@@ -30,16 +32,18 @@ public class TestStudentEnrollment {
 	private CooperatorService service;
 	@Autowired
 	private StudentRepository studentRepository;
-
 	@Autowired
 	private EmployerRepository employerRepository;
-
 	@Autowired
 	private CoopCourseRepository coopCourseRepository;
 	@Autowired
 	private CoopCourseOfferingRepository coopCourseOfferingRepository;
 	@Autowired
 	private StudentEnrollmentRepository studentEnrollmentRepository;
+	@Autowired
+	private TaskRepository taskRepository;
+	@Autowired
+	private DocumentRepository documentRepository;
 
 	@After
 	public void cleanDataBase() {
@@ -48,6 +52,8 @@ public class TestStudentEnrollment {
 		employerRepository.deleteAll();
 		coopCourseOfferingRepository.deleteAll();
 		coopCourseRepository.deleteAll();
+                taskRepository.deleteAll();
+                documentRepository.deleteAll();
 	}
 	
 	@Test
@@ -58,7 +64,7 @@ public class TestStudentEnrollment {
 		Employer emp = service.createEmployer("Facebook", "fb@email.com");
 
 		try {
-			service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco);
+			service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, "test-url-1", "test-url-2");
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
@@ -67,7 +73,7 @@ public class TestStudentEnrollment {
 		assertEquals(true, se.getActive());
 		assertEquals("260654321-ECSE302-F19", se.getEnrollmentID());
 		assertEquals(CourseStatus.PASSED, se.getStatus());
-		// check references
+		// Check references
 		assertEquals("ECSE302-F19", se.getCoopCourseOffering().getOfferID());
 		assertEquals("test@mail.com", se.getEnrolledStudent().getMcgillEmail());
 		assertEquals("fb@email.com", se.getStudentEmployer().getEmail());
@@ -75,6 +81,12 @@ public class TestStudentEnrollment {
 		assertEquals(se.getEnrollmentID(), service.getEmployersStudentEnrollments(emp).get(0).getEnrollmentID());
 
 		assertEquals(1, service.getAllStudentEnrollments().size());
+
+                // Check that the initial tasks were created
+                assertEquals(5, se.getCourseTasks().size());
+                assertEquals(5, service.getAllTasks().size());
+                assertEquals("test-url-1", service.getDocument("test-url-1").getUrl());
+                assertEquals("test-url-2", service.getDocument("test-url-2").getUrl());
 
 	}
 	
@@ -87,7 +99,7 @@ public class TestStudentEnrollment {
 		Employer emp = service.createEmployer("Facebook", "fb@email.com");
 
 		try {
-			service.createStudentEnrollment(null, CourseStatus.PASSED, s, emp, cco);
+			service.createStudentEnrollment(null, CourseStatus.PASSED, s, emp, cco, "test-url-1", "test-url-2");
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}

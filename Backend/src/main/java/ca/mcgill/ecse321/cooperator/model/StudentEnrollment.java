@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -58,15 +59,16 @@ public class StudentEnrollment {
         this.enrolledStudent = enrolledStudent;
     }
 
-    @OneToMany(cascade = { CascadeType.ALL })
+    @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
     public Set<Task> getCourseTasks() {
         return this.courseTasks;
     }
-	public void addCourseTasks(Task t) {
-		if (courseTasks == null)
-			courseTasks = new HashSet<Task>();
-		courseTasks.add(t);
-	}
+
+    public void addCourseTasks(Task t) {
+            if (courseTasks == null)
+                    courseTasks = new HashSet<Task>();
+            courseTasks.add(t);
+    }
 
     public void setCourseTasks(Set<Task> courseTasks) {
         this.courseTasks = courseTasks;

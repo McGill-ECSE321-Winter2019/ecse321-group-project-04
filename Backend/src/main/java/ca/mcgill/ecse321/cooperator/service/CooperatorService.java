@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.cooperator.service;
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -256,8 +257,6 @@ public class CooperatorService {
 		offerID += year % 2000;
 		cco.setOfferID(offerID);
 
-		// coopCourse.addCourseOffering(cco); //should this be saved after?
-
 		coopCourseOfferingRepository.save(cco);
 		return cco;
 	}
@@ -314,8 +313,8 @@ public class CooperatorService {
 	 */
 	@Transactional
 	public StudentEnrollment createStudentEnrollment(Boolean active, CourseStatus status, Student s, Employer e,
-			CoopCourseOffering cco) {
-		if (incorrectStudentEnrollmentDetails(active, status, s, e, cco)) {
+			CoopCourseOffering cco, String coopAcceptanceForm, String employerContract) {
+		if (incorrectStudentEnrollmentDetails(active, status, s, e, cco, coopAcceptanceForm, employerContract)) {
 			throw new IllegalArgumentException("Your student enrollment details are incomplete!");
 		}
 		StudentEnrollment se = new StudentEnrollment();
@@ -326,10 +325,32 @@ public class CooperatorService {
 		se.setEnrollmentID(s.getMcgillID() + "-" + cco.getOfferID());
 		se.setCoopCourseOffering(cco);
 
-//		cco.addStudentEnrollment(se);
-//		e.addStudentEnrollment(se);
-//		s.addCourseEnrollment(se);//should these be saved after?
+		studentEnrollmentRepository.save(se);
 
+                // Create the required initial taks and populate them.
+                Calendar currentCal = Calendar.getInstance();
+                Date currentDate = new Date(currentCal.getTimeInMillis());
+                Task t1 = createTask("Submit the CO-OP position acceptance form.",
+                                        currentDate, TaskStatus.COMPLETED, se);
+                Document d1 = createDocument("CO-OP position acceptance form.", coopAcceptanceForm, t1);
+
+                Task t2 = createTask("Submit the employer contract document.",
+                                        currentDate, TaskStatus.COMPLETED, se);
+                Document d2 = createDocument("Employer Contract", employerContract, t2);
+
+                // Create the rest of the tasks that need to be completed throughout the
+                // course offering.
+                Calendar dateInTwoWeeks = Calendar.getInstance();
+                dateInTwoWeeks.add(Calendar.DAY_OF_MONTH, + 14);
+                Calendar dateInFourMonths = Calendar.getInstance();
+                dateInFourMonths.add(Calendar.MONTH, + 4);
+                createTask("Submit an initial report of the tasks and workload of the internship.",
+                            new Date(dateInTwoWeeks.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
+                createTask("Submit the term technical report about the internship experience.",
+                            new Date(dateInFourMonths.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
+                createTask("Submit the final evaluation report for the internship experience.",
+                            new Date(dateInFourMonths.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
+    
 		studentEnrollmentRepository.save(se);
 		return se;
 	}
@@ -378,8 +399,9 @@ public class CooperatorService {
 	 * @return
 	 */
 	private boolean incorrectStudentEnrollmentDetails(Boolean active, CourseStatus status, Student s, Employer e,
-			CoopCourseOffering cco) {
-		if (active == null || status == null || s == null || e == null) {
+			CoopCourseOffering cco, String coopAcceptanceForm, String employerContract) {
+		if (active == null || status == null || s == null || e == null || coopAcceptanceForm == null
+                    || coopAcceptanceForm.equals("") || employerContract == null || employerContract.equals("")) {
 			return true;
 		}
 		return false;
@@ -396,15 +418,16 @@ public class CooperatorService {
 	 * @return
 	 */
 	@Transactional
-	public Task createTask(String description, Date dueDate, TaskStatus status) {
-		if (incorrectTaskDetails(description, dueDate, status)) {
+	public Task createTask(String description, Date dueDate, TaskStatus status, StudentEnrollment se) {
+		if (incorrectTaskDetails(description, dueDate, status, se)) {
 			throw new IllegalArgumentException("Your task details are incomplete!");
 		}
 		Task t = new Task();
 		t.setDescription(description);
 		t.setDueDate(dueDate);
 		t.setTaskStatus(status);
-
+                
+                se.addCourseTasks(t);
 		taskRepository.save(t);
 		return t;
 	}
@@ -439,8 +462,8 @@ public class CooperatorService {
 	 * @param status
 	 * @return
 	 */
-	private boolean incorrectTaskDetails(String description, Date dueDate, TaskStatus status) {
-		if (description == null || description.trim().length() == 0 || dueDate == null || status == null) {
+	private boolean incorrectTaskDetails(String description, Date dueDate, TaskStatus status, StudentEnrollment se) {
+		if (description == null || description.trim().length() == 0 || dueDate == null || status == null || se == null) {
 			return true;
 		}
 		return false;
@@ -456,13 +479,15 @@ public class CooperatorService {
 	 * @return
 	 */
 	@Transactional
-	public Document createDocument(String name, String url) {
-		if (incorrectDocumentDetails(name, url)) {
+	public Document createDocument(String name, String url, Task t) {
+		if (incorrectDocumentDetails(name, url, t)) {
 			throw new IllegalArgumentException("Your document details are incomplete!");
 		}
 		Document d = new Document();
 		d.setName(name);
 		d.setUrl(url);
+
+                t.addDocument(d);
 		documentRepository.save(d);
 		return d;
 	}
@@ -496,8 +521,9 @@ public class CooperatorService {
 	 * @param url
 	 * @return
 	 */
-	private boolean incorrectDocumentDetails(String name, String url) {
-		if (name == null || name.trim().length() == 0 || url == null || url.trim().length() == 0) {
+	private boolean incorrectDocumentDetails(String name, String url, Task t) {
+		if (name == null || name.trim().length() == 0 || url == null || url.trim().length() == 0
+                    || t == null) {
 			return true;
 		}
 		return false;
