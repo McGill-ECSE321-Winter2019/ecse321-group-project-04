@@ -66,6 +66,7 @@ public class CooperatorService {
 		s.setLastName(lastName);
 		s.setMcgillID(id);
 		s.setMcgillEmail(email);
+		containsStudent(s.getMcgillID());
 		studentRepository.save(s);
 		return s;
 	}
@@ -140,6 +141,7 @@ public class CooperatorService {
 		Employer e = new Employer();
 		e.setName(name);
 		e.setEmail(email);
+		containsEmployer(e.getEmail());
 		employerRepository.save(e);
 		return e;
 	}
@@ -210,6 +212,7 @@ public class CooperatorService {
 		CoopCourse c = new CoopCourse();
 		c.setCourseCode(courseCode);
 		c.setCoopTerm(coopTerm);
+		containsCourse(c.getCourseCode());
 		coopCourseRepository.save(c);
 		return c;
 	}
@@ -285,7 +288,7 @@ public class CooperatorService {
 		cco.setActive(active);
 		cco.setCoopCourse(coopCourse);
 		cco.setOfferID();
-
+		containsCourseOffering(cco.getOfferID());
 		coopCourseOfferingRepository.save(cco);
 		return cco;
 	}
@@ -367,6 +370,7 @@ public class CooperatorService {
 		se.setStatus(status);
 		se.setEnrollmentID(s, cco);
 		se.setCoopCourseOffering(cco);
+		containsEnrollment(se.getEnrollmentID());
 
 		studentEnrollmentRepository.save(se);
 
@@ -404,16 +408,18 @@ public class CooperatorService {
 		// Create the first two tasks which are completed at the time of registration
 		Calendar currentCal = Calendar.getInstance();
 		Date currentDate = new Date(currentCal.getTimeInMillis());
-		Task t1 = createTask("Report CO-OP Position Acceptance", "Submit the CO-OP position acceptance form.", currentDate, TaskStatus.COMPLETED, se);
+		Task t1 = createTask("Report CO-OP Position Acceptance", "Submit the CO-OP position acceptance form.",
+				currentDate, TaskStatus.COMPLETED, se);
 		createDocument("CO-OP Position Acceptance Form", coopAcceptanceForm, t1);
 
-		Task t2 = createTask("Upload Employer Contract", "Submit the employer contract document.", currentDate, TaskStatus.COMPLETED, se);
+		Task t2 = createTask("Upload Employer Contract", "Submit the employer contract document.", currentDate,
+				TaskStatus.COMPLETED, se);
 		createDocument("Employer Contract", employerContract, t2);
 
 		// Create the rest of the tasks that need to be completed throughout the
 		// course offering.
 		Calendar dateInTwoWeeks = Calendar.getInstance();
-		dateInTwoWeeks.add(Calendar.DAY_OF_MONTH, + 14);
+		dateInTwoWeeks.add(Calendar.DAY_OF_MONTH, +14);
 		Calendar dateInFourMonths = Calendar.getInstance();
 		dateInFourMonths.add(Calendar.MONTH, +4);
 		createTask("Initial Workload Report", "Submit an initial report of the tasks and workload of the internship.",
@@ -500,7 +506,7 @@ public class CooperatorService {
 		t.setDescription(description);
 		t.setDueDate(dueDate);
 		t.setTaskStatus(status);
-
+		containsTask(t, se);
 		se.addCourseTasks(t);
 		taskRepository.save(t);
 		return t;
@@ -551,7 +557,8 @@ public class CooperatorService {
 	 * @param status
 	 * @return
 	 */
-	private boolean incorrectTaskDetails(String name, String description, Date dueDate, TaskStatus status, StudentEnrollment se) {
+	private boolean incorrectTaskDetails(String name, String description, Date dueDate, TaskStatus status,
+			StudentEnrollment se) {
 		if (name == null || description == null || description.trim().length() == 0 || dueDate == null || status == null
 				|| se == null) {
 			return true;
@@ -576,7 +583,7 @@ public class CooperatorService {
 		Document d = new Document();
 		d.setName(name);
 		d.setUrl(url);
-
+		containsDocument(d, t);
 		t.addDocument(d);
 		documentRepository.save(d);
 		return d;
@@ -669,21 +676,26 @@ public class CooperatorService {
 
 	@Transactional
 	public void containsEnrollment(String id) {
-		if (studentEnrollmentRepository.existsById(id));
+		if (studentEnrollmentRepository.existsById(id))
 			throw new EntityExistsException("Enrollment Already Exists");
 	}
 
 	@Transactional
-	public void containsTask(long id) {
-		if (taskRepository.existsById(id))
-			throw new EntityExistsException("Task Already Exists");
+	public void containsTask(Task t, StudentEnrollment se) {
+		Task t1 = se.getTask(t.getName());
+		if (t1 != null) {
+			if (taskRepository.existsById(t1.getTaskID()))
+				throw new EntityExistsException("Task Already Exists");
+		}
 	}
 
 	@Transactional
-	public void containsDocument(long id) {
-		if (documentRepository.existsById(id))
-			throw new EntityExistsException("Document Already Exists");
-
+	public void containsDocument(Document doc, Task t) {
+		Document doc1 = t.getDocument(doc.getName());
+		if (doc1 != null) {
+			if (documentRepository.existsById(doc1.getDocumentID()))
+				throw new EntityExistsException("Document Already Exists");
+		}
 	}
 
 }

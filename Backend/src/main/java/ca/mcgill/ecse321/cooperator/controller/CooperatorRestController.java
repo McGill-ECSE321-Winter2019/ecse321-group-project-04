@@ -33,8 +33,6 @@ public class CooperatorRestController {
 	@PostMapping("/student")
 	public ResponseEntity<Object> createStudent(@Valid @RequestBody Student student) {
 
-		service.containsStudent(student.getMcgillID());
-
 		Student savedStudent = service.createStudent(student);
 		// create URI of where the enitity can be found
 		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
@@ -58,7 +56,6 @@ public class CooperatorRestController {
 
 	@PostMapping("/coopCourse")
 	public ResponseEntity<Object> createCoopCourse(@Valid @RequestBody CoopCourse coopCourse) {
-		service.containsCourse(coopCourse.getCourseCode());
 		CoopCourse savedCoopCourse = service.createCoopCourse(coopCourse);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
