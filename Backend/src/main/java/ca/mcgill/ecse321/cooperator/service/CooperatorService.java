@@ -375,8 +375,8 @@ public class CooperatorService {
 
 		studentEnrollmentRepository.save(se);
 
-		// Create the required initial taks and populate them.
-		populateStudentEnrollment(se, coopAcceptanceForm, employerContract);
+		// Create the required initial tasks and populate them.
+		se = populateStudentEnrollment(se, coopAcceptanceForm, employerContract);
 		return se;
 	}
 
@@ -405,16 +405,19 @@ public class CooperatorService {
 	 * @param coopAcceptanceForm
 	 * @param employerContract
 	 */
-	private void populateStudentEnrollment(StudentEnrollment se, String coopAcceptanceForm, String employerContract) {
+	private StudentEnrollment populateStudentEnrollment(StudentEnrollment se, String coopAcceptanceForm, String employerContract) {
 		// Create the first two tasks which are completed at the time of registration
 		Calendar currentCal = Calendar.getInstance();
 		Date currentDate = new Date(currentCal.getTimeInMillis());
 		Task t1 = createTask("Report CO-OP Position Acceptance", "Submit the CO-OP position acceptance form.",
 				currentDate, TaskStatus.COMPLETED, se);
+		se = getStudentEnrollment(se.getEnrollmentID());
 		createDocument("CO-OP Position Acceptance Form", coopAcceptanceForm, t1);
-
+		
 		Task t2 = createTask("Upload Employer Contract", "Submit the employer contract document.", currentDate,
 				TaskStatus.COMPLETED, se);
+		se = getStudentEnrollment(se.getEnrollmentID());
+
 		createDocument("Employer Contract", employerContract, t2);
 
 		// Create the rest of the tasks that need to be completed throughout the
@@ -425,12 +428,13 @@ public class CooperatorService {
 		dateInFourMonths.add(Calendar.MONTH, +4);
 		createTask("Initial Workload Report", "Submit an initial report of the tasks and workload of the internship.",
 				new Date(dateInTwoWeeks.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
+		se = getStudentEnrollment(se.getEnrollmentID());
 		createTask("Technical Experience Report", "Submit the term technical report about the internship experience.",
 				new Date(dateInFourMonths.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
+		se = getStudentEnrollment(se.getEnrollmentID());
 		createTask("Internship Evaluation Report", "Submit the final evaluation report for the internship experience.",
 				new Date(dateInFourMonths.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
-
-		studentEnrollmentRepository.save(se);
+		return getStudentEnrollment(se.getEnrollmentID());
 	}
 
 	/**
@@ -509,8 +513,10 @@ public class CooperatorService {
 		t.setTaskStatus(status);
 		containsTask(t, se);
 		se.addCourseTasks(t);
-		studentEnrollmentRepository.save(se);
-		return t;
+		StudentEnrollment saved = studentEnrollmentRepository.save(se);
+		return saved.getTask(name);
+		//taskRepository.save(t);
+		//return t;
 	}
 
 	/**
@@ -592,8 +598,10 @@ public class CooperatorService {
 			d.setUrl(url);
 			containsDocument(d, t);
 			t.addDocument(d);
-			taskRepository.save(t);
-			return d;
+			Task saved = taskRepository.save(t);
+			return saved.getDocument(name);
+			//documentRepository.save(d);
+			//return d;
 		}
 	}
 

@@ -54,7 +54,7 @@ public class TestTask {
 	private DocumentRepository documentRepository;
 
 	@Before
-	//@After
+	@After
 	public void cleanDataBase() {
 		studentEnrollmentRepository.deleteAll();
 		studentRepository.deleteAll();
