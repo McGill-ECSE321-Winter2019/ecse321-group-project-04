@@ -28,17 +28,18 @@ public class CooperatorRestController {
 	@Autowired
 	private CooperatorService service;
 
-
 	/*------- Student Controller -------*/
-	
+
 	@PostMapping("/student")
 	public ResponseEntity<Object> createStudent(@Valid @RequestBody Student student) {
-		
+
+		service.containsStudent(student.getMcgillID());
+
 		Student savedStudent = service.createStudent(student);
 		// create URI of where the enitity can be found
 		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
 				.buildAndExpand(savedStudent.getMcgillID()).toUri();
-		//return 201 Status with location in header and body
+		// return 201 Status with location in header and body
 		return ResponseEntity.created(location).body(location);
 	}
 
@@ -57,6 +58,7 @@ public class CooperatorRestController {
 
 	@PostMapping("/coopCourse")
 	public ResponseEntity<Object> createCoopCourse(@Valid @RequestBody CoopCourse coopCourse) {
+		service.containsCourse(coopCourse.getCourseCode());
 		CoopCourse savedCoopCourse = service.createCoopCourse(coopCourse);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
@@ -93,7 +95,8 @@ public class CooperatorRestController {
 		Student s = service.getStudent(id);
 		Employer e = service.getEmployer(email);
 
-		StudentEnrollment savedse = service.createStudentEnrollment(se, s,e,cco, coopAcceptanceForm, employerContract);
+		StudentEnrollment savedse = service.createStudentEnrollment(se, s, e, cco, coopAcceptanceForm,
+				employerContract);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
 				.buildAndExpand(savedse.getEnrollmentID()).toUri();
