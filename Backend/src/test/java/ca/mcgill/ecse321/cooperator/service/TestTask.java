@@ -8,6 +8,7 @@ import java.sql.Date;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
 import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.model.Term;
+import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -51,15 +53,16 @@ public class TestTask {
 	@Autowired
 	private DocumentRepository documentRepository;
 
-	@After
+	@Before
+	//@After
 	public void cleanDataBase() {
 		studentEnrollmentRepository.deleteAll();
 		studentRepository.deleteAll();
 		employerRepository.deleteAll();
 		coopCourseOfferingRepository.deleteAll();
 		coopCourseRepository.deleteAll();
-                taskRepository.deleteAll();
-                documentRepository.deleteAll();
+	    taskRepository.deleteAll();
+	    documentRepository.deleteAll();
 	}
 
 	@Test
@@ -78,7 +81,7 @@ public class TestTask {
 		try {
 			Task t = service.createTask("Task name", "Some description", dueDate, TaskStatus.COMPLETED, se);
                         taskID = t.getTaskID();
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			fail();
 		}
 		Task t = service.getTask(taskID);
@@ -96,7 +99,7 @@ public class TestTask {
 	public void testCreateTaskWithObject() {
 		@SuppressWarnings("deprecation")
 		Date dueDate = new Date(2019, 1, 1);
-        long taskID = -1;
+        String taskName = null;
 
         // Create chain of objects required to create a task
 		CoopCourse c = service.createCoopCourse("ECSE302", 1);
@@ -113,17 +116,18 @@ public class TestTask {
         
 		try {
 			Task t = service.createTask(param, se);
-                        taskID = t.getTaskID();
-		} catch (IllegalArgumentException e) {
+            taskName = t.getName();
+		} catch (InvalidParameterException e) {
 			fail();
 		}
-		Task t = service.getTask(taskID);
+		Task t = service.getStudentEnrollment(se.getEnrollmentID()).getTask(taskName);
+		//Task t = service.getTask(taskID);
 		// check attributes
 		assertEquals("Task name", t.getName());
 		assertEquals("Some description", t.getDescription());
 		assertEquals(dueDate, t.getDueDate());
 		assertEquals(TaskStatus.COMPLETED, t.getTaskStatus());
-		assertEquals(taskID, t.getTaskID());
+		//assertEquals(taskID, t.getTaskID());
 
 		assertEquals(6, service.getAllTasks().size());
 	}
@@ -136,7 +140,7 @@ public class TestTask {
 
 		try {
 			service.createTask(null, "Some description", dueDate, TaskStatus.COMPLETED, null);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message
@@ -154,7 +158,7 @@ public class TestTask {
 
 		try {
 			service.createTask("Task name", null, dueDate, TaskStatus.COMPLETED, null);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message

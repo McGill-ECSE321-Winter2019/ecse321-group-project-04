@@ -30,6 +30,7 @@ import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
 import ca.mcgill.ecse321.cooperator.model.Document;
 import ca.mcgill.ecse321.cooperator.model.Term;
+import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 
 @RunWith(SpringRunner.class)
@@ -81,7 +82,7 @@ public class TestDocument {
         
 		try {
 			service.createDocument(param, t);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			fail();
 		}
 		Document d = service.getDocument("http://test-url.this/is/just/for/testing");
@@ -98,7 +99,7 @@ public class TestDocument {
 
 		try {
 			service.createDocument(null, "http://test-url.this/is/just/for/testing", null);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message

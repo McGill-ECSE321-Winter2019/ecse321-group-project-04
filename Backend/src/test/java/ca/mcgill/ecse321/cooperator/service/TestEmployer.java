@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import ca.mcgill.ecse321.cooperator.dao.EmployerRepository;
 import ca.mcgill.ecse321.cooperator.model.Employer;
 import ca.mcgill.ecse321.cooperator.model.Student;
+import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,7 +35,7 @@ public class TestEmployer {
 	public void testCreateEmployer() {
 		try {
 			service.createEmployer("Google", "google@gmail.com");
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			fail();
 		}
 
@@ -53,7 +54,7 @@ public class TestEmployer {
 		param.setEmail("google@gmail.com");
 		try {
 			service.createEmployer(param);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			fail();
 		}
 
@@ -70,7 +71,7 @@ public class TestEmployer {
 		String error = null;
 		try {
 			service.createEmployer(null, "google@gmail.com");
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message

@@ -32,6 +32,7 @@ import ca.mcgill.ecse321.cooperator.model.Student;
 import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
 import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.Term;
+import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -74,7 +75,7 @@ public class TestStudentEnrollment {
 
 		try {
 			service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, "test-url-1", "test-url-2");
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			fail();
 		}
 		
@@ -149,7 +150,7 @@ public class TestStudentEnrollment {
 
 		try {
 			service.createStudentEnrollment(param, s, emp, cco, "test-url-1", "test-url-2");
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			fail();
 		}
 		
@@ -223,7 +224,7 @@ public class TestStudentEnrollment {
 
 		try {
 			service.createStudentEnrollment(null, CourseStatus.PASSED, s, emp, cco, "test-url-1", "test-url-2");
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message

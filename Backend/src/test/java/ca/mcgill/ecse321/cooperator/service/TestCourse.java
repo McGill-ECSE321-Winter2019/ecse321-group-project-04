@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
+import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -36,7 +37,7 @@ public class TestCourse {
 		param.setCoopTerm(1);
 		try {
 			service.createCoopCourse(param);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			fail();
 		}
 		CoopCourse c = service.getCoopCourse("ECSE300");
@@ -51,7 +52,7 @@ public class TestCourse {
 	public void testCreateCoopCourseWithObject() {
 		try {
 			service.createCoopCourse("ECSE300", 1);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			fail();
 		}
 		CoopCourse c = service.getCoopCourse("ECSE300");
@@ -67,7 +68,7 @@ public class TestCourse {
 		String error = null;
 		try {
 			service.createCoopCourse(null, 1);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message
@@ -80,7 +81,7 @@ public class TestCourse {
 		String error = null;
 		try {
 			service.createCoopCourse("ECSE300", null);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message
@@ -94,7 +95,7 @@ public class TestCourse {
 		String error = null;
 		try {
 			service.createCoopCourse("ECSE300", -5);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message

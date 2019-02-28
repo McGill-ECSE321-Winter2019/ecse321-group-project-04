@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import ca.mcgill.ecse321.cooperator.dao.StudentRepository;
 import ca.mcgill.ecse321.cooperator.model.Student;
+import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -36,7 +37,7 @@ public class TestStudent {
 		// Create and persist a student
 		try {
 			service.createStudent("first_name", "last_name", 260112233, "student@email.com");
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			fail();
 		}
 		// find the student by id
@@ -60,7 +61,7 @@ public class TestStudent {
 		param.setMcgillEmail("student@email.com");
 		try {
 			service.createStudent(param);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			fail();
 		}
 		// find the student by id
@@ -79,7 +80,7 @@ public class TestStudent {
 		String error = null;
 		try {
 			service.createStudent(null, "last_name", 260112233, "student@email.com");
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message
@@ -93,7 +94,7 @@ public class TestStudent {
 		String error = null;
 		try {
 			service.createStudent(" ", "last_name", 260112233, "student@email.com");
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message
@@ -107,7 +108,7 @@ public class TestStudent {
 		String error = null;
 		try {
 			service.createStudent("first_name", "last_name", null, "student@email.com");
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message
@@ -121,7 +122,7 @@ public class TestStudent {
 		String error = null;
 		try {
 			service.createStudent("first_name", "last_name", 260112233, null);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message
