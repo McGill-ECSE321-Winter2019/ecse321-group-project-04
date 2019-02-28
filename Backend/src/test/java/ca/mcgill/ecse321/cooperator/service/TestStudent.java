@@ -3,6 +3,9 @@ package ca.mcgill.ecse321.cooperator.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import javax.persistence.EntityNotFoundException;
+
+import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,11 +25,10 @@ public class TestStudent {
 	@Autowired
 	private StudentRepository studentRepository;
 
+	@Before
 	@After
 	public void cleanDataBase() {
-
 		studentRepository.deleteAll();
-
 	}
 
 	@Test
@@ -34,6 +36,30 @@ public class TestStudent {
 		// Create and persist a student
 		try {
 			service.createStudent("first_name", "last_name", 260112233, "student@email.com");
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		// find the student by id
+		Student s = service.getStudent(260112233);
+		// Check attributes
+		assertEquals("first_name", s.getFirstName());
+		assertEquals("last_name", s.getLastName());
+		assertEquals((Integer) 260112233, s.getMcgillID());
+		assertEquals("student@email.com", s.getMcgillEmail());
+
+		assertEquals(1, service.getAllStudents().size());
+	}
+	
+	@Test
+	public void testCreateStudentWithObject() {
+		// Create and persist a student
+		Student param = new Student();
+		param.setFirstName("first_name");
+		param.setLastName("last_name");
+		param.setMcgillID(260112233);
+		param.setMcgillEmail("student@email.com");
+		try {
+			service.createStudent(param);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
@@ -102,6 +128,18 @@ public class TestStudent {
 		assertEquals("Your student details are incomplete!", error);
 		// check nothing was added
 		assertEquals(0, service.getAllStudents().size());
+	}
+	
+	@Test
+	public void testGetNonexistentStudent() {
+		String error = null;
+		try {
+			service.getStudent(260112233);
+		} catch (EntityNotFoundException e){
+			error = e.getMessage();
+		}
+		
+		assertEquals(error, "Could not find a Student with ID 260112233");
 	}
 
 }

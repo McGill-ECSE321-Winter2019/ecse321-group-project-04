@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.sql.Date;
+
+import javax.persistence.EntityNotFoundException;
+
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,17 +65,22 @@ public class TestDocument {
 
 	@Test
 	public void testCreateDocument() {
-                // Create chain of objects required to create a task
+        // Create chain of objects required to create a task
+		@SuppressWarnings("deprecation")
 		Date dueDate = new Date(2019, 1, 1);
 		CoopCourse c = service.createCoopCourse("ECSE302", 1);
 		CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
 		Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
 		Employer emp = service.createEmployer("Facebook", "fb@email.com");
-                StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, "test-url-1", "test-url-2");
-                Task t = service.createTask("Some description", dueDate, TaskStatus.COMPLETED, se);
+        StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, "test-url-1", "test-url-2");
+        Task t = service.createTask("Some description", dueDate, TaskStatus.COMPLETED, se);
 
+		Document param = new Document();
+		param.setName("doc name");
+		param.setUrl("http://test-url.this/is/just/for/testing");
+        
 		try {
-			service.createDocument("doc name", "http://test-url.this/is/just/for/testing", t);
+			service.createDocument(param, t);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
@@ -97,6 +105,18 @@ public class TestDocument {
 		assertEquals("Your document details are incomplete!", error);
 		// check nothing was added
 		assertEquals(0, service.getAllDocuments().size());
+	}
+	
+	@Test
+	public void testGetNonexistentDocument() {
+		String error = null;
+		try {
+			service.getDocument("test-url-1");
+		} catch (EntityNotFoundException e){
+			error = e.getMessage();
+		}
+		
+		assertEquals(error, "Could not find a Document with URL test-url-1");
 	}
 
 }

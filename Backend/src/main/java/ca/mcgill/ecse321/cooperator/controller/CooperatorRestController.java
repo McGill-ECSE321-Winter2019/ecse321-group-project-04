@@ -82,6 +82,7 @@ public class CooperatorRestController {
 	}
 
 	/*------- StudentEnrollment Controller -------*/
+
 	@PostMapping("/studentEnrollment")
 	public ResponseEntity<Object> createStudentEnrollment(@Valid @RequestBody StudentEnrollment se,
 			@RequestParam(name = "courseOfferingID") String offerID, @RequestParam(name = "studentID") Integer id,

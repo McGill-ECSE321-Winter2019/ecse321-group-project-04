@@ -5,6 +5,8 @@ import static org.junit.Assert.fail;
 
 import java.sql.Date;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +30,6 @@ import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
 import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.model.Term;
-import ca.mcgill.ecse321.cooperator.model.CourseStatus;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -89,6 +90,40 @@ public class TestTask {
 
 		assertEquals(6, service.getAllTasks().size());
 	}
+	
+	@Test
+	public void testCreateTaskWithObject() {
+		@SuppressWarnings("deprecation")
+		Date dueDate = new Date(2019, 1, 1);
+        long taskID = -1;
+
+        // Create chain of objects required to create a task
+		CoopCourse c = service.createCoopCourse("ECSE302", 1);
+		CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
+		Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
+		Employer emp = service.createEmployer("Facebook", "fb@email.com");
+        StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, "test-url-1", "test-url-2");
+
+		Task param = new Task();
+		param.setDescription("Some description");
+		param.setDueDate(dueDate);
+		param.setTaskStatus(TaskStatus.COMPLETED);
+        
+		try {
+			Task t = service.createTask(param, se);
+                        taskID = t.getTaskID();
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		Task t = service.getTask(taskID);
+		// check attributes
+		assertEquals("Some description", t.getDescription());
+		assertEquals(dueDate, t.getDueDate());
+		assertEquals(TaskStatus.COMPLETED, t.getTaskStatus());
+		assertEquals(taskID, t.getTaskID());
+
+		assertEquals(6, service.getAllTasks().size());
+	}
 
 	@Test
 	public void testCreateNullDescriptionTask() {
@@ -106,5 +141,17 @@ public class TestTask {
 		// check nothing was added
 		assertEquals(0, service.getAllTasks().size());
 
+	}
+	
+	@Test
+	public void testGetNonexistentTask() {
+		String error = null;
+		try {
+			service.getTask(1234567);
+		} catch (EntityNotFoundException e){
+			error = e.getMessage();
+		}
+		
+		assertEquals(error, "Could not find a Task with ID 1234567");
 	}
 }

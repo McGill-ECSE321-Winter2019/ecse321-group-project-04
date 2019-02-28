@@ -3,6 +3,8 @@ package ca.mcgill.ecse321.cooperator.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +31,24 @@ public class TestCourse {
 
 	@Test
 	public void testCreateCoopCourse() {
+		CoopCourse param = new CoopCourse();
+		param.setCourseCode("ECSE300");
+		param.setCoopTerm(1);
+		try {
+			service.createCoopCourse(param);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		CoopCourse c = service.getCoopCourse("ECSE300");
+		// Check attributes
+		assertEquals("ECSE300", c.getCourseCode());
+		assertEquals((Integer) 1, c.getCoopTerm());
+
+		assertEquals(1, service.getAllCoopCourses().size());
+	}
+	
+	@Test
+	public void testCreateCoopCourseWithObject() {
 		try {
 			service.createCoopCourse("ECSE300", 1);
 		} catch (IllegalArgumentException e) {
@@ -81,5 +101,17 @@ public class TestCourse {
 		assertEquals("Your course details are incomplete!", error);
 		// check nothing was added
 		assertEquals(0, service.getAllCoopCourses().size());
+	}
+	
+	@Test
+	public void testGetNonexistentCoopCourse() {
+		String error = null;
+		try {
+			service.getCoopCourse("ECSE300");
+		} catch (EntityNotFoundException e){
+			error = e.getMessage();
+		}
+		
+		assertEquals(error, "Could not find a CO-OP Course with ID ECSE300");
 	}
 }
