@@ -14,6 +14,7 @@ import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.model.Term;
+import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 import ca.mcgill.ecse321.cooperator.model.Document;
 import ca.mcgill.ecse321.cooperator.model.Employer;
 import ca.mcgill.ecse321.cooperator.model.Student;
@@ -59,7 +60,7 @@ public class CooperatorService {
 	@Transactional
 	public Student createStudent(String firstName, String lastName, Integer id, String email) {
 		if (incorrectStudentDetails(firstName, lastName, id, email)) {
-			throw new IllegalArgumentException("Your student details are incomplete!");
+			throw new InvalidParameterException("Your student details are incomplete!");
 		}
 		Student s = new Student();
 		s.setFirstName(firstName);
@@ -136,7 +137,7 @@ public class CooperatorService {
 	@Transactional
 	public Employer createEmployer(String name, String email) {
 		if (incorrectEmployerDetails(name, email)) {
-			throw new IllegalArgumentException("Your employer details are incomplete!");
+			throw new InvalidParameterException("Your employer details are incomplete!");
 		}
 		Employer e = new Employer();
 		e.setName(name);
@@ -207,7 +208,7 @@ public class CooperatorService {
 	@Transactional
 	public CoopCourse createCoopCourse(String courseCode, Integer coopTerm) {
 		if (incorrectCourseDetails(courseCode, coopTerm)) {
-			throw new IllegalArgumentException("Your course details are incomplete!");
+			throw new InvalidParameterException("Your course details are incomplete!");
 		}
 		CoopCourse c = new CoopCourse();
 		c.setCourseCode(courseCode);
@@ -280,7 +281,7 @@ public class CooperatorService {
 	@Transactional
 	public CoopCourseOffering createCoopCourseOffering(Integer year, Term term, Boolean active, CoopCourse coopCourse) {
 		if (incorrectCourseOfferingDetails(year, term, active, coopCourse)) {
-			throw new IllegalArgumentException("Your course offering details are incomplete!");
+			throw new InvalidParameterException("Your course offering details are incomplete!");
 		}
 		CoopCourseOffering cco = new CoopCourseOffering();
 		cco.setYear(year);
@@ -361,7 +362,7 @@ public class CooperatorService {
 	public StudentEnrollment createStudentEnrollment(Boolean active, CourseStatus status, Student s, Employer e,
 			CoopCourseOffering cco, String coopAcceptanceForm, String employerContract) {
 		if (incorrectStudentEnrollmentDetails(active, status, s, e, cco, coopAcceptanceForm, employerContract)) {
-			throw new IllegalArgumentException("Your student enrollment details are incomplete!");
+			throw new InvalidParameterException("Your student enrollment details are incomplete!");
 		}
 		StudentEnrollment se = new StudentEnrollment();
 		se.setEnrolledStudent(s);
@@ -499,7 +500,7 @@ public class CooperatorService {
 	@Transactional
 	public Task createTask(String name, String description, Date dueDate, TaskStatus status, StudentEnrollment se) {
 		if (incorrectTaskDetails(name, description, dueDate, status, se)) {
-			throw new IllegalArgumentException("Your task details are incomplete!");
+			throw new InvalidParameterException("Your task details are incomplete!");
 		}
 		Task t = new Task();
 		t.setName(name);
@@ -508,7 +509,7 @@ public class CooperatorService {
 		t.setTaskStatus(status);
 		containsTask(t, se);
 		se.addCourseTasks(t);
-		taskRepository.save(t);
+		studentEnrollmentRepository.save(se);
 		return t;
 	}
 
@@ -578,15 +579,22 @@ public class CooperatorService {
 	@Transactional
 	public Document createDocument(String name, String url, Task t) {
 		if (incorrectDocumentDetails(name, url, t)) {
-			throw new IllegalArgumentException("Your document details are incomplete!");
+			throw new InvalidParameterException("Your document details are incomplete!");
 		}
-		Document d = new Document();
-		d.setName(name);
-		d.setUrl(url);
-		containsDocument(d, t);
-		t.addDocument(d);
-		documentRepository.save(d);
-		return d;
+		
+		if (t.getDocument(name) != null) {
+			t.getDocument(name).setUrl(url);
+			taskRepository.save(t);
+			return t.getDocument(name);
+		} else {
+			Document d = new Document();
+			d.setName(name);
+			d.setUrl(url);
+			containsDocument(d, t);
+			t.addDocument(d);
+			taskRepository.save(t);
+			return d;
+		}
 	}
 
 	/**

@@ -10,6 +10,7 @@ import java.util.Calendar;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,7 @@ public class TestStudentEnrollment {
 	@Autowired
 	private DocumentRepository documentRepository;
 
+	@Before
 	@After
 	public void cleanDataBase() {
 		studentEnrollmentRepository.deleteAll();
