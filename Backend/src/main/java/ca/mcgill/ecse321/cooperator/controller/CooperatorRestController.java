@@ -119,8 +119,8 @@ public class CooperatorRestController {
 
 	@PostMapping("/document")
 	public ResponseEntity<Object> createDocument(@Valid @RequestBody Document document,
-			@RequestParam(name = "taskID") long id) {
-		Task t = service.getTask(id);
+			@RequestParam(name = "studentEnrollmentID") String id, @RequestParam(name = "taskName") String name) {
+		Task t = service.getStudentEnrollment(id).getTask(name);
 		Document savedDocument = service.createDocument(document, t);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
 				.buildAndExpand(savedDocument.getDocumentID()).toUri();

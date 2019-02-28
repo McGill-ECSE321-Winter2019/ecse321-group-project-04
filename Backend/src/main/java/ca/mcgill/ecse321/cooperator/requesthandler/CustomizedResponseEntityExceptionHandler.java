@@ -45,5 +45,13 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	        request.getDescription(false));
 	    return new ResponseEntity(errorDetails, HttpStatus.I_AM_A_TEAPOT);
 	  }
+	  
+	  @SuppressWarnings({"unchecked", "rawtypes" })
+	@ExceptionHandler(InvalidParameterException.class)
+	  public final ResponseEntity<Object> handleInvalidParameterException(EntityExistsException ex, WebRequest request) {
+	    ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(),
+	        request.getDescription(false));
+	    return new ResponseEntity(errorDetails, HttpStatus.METHOD_NOT_ALLOWED);
+	  }
 	
 }

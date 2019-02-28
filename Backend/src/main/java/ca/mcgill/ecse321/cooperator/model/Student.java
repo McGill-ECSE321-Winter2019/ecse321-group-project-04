@@ -10,12 +10,12 @@ import java.util.Set;
 
 @Entity
 public class Student {
-	@NotBlank(message = "first name cannot be blank")
+	//@NotBlank(message = "first name cannot be blank")
     private String firstName;
-    @NotBlank(message = "last name cannot be blank")
+    //@NotBlank(message = "last name cannot be blank")
     private String lastName;
     private Integer mcgillID;
-    @NotBlank(message = "email cannot be blank")
+    //@NotBlank(message = "email cannot be blank")
     private String mcgillEmail;
     private Set<StudentEnrollment> courseEnrollments;
 
