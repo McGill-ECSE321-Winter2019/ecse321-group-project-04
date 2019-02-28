@@ -95,5 +95,13 @@ public class StudentEnrollment {
     public String getEnrollmentID() {
         return this.enrollmentID;
     }
+    
+    public Task getTask(String name) {
+    	for (Task t: courseTasks) {
+    		if (t.getName().equals(name))
+    			return t;
+    	}
+    	return null;
+    }
 
 }

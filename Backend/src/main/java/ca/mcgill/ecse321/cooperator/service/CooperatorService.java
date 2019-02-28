@@ -404,23 +404,23 @@ public class CooperatorService {
 		// Create the first two tasks which are completed at the time of registration
 		Calendar currentCal = Calendar.getInstance();
 		Date currentDate = new Date(currentCal.getTimeInMillis());
-		Task t1 = createTask("Submit the CO-OP position acceptance form.", currentDate, TaskStatus.COMPLETED, se);
-		Document d1 = createDocument("CO-OP position acceptance form.", coopAcceptanceForm, t1);
+		Task t1 = createTask("Report CO-OP Position Acceptance", "Submit the CO-OP position acceptance form.", currentDate, TaskStatus.COMPLETED, se);
+		createDocument("CO-OP Position Acceptance Form", coopAcceptanceForm, t1);
 
-		Task t2 = createTask("Submit the employer contract document.", currentDate, TaskStatus.COMPLETED, se);
-		Document d2 = createDocument("Employer Contract", employerContract, t2);
+		Task t2 = createTask("Upload Employer Contract", "Submit the employer contract document.", currentDate, TaskStatus.COMPLETED, se);
+		createDocument("Employer Contract", employerContract, t2);
 
 		// Create the rest of the tasks that need to be completed throughout the
 		// course offering.
 		Calendar dateInTwoWeeks = Calendar.getInstance();
-		dateInTwoWeeks.add(Calendar.DAY_OF_MONTH, +14);
+		dateInTwoWeeks.add(Calendar.DAY_OF_MONTH, + 14);
 		Calendar dateInFourMonths = Calendar.getInstance();
 		dateInFourMonths.add(Calendar.MONTH, +4);
-		createTask("Submit an initial report of the tasks and workload of the internship.",
+		createTask("Initial Workload Report", "Submit an initial report of the tasks and workload of the internship.",
 				new Date(dateInTwoWeeks.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
-		createTask("Submit the term technical report about the internship experience.",
+		createTask("Technical Experience Report", "Submit the term technical report about the internship experience.",
 				new Date(dateInFourMonths.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
-		createTask("Submit the final evaluation report for the internship experience.",
+		createTask("Internship Evaluation Report", "Submit the final evaluation report for the internship experience.",
 				new Date(dateInFourMonths.getTimeInMillis()), TaskStatus.INCOMPLETE, se);
 
 		studentEnrollmentRepository.save(se);
@@ -491,11 +491,12 @@ public class CooperatorService {
 	 * @return
 	 */
 	@Transactional
-	public Task createTask(String description, Date dueDate, TaskStatus status, StudentEnrollment se) {
-		if (incorrectTaskDetails(description, dueDate, status, se)) {
+	public Task createTask(String name, String description, Date dueDate, TaskStatus status, StudentEnrollment se) {
+		if (incorrectTaskDetails(name, description, dueDate, status, se)) {
 			throw new IllegalArgumentException("Your task details are incomplete!");
 		}
 		Task t = new Task();
+		t.setName(name);
 		t.setDescription(description);
 		t.setDueDate(dueDate);
 		t.setTaskStatus(status);
@@ -514,7 +515,7 @@ public class CooperatorService {
 	 */
 	@Transactional
 	public Task createTask(Task t, StudentEnrollment se) {
-		Task savedTask = createTask(t.getDescription(), t.getDueDate(), t.getTaskStatus(), se);
+		Task savedTask = createTask(t.getName(), t.getDescription(), t.getDueDate(), t.getTaskStatus(), se);
 		return savedTask;
 	}
 
@@ -550,8 +551,8 @@ public class CooperatorService {
 	 * @param status
 	 * @return
 	 */
-	private boolean incorrectTaskDetails(String description, Date dueDate, TaskStatus status, StudentEnrollment se) {
-		if (description == null || description.trim().length() == 0 || dueDate == null || status == null
+	private boolean incorrectTaskDetails(String name, String description, Date dueDate, TaskStatus status, StudentEnrollment se) {
+		if (name == null || description == null || description.trim().length() == 0 || dueDate == null || status == null
 				|| se == null) {
 			return true;
 		}

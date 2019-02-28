@@ -25,7 +25,7 @@ public class Task{
     private String description;
     private Date dueDate;
     private String name;
-    private Set<Document> document;
+    private Set<Document> documents;
 
 
     public void setTaskStatus(TaskStatus value) {
@@ -63,18 +63,18 @@ public class Task{
     }
     
     @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
-    public Set<Document> getDocument() {
-       return this.document;
+    public Set<Document> getDocuments() {
+       return this.documents;
     }
     
     public void addDocument(Document doc) {
-            if (document == null)
-                    document = new HashSet<Document>();
-            document.add(doc);
+            if (documents == null)
+                    documents = new HashSet<Document>();
+            documents.add(doc);
     }
     
-    public void setDocument(Set<Document> documents) {
-       this.document = documents;
+    public void setDocuments(Set<Document> documents) {
+       this.documents = documents;
     }
 
 	public String getName() {
@@ -83,5 +83,13 @@ public class Task{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public Document getDocument(String name) {
+		for (Document d: documents) {
+			if (d.getName().equals(name))
+					return d;
+		}
+		return null;
 	}
 }

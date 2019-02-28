@@ -76,13 +76,14 @@ public class TestTask {
                 StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, "test-url-1", "test-url-2");
 
 		try {
-			Task t = service.createTask("Some description", dueDate, TaskStatus.COMPLETED, se);
+			Task t = service.createTask("Task name", "Some description", dueDate, TaskStatus.COMPLETED, se);
                         taskID = t.getTaskID();
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
 		Task t = service.getTask(taskID);
 		// check attributes
+		assertEquals("Task name", t.getName());
 		assertEquals("Some description", t.getDescription());
 		assertEquals(dueDate, t.getDueDate());
 		assertEquals(TaskStatus.COMPLETED, t.getTaskStatus());
@@ -105,6 +106,7 @@ public class TestTask {
         StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, "test-url-1", "test-url-2");
 
 		Task param = new Task();
+		param.setName("Task name");
 		param.setDescription("Some description");
 		param.setDueDate(dueDate);
 		param.setTaskStatus(TaskStatus.COMPLETED);
@@ -117,12 +119,31 @@ public class TestTask {
 		}
 		Task t = service.getTask(taskID);
 		// check attributes
+		assertEquals("Task name", t.getName());
 		assertEquals("Some description", t.getDescription());
 		assertEquals(dueDate, t.getDueDate());
 		assertEquals(TaskStatus.COMPLETED, t.getTaskStatus());
 		assertEquals(taskID, t.getTaskID());
 
 		assertEquals(6, service.getAllTasks().size());
+	}
+	
+	@Test
+	public void testCreateNullNameTask() {
+		String error = null;
+		@SuppressWarnings("deprecation")
+		Date dueDate = new Date(2019, 1, 1);
+
+		try {
+			service.createTask(null, "Some description", dueDate, TaskStatus.COMPLETED, null);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		// check error message
+		assertEquals("Your task details are incomplete!", error);
+		// check nothing was added
+		assertEquals(0, service.getAllTasks().size());
+
 	}
 
 	@Test
@@ -132,7 +153,7 @@ public class TestTask {
 		Date dueDate = new Date(2019, 1, 1);
 
 		try {
-			service.createTask(null, dueDate, TaskStatus.COMPLETED, null);
+			service.createTask("Task name", null, dueDate, TaskStatus.COMPLETED, null);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
