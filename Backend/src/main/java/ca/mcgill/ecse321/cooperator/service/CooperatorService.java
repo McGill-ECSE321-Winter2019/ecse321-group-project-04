@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -639,6 +640,49 @@ public class CooperatorService {
 			resultList.add(t);
 		}
 		return resultList;
+	}
+
+	@Transactional
+	public void containsStudent(Integer id) {
+		if (studentRepository.existsById(id))
+			throw new EntityExistsException("Student Already Exists");
+	}
+
+	@Transactional
+	public void containsEmployer(String id) {
+		if (employerRepository.existsById(id))
+			throw new EntityExistsException("Employer Already Exists");
+	}
+
+	@Transactional
+	public void containsCourse(String id) {
+		if (coopCourseRepository.existsById(id))
+			throw new EntityExistsException("Course Already Exists");
+	}
+
+	@Transactional
+	public void containsCourseOffering(String id) {
+		if (coopCourseOfferingRepository.existsById(id))
+			throw new EntityExistsException("Offering Already Exists");
+	}
+
+	@Transactional
+	public void containsEnrollment(String id) {
+		if (studentEnrollmentRepository.existsById(id));
+			throw new EntityExistsException("Enrollment Already Exists");
+	}
+
+	@Transactional
+	public void containsTask(long id) {
+		if (taskRepository.existsById(id))
+			throw new EntityExistsException("Task Already Exists");
+	}
+
+	@Transactional
+	public void containsDocument(long id) {
+		if (documentRepository.existsById(id))
+			throw new EntityExistsException("Document Already Exists");
+
 	}
 
 }
