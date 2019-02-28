@@ -33,14 +33,4 @@ public Set<CoopCourseOffering> getCoopCourseOffering() {
 public void setCoopCourseOffering(Set<CoopCourseOffering> coopCourseOfferings) {
    this.coopCourseOffering = coopCourseOfferings;
 }
-
-private String coopCourseID;
-
-private void setCoopCourseID(String value) {
-    this.coopCourseID = value;
-}
-@Id
-private String getCoopCourseID() {
-    return this.coopCourseID;
-}
 }

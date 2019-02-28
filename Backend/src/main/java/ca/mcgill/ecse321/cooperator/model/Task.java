@@ -24,6 +24,7 @@ public class Task{
     @NotBlank(message = "description cannot be blank")
     private String description;
     private Date dueDate;
+    private String name;
     private Set<Document> document;
 
 
@@ -75,4 +76,12 @@ public class Task{
     public void setDocument(Set<Document> documents) {
        this.document = documents;
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

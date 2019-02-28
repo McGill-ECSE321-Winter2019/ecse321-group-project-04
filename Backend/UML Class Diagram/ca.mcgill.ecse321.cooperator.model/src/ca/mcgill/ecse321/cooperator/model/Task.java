@@ -1,4 +1,5 @@
 package ca.mcgill.ecse321.cooperator.model;
+import javax.persistence.CascadeType;
 
 import javax.persistence.Entity;
 import java.sql.Date;
@@ -18,6 +19,25 @@ this.status = value;
 private TaskStatus getStatus() {
 return this.status;
 }
+private String name;
+
+private void setName(String value) {
+this.name = value;
+}
+private String getName() {
+return this.name;
+}
+private Set<Document> documents;
+
+@OneToMany(cascade={CascadeType.ALL})
+public Set<Document> getDocuments() {
+   return this.documents;
+}
+
+public void setDocuments(Set<Document> documentss) {
+   this.documents = documentss;
+}
+
    private String description;
 
 private void setDescription(String value) {
@@ -37,24 +57,14 @@ private void setDueDate(Date dueDate) {
    this.dueDate = dueDate;
 }
 
-private String taskID;
+private long taskID;
 
-private void setTaskID(String value) {
+private void setTaskID(long value) {
     this.taskID = value;
 }
 @Id
-private String getTaskID() {
+private long getTaskID() {
     return this.taskID;
 }
-   private Set<Document> document;
-   
-   @OneToMany
-   public Set<Document> getDocument() {
-      return this.document;
-   }
-   
-   public void setDocument(Set<Document> documents) {
-      this.document = documents;
-   }
    
    }
