@@ -17,6 +17,7 @@ import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.Term;
+import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -41,7 +42,7 @@ public class TestCourseOffering {
 
 		try {
 			service.createCoopCourseOffering(2018, Term.WINTER, true, c);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			fail();
 		}
 
@@ -67,7 +68,7 @@ public class TestCourseOffering {
 
 		try {
 			service.createCoopCourseOffering(param, c);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			fail();
 		}
 
@@ -88,7 +89,7 @@ public class TestCourseOffering {
 		String error = null;
 		try {
 			service.createCoopCourseOffering(null, Term.WINTER, true, c);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message
@@ -103,7 +104,7 @@ public class TestCourseOffering {
 		String error = null;
 		try {
 			service.createCoopCourseOffering(2018, null, true, c);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message
@@ -118,7 +119,7 @@ public class TestCourseOffering {
 		String error = null;
 		try {
 			service.createCoopCourseOffering(2018, Term.WINTER, null, c);
-		} catch (IllegalArgumentException e) {
+		} catch (InvalidParameterException e) {
 			error = e.getMessage();
 		}
 		// check error message
