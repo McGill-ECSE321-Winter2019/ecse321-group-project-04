@@ -124,6 +124,16 @@ public class CooperatorService {
 		}
 		return false;
 	}
+	
+	/**
+	 * Method checks if the student already exists
+	 * @param id
+	 */
+	@Transactional
+	public void containsStudent(Integer id) {
+		if (studentRepository.existsById(id))
+			throw new EntityExistsException("Student Already Exists");
+	}
 
 	/*--- EMPLOYER METHODS ---*/
 
@@ -194,6 +204,16 @@ public class CooperatorService {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Method checks if employer already exists
+	 * @param id
+	 */
+	@Transactional
+	public void containsEmployer(String id) {
+		if (employerRepository.existsById(id))
+			throw new EntityExistsException("Employer Already Exists");
 	}
 
 	/*--- COOP COURSE METHODS ---*/
@@ -267,6 +287,16 @@ public class CooperatorService {
 		return false;
 	}
 
+	/**
+	 * Method checks if the course already exists
+	 * @param id
+	 */
+	@Transactional
+	public void containsCourse(String id) {
+		if (coopCourseRepository.existsById(id))
+			throw new EntityExistsException("Course Already Exists");
+	}
+	
 	/*--- COOP COURSE OFFERING METHODS ---*/
 
 	/**
@@ -346,6 +376,16 @@ public class CooperatorService {
 		return false;
 	}
 
+	/**
+	 * Method checks if the course offering already exists
+	 * @param id
+	 */
+	@Transactional
+	public void containsCourseOffering(String id) {
+		if (coopCourseOfferingRepository.existsById(id))
+			throw new EntityExistsException("Offering Already Exists");
+	}
+	
 	/*--- STUDENT ENROLLMENT METHODS ---*/
 
 	/**
@@ -491,6 +531,16 @@ public class CooperatorService {
 		return false;
 	}
 
+	/**
+	 * Method checks if the enrollment already exists
+	 * @param id
+	 */
+	@Transactional
+	public void containsEnrollment(String id) {
+		if (studentEnrollmentRepository.existsById(id))
+			throw new EntityExistsException("Enrollment Already Exists");
+	}
+	
 	/*--- TASK METHODS ---*/
 
 	/**
@@ -571,6 +621,20 @@ public class CooperatorService {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Method checks if a task already exists
+	 * @param t
+	 * @param se
+	 */
+	@Transactional
+	public void containsTask(Task t, StudentEnrollment se) {
+		Task t1 = se.getTask(t.getName());
+		if (t1 != null) {
+			if (taskRepository.existsById(t1.getTaskID()))
+				throw new EntityExistsException("Task Already Exists");
+		}
 	}
 
 	/*--- DOCUMENT METHODS ---*/
@@ -655,6 +719,20 @@ public class CooperatorService {
 		}
 		return false;
 	}
+	
+	/**
+	 * Method checks if a document already exists
+	 * @param doc
+	 * @param t
+	 */
+	@Transactional
+	public void containsDocument(Document doc, Task t) {
+		Document doc1 = t.getDocument(doc.getName());
+		if (doc1 != null) {
+			if (documentRepository.existsById(doc1.getDocumentID()))
+				throw new EntityExistsException("Document Already Exists");
+		}
+	}
 
 	/*--- UTILITY METHODS ---*/
 
@@ -665,53 +743,4 @@ public class CooperatorService {
 		}
 		return resultList;
 	}
-
-	@Transactional
-	public void containsStudent(Integer id) {
-		if (studentRepository.existsById(id))
-			throw new EntityExistsException("Student Already Exists");
-	}
-
-	@Transactional
-	public void containsEmployer(String id) {
-		if (employerRepository.existsById(id))
-			throw new EntityExistsException("Employer Already Exists");
-	}
-
-	@Transactional
-	public void containsCourse(String id) {
-		if (coopCourseRepository.existsById(id))
-			throw new EntityExistsException("Course Already Exists");
-	}
-
-	@Transactional
-	public void containsCourseOffering(String id) {
-		if (coopCourseOfferingRepository.existsById(id))
-			throw new EntityExistsException("Offering Already Exists");
-	}
-
-	@Transactional
-	public void containsEnrollment(String id) {
-		if (studentEnrollmentRepository.existsById(id))
-			throw new EntityExistsException("Enrollment Already Exists");
-	}
-
-	@Transactional
-	public void containsTask(Task t, StudentEnrollment se) {
-		Task t1 = se.getTask(t.getName());
-		if (t1 != null) {
-			if (taskRepository.existsById(t1.getTaskID()))
-				throw new EntityExistsException("Task Already Exists");
-		}
-	}
-
-	@Transactional
-	public void containsDocument(Document doc, Task t) {
-		Document doc1 = t.getDocument(doc.getName());
-		if (doc1 != null) {
-			if (documentRepository.existsById(doc1.getDocumentID()))
-				throw new EntityExistsException("Document Already Exists");
-		}
-	}
-
 }
