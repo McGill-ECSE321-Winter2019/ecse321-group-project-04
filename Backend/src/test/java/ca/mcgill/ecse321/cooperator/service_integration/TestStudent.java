@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.cooperator.service_integration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.Before;
@@ -143,5 +144,35 @@ public class TestStudent {
 		
 		assertEquals(error, "Could not find a Student with ID 260112233");
 	}
-
+	
+	//creating a student with same ID
+	@Test
+	public void testcontainsStudent() {
+		String error = null;
+		Student param1 = new Student();
+		param1.setFirstName("first_name");
+		param1.setLastName("last_name");
+		param1.setMcgillID(260112233);
+		param1.setMcgillEmail("student@email.com");
+		
+		Student param2 = new Student();
+		param2.setFirstName("first_name");
+		param2.setLastName("last_name");
+		param2.setMcgillID(260112233);
+		param2.setMcgillEmail("student@email.com");
+		try {
+			service.createStudent(param1);
+		} catch (InvalidParameterException e) {
+			fail();
+		}
+		try {
+			service.createStudent(param2);
+		} catch (EntityExistsException e) {
+			error = e.getMessage();
+		}
+	
+		assertEquals("Student Already Exists", error);
+	}
 }
+	
+
