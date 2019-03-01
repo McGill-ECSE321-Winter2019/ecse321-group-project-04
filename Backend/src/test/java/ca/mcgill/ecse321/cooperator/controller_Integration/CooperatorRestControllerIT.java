@@ -163,7 +163,7 @@ public class CooperatorRestControllerIT {
     
 	    CoopCourse course = new CoopCourse();
 	    
-	    course.setCourseCode("EBUC 1000");
+	    course.setCourseCode("EBUC1000");
 	    course.setCoopTerm(2);
 	    
 	    
@@ -173,7 +173,8 @@ public class CooperatorRestControllerIT {
 	    				createURLWithPort("/coopCourse"),
 	    				HttpMethod.POST, entity, String.class);
 	    
-    	assertThat(response.getBody().equals("/coopCourses"));
+	    String result = response.getBody().toString();
+    	assertThat(result.subSequence(23, result.length()-1)).isEqualTo("/coopCourses/EBUC1000");
     }
     
     @Test
@@ -183,7 +184,7 @@ public class CooperatorRestControllerIT {
 	    
         CoopCourse course = new CoopCourse();
 	    
-	    course.setCourseCode("EBUC 1000");
+	    course.setCourseCode("EBUC1000");
 	    course.setCoopTerm(2);
 	    
 	    courseOffering.setYear(2019);
@@ -197,15 +198,14 @@ public class CooperatorRestControllerIT {
 	    				createURLWithPort("/coopCourse"),
 	    				HttpMethod.POST, entity, String.class); 
 	    
-	    
 	    HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 	    
 	    ResponseEntity<String> response2 = restTemplate.exchange(
-	    				createURLWithPort("coopCourseOffering?courseCode=EBUC 1000"),
+	    				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
 	    				HttpMethod.POST, entity2, String.class);
 	    
-	    assertThat(response2.getBody().equals("/coopCourseOfferings/EBUC 1000-S19"));
-	    
+	    String result2 = response2.getBody().toString();
+	    assertThat(result2.subSequence(23, result2.length()-1)).isEqualTo("/coopCourseOfferings/EBUC1000-S19");
     }
     
     @Test
