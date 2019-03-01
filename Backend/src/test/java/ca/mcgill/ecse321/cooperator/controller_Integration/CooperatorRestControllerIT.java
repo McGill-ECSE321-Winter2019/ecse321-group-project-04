@@ -94,6 +94,12 @@ public class CooperatorRestControllerIT {
 	    student.setMcgillEmail("uvw.xyz@email.com");
 	    
 	    //String inputInJason = this.mapToJson(student);
+	    HttpEntity<Object> entity1= new HttpEntity<Object>(headers);
+//	    	"firstName":"Jim",
+//	    	"lastName":"Hugh",
+//	    	"mcgillID":2601,
+//	    	"mcgillEmail":"jim@mail.ca
+
 	    
 	    
 	    HttpEntity<Student> entity = new HttpEntity<Student>(student, headers);
