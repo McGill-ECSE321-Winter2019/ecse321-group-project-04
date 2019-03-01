@@ -68,8 +68,7 @@ public class CooperatorService {
 		s.setMcgillID(id);
 		s.setMcgillEmail(email);
 		containsStudent(s.getMcgillID());
-		studentRepository.save(s);
-		return s;
+		return studentRepository.save(s);
 	}
 
 	/**
@@ -80,8 +79,7 @@ public class CooperatorService {
 	 */
 	@Transactional
 	public Student createStudent(Student s) {
-		Student savedStudent = createStudent(s.getFirstName(), s.getLastName(), s.getMcgillID(), s.getMcgillEmail());
-		return savedStudent;
+		return createStudent(s.getFirstName(), s.getLastName(), s.getMcgillID(), s.getMcgillEmail());
 	}
 
 	/**
@@ -143,8 +141,7 @@ public class CooperatorService {
 		e.setName(name);
 		e.setEmail(email);
 		containsEmployer(e.getEmail());
-		employerRepository.save(e);
-		return e;
+		return employerRepository.save(e);
 	}
 
 	/**
@@ -214,8 +211,7 @@ public class CooperatorService {
 		c.setCourseCode(courseCode);
 		c.setCoopTerm(coopTerm);
 		containsCourse(c.getCourseCode());
-		coopCourseRepository.save(c);
-		return c;
+		return coopCourseRepository.save(c);
 	}
 
 	/**
@@ -290,8 +286,7 @@ public class CooperatorService {
 		cco.setCoopCourse(coopCourse);
 		cco.setOfferID();
 		containsCourseOffering(cco.getOfferID());
-		coopCourseOfferingRepository.save(cco);
-		return cco;
+		return coopCourseOfferingRepository.save(cco);
 	}
 
 	/**
