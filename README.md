@@ -54,3 +54,28 @@ co-op acceptance, submit required documents and track their co-op program progre
 
 [Report 2](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-2-Report)
 
+
+## Deliverable 3 (March 24, 2019)
+
+|     Team members      |Total hours|                          Responsibility                        |
+|-----------------------|-----------|----------------------------------------------------------------|
+|**Remi Carriere**      |           |                                                                |
+|**Naxin Fang**         |           |                                                                |
+|**Boyang Ma**          |           |                                                                |
+|**Angel Ortiz Regules**|           |                                                                |
+|**Marie Vu**           |           |                                                                |
+
+**Sprint 3 Documents**:
+
+
+## Deliverable 4 (April 4, 2019)
+
+|     Team members      |Total hours|                          Responsibility                        |
+|-----------------------|-----------|----------------------------------------------------------------|
+|**Remi Carriere**      |           |                                                                |
+|**Naxin Fang**         |           |                                                                |
+|**Boyang Ma**          |           |                                                                |
+|**Angel Ortiz Regules**|           |                                                                |
+|**Marie Vu**           |           |                                                                |
+
+**Sprint 4 Documents**:

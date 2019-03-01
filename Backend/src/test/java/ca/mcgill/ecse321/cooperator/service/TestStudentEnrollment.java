@@ -62,8 +62,8 @@ public class TestStudentEnrollment {
 		employerRepository.deleteAll();
 		coopCourseOfferingRepository.deleteAll();
 		coopCourseRepository.deleteAll();
-                taskRepository.deleteAll();
-                documentRepository.deleteAll();
+        taskRepository.deleteAll();
+        documentRepository.deleteAll();
 	}
 	
 	@Test
