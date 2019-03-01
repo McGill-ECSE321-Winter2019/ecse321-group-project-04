@@ -6,6 +6,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.Date;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +34,7 @@ import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
 import ca.mcgill.ecse321.cooperator.dao.EmployerRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentEnrollmentRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentRepository;
+import ca.mcgill.ecse321.cooperator.dao.TaskRepository;
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.CourseStatus;
@@ -39,6 +42,8 @@ import ca.mcgill.ecse321.cooperator.model.Document;
 import ca.mcgill.ecse321.cooperator.model.Employer;
 import ca.mcgill.ecse321.cooperator.model.Student;
 import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
+import ca.mcgill.ecse321.cooperator.model.Task;
+import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.model.Term;
 import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 import ca.mcgill.ecse321.cooperator.service.CooperatorService;
@@ -78,6 +83,10 @@ public class CooperatorRestControllerIT {
     @Autowired
 	private StudentEnrollmentRepository studentEnrollmentRepository;
     
+    @Autowired
+   	private TaskRepository taskRepository;
+    
+    
     @Before
     @After
     public void cleanDataBase() {
@@ -87,6 +96,7 @@ public class CooperatorRestControllerIT {
 	    coopCourseOfferingRepository.deleteAll();
 	    coopCourseRepository.deleteAll();
 	    documentRepository.deleteAll();
+	    taskRepository.deleteAll();
     }
     
     //@SuppressWarnings("unlikely-arg-type")
@@ -113,7 +123,7 @@ public class CooperatorRestControllerIT {
 	    
 	    //assertThat(""); 
 	    
-	    System.out.println(result.subSequence(23, result.length()-1)); 
+	    //System.out.println(result.subSequence(23, result.length()-1)); 
 	    
 	    //assertThat(response.equals("http://localhost:8080/student/id"));
 	    
@@ -140,7 +150,11 @@ public class CooperatorRestControllerIT {
 	    				createURLWithPort("/employer"),
 	    				HttpMethod.POST, entity, String.class);
 	    
-	    assertThat(response.getBody().equals("/employers"));
+	    String result = response.getBody().toString(); 
+	   // System.out.println(result.subSequence(23, result.length()-1));
+	    assertThat(result.subSequence(23, result.length()-1)).isEqualTo("/employers/tom@email.com");
+	    
+	    //assertThat(response.getBody().equals("/employers"));
     }
     
     
@@ -201,7 +215,178 @@ public class CooperatorRestControllerIT {
     	
     	CoopCourse course = new CoopCourse();
 	    
-	    course.setCourseCode("EBUC 1000");
+	    course.setCourseCode("EBUC1000");
+	    course.setCoopTerm(2);
+	    
+	    
+	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+	    
+	    ResponseEntity<String> response = restTemplate.exchange(
+	    				createURLWithPort("/coopCourse"),
+	    				HttpMethod.POST, entity, String.class);
+    	
+	    Student student = new Student();
+	    
+	    student.setFirstName("uvw");
+	    student.setLastName("xyz");
+	    student.setMcgillID(260893874);
+	    student.setMcgillEmail("uvw.xyz@email.com");
+	    
+	    
+	    HttpEntity<Student> entity2 = new HttpEntity<Student>(student, headers);
+	    
+	    ResponseEntity<String> response2 = restTemplate.exchange(
+	    				createURLWithPort("/student"),
+	    				HttpMethod.POST, entity2, String.class);
+	    
+	    Employer employer = new Employer();
+	    
+	    employer.setName("Tom");
+	    employer.setEmail("tom@email.com");
+	    
+	    HttpEntity<Employer> entity3 = new HttpEntity<Employer>(employer, headers);
+	    
+	    ResponseEntity<String> response3 = restTemplate.exchange(
+	    				createURLWithPort("/employer"),
+	    				HttpMethod.POST, entity3, String.class);
+	    
+	    CoopCourseOffering courseOffering = new CoopCourseOffering();
+	    
+	    
+	    courseOffering.setYear(2019);
+	    courseOffering.setTerm(Term.SUMMER);
+	    courseOffering.setActive(true);
+	    courseOffering.setCoopCourse(course);
+	    //courseOffering.setOfferID("ECSE-321-W19");
+	    
+	    
+	    HttpEntity<CoopCourseOffering> entity4 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
+	    
+	    ResponseEntity<String> response4 = restTemplate.exchange(
+	    				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
+	    				HttpMethod.POST, entity4, String.class);
+		
+	    
+	    sudentEnrollment.setActive(true);
+	    sudentEnrollment.setStatus(CourseStatus.ONGOING);
+	    
+	    
+	    HttpEntity<StudentEnrollment> entity5 = new HttpEntity<StudentEnrollment>(sudentEnrollment, headers);
+	    
+	    ResponseEntity<String> response5 = restTemplate.exchange(
+	    				createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
+	    						+ "&studentID=260893874&employerEmail=tom@email.com"
+	    						+ "&coopAcceptanceForm=url1&employerContract=url2"),
+	    				
+	    				HttpMethod.POST, entity5, String.class);
+	    
+	    String result = response5.getBody().toString(); 
+	   // System.out.println(result.subSequence(23, result.length()-1));
+	    assertThat(response5.getBody().equals("/studentEnrollments/260893874-EEBUC1000-S19"));
+	    
+    }
+    
+    
+    @Test
+    public void createTasK() throws Exception {
+    
+    	Task task = new Task(); 
+    	
+    	CoopCourse course = new CoopCourse();
+	    
+	    course.setCourseCode("EBUC1000");
+	    course.setCoopTerm(2);
+	    
+	    
+	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+	    
+	    ResponseEntity<String> response = restTemplate.exchange(
+	    				createURLWithPort("/coopCourse"),
+	    				HttpMethod.POST, entity, String.class);
+    	
+	    Student student = new Student();
+	    
+	    student.setFirstName("uvw");
+	    student.setLastName("xyz");
+	    student.setMcgillID(260893874);
+	    student.setMcgillEmail("uvw.xyz@email.com");
+	    
+	    
+	    HttpEntity<Student> entity2 = new HttpEntity<Student>(student, headers);
+	    
+	    ResponseEntity<String> response2 = restTemplate.exchange(
+	    				createURLWithPort("/student"),
+	    				HttpMethod.POST, entity2, String.class);
+	    
+	    Employer employer = new Employer();
+	    
+	    employer.setName("Tom");
+	    employer.setEmail("tom@email.com");
+	    
+	    HttpEntity<Employer> entity3 = new HttpEntity<Employer>(employer, headers);
+	    
+	    ResponseEntity<String> response3 = restTemplate.exchange(
+	    				createURLWithPort("/employer"),
+	    				HttpMethod.POST, entity3, String.class);
+	    
+	    CoopCourseOffering courseOffering = new CoopCourseOffering();
+	    
+	    
+	    courseOffering.setYear(2019);
+	    courseOffering.setTerm(Term.SUMMER);
+	    courseOffering.setActive(true);
+	    courseOffering.setCoopCourse(course);
+	    //courseOffering.setOfferID("ECSE-321-W19");
+	    
+	    
+	    HttpEntity<CoopCourseOffering> entity4 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
+	    
+	    ResponseEntity<String> response4 = restTemplate.exchange(
+	    				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
+	    				HttpMethod.POST, entity4, String.class);
+		
+	    
+	    StudentEnrollment sudentEnrollment = new StudentEnrollment();
+	    
+	    sudentEnrollment.setActive(true);
+	    sudentEnrollment.setStatus(CourseStatus.ONGOING);
+	    
+	    
+	    HttpEntity<StudentEnrollment> entity5 = new HttpEntity<StudentEnrollment>(sudentEnrollment, headers);
+	    
+	    ResponseEntity<String> response5 = restTemplate.exchange(
+	    				createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
+	    						+ "&studentID=260893874&employerEmail=tom@email.com"
+	    						+ "&coopAcceptanceForm=url1&employerContract=url2"),
+	    				HttpMethod.POST, entity5, String.class);
+	    
+	    Date dueDate = new Date(2019, 1, 1);
+	   
+	    task.setName("someTask");
+	    task.setDescription("some description");
+	    task.setDueDate(dueDate);
+	    task.setTaskStatus(TaskStatus.COMPLETED);
+	    
+	    HttpEntity<Task> entity6 = new HttpEntity<Task>(task, headers);
+	    
+	    ResponseEntity<String> response6 = restTemplate.exchange(
+	    				createURLWithPort("/task?studentEnrollmentID=260893874-EBUC1000-S19"),
+	    				HttpMethod.POST, entity6, String.class);
+	    
+	    String result = response6.getBody().toString(); 
+	    System.out.println(result.subSequence(23, result.length()-1));
+	  //forget assertThat for now
+	    
+    }
+    
+    @Test
+    public void createDocument() throws Exception {
+    
+    	Document document = new Document(); 
+    	
+    	CoopCourse course = new CoopCourse();
+	    
+	    course.setCourseCode("EBUC1000");
 	    course.setCoopTerm(2);
 	    
 	    
@@ -248,9 +433,11 @@ public class CooperatorRestControllerIT {
 	    HttpEntity<CoopCourseOffering> entity4 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 	    
 	    ResponseEntity<String> response4 = restTemplate.exchange(
-	    				createURLWithPort("coopCourseOffering?courseCode=EBUC 1000"),
+	    				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
 	    				HttpMethod.POST, entity4, String.class);
 		
+	    
+	    StudentEnrollment sudentEnrollment = new StudentEnrollment();
 	    
 	    sudentEnrollment.setActive(true);
 	    sudentEnrollment.setStatus(CourseStatus.ONGOING);
@@ -259,18 +446,40 @@ public class CooperatorRestControllerIT {
 	    HttpEntity<StudentEnrollment> entity5 = new HttpEntity<StudentEnrollment>(sudentEnrollment, headers);
 	    
 	    ResponseEntity<String> response5 = restTemplate.exchange(
-	    				createURLWithPort("/studentEnrollment?courseOfferingID=ECSE-321-W19"
-	    						+ "&studentID=2601&employerEmail=google@gmail.com"
+	    				createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
+	    						+ "&studentID=260893874&employerEmail=tom@email.com"
 	    						+ "&coopAcceptanceForm=url1&employerContract=url2"),
-	    				
 	    				HttpMethod.POST, entity5, String.class);
 	    
-	    assertThat(response5.getBody().equals("/studentEnrollments/2601-ECSE-321-W19"));
+	    Task task = new Task(); 
+	    
+	    Date dueDate = new Date(2019, 1, 1);
+	   
+	    task.setName("someTask");
+	    task.setDescription("some description");
+	    task.setDueDate(dueDate);
+	    task.setTaskStatus(TaskStatus.COMPLETED);
+	    
+	    HttpEntity<Task> entity6 = new HttpEntity<Task>(task, headers);
+	    
+	    ResponseEntity<String> response6 = restTemplate.exchange(
+	    				createURLWithPort("/task?studentEnrollmentID=260893874-EBUC1000-S19"),
+	    				HttpMethod.POST, entity6, String.class);
+	    
+	    document.setName("DocName");
+	    document.setUrl("http://test-url.this/is/just/for/testing");
+	    
+	    HttpEntity<Document> entity7 = new HttpEntity<Document>(document, headers);
+	    
+	    ResponseEntity<String> response7 = restTemplate.exchange(
+	    				createURLWithPort("document?studentEnrollmentID=260893874-EBUC1000-S19"
+	    						+ "&taskName=someTask"),
+	    				HttpMethod.POST, entity7, String.class);
+	    
+	    String result = response7.getBody().toString(); 
+	    System.out.println(result.subSequence(23, result.length()-1));
 	    
     }
-    
-    
-    
     
     
     
