@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.cooperator.service_integration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.After;
@@ -91,5 +92,30 @@ public class TestEmployer {
 		}
 		
 		assertEquals(error, "Could not find an Employer with email google@gmail.com");
+	}
+	
+	@Test
+	public void testContainsEmployer() {
+		String error = null;
+		Employer param1 = new Employer();
+		param1.setName("Google");
+		param1.setEmail("google@gmail.com");
+		
+		Employer param2 = new Employer();
+		param2.setName("Google");
+		param2.setEmail("google@gmail.com");
+		
+		try {
+			service.createEmployer(param1);
+		} catch (InvalidParameterException e) {
+			fail();
+		}
+		try {
+			service.createEmployer(param2);
+		}catch (EntityExistsException e) {
+			error = e.getMessage();
+		}
+		assertEquals("Employer Already Exists", error);
+		
 	}
 }

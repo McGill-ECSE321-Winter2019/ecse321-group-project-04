@@ -8,10 +8,10 @@ before_install:
 script:
   - ./gradlew build
 
-deploy:
-  provider: heroku
-  api_key:
-    secure: abbd43ef-e17e-466a-92cb-68e03e2affeb
-  app: cooperator-backend-0000
-  on:
-    repo: McGill-ECSE321-Winter2019/ecse321-group-project-04
+#deploy:
+#  provider: heroku
+#  api_key:
+#    secure: abbd43ef-e17e-466a-92cb-68e03e2affeb
+#  app: cooperator-backend-0000
+#  on:
+#    repo: McGill-ECSE321-Winter2019/ecse321-group-project-04

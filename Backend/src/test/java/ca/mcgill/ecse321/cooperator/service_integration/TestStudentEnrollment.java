@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import java.sql.Date;
 import java.util.Calendar;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.After;
@@ -56,7 +57,7 @@ public class TestStudentEnrollment {
 	private DocumentRepository documentRepository;
 
 	@Before
-	//@After
+	@After
 	public void cleanDataBase() {
 		studentEnrollmentRepository.deleteAll();
 		studentRepository.deleteAll();
@@ -245,5 +246,34 @@ public class TestStudentEnrollment {
 		}
 		
 		assertEquals(error, "Could not find a Student Enrollment with ID 260112233-ECSE300");
+	}
+	
+	@Test
+	public void testContainsEnrollment() {
+		String error = null;
+		CoopCourse c = service.createCoopCourse("ECSE302", 1);
+		CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
+		Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
+		Employer empl = service.createEmployer("Facebook", "fb@email.com");
+		
+		StudentEnrollment param1 = new StudentEnrollment();
+		param1.setActive(true);
+		param1.setStatus(CourseStatus.PASSED);
+		
+		StudentEnrollment param2 = new StudentEnrollment();
+		param2.setActive(true);
+		param2.setStatus(CourseStatus.PASSED);
+
+		try {
+			service.createStudentEnrollment(param1, s, empl, cco, "test-url-1", "test-url-2");
+		} catch (InvalidParameterException e) {
+			fail();
+		}
+		try {
+			service.createStudentEnrollment(param2, s, empl, cco,"test-url-1" ,"test-url-2" );
+		} catch (EntityExistsException e) {
+			error = e.getMessage();
+		}
+		assertEquals("Enrollment Already Exists", error);
 	}
 }

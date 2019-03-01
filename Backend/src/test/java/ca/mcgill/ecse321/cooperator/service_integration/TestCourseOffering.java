@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.cooperator.service_integration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.After;
@@ -139,5 +140,34 @@ public class TestCourseOffering {
 		}
 		
 		assertEquals(error, "Could not find a CO-OP Course Offering with ID ECSE300-F19");
+	}
+	
+	@Test
+	public void testContainsCourseOffering() {
+		String error = null;
+		CoopCourse c = service.createCoopCourse("ECSE301", 1);	
+		
+		CoopCourseOffering param1 = new CoopCourseOffering();
+		param1.setYear(2018);
+		param1.setTerm(Term.WINTER);
+		param1.setActive(true);
+		
+		CoopCourseOffering param2 = new CoopCourseOffering();
+		param2.setYear(2018);
+		param2.setTerm(Term.WINTER);
+		param2.setActive(true);
+
+		try {
+			service.createCoopCourseOffering(param1, c);
+		} catch (InvalidParameterException e) {
+			fail();
+		}
+		try {
+			service.createCoopCourseOffering(param2, c);
+		} catch (EntityExistsException e) {
+			error = e.getMessage();
+		}
+		
+		assertEquals("Offering Already Exists", error);
 	}
 }

@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.cooperator.service_integration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.Before;

@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 
 import java.sql.Date;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.After;

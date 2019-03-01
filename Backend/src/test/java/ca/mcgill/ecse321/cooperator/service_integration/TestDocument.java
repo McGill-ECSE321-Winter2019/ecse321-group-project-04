@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 
 import java.sql.Date;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.After;
@@ -118,7 +119,6 @@ public class TestDocument {
 			error = e.getMessage();
 		}
 		
-		assertEquals(error, "Could not find a Document with URL test-url-1");
+		assertEquals("Could not find a Document with URL test-url-1", error);
 	}
-
 }
