@@ -77,8 +77,8 @@ public class CooperatorRestControllerIT {
     public void cleanDataBase() {
     studentRepository.deleteAll();
     emoloyerRepository.deleteAll();
-    coopCourseRepository.deleteAll();
     coopCourseOfferingRepository.deleteAll();
+    coopCourseRepository.deleteAll();
     documentRepository.deleteAll();
     }
     
@@ -141,6 +141,7 @@ public class CooperatorRestControllerIT {
 	    course.setCourseCode("EBUC 1000");
 	    course.setCoopTerm(2);
 	    
+	    
 	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
 	    
 	    ResponseEntity<String> response = restTemplate.exchange(
@@ -150,27 +151,38 @@ public class CooperatorRestControllerIT {
     	assertThat(response.getBody().equals("/coopCourse"));
     }
     
-   /* @Test
+    @Test
     public void createCourseOffering() throws Exception {
     
 	    CoopCourseOffering courseOffering = new CoopCourseOffering();
-	    //CoopCourse course = service.createCoopCourse("ECSE301", 1);
+	    
+        CoopCourse course = new CoopCourse();
+	    
+	    course.setCourseCode("EBUC 1000");
+	    course.setCoopTerm(2);
+	    
+	    
+	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+	    
+	    ResponseEntity<String> response = restTemplate.exchange(
+	    				createURLWithPort("/coopCourse"),
+	    				HttpMethod.POST, entity, String.class); 
 	    
 	    courseOffering.setYear(2019);
 	    courseOffering.setTerm(Term.SUMMER);
 	    courseOffering.setActive(true);
-	    //courseOffering.setCoopCourse(course);
+	    courseOffering.setCoopCourse(course);
 	    
 	    
-	    HttpEntity<CoopCourseOffering> entity = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
+	    HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 	    
-	    ResponseEntity<String> response = restTemplate.exchange(
-	    				createURLWithPort("/coopCourseOffering"),
-	    				HttpMethod.POST, entity, String.class);
-    
-	    assertThat(response.getBody().equals("/coopCourseOffering"));
+	    ResponseEntity<String> response2 = restTemplate.exchange(
+	    				createURLWithPort("coopCourseOffering?courseCode=EBUC 1000"),
+	    				HttpMethod.POST, entity2, String.class);
 	    
-    }*/
+	    assertThat(response2.getBody().equals("/coopCourseOfferings/EBUC 1000-S19"));
+	    
+    }
     
     
     
