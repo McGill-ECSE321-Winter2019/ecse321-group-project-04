@@ -561,7 +561,6 @@ public class CooperatorService {
 		t.setDescription(description);
 		t.setDueDate(dueDate);
 		t.setTaskStatus(status);
-		containsTask(t, se);
 		se.addCourseTasks(t);
 		StudentEnrollment saved = studentEnrollmentRepository.save(se);
 		return saved.getTask(name);
@@ -622,20 +621,6 @@ public class CooperatorService {
 		}
 		return false;
 	}
-	
-	/**
-	 * Method checks if a task already exists
-	 * @param t
-	 * @param se
-	 */
-	@Transactional
-	public void containsTask(Task t, StudentEnrollment se) {
-		Task t1 = se.getTask(t.getName());
-		if (t1 != null) {
-			if (taskRepository.existsById(t1.getTaskID()))
-				throw new EntityExistsException("Task Already Exists");
-		}
-	}
 
 	/*--- DOCUMENT METHODS ---*/
 
@@ -660,7 +645,6 @@ public class CooperatorService {
 			Document d = new Document();
 			d.setName(name);
 			d.setUrl(url);
-			containsDocument(d, t);
 			t.addDocument(d);
 			Task saved = taskRepository.save(t);
 			return saved.getDocument(name);
@@ -718,20 +702,6 @@ public class CooperatorService {
 			return true;
 		}
 		return false;
-	}
-	
-	/**
-	 * Method checks if a document already exists
-	 * @param doc
-	 * @param t
-	 */
-	@Transactional
-	public void containsDocument(Document doc, Task t) {
-		Document doc1 = t.getDocument(doc.getName());
-		if (doc1 != null) {
-			if (documentRepository.existsById(doc1.getDocumentID()))
-				throw new EntityExistsException("Document Already Exists");
-		}
 	}
 
 	/*--- UTILITY METHODS ---*/

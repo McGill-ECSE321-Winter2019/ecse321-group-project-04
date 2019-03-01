@@ -121,41 +121,4 @@ public class TestDocument {
 		
 		assertEquals("Could not find a Document with URL test-url-1", error);
 	}
-
-	/*
-	//AssertionError: expected:<Document Already Exist> but was:<Null>
-	@Test
-	public void testContainsDocument() {
-		String error = null;
-		// Create chain of objects required to create a task
-		@SuppressWarnings("deprecation")
-		Date dueDate = new Date(2019, 1, 1);
-		CoopCourse c = service.createCoopCourse("ECSE302", 1);
-		CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
-		Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-		Employer emp = service.createEmployer("Facebook", "fb@email.com");
-        StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, "test-url-1", "test-url-2");
-        Task t = service.createTask("Task name1", "Some description", dueDate, TaskStatus.COMPLETED, se);
-        
-		Document param1 = new Document();
-		param1.setName("doc name");
-		param1.setUrl("http://test-url.this/is/just/for/testing");
-        
-		Document param2 = new Document();
-		param2.setName("doc name");
-		param2.setUrl("http://test-url.this/is/just/for/testing");
-		
-		try {
-			service.createDocument(param1, t);
-		} catch (InvalidParameterException e) {
-			fail();
-		}
-		try {
-			service.createDocument(param2, t);
-		} catch (EntityExistsException e) {
-			error = e.getMessage();
-		}
-		assertEquals("Document Already Exists", error);
-	}
-	*/
 }

@@ -181,33 +181,4 @@ public class TestTask {
 		
 		assertEquals(error, "Could not find a Task with ID 1234567");
 	}
-	
-/*
- 	//Assertion error
-	@Test
-	public void testContainsTask() {
-		String error = null;
-		@SuppressWarnings("deprecation")
-		Date dueDate = new Date(2019, 1, 1);
-
-        // Create chain of objects required to create a task
-		CoopCourse c = service.createCoopCourse("ECSE302", 1);
-		CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
-		Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-		Employer emp = service.createEmployer("Facebook", "fb@email.com");
-        StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, "test-url-1", "test-url-2");
-
-		try {
-			service.createTask("Task name", "Some description", dueDate, TaskStatus.COMPLETED, se);
-		} catch (InvalidParameterException e) {
-			fail();
-		}
-		try {
-			service.createTask("Task name", "Some description", dueDate, TaskStatus.COMPLETED, se);
-		} catch (EntityExistsException e) {
-			error = e.getMessage();
-		}
-		assertEquals("Task Already Exists", error);
-		}
-*/
-	}
+}
