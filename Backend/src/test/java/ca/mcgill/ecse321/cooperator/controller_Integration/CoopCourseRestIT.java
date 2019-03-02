@@ -18,12 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
 import ca.mcgill.ecse321.cooperator.CooperatorApplication;
-
-
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
-
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 
 
@@ -40,8 +36,10 @@ public class CoopCourseRestIT {
     
     private HttpHeaders headers = new HttpHeaders();
     
+    
     @Autowired
     private CoopCourseRepository coopCourseRepository;
+    
     
     @Before
     @After
@@ -59,6 +57,7 @@ public class CoopCourseRestIT {
 	    course.setCourseCode("EBUC1000");
 	    course.setCoopTerm(2);
 	    
+	    
 	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
 	    
 	    ResponseEntity<String> response = restTemplate.exchange(
@@ -68,7 +67,6 @@ public class CoopCourseRestIT {
 	    String result = response.getBody().toString(); 
 	    
 	    assertTrue(result.contains("/coopCourses/EBUC1000"));
-	    
     }
     
     @Test
@@ -77,7 +75,8 @@ public class CoopCourseRestIT {
 	    CoopCourse course = new CoopCourse();
 	    
 	    course.setCourseCode(null);
-	    course.setCoopTerm(2); 
+	    course.setCoopTerm(2);
+	    
 	    
 	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
 	    
@@ -86,9 +85,8 @@ public class CoopCourseRestIT {
 	    				HttpMethod.POST, entity, String.class);
 	    
 	    String result = response.getBody().toString(); 
-
-	    assertTrue(result.contains("Your course details are incomplete!"));
-	    
+	    //System.out.println(result); 
+	    assertTrue(result.contains("Validation Failed"));
     }
     
     @Test
@@ -99,6 +97,7 @@ public class CoopCourseRestIT {
 	    course.setCourseCode("EBUC1000");
 	    course.setCoopTerm(null);
 	    
+	    
 	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
 	    
 	    ResponseEntity<String> response = restTemplate.exchange(
@@ -106,9 +105,8 @@ public class CoopCourseRestIT {
 	    				HttpMethod.POST, entity, String.class);
 	    
 	    String result = response.getBody().toString(); 
-
+	    //System.out.println(result); 
 	    assertTrue(result.contains("Your course details are incomplete!"));
-	    
     }
     
     @Test
@@ -119,6 +117,7 @@ public class CoopCourseRestIT {
 	    course.setCourseCode("EBUC1000");
 	    course.setCoopTerm(-1);
 	    
+	    
 	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
 	    
 	    ResponseEntity<String> response = restTemplate.exchange(
@@ -128,9 +127,7 @@ public class CoopCourseRestIT {
 	    String result = response.getBody().toString(); 
 	   
 	    assertTrue(result.contains("Your course details are incomplete!"));
-	    
     }
-    
     private String createURLWithPort(String uri) {
     	return "http://localhost:" + port + uri;
     }

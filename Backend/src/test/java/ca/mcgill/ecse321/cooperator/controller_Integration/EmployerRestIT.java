@@ -19,13 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
 import ca.mcgill.ecse321.cooperator.CooperatorApplication;
-
 import ca.mcgill.ecse321.cooperator.dao.EmployerRepository;
-
 import ca.mcgill.ecse321.cooperator.model.Employer;
-
 
 
 @ActiveProfiles("test")
@@ -87,8 +83,8 @@ public class EmployerRestIT {
 		    				HttpMethod.POST, entity, String.class);
 		    
 		    String result = response.getBody().toString(); 
-		   
-		    assertTrue(result.contains("Your employer details are incomplete!"));
+		    System.out.println(result); 
+		    assertTrue(result.contains("Validation Failed"));
 	    }
 	    
 	    private String createURLWithPort(String uri) {

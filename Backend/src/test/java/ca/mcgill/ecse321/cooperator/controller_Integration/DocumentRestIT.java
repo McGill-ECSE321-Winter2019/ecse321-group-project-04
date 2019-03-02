@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.cooperator.controller_Integration;
 
+
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Date;
@@ -29,6 +30,7 @@ import ca.mcgill.ecse321.cooperator.dao.EmployerRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentEnrollmentRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentRepository;
 import ca.mcgill.ecse321.cooperator.dao.TaskRepository;
+
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.CourseStatus;
@@ -88,8 +90,11 @@ public class DocumentRestIT {
 	    taskRepository.deleteAll();
     }
     
+    
     @Test
     public void createDocument() throws Exception {
+    
+    	Document document = new Document(); 
     	
     	CoopCourse course = new CoopCourse();
 	    
@@ -98,8 +103,7 @@ public class DocumentRestIT {
 	    
 	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
 	    
-	    ResponseEntity<String> response = restTemplate.exchange(
-	    				createURLWithPort("/coopCourse"),
+	    restTemplate.exchange(createURLWithPort("/coopCourse"),
 	    				HttpMethod.POST, entity, String.class);
     	
 	    
@@ -109,10 +113,10 @@ public class DocumentRestIT {
 	    student.setLastName("xyz");
 	    student.setMcgillID(260893874);
 	    student.setMcgillEmail("uvw.xyz@email.com");
-	   
+	    
 	    HttpEntity<Student> entity2 = new HttpEntity<Student>(student, headers);
 	    
-	    ResponseEntity<String> response2 = restTemplate.exchange(
+	    restTemplate.exchange(
 	    				createURLWithPort("/student"),
 	    				HttpMethod.POST, entity2, String.class);
 	    
@@ -124,8 +128,7 @@ public class DocumentRestIT {
 	    
 	    HttpEntity<Employer> entity3 = new HttpEntity<Employer>(employer, headers);
 	    
-	    ResponseEntity<String> response3 = restTemplate.exchange(
-	    				createURLWithPort("/employer"),
+	    restTemplate.exchange(createURLWithPort("/employer"),
 	    				HttpMethod.POST, entity3, String.class);
 	    
 	    
@@ -136,10 +139,10 @@ public class DocumentRestIT {
 	    courseOffering.setActive(true);
 	    courseOffering.setCoopCourse(course);
 	    
+	    
 	    HttpEntity<CoopCourseOffering> entity4 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 	    
-	    ResponseEntity<String> response4 = restTemplate.exchange(
-	    				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
+	    restTemplate.exchange(createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
 	    				HttpMethod.POST, entity4, String.class);
 		
 	    
@@ -148,10 +151,10 @@ public class DocumentRestIT {
 	    sudentEnrollment.setActive(true);
 	    sudentEnrollment.setStatus(CourseStatus.ONGOING);
 	    
+	    
 	    HttpEntity<StudentEnrollment> entity5 = new HttpEntity<StudentEnrollment>(sudentEnrollment, headers);
 	    
-	    ResponseEntity<String> response5 = restTemplate.exchange(
-	    				createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
+	    restTemplate.exchange(createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
 	    						+ "&studentID=260893874&employerEmail=tom@email.com"
 	    						+ "&coopAcceptanceForm=url1&employerContract=url2"),
 	    				HttpMethod.POST, entity5, String.class);
@@ -159,7 +162,8 @@ public class DocumentRestIT {
 	    
 	    Task task = new Task(); 
 	    
-	    Date dueDate = new Date(2019, 1, 1);
+	    @SuppressWarnings("deprecation")
+		Date dueDate = new Date(2019, 1, 1);
 	   
 	    task.setName("someTask");
 	    task.setDescription("some description");
@@ -168,12 +172,9 @@ public class DocumentRestIT {
 	    
 	    HttpEntity<Task> entity6 = new HttpEntity<Task>(task, headers);
 	    
-	    ResponseEntity<String> response6 = restTemplate.exchange(
-	    				createURLWithPort("/task?studentEnrollmentID=260893874-EBUC1000-S19"),
+	    restTemplate.exchange(createURLWithPort("/task?studentEnrollmentID=260893874-EBUC1000-S19"),
 	    				HttpMethod.POST, entity6, String.class);
 	    
-	    
-	    Document document = new Document(); 
 	    
 	    document.setName("DocName");
 	    document.setUrl("http://test-url.this/is/just/for/testing");
@@ -189,11 +190,13 @@ public class DocumentRestIT {
 	    
 	    //Same as task, the document ID is a random number. 
 	    assertTrue(result.contains("/documents/")); 
-	    
     }
+    
     
     @Test
     public void createNullNameDocument() throws Exception {
+    
+    	Document document = new Document(); 
     	
     	CoopCourse course = new CoopCourse();
 	    
@@ -202,8 +205,7 @@ public class DocumentRestIT {
 	    
 	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
 	    
-	    ResponseEntity<String> response = restTemplate.exchange(
-	    				createURLWithPort("/coopCourse"),
+	    restTemplate.exchange(createURLWithPort("/coopCourse"),
 	    				HttpMethod.POST, entity, String.class);
     	
 	    
@@ -213,10 +215,10 @@ public class DocumentRestIT {
 	    student.setLastName("xyz");
 	    student.setMcgillID(260893874);
 	    student.setMcgillEmail("uvw.xyz@email.com");
-	   
+	    
 	    HttpEntity<Student> entity2 = new HttpEntity<Student>(student, headers);
 	    
-	    ResponseEntity<String> response2 = restTemplate.exchange(
+	    restTemplate.exchange(
 	    				createURLWithPort("/student"),
 	    				HttpMethod.POST, entity2, String.class);
 	    
@@ -228,8 +230,7 @@ public class DocumentRestIT {
 	    
 	    HttpEntity<Employer> entity3 = new HttpEntity<Employer>(employer, headers);
 	    
-	    ResponseEntity<String> response3 = restTemplate.exchange(
-	    				createURLWithPort("/employer"),
+	    restTemplate.exchange(createURLWithPort("/employer"),
 	    				HttpMethod.POST, entity3, String.class);
 	    
 	    
@@ -240,10 +241,10 @@ public class DocumentRestIT {
 	    courseOffering.setActive(true);
 	    courseOffering.setCoopCourse(course);
 	    
+	    
 	    HttpEntity<CoopCourseOffering> entity4 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 	    
-	    ResponseEntity<String> response4 = restTemplate.exchange(
-	    				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
+	    restTemplate.exchange(createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
 	    				HttpMethod.POST, entity4, String.class);
 		
 	    
@@ -252,10 +253,10 @@ public class DocumentRestIT {
 	    sudentEnrollment.setActive(true);
 	    sudentEnrollment.setStatus(CourseStatus.ONGOING);
 	    
+	    
 	    HttpEntity<StudentEnrollment> entity5 = new HttpEntity<StudentEnrollment>(sudentEnrollment, headers);
 	    
-	    ResponseEntity<String> response5 = restTemplate.exchange(
-	    				createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
+	    restTemplate.exchange(createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
 	    						+ "&studentID=260893874&employerEmail=tom@email.com"
 	    						+ "&coopAcceptanceForm=url1&employerContract=url2"),
 	    				HttpMethod.POST, entity5, String.class);
@@ -263,7 +264,8 @@ public class DocumentRestIT {
 	    
 	    Task task = new Task(); 
 	    
-	    Date dueDate = new Date(2019, 1, 1);
+	    @SuppressWarnings("deprecation")
+		Date dueDate = new Date(2019, 1, 1);
 	   
 	    task.setName("someTask");
 	    task.setDescription("some description");
@@ -272,12 +274,9 @@ public class DocumentRestIT {
 	    
 	    HttpEntity<Task> entity6 = new HttpEntity<Task>(task, headers);
 	    
-	    ResponseEntity<String> response6 = restTemplate.exchange(
-	    				createURLWithPort("/task?studentEnrollmentID=260893874-EBUC1000-S19"),
+	    restTemplate.exchange(createURLWithPort("/task?studentEnrollmentID=260893874-EBUC1000-S19"),
 	    				HttpMethod.POST, entity6, String.class);
 	    
-	    
-	    Document document = new Document(); 
 	    
 	    document.setName(null);
 	    document.setUrl("http://test-url.this/is/just/for/testing");
@@ -290,11 +289,10 @@ public class DocumentRestIT {
 	    				HttpMethod.POST, entity7, String.class);
 	    
 	    String result = response7.getBody().toString(); 
-	   
-	    //Same as task, the document ID is a random number. 
-	    assertTrue(result.contains("Your document details are incomplete!")); 
 	    
+	    assertTrue(result.contains("Validation Failed")); 
     }
+    
     
     private String createURLWithPort(String uri) {
     	return "http://localhost:" + port + uri;
