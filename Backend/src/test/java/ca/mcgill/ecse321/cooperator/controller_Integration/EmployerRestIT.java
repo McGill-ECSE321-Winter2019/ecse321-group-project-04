@@ -28,7 +28,7 @@ import ca.mcgill.ecse321.cooperator.model.Employer;
 
 
 
-//@ActiveProfiles("test")
+@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CooperatorApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
     

@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.cooperator.service;
+/*package ca.mcgill.ecse321.cooperator.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -125,4 +125,4 @@ public class TestDocument {
     assertEquals(error, "Could not find a Document with URL test-url-1");
   }
 
-}
+}*/

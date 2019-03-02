@@ -21,7 +21,7 @@ import ca.mcgill.ecse321.cooperator.service.CooperatorService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-//@ActiveProfiles("test")
+@ActiveProfiles("test")
 public class TestCourse {
 	@Autowired
 	private CooperatorService service;

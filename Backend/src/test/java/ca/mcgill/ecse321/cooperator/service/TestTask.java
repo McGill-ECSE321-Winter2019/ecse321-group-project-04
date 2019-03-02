@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.cooperator.service;
+/*package ca.mcgill.ecse321.cooperator.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -183,4 +183,4 @@ public class TestTask {
 		assertEquals(error, "Could not find a Task with ID 1234567");
 	}
 
-} 
+}*/
