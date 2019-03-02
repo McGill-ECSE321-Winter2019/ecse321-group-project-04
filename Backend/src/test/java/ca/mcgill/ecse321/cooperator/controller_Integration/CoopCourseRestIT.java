@@ -85,8 +85,7 @@ public class CoopCourseRestIT {
 	    				HttpMethod.POST, entity, String.class);
 	    
 	    String result = response.getBody().toString(); 
-	    //System.out.println(result); 
-	    assertTrue(result.contains("Validation Failed"));
+	    assertTrue(result.contains("Your course details are incomplete!"));
     }
     
     @Test
@@ -105,7 +104,6 @@ public class CoopCourseRestIT {
 	    				HttpMethod.POST, entity, String.class);
 	    
 	    String result = response.getBody().toString(); 
-	    //System.out.println(result); 
 	    assertTrue(result.contains("Your course details are incomplete!"));
     }
     

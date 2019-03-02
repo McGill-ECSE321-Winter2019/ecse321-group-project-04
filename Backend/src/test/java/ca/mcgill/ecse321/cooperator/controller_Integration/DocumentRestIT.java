@@ -290,7 +290,8 @@ public class DocumentRestIT {
 	    
 	    String result = response7.getBody().toString(); 
 	    
-	    assertTrue(result.contains("Validation Failed")); 
+	    System.out.println(result);
+	    assertTrue(result.contains("Your document details are incomplete!")); 
     }
     
     
