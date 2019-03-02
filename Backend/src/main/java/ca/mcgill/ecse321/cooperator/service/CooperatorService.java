@@ -459,12 +459,12 @@ public class CooperatorService {
     Task t1 =
         createTask("Report CO-OP Position Acceptance", "Submit the CO-OP position acceptance form.",
             currentDate, TaskStatus.COMPLETED, se.getEnrollmentID());
-    createDocument("CO-OP Position Acceptance Form", coopAcceptanceForm, t1);
+    createDocument("CO-OP Position Acceptance Form", coopAcceptanceForm, se.getEnrollmentID(), t1.getName());
 
     Task t2 = createTask("Upload Employer Contract", "Submit the employer contract document.",
         currentDate, TaskStatus.COMPLETED, se.getEnrollmentID());
 
-    createDocument("Employer Contract", employerContract, t2);
+    createDocument("Employer Contract", employerContract, se.getEnrollmentID(), t2.getName());
 
     // Create the rest of the tasks that need to be completed throughout the
     // course offering.
@@ -644,11 +644,13 @@ public class CooperatorService {
    * @return
    */
   @Transactional
-  public Document createDocument(String name, String url, Task t) {
-    if (incorrectDocumentDetails(name, url, t)) {
+  public Document createDocument(String name, String url, String enrollmentID, String taskName) {
+    if (incorrectDocumentDetails(name, url, enrollmentID, taskName)) {
       throw new InvalidParameterException("Your document details are incomplete!");
     }
 
+    Task t = studentEnrollmentRepository.findByEnrollmentID(enrollmentID).getTask(taskName);
+    
     if (t.getDocument(name) != null) {
       t.getDocument(name).setUrl(url);
       taskRepository.save(t);
@@ -660,8 +662,6 @@ public class CooperatorService {
       t.addDocument(d);
       Task saved = taskRepository.save(t);
       return saved.getDocument(name);
-      // documentRepository.save(d);
-      // return d;
     }
   }
 
@@ -673,8 +673,8 @@ public class CooperatorService {
    * @return
    */
   @Transactional
-  public Document createDocument(Document d, Task t) {
-    Document savedDocument = createDocument(d.getName(), d.getUrl(), t);
+  public Document createDocument(Document d, String enrollmentID, String taskName) {
+    Document savedDocument = createDocument(d.getName(), d.getUrl(), enrollmentID, taskName);
     return savedDocument;
   }
 
@@ -709,9 +709,9 @@ public class CooperatorService {
    * @param url
    * @return
    */
-  private boolean incorrectDocumentDetails(String name, String url, Task t) {
+  private boolean incorrectDocumentDetails(String name, String url, String enrollmentID, String taskName) {
     if (name == null || name.trim().length() == 0 || url == null || url.trim().length() == 0
-        || t == null) {
+        || enrollmentID == null || taskName == null) {
       return true;
     }
     return false;
