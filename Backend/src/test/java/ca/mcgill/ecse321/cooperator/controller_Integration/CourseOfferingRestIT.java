@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.cooperator.controller_Integration;
 
+
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -24,6 +25,8 @@ import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
 
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
+import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
+import ca.mcgill.ecse321.cooperator.model.Term;
 
 
 
@@ -54,24 +57,140 @@ public class CourseOfferingRestIT {
     }
     
     @Test
-    public void createCourse() throws Exception {
+    public void createCourseOffering() throws Exception {
     
-	    CoopCourse course = new CoopCourse();
+	    CoopCourseOffering courseOffering = new CoopCourseOffering();
+	    
+        CoopCourse course = new CoopCourse();
 	    
 	    course.setCourseCode("EBUC1000");
 	    course.setCoopTerm(2);
 	    
+	    courseOffering.setYear(2019);
+	    courseOffering.setTerm(Term.SUMMER);
+	    courseOffering.setActive(true);
+	    courseOffering.setCoopCourse(course);
 	    
 	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
 	    
 	    ResponseEntity<String> response = restTemplate.exchange(
 	    				createURLWithPort("/coopCourse"),
-	    				HttpMethod.POST, entity, String.class);
+	    				HttpMethod.POST, entity, String.class); 
 	    
-	    String result = response.getBody().toString();
-	    assertTrue(result.contains("/coopCourses/EBUC1000"));
+	    
+	    HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
+	    
+	    ResponseEntity<String> response2 = restTemplate.exchange(
+	    				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
+	    				HttpMethod.POST, entity2, String.class);
+	    
+	    String result = response2.getBody().toString(); 
+	    
+	    assertTrue(result.contains("/coopCourseOfferings/EBUC1000-S19"));
+	    
     }
     
+    @Test
+    public void createNullYearCourseOffering() throws Exception {
+    
+	    CoopCourseOffering courseOffering = new CoopCourseOffering();
+	    
+        CoopCourse course = new CoopCourse();
+	    
+	    course.setCourseCode("EBUC1000");
+	    course.setCoopTerm(2);
+	    
+	    courseOffering.setYear(null);
+	    courseOffering.setTerm(Term.SUMMER);
+	    courseOffering.setActive(true);
+	    courseOffering.setCoopCourse(course);
+	    
+	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+	    
+	    ResponseEntity<String> response = restTemplate.exchange(
+	    				createURLWithPort("/coopCourse"),
+	    				HttpMethod.POST, entity, String.class); 
+	    
+	    
+	    HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
+	    
+	    ResponseEntity<String> response2 = restTemplate.exchange(
+	    				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
+	    				HttpMethod.POST, entity2, String.class);
+	    
+	    String result = response2.getBody().toString(); 
+	   
+	    assertTrue(result.contains("Your course offering details are incomplete!"));
+	    
+    }
+    
+    @Test
+    public void createNullTermCourseOffering() throws Exception {
+    
+    	 CoopCourseOffering courseOffering = new CoopCourseOffering();
+ 	    
+         CoopCourse course = new CoopCourse();
+ 	    
+ 	    course.setCourseCode("EBUC1000");
+ 	    course.setCoopTerm(2);
+ 	    
+ 	    courseOffering.setYear(2019);
+ 	    courseOffering.setTerm(null);
+ 	    courseOffering.setActive(true);
+ 	    courseOffering.setCoopCourse(course);
+ 	    
+ 	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+ 	    
+ 	    ResponseEntity<String> response = restTemplate.exchange(
+ 	    				createURLWithPort("/coopCourse"),
+ 	    				HttpMethod.POST, entity, String.class); 
+ 	    
+ 	    
+ 	    HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
+ 	    
+ 	    ResponseEntity<String> response2 = restTemplate.exchange(
+ 	    				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
+ 	    				HttpMethod.POST, entity2, String.class);
+ 	    
+ 	    String result = response2.getBody().toString(); 
+	   
+	    assertTrue(result.contains("Your course offering details are incomplete!"));
+	    
+    }
+    
+    @Test
+    public void createNullActiveCourseOffering() throws Exception {
+    
+	    CoopCourseOffering courseOffering = new CoopCourseOffering();
+	    
+        CoopCourse course = new CoopCourse();
+	    
+	    course.setCourseCode("EBUC1000");
+	    course.setCoopTerm(2);
+	    
+	    courseOffering.setYear(2019);
+	    courseOffering.setTerm(Term.SUMMER);
+	    courseOffering.setActive(null);
+	    courseOffering.setCoopCourse(course);
+	    
+	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+	    
+	    ResponseEntity<String> response = restTemplate.exchange(
+	    				createURLWithPort("/coopCourse"),
+	    				HttpMethod.POST, entity, String.class); 
+	    
+	    
+	    HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
+	    
+	    ResponseEntity<String> response2 = restTemplate.exchange(
+	    				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
+	    				HttpMethod.POST, entity2, String.class);
+	    
+	    String result = response2.getBody().toString();
+
+	    assertTrue(result.contains("Your course offering details are incomplete!"));
+	    
+    }
     private String createURLWithPort(String uri) {
     	return "http://localhost:" + port + uri;
     }

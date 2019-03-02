@@ -78,6 +78,65 @@ public class CoopCourseRestIT {
 	    assertTrue(result.contains("/coopCourses/EBUC1000"));
     }
     
+    @Test
+    public void createNullCodeCourse() throws Exception {
+    
+	    CoopCourse course = new CoopCourse();
+	    
+	    course.setCourseCode(null);
+	    course.setCoopTerm(2);
+	    
+	    
+	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+	    
+	    ResponseEntity<String> response = restTemplate.exchange(
+	    				createURLWithPort("/coopCourse"),
+	    				HttpMethod.POST, entity, String.class);
+	    
+	    String result = response.getBody().toString(); 
+	    //System.out.println(result); 
+	    assertTrue(result.contains("Validation Failed"));
+    }
+    
+    @Test
+    public void createNullTermCourse() throws Exception {
+    
+	    CoopCourse course = new CoopCourse();
+	    
+	    course.setCourseCode("EBUC1000");
+	    course.setCoopTerm(null);
+	    
+	    
+	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+	    
+	    ResponseEntity<String> response = restTemplate.exchange(
+	    				createURLWithPort("/coopCourse"),
+	    				HttpMethod.POST, entity, String.class);
+	    
+	    String result = response.getBody().toString(); 
+	    //System.out.println(result); 
+	    assertTrue(result.contains("Your course details are incomplete!"));
+    }
+    
+    @Test
+    public void createNegativeTermCourse() throws Exception {
+    
+	    CoopCourse course = new CoopCourse();
+	    
+	    course.setCourseCode("EBUC1000");
+	    course.setCoopTerm(-1);
+	    
+	    
+	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+	    
+	    ResponseEntity<String> response = restTemplate.exchange(
+	    				createURLWithPort("/coopCourse"),
+	    				HttpMethod.POST, entity, String.class);
+	    
+	    String result = response.getBody().toString(); 
+	   
+	    assertTrue(result.contains("Your course details are incomplete!"));
+    }
     private String createURLWithPort(String uri) {
     	return "http://localhost:" + port + uri;
     }

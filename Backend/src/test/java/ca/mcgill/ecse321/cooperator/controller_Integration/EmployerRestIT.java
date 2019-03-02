@@ -72,6 +72,25 @@ public class EmployerRestIT {
 		    assertTrue(result.contains("/employers/tom@email.com"));
 	    }
 	    
+	    @Test
+	    public void createNullNameEmployer() throws Exception {
+	    
+		    Employer employer = new Employer();
+		    
+		    employer.setName(null);
+		    employer.setEmail("tom@email.com");
+		    
+		    HttpEntity<Employer> entity = new HttpEntity<Employer>(employer, headers);
+		    
+		    ResponseEntity<String> response = restTemplate.exchange(
+		    				createURLWithPort("/employer"),
+		    				HttpMethod.POST, entity, String.class);
+		    
+		    String result = response.getBody().toString(); 
+		    System.out.println(result); 
+		    assertTrue(result.contains("Validation Failed"));
+	    }
+	    
 	    private String createURLWithPort(String uri) {
 	    	return "http://localhost:" + port + uri;
 	    }
