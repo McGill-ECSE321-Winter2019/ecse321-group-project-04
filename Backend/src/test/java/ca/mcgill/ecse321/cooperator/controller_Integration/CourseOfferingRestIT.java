@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.cooperator.controller_Integration;
 
-
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -29,7 +28,6 @@ import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.Term;
 
 
-
 //@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CooperatorApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -52,24 +50,18 @@ public class CourseOfferingRestIT {
     @Before
     @After
     public void cleanDataBase() {
+    	
 	    coopCourseOfferingRepository.deleteAll();
 	    coopCourseRepository.deleteAll();
     }
     
     @Test
     public void createCourseOffering() throws Exception {
-    
-	    CoopCourseOffering courseOffering = new CoopCourseOffering();
 	    
         CoopCourse course = new CoopCourse();
 	    
 	    course.setCourseCode("EBUC1000");
 	    course.setCoopTerm(2);
-	    
-	    courseOffering.setYear(2019);
-	    courseOffering.setTerm(Term.SUMMER);
-	    courseOffering.setActive(true);
-	    courseOffering.setCoopCourse(course);
 	    
 	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
 	    
@@ -77,6 +69,13 @@ public class CourseOfferingRestIT {
 	    				createURLWithPort("/coopCourse"),
 	    				HttpMethod.POST, entity, String.class); 
 	    
+	    
+	    CoopCourseOffering courseOffering = new CoopCourseOffering();
+	    
+	    courseOffering.setYear(2019);
+	    courseOffering.setTerm(Term.SUMMER);
+	    courseOffering.setActive(true);
+	    courseOffering.setCoopCourse(course);
 	    
 	    HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 	    
@@ -92,18 +91,11 @@ public class CourseOfferingRestIT {
     
     @Test
     public void createNullYearCourseOffering() throws Exception {
-    
-	    CoopCourseOffering courseOffering = new CoopCourseOffering();
 	    
         CoopCourse course = new CoopCourse();
 	    
 	    course.setCourseCode("EBUC1000");
 	    course.setCoopTerm(2);
-	    
-	    courseOffering.setYear(null);
-	    courseOffering.setTerm(Term.SUMMER);
-	    courseOffering.setActive(true);
-	    courseOffering.setCoopCourse(course);
 	    
 	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
 	    
@@ -111,6 +103,12 @@ public class CourseOfferingRestIT {
 	    				createURLWithPort("/coopCourse"),
 	    				HttpMethod.POST, entity, String.class); 
 	    
+	    
+	    CoopCourseOffering courseOffering = new CoopCourseOffering();
+	    courseOffering.setYear(null);
+	    courseOffering.setTerm(Term.SUMMER);
+	    courseOffering.setActive(true);
+	    courseOffering.setCoopCourse(course); 
 	    
 	    HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 	    
@@ -127,24 +125,26 @@ public class CourseOfferingRestIT {
     @Test
     public void createNullTermCourseOffering() throws Exception {
     
-    	 CoopCourseOffering courseOffering = new CoopCourseOffering();
+    	
  	    
-         CoopCourse course = new CoopCourse();
+        CoopCourse course = new CoopCourse();
  	    
  	    course.setCourseCode("EBUC1000");
  	    course.setCoopTerm(2);
+ 	    
+ 	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+	    
+	    ResponseEntity<String> response = restTemplate.exchange(
+	    				createURLWithPort("/coopCourse"),
+	    				HttpMethod.POST, entity, String.class); 
+	    
+	    
+ 	    CoopCourseOffering courseOffering = new CoopCourseOffering();
  	    
  	    courseOffering.setYear(2019);
  	    courseOffering.setTerm(null);
  	    courseOffering.setActive(true);
  	    courseOffering.setCoopCourse(course);
- 	    
- 	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
- 	    
- 	    ResponseEntity<String> response = restTemplate.exchange(
- 	    				createURLWithPort("/coopCourse"),
- 	    				HttpMethod.POST, entity, String.class); 
- 	    
  	    
  	    HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
  	    
@@ -160,18 +160,11 @@ public class CourseOfferingRestIT {
     
     @Test
     public void createNullActiveCourseOffering() throws Exception {
-    
-	    CoopCourseOffering courseOffering = new CoopCourseOffering();
 	    
         CoopCourse course = new CoopCourse();
 	    
 	    course.setCourseCode("EBUC1000");
 	    course.setCoopTerm(2);
-	    
-	    courseOffering.setYear(2019);
-	    courseOffering.setTerm(Term.SUMMER);
-	    courseOffering.setActive(null);
-	    courseOffering.setCoopCourse(course);
 	    
 	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
 	    
@@ -180,6 +173,13 @@ public class CourseOfferingRestIT {
 	    				HttpMethod.POST, entity, String.class); 
 	    
 	    
+	    CoopCourseOffering courseOffering = new CoopCourseOffering();
+	    
+	    courseOffering.setYear(2019);
+	    courseOffering.setTerm(Term.SUMMER);
+	    courseOffering.setActive(null);
+	    courseOffering.setCoopCourse(course); 
+	   
 	    HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 	    
 	    ResponseEntity<String> response2 = restTemplate.exchange(
@@ -194,6 +194,6 @@ public class CourseOfferingRestIT {
     
     private String createURLWithPort(String uri) {
     	return "http://localhost:" + port + uri;
-    }
+    } 
 
 }

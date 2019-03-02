@@ -10,7 +10,7 @@ import javax.persistence.Id;
 
 @Entity
 public class CoopCourse {
-	@NotBlank(message = "course code cannot be blank")
+	
 	private String courseCode;
 	private Integer coopTerm;
 	private Set<CoopCourseOffering> coopCourseOffering;
