@@ -7,36 +7,35 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Document {
+	
+    private String name;
+	
+    private String url;
+	private long documentID;
 
-  private String name;
+    public void setName(String value) {
+        this.name = value;
+    }
 
-  private String url;
-  private long documentID;
+    public String getName() {
+        return this.name;
+    }
 
-  public void setName(String value) {
-    this.name = value;
-  }
+    public void setUrl(String value) {
+        this.url = value;
+    }
 
-  public String getName() {
-    return this.name;
-  }
+    public String getUrl() {
+        return this.url;
+    }
+    @Id
+    @GeneratedValue
+	public long getDocumentID() {
+		return documentID;
+	}
 
-  public void setUrl(String value) {
-    this.url = value;
-  }
-
-  public String getUrl() {
-    return this.url;
-  }
-
-  @Id
-  @GeneratedValue
-  public long getDocumentID() {
-    return documentID;
-  }
-
-  public void setDocumentID(long documentID) {
-    this.documentID = documentID;
-  }
+	public void setDocumentID(long documentID) {
+		this.documentID = documentID;
+	}
 
 }

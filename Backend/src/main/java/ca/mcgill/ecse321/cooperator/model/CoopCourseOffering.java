@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.cooperator.model;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
@@ -12,95 +13,94 @@ import java.util.HashSet;
 
 @Entity
 public class CoopCourseOffering {
+	
+	@Enumerated(EnumType.STRING)
+	private Term term;
+	
+	private Integer year;
+	private Boolean active;
+	private Set<StudentEnrollment> studentEnrollments;
+	private CoopCourse coopCourse;
+	private String offerID;
 
-  @Enumerated(EnumType.STRING)
-  private Term term;
+	public void setTerm(Term value) {
+		this.term = value;
+	}
 
-  private Integer year;
-  private Boolean active;
-  private Set<StudentEnrollment> studentEnrollments;
-  private CoopCourse coopCourse;
-  private String offerID;
+	public Term getTerm() {
+		return this.term;
+	}
 
-  public void setTerm(Term value) {
-    this.term = value;
-  }
+	public void setYear(Integer value) {
+		this.year = value;
+	}
 
-  public Term getTerm() {
-    return this.term;
-  }
+	public Integer getYear() {
+		return this.year;
+	}
 
-  public void setYear(Integer value) {
-    this.year = value;
-  }
+	public void setActive(Boolean value) {
+		this.active = value;
+	}
 
-  public Integer getYear() {
-    return this.year;
-  }
+	public Boolean getActive() {
+		return this.active;
+	}
 
-  public void setActive(Boolean value) {
-    this.active = value;
-  }
+	@OneToMany(mappedBy = "coopCourseOffering", cascade = { CascadeType.ALL })
+	public Set<StudentEnrollment> getStudentEnrollments() {
+		return this.studentEnrollments;
+	}
 
-  public Boolean getActive() {
-    return this.active;
-  }
+	public void setStudentEnrollments(Set<StudentEnrollment> studentEnrollmentss) {
+		this.studentEnrollments = studentEnrollmentss;
+	}
 
-  @OneToMany(mappedBy = "coopCourseOffering", cascade = {CascadeType.ALL})
-  public Set<StudentEnrollment> getStudentEnrollments() {
-    return this.studentEnrollments;
-  }
+	public void addStudentEnrollment(StudentEnrollment se) {
+		if (studentEnrollments == null)
+			studentEnrollments = new HashSet<StudentEnrollment>();
+		studentEnrollments.add(se);
+	}
 
-  public void setStudentEnrollments(Set<StudentEnrollment> studentEnrollmentss) {
-    this.studentEnrollments = studentEnrollmentss;
-  }
+	@ManyToOne(optional = false)
+	public CoopCourse getCoopCourse() {
+		return this.coopCourse;
+	}
 
-  public void addStudentEnrollment(StudentEnrollment se) {
-    if (studentEnrollments == null)
-      studentEnrollments = new HashSet<StudentEnrollment>();
-    studentEnrollments.add(se);
-  }
+	public void setCoopCourse(CoopCourse coopCourse) {
+		this.coopCourse = coopCourse;
+	}
 
-  @ManyToOne(optional = false)
-  public CoopCourse getCoopCourse() {
-    return this.coopCourse;
-  }
+	public void setOfferID(String value) {
+		this.offerID = value;
+	}
 
-  public void setCoopCourse(CoopCourse coopCourse) {
-    this.coopCourse = coopCourse;
-  }
+    // This method requires that the instance already has
+    // populated coopCourse, term and year attributes
+    public void setOfferID() {
+            if (this.coopCourse == null || this.term == null || this.year == null) {
+                throw new IllegalArgumentException("The student enrollment must have a term and a year to generate the ID.");
+            }
 
-  public void setOfferID(String value) {
-    this.offerID = value;
-  }
+            String offerID = coopCourse.getCourseCode();
+            switch (this.term) {
+            case FALL:
+                    offerID += "-F";
+                    break;
+            case WINTER:
+                    offerID += "-W";
+                    break;
+            case SUMMER:
+                    offerID += "-S";
+                    break;
+            }
+            offerID += this.year % 2000;
 
-  // This method requires that the instance already has
-  // populated coopCourse, term and year attributes
-  public void setOfferID() {
-    if (this.coopCourse == null || this.term == null || this.year == null) {
-      throw new IllegalArgumentException(
-          "The student enrollment must have a term and a year to generate the ID.");
+            this.offerID = offerID;
     }
 
-    String offerID = coopCourse.getCourseCode();
-    switch (this.term) {
-      case FALL:
-        offerID += "-F";
-        break;
-      case WINTER:
-        offerID += "-W";
-        break;
-      case SUMMER:
-        offerID += "-S";
-        break;
-    }
-    offerID += this.year % 2000;
-
-    this.offerID = offerID;
-  }
-
-  @Id
-  public String getOfferID() {
-    return this.offerID;
-  }
+	@Id
+	public String getOfferID() {
+		return this.offerID;
+	}
 }
