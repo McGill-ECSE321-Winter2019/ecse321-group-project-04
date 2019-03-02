@@ -84,7 +84,7 @@ public class EmployerRestIT {
 		    
 		    String result = response.getBody().toString(); 
 		    System.out.println(result); 
-		    assertTrue(result.contains("Validation Failed"));
+		    assertTrue(result.contains("Your employer details are incomplete!"));
 	    }
 	    
 	    private String createURLWithPort(String uri) {
