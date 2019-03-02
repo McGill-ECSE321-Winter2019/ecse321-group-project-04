@@ -75,7 +75,7 @@ public class CoopCourseOffering {
 		this.offerID = value;
 	}
 
-    // This method required that the instance already has
+    // This method requires that the instance already has
     // populated coopCourse, term and year attributes
     public void setOfferID() {
             if (this.coopCourse == null || this.term == null || this.year == null) {

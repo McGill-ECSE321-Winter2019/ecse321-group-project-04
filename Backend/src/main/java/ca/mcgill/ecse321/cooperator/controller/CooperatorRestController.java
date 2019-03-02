@@ -107,8 +107,7 @@ public class CooperatorRestController {
 	@PostMapping("/task")
 	public ResponseEntity<Object> createTask(@Valid @RequestBody Task task,
 			@RequestParam(name = "studentEnrollmentID") String id) {
-		StudentEnrollment se = service.getStudentEnrollment(id);
-		Task savedTask = service.createTask(task, se);
+		Task savedTask = service.createTask(task, id);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
 				.buildAndExpand(savedTask.getTaskID()).toUri();
 

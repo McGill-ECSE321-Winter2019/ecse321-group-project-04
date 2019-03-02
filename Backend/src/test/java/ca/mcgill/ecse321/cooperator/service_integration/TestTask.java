@@ -5,7 +5,6 @@ import static org.junit.Assert.fail;
 
 import java.sql.Date;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.After;
@@ -81,7 +80,7 @@ public class TestTask {
                 StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, "test-url-1", "test-url-2");
 
 		try {
-			Task t = service.createTask("Task name", "Some description", dueDate, TaskStatus.COMPLETED, se);
+			Task t = service.createTask("Task name", "Some description", dueDate, TaskStatus.COMPLETED, se.getEnrollmentID());
                         taskID = t.getTaskID();
 		} catch (InvalidParameterException e) {
 			fail();
@@ -117,7 +116,7 @@ public class TestTask {
 		param.setTaskStatus(TaskStatus.COMPLETED);
         
 		try {
-			Task t = service.createTask(param, se);
+			Task t = service.createTask(param, se.getEnrollmentID());
             taskName = t.getName();
 		} catch (InvalidParameterException e) {
 			fail();
