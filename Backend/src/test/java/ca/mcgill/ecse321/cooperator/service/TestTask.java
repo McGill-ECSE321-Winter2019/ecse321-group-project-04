@@ -34,9 +34,10 @@ import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.model.Term;
 import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles("test")
+
 public class TestTask {
 	@Autowired
 	private CooperatorService service;
@@ -181,4 +182,5 @@ public class TestTask {
 		
 		assertEquals(error, "Could not find a Task with ID 1234567");
 	}
-}
+
+} 

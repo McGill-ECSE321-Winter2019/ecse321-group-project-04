@@ -38,7 +38,7 @@ import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 public class TestDocument {
 	@Autowired
 	private CooperatorService service;
