@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.cooperator.controller_Integration;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 import java.sql.Date;
 
