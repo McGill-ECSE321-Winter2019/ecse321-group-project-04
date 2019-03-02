@@ -164,7 +164,6 @@ public class StudentEnrollmentRestIT {
 	    				HttpMethod.POST, entity5, String.class);
 	    
 	    String result = response5.getBody().toString(); 
-	    System.out.println(result); 
 	    
 	    assertTrue(result.contains("/studentEnrollments/260893874-EBUC1000-S19"));
 	    

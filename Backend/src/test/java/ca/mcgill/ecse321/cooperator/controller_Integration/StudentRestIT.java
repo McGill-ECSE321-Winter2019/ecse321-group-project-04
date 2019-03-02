@@ -1,7 +1,5 @@
 package ca.mcgill.ecse321.cooperator.controller_Integration;
 
-
-
 import static org.junit.Assert.assertTrue;
 
 
@@ -65,8 +63,6 @@ public class StudentRestIT {
 		    				createURLWithPort("/student"),
 		    				HttpMethod.POST, entity, String.class);
 		    String result = response.getBody().toString(); 
-		    //System.out.println(result); 
-		    //assertThat(result.subSequence(23, result.length()-1)).isEqualTo("/students/260893874");
 		    assertTrue(result.contains("/students/260893874")); 
 		    
 	    }
@@ -88,7 +84,6 @@ public class StudentRestIT {
     				HttpMethod.POST, entity, String.class);
 		    
 		    String result = response.getBody().toString(); 
-		    //System.out.println(result); 
 		    assertTrue(result.contains("Your student details are incomplete!"));
 		    
 	    }
@@ -109,9 +104,6 @@ public class StudentRestIT {
 		    				createURLWithPort("/student"),
 		    				HttpMethod.POST, entity, String.class);
 		    String result = response.getBody().toString(); 
-		    
-		    //result.contains("Your student details are incomplete!"); 
-		    //System.out.println(result.contains("Your student details are incomplete!")); 
 		    assertTrue(result.contains("Your student details are incomplete!"));
 		    
 	    }
@@ -152,9 +144,7 @@ public class StudentRestIT {
 		    				createURLWithPort("/student"),
 		    				HttpMethod.POST, entity, String.class);
 		    
-		    String result = response.getBody().toString(); 
-		    
-		   // HttpResponse httpResponse ; //= HttpClientBuilder.create().build().execute( HttpMethod.POST );
+		    String result = response.getBody().toString();
 		    assertTrue(result.contains("Your student details are incomplete!"));
 		    
 	    }

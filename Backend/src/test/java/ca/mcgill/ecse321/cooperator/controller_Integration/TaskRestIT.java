@@ -20,9 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import ca.mcgill.ecse321.cooperator.CooperatorApplication;
 
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
@@ -141,9 +138,7 @@ public class TaskRestIT {
 	    courseOffering.setTerm(Term.SUMMER);
 	    courseOffering.setActive(true);
 	    courseOffering.setCoopCourse(course);
-	    //courseOffering.setOfferID("ECSE-321-W19");
-	    
-	    
+	   
 	    HttpEntity<CoopCourseOffering> entity4 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 	    
 	    ResponseEntity<String> response4 = restTemplate.exchange(
