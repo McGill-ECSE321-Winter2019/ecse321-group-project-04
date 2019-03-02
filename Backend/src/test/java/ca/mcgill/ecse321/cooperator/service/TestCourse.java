@@ -7,10 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import ca.mcgill.ecse321.cooperator.CooperatorApplication;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
@@ -33,19 +29,18 @@ public class TestCourse {
 
   @Before
   public void mockSetUp() {
-    when(coopCourseRepository.save(notNull())).thenAnswer( (InvocationOnMock invocation) ->
-    {
+    when(coopCourseRepository.save(notNull())).thenAnswer((InvocationOnMock invocation) -> {
       return invocation.getArgument(0);
     });
-    
-    when(coopCourseRepository.findByCourseCode(anyString())).thenAnswer( (InvocationOnMock invocation) ->
-    {
-      if (invocation.getArgument(0).equals("ECSE300")) {
-        return service.createCoopCourse("ECSE300", 1);
-      } else {
-        return null;
-      }
-    });
+
+    when(coopCourseRepository.findByCourseCode(anyString()))
+        .thenAnswer((InvocationOnMock invocation) -> {
+          if (invocation.getArgument(0).equals("ECSE300")) {
+            return service.createCoopCourse("ECSE300", 1);
+          } else {
+            return null;
+          }
+        });
   }
 
   @Test

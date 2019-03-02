@@ -26,34 +26,32 @@ import static org.mockito.Mockito.when;
 public class TestCourseOffering {
   @InjectMocks
   private CooperatorService service;
-  
+
   @Mock
   private CoopCourseRepository coopCourseRepository;
-  
+
   @Mock
   private CoopCourseOfferingRepository coopCourseOfferingRepository;
 
   @Before
   public void mockSetUp() {
-    when(coopCourseRepository.save(notNull())).thenAnswer( (InvocationOnMock invocation) ->
-    {
+    when(coopCourseRepository.save(notNull())).thenAnswer((InvocationOnMock invocation) -> {
       return invocation.getArgument(0);
     });
-    
-    when(coopCourseOfferingRepository.save(notNull())).thenAnswer( (InvocationOnMock invocation) ->
-    {
+
+    when(coopCourseOfferingRepository.save(notNull())).thenAnswer((InvocationOnMock invocation) -> {
       return invocation.getArgument(0);
     });
-    
-    when(coopCourseOfferingRepository.findByOfferID(anyString())).thenAnswer( (InvocationOnMock invocation) ->
-    {
-      if (invocation.getArgument(0).equals("ECSE301-W18")) {
-        CoopCourse c = service.createCoopCourse("ECSE301", 1);
-        return service.createCoopCourseOffering(2018, Term.WINTER, true, c);
-      } else {
-        return null;
-      }
-    });
+
+    when(coopCourseOfferingRepository.findByOfferID(anyString()))
+        .thenAnswer((InvocationOnMock invocation) -> {
+          if (invocation.getArgument(0).equals("ECSE301-W18")) {
+            CoopCourse c = service.createCoopCourse("ECSE301", 1);
+            return service.createCoopCourseOffering(2018, Term.WINTER, true, c);
+          } else {
+            return null;
+          }
+        });
   }
 
   @Test

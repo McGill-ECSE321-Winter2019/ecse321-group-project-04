@@ -29,13 +29,11 @@ public class TestEmployer {
 
   @Before
   public void mockSetUp() {
-    when(employerRepository.save(notNull())).thenAnswer( (InvocationOnMock invocation) ->
-    {
+    when(employerRepository.save(notNull())).thenAnswer((InvocationOnMock invocation) -> {
       return invocation.getArgument(0);
     });
-    
-    when(employerRepository.findByEmail(anyString())).thenAnswer( (InvocationOnMock invocation) ->
-    {
+
+    when(employerRepository.findByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
       if (invocation.getArgument(0).equals("google@gmail.com")) {
         return service.createEmployer("Google", "google@gmail.com");
       } else {

@@ -30,14 +30,12 @@ public class TestStudent {
 
   @Before
   public void mockSetUp() {
-    when(studentRepository.save(notNull())).thenAnswer( (InvocationOnMock invocation) ->
-    {
+    when(studentRepository.save(notNull())).thenAnswer((InvocationOnMock invocation) -> {
       return invocation.getArgument(0);
     });
-    
-    when(studentRepository.findByMcgillID(anyInt())).thenAnswer( (InvocationOnMock invocation) ->
-    {
-      if ((int)invocation.getArgument(0) == 260112233) {
+
+    when(studentRepository.findByMcgillID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+      if ((int) invocation.getArgument(0) == 260112233) {
         return service.createStudent("first_name", "last_name", 260112233, "student@email.com");
       } else {
         return null;

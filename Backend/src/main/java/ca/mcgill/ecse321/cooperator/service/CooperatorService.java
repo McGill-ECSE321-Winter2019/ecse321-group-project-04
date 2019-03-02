@@ -459,7 +459,8 @@ public class CooperatorService {
     Task t1 =
         createTask("Report CO-OP Position Acceptance", "Submit the CO-OP position acceptance form.",
             currentDate, TaskStatus.COMPLETED, se.getEnrollmentID());
-    createDocument("CO-OP Position Acceptance Form", coopAcceptanceForm, se.getEnrollmentID(), t1.getName());
+    createDocument("CO-OP Position Acceptance Form", coopAcceptanceForm, se.getEnrollmentID(),
+        t1.getName());
 
     Task t2 = createTask("Upload Employer Contract", "Submit the employer contract document.",
         currentDate, TaskStatus.COMPLETED, se.getEnrollmentID());
@@ -650,7 +651,7 @@ public class CooperatorService {
     }
 
     Task t = studentEnrollmentRepository.findByEnrollmentID(enrollmentID).getTask(taskName);
-    
+
     if (t.getDocument(name) != null) {
       t.getDocument(name).setUrl(url);
       taskRepository.save(t);
@@ -709,7 +710,8 @@ public class CooperatorService {
    * @param url
    * @return
    */
-  private boolean incorrectDocumentDetails(String name, String url, String enrollmentID, String taskName) {
+  private boolean incorrectDocumentDetails(String name, String url, String enrollmentID,
+      String taskName) {
     if (name == null || name.trim().length() == 0 || url == null || url.trim().length() == 0
         || enrollmentID == null || taskName == null) {
       return true;
