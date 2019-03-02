@@ -11,9 +11,15 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import ca.mcgill.ecse321.cooperator.CooperatorApplication;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
 import ca.mcgill.ecse321.cooperator.dao.EmployerRepository;
@@ -35,6 +41,7 @@ import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+//@ActiveProfiles("test")
 public class TestDocument {
 	@Autowired
 	private CooperatorService service;

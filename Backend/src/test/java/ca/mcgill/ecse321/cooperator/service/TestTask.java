@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
@@ -33,8 +34,10 @@ import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.model.Term;
 import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
+
 public class TestTask {
 	@Autowired
 	private CooperatorService service;
@@ -179,4 +182,5 @@ public class TestTask {
 		
 		assertEquals(error, "Could not find a Task with ID 1234567");
 	}
-}
+
+} 
