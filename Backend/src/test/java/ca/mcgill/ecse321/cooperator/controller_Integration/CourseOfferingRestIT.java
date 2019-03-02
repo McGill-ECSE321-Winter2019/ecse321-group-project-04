@@ -191,6 +191,7 @@ public class CourseOfferingRestIT {
 	    assertTrue(result.contains("Your course offering details are incomplete!"));
 	    
     }
+    
     private String createURLWithPort(String uri) {
     	return "http://localhost:" + port + uri;
     }
