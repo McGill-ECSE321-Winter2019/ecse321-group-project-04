@@ -98,7 +98,7 @@ public class TestDocument {
   public void testOverwriteDocument() {
     // Create chain of objects required to create a task
     @SuppressWarnings("deprecation")
-    Date dueDate = new Date(2019, 1, 1);
+    Date dueDate = new Date(2019, 1, 1); 
     CoopCourse c = service.createCoopCourse("ECSE302", 1);
     CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
     Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");

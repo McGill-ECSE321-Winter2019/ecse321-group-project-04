@@ -7,9 +7,9 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Document {
-	@NotBlank(message = "document name cannot be blank")
+	
     private String name;
-	@NotBlank(message = "document url cannot be blank")
+	
     private String url;
 	private long documentID;
 
