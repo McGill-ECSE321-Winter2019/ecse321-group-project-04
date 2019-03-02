@@ -181,6 +181,185 @@ public class TaskRestIT {
 	    
     }
     
+    @Test
+    public void createNullNameTasK() throws Exception {
+    
+    	Task task = new Task(); 
+    	
+    	CoopCourse course = new CoopCourse();
+	    
+	    course.setCourseCode("EBUC1000");
+	    course.setCoopTerm(2);
+	    
+	    
+	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+	    
+	    ResponseEntity<String> response = restTemplate.exchange(
+	    				createURLWithPort("/coopCourse"),
+	    				HttpMethod.POST, entity, String.class);
+    	
+	    Student student = new Student();
+	    
+	    student.setFirstName("uvw");
+	    student.setLastName("xyz");
+	    student.setMcgillID(260893874);
+	    student.setMcgillEmail("uvw.xyz@email.com");
+	    
+	    
+	    HttpEntity<Student> entity2 = new HttpEntity<Student>(student, headers);
+	    
+	    ResponseEntity<String> response2 = restTemplate.exchange(
+	    				createURLWithPort("/student"),
+	    				HttpMethod.POST, entity2, String.class);
+	    
+	    Employer employer = new Employer();
+	    
+	    employer.setName("Tom");
+	    employer.setEmail("tom@email.com");
+	    
+	    HttpEntity<Employer> entity3 = new HttpEntity<Employer>(employer, headers);
+	    
+	    ResponseEntity<String> response3 = restTemplate.exchange(
+	    				createURLWithPort("/employer"),
+	    				HttpMethod.POST, entity3, String.class);
+	    
+	    CoopCourseOffering courseOffering = new CoopCourseOffering();
+	    
+	    
+	    courseOffering.setYear(2019);
+	    courseOffering.setTerm(Term.SUMMER);
+	    courseOffering.setActive(true);
+	    courseOffering.setCoopCourse(course);
+	   
+	    HttpEntity<CoopCourseOffering> entity4 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
+	    
+	    ResponseEntity<String> response4 = restTemplate.exchange(
+	    				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
+	    				HttpMethod.POST, entity4, String.class);
+		
+	    
+	    StudentEnrollment sudentEnrollment = new StudentEnrollment();
+	    
+	    sudentEnrollment.setActive(true);
+	    sudentEnrollment.setStatus(CourseStatus.ONGOING);
+	    
+	    
+	    HttpEntity<StudentEnrollment> entity5 = new HttpEntity<StudentEnrollment>(sudentEnrollment, headers);
+	    
+	    ResponseEntity<String> response5 = restTemplate.exchange(
+	    				createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
+	    						+ "&studentID=260893874&employerEmail=tom@email.com"
+	    						+ "&coopAcceptanceForm=url1&employerContract=url2"),
+	    				HttpMethod.POST, entity5, String.class);
+	    
+	    Date dueDate = new Date(2019, 1, 1);
+	   
+	    task.setName(null);
+	    task.setDescription("some description");
+	    task.setDueDate(dueDate);
+	    task.setTaskStatus(TaskStatus.COMPLETED);
+	    
+	    HttpEntity<Task> entity6 = new HttpEntity<Task>(task, headers);
+	    
+	    ResponseEntity<String> response6 = restTemplate.exchange(
+	    				createURLWithPort("/task?studentEnrollmentID=260893874-EBUC1000-S19"),
+	    				HttpMethod.POST, entity6, String.class);
+	    
+	    String result = response6.getBody().toString();
+	    
+	    assertTrue(result.contains("Your task details are incomplete!"));
+	    
+    }
+    
+    @Test
+    public void createNullDiscriptionTasK() throws Exception {
+    
+    	Task task = new Task(); 
+    	
+    	CoopCourse course = new CoopCourse();
+	    
+	    course.setCourseCode("EBUC1000");
+	    course.setCoopTerm(2);
+	    
+	    
+	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+	    
+	    ResponseEntity<String> response = restTemplate.exchange(
+	    				createURLWithPort("/coopCourse"),
+	    				HttpMethod.POST, entity, String.class);
+    	
+	    Student student = new Student();
+	    
+	    student.setFirstName("uvw");
+	    student.setLastName("xyz");
+	    student.setMcgillID(260893874);
+	    student.setMcgillEmail("uvw.xyz@email.com");
+	    
+	    
+	    HttpEntity<Student> entity2 = new HttpEntity<Student>(student, headers);
+	    
+	    ResponseEntity<String> response2 = restTemplate.exchange(
+	    				createURLWithPort("/student"),
+	    				HttpMethod.POST, entity2, String.class);
+	    
+	    Employer employer = new Employer();
+	    
+	    employer.setName("Tom");
+	    employer.setEmail("tom@email.com");
+	    
+	    HttpEntity<Employer> entity3 = new HttpEntity<Employer>(employer, headers);
+	    
+	    ResponseEntity<String> response3 = restTemplate.exchange(
+	    				createURLWithPort("/employer"),
+	    				HttpMethod.POST, entity3, String.class);
+	    
+	    CoopCourseOffering courseOffering = new CoopCourseOffering();
+	    
+	    
+	    courseOffering.setYear(2019);
+	    courseOffering.setTerm(Term.SUMMER);
+	    courseOffering.setActive(true);
+	    courseOffering.setCoopCourse(course);
+	   
+	    HttpEntity<CoopCourseOffering> entity4 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
+	    
+	    ResponseEntity<String> response4 = restTemplate.exchange(
+	    				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
+	    				HttpMethod.POST, entity4, String.class);
+		
+	    
+	    StudentEnrollment sudentEnrollment = new StudentEnrollment();
+	    
+	    sudentEnrollment.setActive(true);
+	    sudentEnrollment.setStatus(CourseStatus.ONGOING);
+	    
+	    
+	    HttpEntity<StudentEnrollment> entity5 = new HttpEntity<StudentEnrollment>(sudentEnrollment, headers);
+	    
+	    ResponseEntity<String> response5 = restTemplate.exchange(
+	    				createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
+	    						+ "&studentID=260893874&employerEmail=tom@email.com"
+	    						+ "&coopAcceptanceForm=url1&employerContract=url2"),
+	    				HttpMethod.POST, entity5, String.class);
+	    
+	    Date dueDate = new Date(2019, 1, 1);
+	   
+	    task.setName("someTask");
+	    task.setDescription(null);
+	    task.setDueDate(dueDate);
+	    task.setTaskStatus(TaskStatus.COMPLETED);
+	    
+	    HttpEntity<Task> entity6 = new HttpEntity<Task>(task, headers);
+	    
+	    ResponseEntity<String> response6 = restTemplate.exchange(
+	    				createURLWithPort("/task?studentEnrollmentID=260893874-EBUC1000-S19"),
+	    				HttpMethod.POST, entity6, String.class);
+	    
+	    String result = response6.getBody().toString(); 
+	   
+	    assertTrue(result.contains("Validation Failed"));
+	    
+    }
     private String createURLWithPort(String uri) {
     	return "http://localhost:" + port + uri;
     }

@@ -169,6 +169,83 @@ public class StudentEnrollmentRestIT {
 	    
     }
     
+    @Test
+    public void createNullStatusStudentEnrollment() throws Exception {
+    
+    	StudentEnrollment sudentEnrollment = new StudentEnrollment();
+    	
+    	CoopCourse course = new CoopCourse();
+	    
+	    course.setCourseCode("EBUC1000");
+	    course.setCoopTerm(2);
+	    
+	    
+	    HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+	    
+	    ResponseEntity<String> response = restTemplate.exchange(
+	    				createURLWithPort("/coopCourse"),
+	    				HttpMethod.POST, entity, String.class);
+    	
+	    Student student = new Student();
+	    
+	    student.setFirstName("uvw");
+	    student.setLastName("xyz");
+	    student.setMcgillID(260893874);
+	    student.setMcgillEmail("uvw.xyz@email.com");
+	    
+	    
+	    HttpEntity<Student> entity2 = new HttpEntity<Student>(student, headers);
+	    
+	    ResponseEntity<String> response2 = restTemplate.exchange(
+	    				createURLWithPort("/student"),
+	    				HttpMethod.POST, entity2, String.class);
+	    
+	    Employer employer = new Employer();
+	    
+	    employer.setName("Tom");
+	    employer.setEmail("tom@email.com");
+	    
+	    HttpEntity<Employer> entity3 = new HttpEntity<Employer>(employer, headers);
+	    
+	    ResponseEntity<String> response3 = restTemplate.exchange(
+	    				createURLWithPort("/employer"),
+	    				HttpMethod.POST, entity3, String.class);
+	    
+	    CoopCourseOffering courseOffering = new CoopCourseOffering();
+	    
+	    
+	    courseOffering.setYear(2019);
+	    courseOffering.setTerm(Term.SUMMER);
+	    courseOffering.setActive(true);
+	    courseOffering.setCoopCourse(course);
+	    
+	    
+	    HttpEntity<CoopCourseOffering> entity4 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
+	    
+	    ResponseEntity<String> response4 = restTemplate.exchange(
+	    				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"),
+	    				HttpMethod.POST, entity4, String.class);
+		
+	    
+	    sudentEnrollment.setActive(true);
+	    sudentEnrollment.setStatus(null);
+	    
+	    
+	    HttpEntity<StudentEnrollment> entity5 = new HttpEntity<StudentEnrollment>(sudentEnrollment, headers);
+	    
+	    ResponseEntity<String> response5 = restTemplate.exchange(
+	    				createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
+	    						+ "&studentID=260893874&employerEmail=tom@email.com"
+	    						+ "&coopAcceptanceForm=url1&employerContract=url2"),
+	    				
+	    				HttpMethod.POST, entity5, String.class);
+	    
+	    String result = response5.getBody().toString(); 
+	    
+	    assertTrue(result.contains("Your student enrollment details are incomplete!"));
+	    
+    }
+    
     private String createURLWithPort(String uri) {
     	return "http://localhost:" + port + uri;
     }
