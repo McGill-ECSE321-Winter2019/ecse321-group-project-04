@@ -18,9 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
 import ca.mcgill.ecse321.cooperator.CooperatorApplication;
-
 import ca.mcgill.ecse321.cooperator.dao.StudentRepository;
 import ca.mcgill.ecse321.cooperator.model.Student;
 
@@ -50,7 +48,7 @@ public class StudentRestIT {
 	    @Test
 	    public void createStudent() throws Exception {
 	    
-		    Student student = new Student(); 
+		    Student student = new Student();
 		    
 		    student.setFirstName("uvw");
 		    student.setLastName("xyz");
@@ -62,9 +60,7 @@ public class StudentRestIT {
 		    ResponseEntity<String> response = restTemplate.exchange(
 		    				createURLWithPort("/student"),
 		    				HttpMethod.POST, entity, String.class);
-		    
 		    String result = response.getBody().toString(); 
-		    
 		    assertTrue(result.contains("/students/260893874")); 
 		    
 	    }
@@ -86,7 +82,6 @@ public class StudentRestIT {
     				HttpMethod.POST, entity, String.class);
 		    
 		    String result = response.getBody().toString(); 
-		    
 		    assertTrue(result.contains("Your student details are incomplete!"));
 		    
 	    }
@@ -106,9 +101,7 @@ public class StudentRestIT {
 		    ResponseEntity<String> response = restTemplate.exchange(
 		    				createURLWithPort("/student"),
 		    				HttpMethod.POST, entity, String.class);
-		    
 		    String result = response.getBody().toString(); 
-		    
 		    assertTrue(result.contains("Your student details are incomplete!"));
 		    
 	    }
@@ -128,9 +121,7 @@ public class StudentRestIT {
 		    ResponseEntity<String> response = restTemplate.exchange(
 		    				createURLWithPort("/student"),
 		    				HttpMethod.POST, entity, String.class);
-		    
 		    String result = response.getBody().toString(); 
-		    
 		    assertTrue(result.contains("Your student details are incomplete!"));
 		    
 	    }
@@ -152,11 +143,9 @@ public class StudentRestIT {
 		    				HttpMethod.POST, entity, String.class);
 		    
 		    String result = response.getBody().toString();
-		    
 		    assertTrue(result.contains("Your student details are incomplete!"));
 		    
 	    }
-	    
 	    private String createURLWithPort(String uri) {
 	    	return "http://localhost:" + port + uri;
 	    }
