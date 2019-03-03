@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.cooperator.controller_Integration;
+package ca.mcgill.ecse321.cooperator.controller_integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

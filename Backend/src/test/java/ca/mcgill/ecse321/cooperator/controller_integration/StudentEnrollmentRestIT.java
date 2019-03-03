@@ -1,9 +1,7 @@
-package ca.mcgill.ecse321.cooperator.controller_Integration;
+package ca.mcgill.ecse321.cooperator.controller_integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.sql.Date;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,7 +20,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import ca.mcgill.ecse321.cooperator.CooperatorApplication;
-
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
 import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
@@ -36,14 +33,12 @@ import ca.mcgill.ecse321.cooperator.model.CourseStatus;
 import ca.mcgill.ecse321.cooperator.model.Employer;
 import ca.mcgill.ecse321.cooperator.model.Student;
 import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
-import ca.mcgill.ecse321.cooperator.model.Task;
-import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.model.Term;
 
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CooperatorApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TaskRestIT {
+public class StudentEnrollmentRestIT {
 
 	@LocalServerPort
 	private int port;
@@ -87,8 +82,8 @@ public class TaskRestIT {
 	}
 
 	@Before
+	@After
 	public void prepareTest() {
-
 		CoopCourse course = new CoopCourse();
 
 		course.setCourseCode("EBUC1000");
@@ -129,101 +124,92 @@ public class TaskRestIT {
 
 		restTemplate.exchange(createURLWithPort("coopCourseOffering?courseCode=EBUC1000"), HttpMethod.POST, entity4,
 				String.class);
+
+	}
+
+	@Test
+	public void createStudentEnrollment() {
+
 		StudentEnrollment studentEnrollment = new StudentEnrollment();
 
 		studentEnrollment.setActive(true);
 		studentEnrollment.setStatus(CourseStatus.ONGOING);
 
-		HttpEntity<StudentEnrollment> entity5 = new HttpEntity<StudentEnrollment>(studentEnrollment, headers);
-
-		restTemplate
-				.exchange(
-						createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
-								+ "&studentID=260893874&employerEmail=tom@email.com"
-								+ "&coopAcceptanceForm=url1&employerContract=url2"),
-						HttpMethod.POST, entity5, String.class);
-	}
-
-	@Test
-	public void createTasK() {
-
-		Task task = new Task();
-		
-		@SuppressWarnings("deprecation")
-		Date dueDate = new Date(2019, 1, 1);
-
-		task.setName("someTask");
-		task.setDescription("some description");
-		task.setDueDate(dueDate);
-		task.setTaskStatus(TaskStatus.COMPLETED);
-
-		HttpEntity<Task> entity = new HttpEntity<Task>(task, headers);
+		HttpEntity<StudentEnrollment> entity = new HttpEntity<StudentEnrollment>(studentEnrollment, headers);
 
 		ResponseEntity<String> response = restTemplate.exchange(
-				createURLWithPort("/task?studentEnrollmentID=260893874-EBUC1000-S19"), HttpMethod.POST, entity,
-				String.class);
+				createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
+						+ "&studentID=260893874&employerEmail=tom@email.com"
+						+ "&coopAcceptanceForm=url1&employerContract=url2"),
+
+				HttpMethod.POST, entity, String.class);
 
 		String result = response.getBody().toString();
 
-		assertTrue(result.contains("/tasks/"));
+		assertTrue(result.contains("/studentEnrollments/260893874-EBUC1000-S19"));
+		assertEquals(response.getStatusCode(), HttpStatus.CREATED);
+	}
+
+	@Test
+	public void createNullStatusStudentEnrollment() {
+
+		StudentEnrollment studentEnrollment = new StudentEnrollment();
+
+		studentEnrollment.setActive(true);
+		studentEnrollment.setStatus(null);
+
+		HttpEntity<StudentEnrollment> entity = new HttpEntity<StudentEnrollment>(studentEnrollment, headers);
+
+		ResponseEntity<String> response = restTemplate.exchange(
+				createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
+						+ "&studentID=260893874&employerEmail=tom@email.com"
+						+ "&coopAcceptanceForm=url1&employerContract=url2"),
+
+				HttpMethod.POST, entity, String.class);
+
+		String result = response.getBody().toString();
+
+		assertTrue(result.contains("Your student enrollment details are incomplete!"));
+		assertEquals(response.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
+	}
+
+	@Test
+	public void createStudentEnrollmentTwice() {
+
+		StudentEnrollment studentEnrollment = new StudentEnrollment();
+
+		studentEnrollment.setActive(true);
+		studentEnrollment.setStatus(CourseStatus.ONGOING);
+
+		HttpEntity<StudentEnrollment> entity = new HttpEntity<StudentEnrollment>(studentEnrollment, headers);
+
+		ResponseEntity<String> response = restTemplate.exchange(
+				createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
+						+ "&studentID=260893874&employerEmail=tom@email.com"
+						+ "&coopAcceptanceForm=url1&employerContract=url2"),
+
+				HttpMethod.POST, entity, String.class);
+
+		String result = response.getBody().toString();
+
+		assertTrue(result.contains("/studentEnrollments/260893874-EBUC1000-S19"));
 		assertEquals(response.getStatusCode(), HttpStatus.CREATED);
 
-	}
+		response = restTemplate.exchange(
+				createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
+						+ "&studentID=260893874&employerEmail=tom@email.com"
+						+ "&coopAcceptanceForm=url1&employerContract=url2"),
 
-	@Test
-	public void createNullNameTasK() throws Exception {
+				HttpMethod.POST, entity, String.class);
 
-		Task task = new Task();
+		result = response.getBody().toString();
 
-		@SuppressWarnings("deprecation")
-		Date dueDate = new Date(2019, 1, 1);
-
-		task.setName(null);
-		task.setDescription("some description");
-		task.setDueDate(dueDate);
-		task.setTaskStatus(TaskStatus.COMPLETED);
-
-		HttpEntity<Task> entity = new HttpEntity<Task>(task, headers);
-
-		ResponseEntity<String> response = restTemplate.exchange(
-				createURLWithPort("/task?studentEnrollmentID=260893874-EBUC1000-S19"), HttpMethod.POST, entity,
-				String.class);
-
-		String result = response.getBody().toString();
-
-		assertTrue(result.contains("Your task details are incomplete!"));
-		assertEquals(response.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
-
-	}
-
-	@Test
-	public void createNullDiscriptionTasK() throws Exception {
-
-		Task task = new Task();
-
-		@SuppressWarnings("deprecation")
-		Date dueDate = new Date(2019, 1, 1);
-
-		task.setName("someTask");
-		task.setDescription(null);
-		task.setDueDate(dueDate);
-		task.setTaskStatus(TaskStatus.COMPLETED);
-
-		HttpEntity<Task> entity = new HttpEntity<Task>(task, headers);
-
-		ResponseEntity<String> response = restTemplate.exchange(
-				createURLWithPort("/task?studentEnrollmentID=260893874-EBUC1000-S19"), HttpMethod.POST, entity,
-				String.class);
-
-		String result = response.getBody().toString();
-
-		assertTrue(result.contains("Your task details are incomplete!"));
-		assertEquals(response.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
+		assertTrue(result.contains("Enrollment Already Exists"));
+		assertEquals(response.getStatusCode(), HttpStatus.I_AM_A_TEAPOT);
 
 	}
 
 	private String createURLWithPort(String uri) {
 		return "http://localhost:" + port + uri;
 	}
-
 }
