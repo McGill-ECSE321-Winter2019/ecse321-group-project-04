@@ -29,29 +29,19 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), "Validation Failed", ex.getBindingResult().toString());
 		return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
 	}
-	
-	  @SuppressWarnings({ "unchecked", "rawtypes" })
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@ExceptionHandler(EntityNotFoundException.class)
-	  public final ResponseEntity<Object> handleEntityNotFoundExceptions(EntityNotFoundException ex, WebRequest request) {
-	    ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(),
-	        request.getDescription(false));
-	    return new ResponseEntity(errorDetails, HttpStatus.NOT_FOUND);
-	  }
-	  
-	  @SuppressWarnings({ "unchecked", "rawtypes" })
+	public final ResponseEntity<Object> handleEntityNotFoundExceptions(EntityNotFoundException ex, WebRequest request) {
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+		return new ResponseEntity(errorDetails, HttpStatus.NOT_FOUND);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@ExceptionHandler(EntityExistsException.class)
-	  public final ResponseEntity<Object> handleEntityExistsExceptions(EntityExistsException ex, WebRequest request) {
-	    ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(),
-	        request.getDescription(false));
-	    return new ResponseEntity(errorDetails, HttpStatus.I_AM_A_TEAPOT);
-	  }
-	  
-	  @SuppressWarnings({"unchecked", "rawtypes" })
-	@ExceptionHandler(InvalidParameterException.class)
-	  public final ResponseEntity<Object> handleInvalidParameterException(EntityExistsException ex, WebRequest request) {
-	    ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(),
-	        request.getDescription(false));
-	    return new ResponseEntity(errorDetails, HttpStatus.METHOD_NOT_ALLOWED);
-	  }
-	
+	public final ResponseEntity<Object> handleEntityExistsExceptions(EntityExistsException ex, WebRequest request) {
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+		return new ResponseEntity(errorDetails, HttpStatus.I_AM_A_TEAPOT);
+	}
+
 }
