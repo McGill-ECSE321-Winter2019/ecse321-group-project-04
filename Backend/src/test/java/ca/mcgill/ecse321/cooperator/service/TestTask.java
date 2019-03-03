@@ -1,186 +1,242 @@
-/*package ca.mcgill.ecse321.cooperator.service;
+package ca.mcgill.ecse321.cooperator.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import java.sql.Date;
-
 import javax.persistence.EntityNotFoundException;
-
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
+import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
 import ca.mcgill.ecse321.cooperator.dao.EmployerRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentEnrollmentRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentRepository;
 import ca.mcgill.ecse321.cooperator.dao.TaskRepository;
-import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.CourseStatus;
 import ca.mcgill.ecse321.cooperator.model.Employer;
 import ca.mcgill.ecse321.cooperator.model.Student;
-import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
+import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.model.Term;
 import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
+import ca.mcgill.ecse321.cooperator.util.TestUtil;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 
 public class TestTask {
-	@Autowired
-	private CooperatorService service;
-	@Autowired
-	private StudentRepository studentRepository;
-	@Autowired
-	private EmployerRepository employerRepository;
-	@Autowired
-	private CoopCourseRepository coopCourseRepository;
-	@Autowired
-	private CoopCourseOfferingRepository coopCourseOfferingRepository;
-	@Autowired
-	private StudentEnrollmentRepository studentEnrollmentRepository;
-	@Autowired
-	private TaskRepository taskRepository;
-	@Autowired
-	private DocumentRepository documentRepository;
 
-	@Before
-	@After
-	public void cleanDataBase() {
-		studentEnrollmentRepository.deleteAll();
-		studentRepository.deleteAll();
-		employerRepository.deleteAll();
-		coopCourseOfferingRepository.deleteAll();
-		coopCourseRepository.deleteAll();
-	    taskRepository.deleteAll();
-	    documentRepository.deleteAll();
-	}
+  private static final String FIRST_NAME = "f_name";
+  private static final String LAST_NAME = "l_name";
+  private static final Integer MCGILL_ID = 260654321;
+  private static final String MCGILL_EMAIL = "test@mail.com";
 
-	@Test
-	public void testCreateTask() {
-		@SuppressWarnings("deprecation")
-		Date dueDate = new Date(2019, 1, 1);
-                long taskID = -1;
+  private static final String NAME = "Facebook";
+  private static final String EMAIL = "fb@email.com";
 
-                // Create chain of objects required to create a task
-		CoopCourse c = service.createCoopCourse("ECSE302", 1);
-		CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
-		Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-		Employer emp = service.createEmployer("Facebook", "fb@email.com");
-                StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, "test-url-1", "test-url-2");
+  private static final String COURSE_CODE = "ECSE302";
+  private static final Integer COURSE_TERM = 1;
 
-		try {
-			Task t = service.createTask("Task name", "Some description", dueDate, TaskStatus.COMPLETED, se.getEnrollmentID());
-                        taskID = t.getTaskID();
-		} catch (InvalidParameterException e) {
-			fail();
-		}
-		Task t = service.getTask(taskID);
-		// check attributes
-		assertEquals("Task name", t.getName());
-		assertEquals("Some description", t.getDescription());
-		assertEquals(dueDate, t.getDueDate());
-		assertEquals(TaskStatus.COMPLETED, t.getTaskStatus());
-		assertEquals(taskID, t.getTaskID());
+  private static final Integer YEAR = 2019;
+  private static final Term OFFER_TERM = Term.FALL;
+  private static final Boolean ACTIVE = true;
 
-		assertEquals(6, service.getAllTasks().size());
-	}
-	
-	@Test
-	public void testCreateTaskWithObject() {
-		@SuppressWarnings("deprecation")
-		Date dueDate = new Date(2019, 1, 1);
-        String taskName = null;
+  private static final String D1_URL = "test-url-1";
+  private static final String D2_URL = "test-url-2";
+  private static final String ENROLLMENT_ID = "260654321-ECSE302-F19";
+  private static final CourseStatus ENROLLMENT_STATUS = CourseStatus.PASSED;
 
-        // Create chain of objects required to create a task
-		CoopCourse c = service.createCoopCourse("ECSE302", 1);
-		CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
-		Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-		Employer emp = service.createEmployer("Facebook", "fb@email.com");
-        StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, "test-url-1", "test-url-2");
+  private static final String TASK_NAME = "Task name";
+  private static final String TASK_DESC = "Some description";
+  @SuppressWarnings("deprecation")
+  private static final Date TASK_DATE = new Date(2019, 1, 1);
+  private static final TaskStatus TASK_STATUS = TaskStatus.COMPLETED;
 
-		Task param = new Task();
-		param.setName("Task name");
-		param.setDescription("Some description");
-		param.setDueDate(dueDate);
-		param.setTaskStatus(TaskStatus.COMPLETED);
-        
-		try {
-			Task t = service.createTask(param, se.getEnrollmentID());
-            taskName = t.getName();
-		} catch (InvalidParameterException e) {
-			fail();
-		}
-		Task t = service.getStudentEnrollment(se.getEnrollmentID()).getTask(taskName);
-		//Task t = service.getTask(taskID);
-		// check attributes
-		assertEquals("Task name", t.getName());
-		assertEquals("Some description", t.getDescription());
-		assertEquals(dueDate, t.getDueDate());
-		assertEquals(TaskStatus.COMPLETED, t.getTaskStatus());
-		//assertEquals(taskID, t.getTaskID());
+  @InjectMocks
+  private CooperatorService service;
+  @Mock
+  private StudentRepository studentRepository;
+  @Mock
+  private EmployerRepository employerRepository;
+  @Mock
+  private CoopCourseRepository coopCourseRepository;
+  @Mock
+  private CoopCourseOfferingRepository coopCourseOfferingRepository;
+  @Mock
+  private StudentEnrollmentRepository studentEnrollmentRepository;
+  @Mock
+  private TaskRepository taskRepository;
+  @Mock
+  private DocumentRepository documentRepository;
 
-		assertEquals(6, service.getAllTasks().size());
-	}
-	
-	@Test
-	public void testCreateNullNameTask() {
-		String error = null;
-		@SuppressWarnings("deprecation")
-		Date dueDate = new Date(2019, 1, 1);
+  @Before
+  public void mockSetUp() {
+    when(studentRepository.save(any(Student.class))).thenAnswer((InvocationOnMock invocation) -> {
+      return TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
+    });
 
-		try {
-			service.createTask(null, "Some description", dueDate, TaskStatus.COMPLETED, null);
-		} catch (InvalidParameterException e) {
-			error = e.getMessage();
-		}
-		// check error message
-		assertEquals("Your task details are incomplete!", error);
-		// check nothing was added
-		assertEquals(0, service.getAllTasks().size());
+    when(employerRepository.save(any(Employer.class))).thenAnswer((InvocationOnMock invocation) -> {
+      return TestUtil.createEmployer(NAME, EMAIL);
+    });
 
-	}
+    when(coopCourseRepository.save(any(CoopCourse.class)))
+        .thenAnswer((InvocationOnMock invocation) -> {
+          return TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
+        });
 
-	@Test
-	public void testCreateNullDescriptionTask() {
-		String error = null;
-		@SuppressWarnings("deprecation")
-		Date dueDate = new Date(2019, 1, 1);
+    when(coopCourseOfferingRepository.save(any(CoopCourseOffering.class)))
+        .thenAnswer((InvocationOnMock invocation) -> {
+          CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
+          return TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
+        });
 
-		try {
-			service.createTask("Task name", null, dueDate, TaskStatus.COMPLETED, null);
-		} catch (InvalidParameterException e) {
-			error = e.getMessage();
-		}
-		// check error message
-		assertEquals("Your task details are incomplete!", error);
-		// check nothing was added
-		assertEquals(0, service.getAllTasks().size());
+    when(studentEnrollmentRepository.save(any(StudentEnrollment.class)))
+        .thenAnswer((InvocationOnMock invocation) -> {
+          Student s = TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
+          Employer e = TestUtil.createEmployer(NAME, EMAIL);
+          CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
+          CoopCourseOffering cco = TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
+          StudentEnrollment se = TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e,
+              cco, D1_URL, D2_URL);
+          Task t = TestUtil.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS);
+          se.addCourseTasks(t);
+          return se;
+        });
 
-	}
-	
-	@Test
-	public void testGetNonexistentTask() {
-		String error = null;
-		try {
-			service.getTask(1234567);
-		} catch (EntityNotFoundException e){
-			error = e.getMessage();
-		}
-		
-		assertEquals(error, "Could not find a Task with ID 1234567");
-	}
+    when(studentEnrollmentRepository.findByEnrollmentID(anyString()))
+        .thenAnswer((InvocationOnMock invocation) -> {
+          if (invocation.getArgument(0).equals(ENROLLMENT_ID)) {
+            Student s = TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
+            Employer e = TestUtil.createEmployer(NAME, EMAIL);
+            CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
+            CoopCourseOffering cco =
+                TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
+            StudentEnrollment se = TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e,
+                cco, D1_URL, D2_URL);
+            Task t = TestUtil.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS);
+            se.addCourseTasks(t);
+            return se;
+          } else {
+            return null;
+          }
+        });
+  }
 
-}*/
+  @Test
+  public void testCreateTask() {
+    long taskID = -1;
+
+    // Create chain of objects required to create a task
+    CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
+    CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, Term.FALL, ACTIVE, c);
+    Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
+    Employer emp = service.createEmployer(NAME, EMAIL);
+    StudentEnrollment se =
+        service.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, emp, cco, D1_URL, D2_URL);
+
+    try {
+      Task t =
+          service.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS, se.getEnrollmentID());
+      taskID = t.getTaskID();
+    } catch (InvalidParameterException e) {
+      fail();
+    }
+    Task t = service.getStudentEnrollment(se.getEnrollmentID()).getTask(TASK_NAME);
+
+    // check attributes
+    assertEquals(TASK_NAME, t.getName());
+    assertEquals(TASK_DESC, t.getDescription());
+    assertEquals(TASK_DATE, t.getDueDate());
+    assertEquals(TASK_STATUS, t.getTaskStatus());
+    assertEquals(taskID, t.getTaskID());
+  }
+
+  @Test
+  public void testCreateTaskWithObject() {
+    // Create chain of objects required to create a task
+    CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
+    CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, Term.FALL, ACTIVE, c);
+    Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
+    Employer emp = service.createEmployer(NAME, EMAIL);
+    StudentEnrollment se =
+        service.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, emp, cco, D1_URL, D2_URL);
+
+    Task param = new Task();
+    param.setName(TASK_NAME);
+    param.setDescription(TASK_DESC);
+    param.setDueDate(TASK_DATE);
+    param.setTaskStatus(TASK_STATUS);
+
+    try {
+      service.createTask(param, se.getEnrollmentID());
+    } catch (InvalidParameterException e) {
+      fail();
+    }
+    Task t = service.getStudentEnrollment(se.getEnrollmentID()).getTask(TASK_NAME);
+    // Task t = service.getTask(taskID);
+    // check attributes
+    assertEquals(TASK_NAME, t.getName());
+    assertEquals(TASK_DESC, t.getDescription());
+    assertEquals(TASK_DATE, t.getDueDate());
+    assertEquals(TASK_STATUS, t.getTaskStatus());
+  }
+
+  @Test
+  public void testCreateNullNameTask() {
+    String error = null;
+
+    try {
+      service.createTask(null, TASK_DESC, TASK_DATE, TASK_STATUS, null);
+    } catch (InvalidParameterException e) {
+      error = e.getMessage();
+    }
+    // check error message
+    assertEquals("Your task details are incomplete!", error);
+    // check nothing was added
+    assertEquals(0, service.getAllTasks().size());
+
+  }
+
+  @Test
+  public void testCreateNullDescriptionTask() {
+    String error = null;
+
+    try {
+      service.createTask(TASK_NAME, null, TASK_DATE, TASK_STATUS, null);
+    } catch (InvalidParameterException e) {
+      error = e.getMessage();
+    }
+    // check error message
+    assertEquals("Your task details are incomplete!", error);
+    // check nothing was added
+    assertEquals(0, service.getAllTasks().size());
+
+  }
+
+  @Test
+  public void testGetNonexistentTask() {
+    String error = null;
+    try {
+      service.getTask(1234567);
+    } catch (EntityNotFoundException e) {
+      error = e.getMessage();
+    }
+
+    assertEquals(error, "Could not find a Task with ID 1234567");
+  }
+
+}
