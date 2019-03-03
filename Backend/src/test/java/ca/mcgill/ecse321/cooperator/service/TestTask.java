@@ -2,42 +2,37 @@ package ca.mcgill.ecse321.cooperator.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.when;
 import java.sql.Date;
 import javax.persistence.EntityNotFoundException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
+import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
 import ca.mcgill.ecse321.cooperator.dao.EmployerRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentEnrollmentRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentRepository;
 import ca.mcgill.ecse321.cooperator.dao.TaskRepository;
-import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.CourseStatus;
 import ca.mcgill.ecse321.cooperator.model.Employer;
 import ca.mcgill.ecse321.cooperator.model.Student;
-import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
+import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.model.Term;
 import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 import ca.mcgill.ecse321.cooperator.util.TestUtil;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 
 
 @RunWith(SpringRunner.class)
@@ -64,7 +59,7 @@ public class TestTask {
   private static final String D2_URL = "test-url-2";
   private static final String ENROLLMENT_ID = "260654321-ECSE302-F19";
   private static final CourseStatus ENROLLMENT_STATUS = CourseStatus.PASSED;
-  
+
   private static final String TASK_NAME = "Task name";
   private static final String TASK_DESC = "Some description";
   @SuppressWarnings("deprecation")
@@ -90,51 +85,55 @@ public class TestTask {
 
   @Before
   public void mockSetUp() {
-    when(studentRepository.save(any(Student.class))).thenAnswer( (InvocationOnMock invocation) ->
-    {
+    when(studentRepository.save(any(Student.class))).thenAnswer((InvocationOnMock invocation) -> {
       return TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
     });
-    
-    when(employerRepository.save(any(Employer.class))).thenAnswer( (InvocationOnMock invocation) ->
-    {
+
+    when(employerRepository.save(any(Employer.class))).thenAnswer((InvocationOnMock invocation) -> {
       return TestUtil.createEmployer(NAME, EMAIL);
     });
-    
-    when(coopCourseRepository.save(any(CoopCourse.class))).thenAnswer((InvocationOnMock invocation) -> {
-      return TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
-    });
 
-    when(coopCourseOfferingRepository.save(any(CoopCourseOffering.class))).thenAnswer((InvocationOnMock invocation) -> {
-      CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
-      return TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
-    });
+    when(coopCourseRepository.save(any(CoopCourse.class)))
+        .thenAnswer((InvocationOnMock invocation) -> {
+          return TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
+        });
 
-    when(studentEnrollmentRepository.save(any(StudentEnrollment.class))).thenAnswer((InvocationOnMock invocation) -> {
-      Student s = TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-      Employer e = TestUtil.createEmployer(NAME, EMAIL);
-      CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
-      CoopCourseOffering cco = TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
-      StudentEnrollment se = TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e, cco, D1_URL, D2_URL);
-      Task t = TestUtil.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS);
-      se.addCourseTasks(t);
-      return se;
-    });
+    when(coopCourseOfferingRepository.save(any(CoopCourseOffering.class)))
+        .thenAnswer((InvocationOnMock invocation) -> {
+          CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
+          return TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
+        });
+
+    when(studentEnrollmentRepository.save(any(StudentEnrollment.class)))
+        .thenAnswer((InvocationOnMock invocation) -> {
+          Student s = TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
+          Employer e = TestUtil.createEmployer(NAME, EMAIL);
+          CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
+          CoopCourseOffering cco = TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
+          StudentEnrollment se = TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e,
+              cco, D1_URL, D2_URL);
+          Task t = TestUtil.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS);
+          se.addCourseTasks(t);
+          return se;
+        });
 
     when(studentEnrollmentRepository.findByEnrollmentID(anyString()))
-    .thenAnswer((InvocationOnMock invocation) -> {
-      if (invocation.getArgument(0).equals(ENROLLMENT_ID)) {
-        Student s = TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-        Employer e = TestUtil.createEmployer(NAME, EMAIL);
-        CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
-        CoopCourseOffering cco = TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
-        StudentEnrollment se = TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e, cco, D1_URL, D2_URL);
-        Task t = TestUtil.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS);
-        se.addCourseTasks(t);
-        return se;
-      } else {
-        return null;
-      }
-    });
+        .thenAnswer((InvocationOnMock invocation) -> {
+          if (invocation.getArgument(0).equals(ENROLLMENT_ID)) {
+            Student s = TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
+            Employer e = TestUtil.createEmployer(NAME, EMAIL);
+            CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
+            CoopCourseOffering cco =
+                TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
+            StudentEnrollment se = TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e,
+                cco, D1_URL, D2_URL);
+            Task t = TestUtil.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS);
+            se.addCourseTasks(t);
+            return se;
+          } else {
+            return null;
+          }
+        });
   }
 
   @Test
@@ -146,12 +145,12 @@ public class TestTask {
     CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, Term.FALL, ACTIVE, c);
     Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
     Employer emp = service.createEmployer(NAME, EMAIL);
-    StudentEnrollment se = service.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, emp, cco,
-        D1_URL, D2_URL);
+    StudentEnrollment se =
+        service.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, emp, cco, D1_URL, D2_URL);
 
     try {
-      Task t = service.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS,
-          se.getEnrollmentID());
+      Task t =
+          service.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS, se.getEnrollmentID());
       taskID = t.getTaskID();
     } catch (InvalidParameterException e) {
       fail();
@@ -173,8 +172,8 @@ public class TestTask {
     CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, Term.FALL, ACTIVE, c);
     Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
     Employer emp = service.createEmployer(NAME, EMAIL);
-    StudentEnrollment se = service.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, emp, cco,
-        D1_URL, D2_URL);
+    StudentEnrollment se =
+        service.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, emp, cco, D1_URL, D2_URL);
 
     Task param = new Task();
     param.setName(TASK_NAME);

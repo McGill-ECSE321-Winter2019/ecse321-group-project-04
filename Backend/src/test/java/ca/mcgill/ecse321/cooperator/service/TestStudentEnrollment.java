@@ -12,15 +12,18 @@ import javax.persistence.EntityNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
+import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
 import ca.mcgill.ecse321.cooperator.dao.EmployerRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentEnrollmentRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentRepository;
 import ca.mcgill.ecse321.cooperator.dao.TaskRepository;
-import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.CourseStatus;
@@ -31,34 +34,31 @@ import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.Term;
 import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 import ca.mcgill.ecse321.cooperator.util.TestUtil;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 public class TestStudentEnrollment {
-  
+
   private static final String FIRST_NAME = "f_name";
   private static final String LAST_NAME = "l_name";
   private static final Integer MCGILL_ID = 260654321;
   private static final String MCGILL_EMAIL = "test@mail.com";
-  
+
   private static final String NAME = "Facebook";
   private static final String EMAIL = "fb@email.com";
-  
+
   private static final String COURSE_CODE = "ECSE302";
   private static final Integer COURSE_TERM = 1;
-  
+
   private static final Integer YEAR = 2019;
   private static final Term OFFER_TERM = Term.FALL;
   private static final Boolean ACTIVE = true;
-  
+
   private static final String D1_URL = "test-url-1";
   private static final String D2_URL = "test-url-2";
   private static final String ENROLLMENT_ID = "260654321-ECSE302-F19";
   private static final CourseStatus ENROLLMENT_STATUS = CourseStatus.PASSED;
-  
+
   @InjectMocks
   private CooperatorService service;
   @Mock
@@ -78,16 +78,14 @@ public class TestStudentEnrollment {
 
   @Before
   public void mockSetUp() {
-    when(studentRepository.save(notNull())).thenAnswer( (InvocationOnMock invocation) ->
-    {
+    when(studentRepository.save(notNull())).thenAnswer((InvocationOnMock invocation) -> {
       return TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
     });
-    
-    when(employerRepository.save(notNull())).thenAnswer( (InvocationOnMock invocation) ->
-    {
+
+    when(employerRepository.save(notNull())).thenAnswer((InvocationOnMock invocation) -> {
       return TestUtil.createEmployer(NAME, EMAIL);
     });
-    
+
     when(coopCourseRepository.save(notNull())).thenAnswer((InvocationOnMock invocation) -> {
       return TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
     });
@@ -111,14 +109,16 @@ public class TestStudentEnrollment {
             Student s = TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
             Employer e = TestUtil.createEmployer(NAME, EMAIL);
             CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
-            CoopCourseOffering cco = TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
-            return TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e, cco, D1_URL, D2_URL);
+            CoopCourseOffering cco =
+                TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
+            return TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e, cco, D1_URL,
+                D2_URL);
           } else {
             return null;
           }
         });
   }
-  
+
   @Test
   public void testCreateStudentEnrollment() {
     CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
@@ -127,8 +127,7 @@ public class TestStudentEnrollment {
     Employer emp = service.createEmployer(NAME, EMAIL);
 
     try {
-      service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, D1_URL,
-          D2_URL);
+      service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL);
     } catch (InvalidParameterException e) {
       fail();
     }
@@ -253,8 +252,7 @@ public class TestStudentEnrollment {
     Employer emp = service.createEmployer(NAME, EMAIL);
 
     try {
-      service.createStudentEnrollment(null, CourseStatus.PASSED, s, emp, cco, D1_URL,
-          D2_URL);
+      service.createStudentEnrollment(null, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL);
     } catch (InvalidParameterException e) {
       error = e.getMessage();
     }

@@ -2,34 +2,33 @@ package ca.mcgill.ecse321.cooperator.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import ca.mcgill.ecse321.cooperator.dao.StudentRepository;
 import ca.mcgill.ecse321.cooperator.model.Student;
 import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
-import ca.mcgill.ecse321.cooperator.service.CooperatorService;
 import ca.mcgill.ecse321.cooperator.util.TestUtil;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.invocation.InvocationOnMock;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 public class TestStudent {
-  
+
   private static final String FIRST_NAME = "first_name";
   private static final String LAST_NAME = "last_name";
   private static final Integer MCGILL_ID = 260112233;
   private static final String MCGILL_EMAIL = "student@email.com";
-  
+
   @InjectMocks
   private CooperatorService service;
 
@@ -38,20 +37,18 @@ public class TestStudent {
 
   @Before
   public void mockSetUp() {
-    when(studentRepository.save(any(Student.class))).thenAnswer( (InvocationOnMock invocation) ->
-    {
+    when(studentRepository.save(any(Student.class))).thenAnswer((InvocationOnMock invocation) -> {
       return TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
     });
-    
-    when(studentRepository.findByMcgillID(anyInt())).thenAnswer( (InvocationOnMock invocation) ->
-    {
-      if ((int)invocation.getArgument(0) == MCGILL_ID) {
+
+    when(studentRepository.findByMcgillID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+      if ((int) invocation.getArgument(0) == MCGILL_ID) {
         return TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-        } else {
+      } else {
         return null;
       }
     });
-    
+
     when(studentRepository.existsById(anyInt())).thenReturn(false, true);
   }
 
@@ -68,7 +65,7 @@ public class TestStudent {
     // Check attributes
     assertEquals(FIRST_NAME, s.getFirstName());
     assertEquals(LAST_NAME, s.getLastName());
-    assertEquals((Integer) MCGILL_ID, s.getMcgillID());
+    assertEquals(MCGILL_ID, s.getMcgillID());
     assertEquals(MCGILL_EMAIL, s.getMcgillEmail());
   }
 
@@ -90,7 +87,7 @@ public class TestStudent {
     // Check attributes
     assertEquals(FIRST_NAME, s.getFirstName());
     assertEquals(LAST_NAME, s.getLastName());
-    assertEquals((Integer) MCGILL_ID, s.getMcgillID());
+    assertEquals(MCGILL_ID, s.getMcgillID());
     assertEquals(MCGILL_EMAIL, s.getMcgillEmail());
   }
 
@@ -161,7 +158,7 @@ public class TestStudent {
 
     assertEquals("Could not find a Student with ID 260112234", error);
   }
-  
+
   @Test
   public void testContainsStudent() {
     Student param = new Student();
