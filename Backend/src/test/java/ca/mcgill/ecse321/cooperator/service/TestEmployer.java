@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.cooperator.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,17 +11,23 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ca.mcgill.ecse321.cooperator.dao.EmployerRepository;
 import ca.mcgill.ecse321.cooperator.model.Employer;
 import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
+import ca.mcgill.ecse321.cooperator.util.TestUtil;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.invocation.InvocationOnMock;
-import static org.mockito.ArgumentMatchers.notNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 public class TestEmployer {
+  
+  private static final String NAME = "Google";
+  private static final String EMAIL = "google@gmail.com";
+  
   @InjectMocks
   private CooperatorService service;
 
@@ -29,57 +36,59 @@ public class TestEmployer {
 
   @Before
   public void mockSetUp() {
-    when(employerRepository.save(notNull())).thenAnswer( (InvocationOnMock invocation) ->
+    when(employerRepository.save(any(Employer.class))).thenAnswer( (InvocationOnMock invocation) ->
     {
-      return invocation.getArgument(0);
+      return TestUtil.createEmployer(NAME, EMAIL);
     });
     
     when(employerRepository.findByEmail(anyString())).thenAnswer( (InvocationOnMock invocation) ->
     {
-      if (invocation.getArgument(0).equals("google@gmail.com")) {
-        return service.createEmployer("Google", "google@gmail.com");
+      if (invocation.getArgument(0).equals(EMAIL)) {
+        return TestUtil.createEmployer(NAME, EMAIL);
       } else {
         return null;
       }
     });
+    
+    when(employerRepository.existsById(anyString())).thenReturn(false, true);
   }
 
   @Test
   public void testCreateEmployer() {
     try {
-      service.createEmployer("Google", "google@gmail.com");
+      service.createEmployer(NAME, EMAIL);
     } catch (InvalidParameterException e) {
       fail();
     }
 
-    Employer e = service.getEmployer("google@gmail.com");
+    Employer e = service.getEmployer(EMAIL);
     // Check attributes
-    assertEquals("Google", e.getName());
-    assertEquals("google@gmail.com", e.getEmail());
+    assertEquals(NAME, e.getName());
+    assertEquals(EMAIL, e.getEmail());
   }
 
   @Test
   public void testCreateEmployerWithObject() {
     Employer param = new Employer();
-    param.setName("Google");
-    param.setEmail("google@gmail.com");
+    param.setName(NAME);
+    param.setEmail(EMAIL);
     try {
       service.createEmployer(param);
     } catch (InvalidParameterException e) {
       fail();
     }
 
-    Employer e = service.getEmployer("google@gmail.com");
+    Employer e = service.getEmployer(EMAIL);
     // Check attributes
-    assertEquals("Google", e.getName());
-    assertEquals("google@gmail.com", e.getEmail());
+    assertEquals(NAME, e.getName());
+    assertEquals(EMAIL, e.getEmail());
   }
 
   @Test
   public void testCreateNullNameEmployer() {
     String error = null;
     try {
-      service.createEmployer(null, "google@gmail.com");
+      service.createEmployer(null, EMAIL);
     } catch (InvalidParameterException e) {
       error = e.getMessage();
     }
@@ -99,5 +108,30 @@ public class TestEmployer {
     }
 
     assertEquals(error, "Could not find an Employer with email fb@gmail.com");
+  }
+  
+  @Test
+  public void testContainsEmployer() {
+      String error = null;
+      Employer param1 = new Employer();
+      param1.setName(NAME);
+      param1.setEmail(EMAIL);
+      
+      Employer param2 = new Employer();
+      param2.setName(NAME);
+      param2.setEmail(EMAIL);
+      
+      try {
+          service.createEmployer(param1);
+      } catch (InvalidParameterException e) {
+          fail();
+      }
+      try {
+          service.createEmployer(param2);
+      }catch (EntityExistsException e) {
+          error = e.getMessage();
+      }
+      assertEquals("Employer Already Exists", error);
+      
   }
 }

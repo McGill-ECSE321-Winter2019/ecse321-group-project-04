@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.cooperator.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,17 +14,27 @@ import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.Term;
 import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
+import ca.mcgill.ecse321.cooperator.util.TestUtil;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.invocation.InvocationOnMock;
-import static org.mockito.ArgumentMatchers.notNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 public class TestCourseOffering {
+  
+  private static final String COURSE_CODE = "ECSE301";
+  private static final Integer COURSE_TERM = 1;
+  
+  private static final Integer YEAR = 2018;
+  private static final Term OFFER_TERM = Term.WINTER;
+  private static final Boolean ACTIVE = true;
+  private static final String OFFER_ID = "ECSE301-W18";
+  
   @InjectMocks
   private CooperatorService service;
   
@@ -35,55 +46,58 @@ public class TestCourseOffering {
 
   @Before
   public void mockSetUp() {
-    when(coopCourseRepository.save(notNull())).thenAnswer( (InvocationOnMock invocation) ->
+    when(coopCourseRepository.save(any(CoopCourse.class))).thenAnswer( (InvocationOnMock invocation) ->
     {
-      return invocation.getArgument(0);
+      return TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
     });
     
-    when(coopCourseOfferingRepository.save(notNull())).thenAnswer( (InvocationOnMock invocation) ->
+    when(coopCourseOfferingRepository.save(any(CoopCourseOffering.class))).thenAnswer( (InvocationOnMock invocation) ->
     {
-      return invocation.getArgument(0);
+      CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
+      return TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
     });
     
     when(coopCourseOfferingRepository.findByOfferID(anyString())).thenAnswer( (InvocationOnMock invocation) ->
     {
-      if (invocation.getArgument(0).equals("ECSE301-W18")) {
-        CoopCourse c = service.createCoopCourse("ECSE301", 1);
-        return service.createCoopCourseOffering(2018, Term.WINTER, true, c);
+      if (invocation.getArgument(0).equals(OFFER_ID)) {
+        CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
+        return TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
       } else {
         return null;
       }
     });
+    
+    when(coopCourseOfferingRepository.existsById(anyString())).thenReturn(false, true);
   }
 
   @Test
   public void testCreateCoopCourseOffering() {
-    CoopCourse c = service.createCoopCourse("ECSE301", 1);
+    CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
 
     try {
-      service.createCoopCourseOffering(2018, Term.WINTER, true, c);
+      service.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, c);
     } catch (InvalidParameterException e) {
       fail();
     }
 
-    CoopCourseOffering cco = service.getCoopCourseOffering("ECSE301-W18");
+    CoopCourseOffering cco = service.getCoopCourseOffering(OFFER_ID);
     // Check attributes
-    assertEquals((Integer) 2018, cco.getYear());
-    assertEquals(Term.WINTER, cco.getTerm());
-    assertEquals(true, cco.getActive());
-    assertEquals("ECSE301-W18", cco.getOfferID());
+    assertEquals(YEAR, cco.getYear());
+    assertEquals(OFFER_TERM, cco.getTerm());
+    assertEquals(ACTIVE, cco.getActive());
+    assertEquals(OFFER_ID, cco.getOfferID());
     // Check references
-    assertEquals("ECSE301", cco.getCoopCourse().getCourseCode());
+    assertEquals(COURSE_CODE, cco.getCoopCourse().getCourseCode());
   }
 
   @Test
   public void testCreateCoopCourseOfferingWithObject() {
-    CoopCourse c = service.createCoopCourse("ECSE301", 1);
+    CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
 
     CoopCourseOffering param = new CoopCourseOffering();
-    param.setYear(2018);
-    param.setTerm(Term.WINTER);
-    param.setActive(true);
+    param.setYear(YEAR);
+    param.setTerm(OFFER_TERM);
+    param.setActive(ACTIVE);
 
     try {
       service.createCoopCourseOffering(param, c);
@@ -91,22 +105,22 @@ public class TestCourseOffering {
       fail();
     }
 
-    CoopCourseOffering cco = service.getCoopCourseOffering("ECSE301-W18");
+    CoopCourseOffering cco = service.getCoopCourseOffering(OFFER_ID);
     // Check attributes
-    assertEquals((Integer) 2018, cco.getYear());
-    assertEquals(Term.WINTER, cco.getTerm());
-    assertEquals(true, cco.getActive());
-    assertEquals("ECSE301-W18", cco.getOfferID());
+    assertEquals(YEAR, cco.getYear());
+    assertEquals(OFFER_TERM, cco.getTerm());
+    assertEquals(ACTIVE, cco.getActive());
+    assertEquals(OFFER_ID, cco.getOfferID());
     // Check references
-    assertEquals("ECSE301", cco.getCoopCourse().getCourseCode());
+    assertEquals(COURSE_CODE, cco.getCoopCourse().getCourseCode());
   }
 
   @Test
   public void testCreateNullYearCoopCourseOffering() {
-    CoopCourse c = service.createCoopCourse("ECSE301", 1);
+    CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
     String error = null;
     try {
-      service.createCoopCourseOffering(null, Term.WINTER, true, c);
+      service.createCoopCourseOffering(null, OFFER_TERM, ACTIVE, c);
     } catch (InvalidParameterException e) {
       error = e.getMessage();
     }
@@ -118,10 +132,10 @@ public class TestCourseOffering {
 
   @Test
   public void testCreateNullTermCoopCourseOffering() {
-    CoopCourse c = service.createCoopCourse("ECSE301", 1);
+    CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
     String error = null;
     try {
-      service.createCoopCourseOffering(2018, null, true, c);
+      service.createCoopCourseOffering(YEAR, null, ACTIVE, c);
     } catch (InvalidParameterException e) {
       error = e.getMessage();
     }
@@ -133,10 +147,10 @@ public class TestCourseOffering {
 
   @Test
   public void testCreateNullActiveCoopCourseOffering() {
-    CoopCourse c = service.createCoopCourse("ECSE301", 1);
+    CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
     String error = null;
     try {
-      service.createCoopCourseOffering(2018, Term.WINTER, null, c);
+      service.createCoopCourseOffering(YEAR, OFFER_TERM, null, c);
     } catch (InvalidParameterException e) {
       error = e.getMessage();
     }
@@ -156,5 +170,34 @@ public class TestCourseOffering {
     }
 
     assertEquals(error, "Could not find a CO-OP Course Offering with ID ECSE301-F19");
+  }
+  
+  @Test
+  public void testContainsCourseOffering() {
+      String error = null;
+      CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);  
+      
+      CoopCourseOffering param1 = new CoopCourseOffering();
+      param1.setYear(YEAR);
+      param1.setTerm(OFFER_TERM);
+      param1.setActive(ACTIVE);
+      
+      CoopCourseOffering param2 = new CoopCourseOffering();
+      param2.setYear(YEAR);
+      param2.setTerm(OFFER_TERM);
+      param2.setActive(ACTIVE);
+
+      try {
+          service.createCoopCourseOffering(param1, c);
+      } catch (InvalidParameterException e) {
+          fail();
+      }
+      try {
+          service.createCoopCourseOffering(param2, c);
+      } catch (EntityExistsException e) {
+          error = e.getMessage();
+      }
+      
+      assertEquals("Offering Already Exists", error);
   }
 }
