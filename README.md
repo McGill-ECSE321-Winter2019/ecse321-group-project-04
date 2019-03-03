@@ -40,13 +40,13 @@ co-op acceptance, submit required documents and track their co-op program progre
 
 ## Deliverable 2
 
-|     Team members      |Total hours|                              Responsibility                            |
-|-----------------------|-----------|------------------------------------------------------------------------|
-|**Remi Carriere**      |    20     |Backend services Implementation, Integration testing of RESTful services|             
-|**Naxin Fang**         |    20     |Software quality plan and report, Deliverable 2 Documentation           |
-|**Boyang Ma**          |    20     |Backend services Implementation, Integration testing of RESTful services|
-|**Angel Ortiz Regules**|    20     |Backend services Implementation, Unit testing of business methods       |          
-|**Marie Vu**           |    20     |Unit testing of business methods, Software quality plan and report      |
+|     Team members      |Total hours|                          Responsibility                        |
+|-----------------------|-----------|----------------------------------------------------------------|
+|**Remi Carriere**      |    27     |Main Developper (CTO)                                           |             
+|**Naxin Fang**         |    23     |Supporting tester                                               |
+|**Boyang Ma**          |    25     |Tester                                                          |
+|**Angel Ortiz Regules**|    27     |Main Tester / Supporting developper                             |          
+|**Marie Vu**           |    25     |Documentation / Supporting tester                               |
 
 **Sprint 2 Documents**:
 
