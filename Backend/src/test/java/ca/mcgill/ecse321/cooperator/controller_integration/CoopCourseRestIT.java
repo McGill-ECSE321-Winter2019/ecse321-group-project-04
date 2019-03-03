@@ -50,7 +50,7 @@ public class CoopCourseRestIT {
 
 	@Test
 	public void createCourse() {
-
+		System.out.println("");
 		CoopCourse course = new CoopCourse();
 
 		course.setCourseCode("EBUC1000");
