@@ -1,3 +1,8 @@
+
+
+//UNCOMMENT THIS TO DELETE ALL DATA ON REAL DB
+
+
 //package ca.mcgill.ecse321.cooperator.service_integration;
 //
 //import org.junit.Test;
@@ -36,7 +41,7 @@
 //
 //
 //	@Test
-//	public void testCreateTask() {
+//	public void deleteAll() {
 //		studentEnrollmentRepository.deleteAll();
 //		studentRepository.deleteAll();
 //		employerRepository.deleteAll();
