@@ -22,6 +22,34 @@ repositories {
 	mavenCentral()
 }
 
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration-test/java')
+        }
+        resources.srcDir file('src/main/resources')
+    }
+    externalIntegrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/external-integration-test/java')
+        }
+        resources.srcDir file('src/main/resources')
+    }
+}
+
+configurations {
+	integrationTestImplementation.extendsFrom testImplementation
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+    externalIntegrationTestImplementation.extendsFrom testImplementation
+    externalIntegrationTestCompile.extendsFrom testCompile
+    externalIntegrationTestRuntime.extendsFrom testRuntime
+}
+
 dependencies {
 	  implementation 'org.springframework.boot:spring-boot-starter-data-rest'
       implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -40,7 +68,19 @@ dependencies {
       runtimeOnly('com.h2database:h2')
 }
 
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
 
+task externalIntegrationTest(type: Test) {
+    testClassesDirs = sourceSets.externalIntegrationTest.output.classesDirs
+    classpath = sourceSets.externalIntegrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+}
+
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test
 
 
 // test {
