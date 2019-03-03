@@ -1,35 +1,36 @@
 package ca.mcgill.ecse321.cooperator.service;
 
 import java.sql.Date;
-import java.util.Calendar;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
-import ca.mcgill.ecse321.cooperator.model.CoopCourse;
-import ca.mcgill.ecse321.cooperator.model.Task;
-import ca.mcgill.ecse321.cooperator.model.TaskStatus;
-import ca.mcgill.ecse321.cooperator.model.Term;
-import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
-import ca.mcgill.ecse321.cooperator.model.Document;
-import ca.mcgill.ecse321.cooperator.model.Employer;
-import ca.mcgill.ecse321.cooperator.model.Student;
-import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
-import ca.mcgill.ecse321.cooperator.model.CourseStatus;
-import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
+import org.springframework.transaction.annotation.Transactional;
+import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
 import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
 import ca.mcgill.ecse321.cooperator.dao.EmployerRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentEnrollmentRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentRepository;
 import ca.mcgill.ecse321.cooperator.dao.TaskRepository;
-import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
+import ca.mcgill.ecse321.cooperator.model.CoopCourse;
+import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
+import ca.mcgill.ecse321.cooperator.model.CourseStatus;
+import ca.mcgill.ecse321.cooperator.model.Document;
+import ca.mcgill.ecse321.cooperator.model.Employer;
+import ca.mcgill.ecse321.cooperator.model.Student;
+import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
+import ca.mcgill.ecse321.cooperator.model.Task;
+import ca.mcgill.ecse321.cooperator.model.TaskStatus;
+import ca.mcgill.ecse321.cooperator.model.Term;
+import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 
 @Service
 public class CooperatorService {
+  
   @Autowired
   StudentRepository studentRepository;
   @Autowired
@@ -45,7 +46,8 @@ public class CooperatorService {
   @Autowired
   DocumentRepository documentRepository;
 
-  /*--- STUDENT METHODS ---*/
+
+  /*------- STUDENT METHODS -------*/
 
   /**
    * Method to create a student
@@ -135,7 +137,8 @@ public class CooperatorService {
       throw new EntityExistsException("Student Already Exists");
   }
 
-  /*--- EMPLOYER METHODS ---*/
+
+  /*------- EMPLOYER METHODS -------*/
 
   /**
    * Method to create an employer
@@ -216,7 +219,8 @@ public class CooperatorService {
       throw new EntityExistsException("Employer Already Exists");
   }
 
-  /*--- COOP COURSE METHODS ---*/
+
+  /*------- COOP COURSE METHODS -------*/
 
   /**
    * Method to create a coop course
@@ -298,7 +302,8 @@ public class CooperatorService {
       throw new EntityExistsException("Course Already Exists");
   }
 
-  /*--- COOP COURSE OFFERING METHODS ---*/
+
+  /*------- COOP COURSE OFFERING METHODS -------*/
 
   /**
    * Method creates a coop course offering
@@ -391,7 +396,8 @@ public class CooperatorService {
       throw new EntityExistsException("Offering Already Exists");
   }
 
-  /*--- STUDENT ENROLLMENT METHODS ---*/
+
+  /*------- STUDENT ENROLLMENT METHODS -------*/
 
   /**
    * Method created a student enrollment
@@ -459,7 +465,8 @@ public class CooperatorService {
     Task t1 =
         createTask("Report CO-OP Position Acceptance", "Submit the CO-OP position acceptance form.",
             currentDate, TaskStatus.COMPLETED, se.getEnrollmentID());
-    createDocument("CO-OP Position Acceptance Form", coopAcceptanceForm, se.getEnrollmentID(), t1.getName());
+    createDocument("CO-OP Position Acceptance Form", coopAcceptanceForm, se.getEnrollmentID(),
+        t1.getName());
 
     Task t2 = createTask("Upload Employer Contract", "Submit the employer contract document.",
         currentDate, TaskStatus.COMPLETED, se.getEnrollmentID());
@@ -550,7 +557,8 @@ public class CooperatorService {
       throw new EntityExistsException("Enrollment Already Exists");
   }
 
-  /*--- TASK METHODS ---*/
+
+  /*------- TASK METHODS -------*/
 
   /**
    * Method to create a task
@@ -634,7 +642,8 @@ public class CooperatorService {
     return false;
   }
 
-  /*--- DOCUMENT METHODS ---*/
+
+  /*------- DOCUMENT METHODS -------*/
 
   /**
    * Method to create a document
@@ -650,7 +659,7 @@ public class CooperatorService {
     }
 
     Task t = studentEnrollmentRepository.findByEnrollmentID(enrollmentID).getTask(taskName);
-    
+
     if (t.getDocument(name) != null) {
       t.getDocument(name).setUrl(url);
       taskRepository.save(t);
@@ -709,7 +718,8 @@ public class CooperatorService {
    * @param url
    * @return
    */
-  private boolean incorrectDocumentDetails(String name, String url, String enrollmentID, String taskName) {
+  private boolean incorrectDocumentDetails(String name, String url, String enrollmentID,
+      String taskName) {
     if (name == null || name.trim().length() == 0 || url == null || url.trim().length() == 0
         || enrollmentID == null || taskName == null) {
       return true;
@@ -717,7 +727,8 @@ public class CooperatorService {
     return false;
   }
 
-  /*--- UTILITY METHODS ---*/
+
+  /*------- UTILITY METHODS -------*/
 
   private <T> List<T> toList(Iterable<T> iterable) {
     List<T> resultList = new ArrayList<T>();

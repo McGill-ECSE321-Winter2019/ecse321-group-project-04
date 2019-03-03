@@ -3,8 +3,8 @@ package ca.mcgill.ecse321.cooperator.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.when;
 import java.sql.Date;
 import java.util.Calendar;
@@ -78,30 +78,34 @@ public class TestStudentEnrollment {
 
   @Before
   public void mockSetUp() {
-    when(studentRepository.save(notNull())).thenAnswer((InvocationOnMock invocation) -> {
+    when(studentRepository.save(any(Student.class))).thenAnswer((InvocationOnMock invocation) -> {
       return TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
     });
 
-    when(employerRepository.save(notNull())).thenAnswer((InvocationOnMock invocation) -> {
+    when(employerRepository.save(any(Employer.class))).thenAnswer((InvocationOnMock invocation) -> {
       return TestUtil.createEmployer(NAME, EMAIL);
     });
 
-    when(coopCourseRepository.save(notNull())).thenAnswer((InvocationOnMock invocation) -> {
-      return TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
-    });
+    when(coopCourseRepository.save(any(CoopCourse.class)))
+        .thenAnswer((InvocationOnMock invocation) -> {
+          return TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
+        });
 
-    when(coopCourseOfferingRepository.save(notNull())).thenAnswer((InvocationOnMock invocation) -> {
-      CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
-      return TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
-    });
+    when(coopCourseOfferingRepository.save(any(CoopCourseOffering.class)))
+        .thenAnswer((InvocationOnMock invocation) -> {
+          CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
+          return TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
+        });
 
-    when(studentEnrollmentRepository.save(notNull())).thenAnswer((InvocationOnMock invocation) -> {
-      Student s = TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-      Employer e = TestUtil.createEmployer(NAME, EMAIL);
-      CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
-      CoopCourseOffering cco = TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
-      return TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e, cco, D1_URL, D2_URL);
-    });
+    when(studentEnrollmentRepository.save(any(StudentEnrollment.class)))
+        .thenAnswer((InvocationOnMock invocation) -> {
+          Student s = TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
+          Employer e = TestUtil.createEmployer(NAME, EMAIL);
+          CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
+          CoopCourseOffering cco = TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
+          return TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e, cco, D1_URL,
+              D2_URL);
+        });
 
     when(studentEnrollmentRepository.findByEnrollmentID(anyString()))
         .thenAnswer((InvocationOnMock invocation) -> {

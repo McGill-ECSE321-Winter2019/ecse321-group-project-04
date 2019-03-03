@@ -13,23 +13,23 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
+import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
 import ca.mcgill.ecse321.cooperator.dao.EmployerRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentEnrollmentRepository;
 import ca.mcgill.ecse321.cooperator.dao.StudentRepository;
 import ca.mcgill.ecse321.cooperator.dao.TaskRepository;
-import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.CourseStatus;
+import ca.mcgill.ecse321.cooperator.model.Document;
 import ca.mcgill.ecse321.cooperator.model.Employer;
 import ca.mcgill.ecse321.cooperator.model.Student;
-import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
-import ca.mcgill.ecse321.cooperator.model.Document;
+import ca.mcgill.ecse321.cooperator.model.Task;
+import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.model.Term;
 import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 import ca.mcgill.ecse321.cooperator.service.CooperatorService;
-import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -98,7 +98,7 @@ public class TestDocument {
   public void testOverwriteDocument() {
     // Create chain of objects required to create a task
     @SuppressWarnings("deprecation")
-    Date dueDate = new Date(2019, 1, 1); 
+    Date dueDate = new Date(2019, 1, 1);
     CoopCourse c = service.createCoopCourse("ECSE302", 1);
     CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
     Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");

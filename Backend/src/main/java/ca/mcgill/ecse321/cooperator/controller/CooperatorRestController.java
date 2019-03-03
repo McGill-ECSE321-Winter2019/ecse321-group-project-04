@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.cooperator.controller;
 
 import java.net.URI;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import ca.mcgill.ecse321.cooperator.model.CoopCourse;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 import ca.mcgill.ecse321.cooperator.model.Document;
@@ -25,105 +23,114 @@ import ca.mcgill.ecse321.cooperator.service.CooperatorService;
 @RestController
 public class CooperatorRestController {
 
-	@Autowired
-	private CooperatorService service;
+  @Autowired
+  private CooperatorService service;
 
-	/*------- Student Controller -------*/
 
-	@PostMapping("/student")
-	public ResponseEntity<Object> createStudent(@Valid @RequestBody Student student) {
+  /*------- STUDENT CONTROLLER -------*/
 
-		Student savedStudent = service.createStudent(student);
-		// create URI of where the enitity can be found
-		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
-				.buildAndExpand(savedStudent.getMcgillID()).toUri();
-		// return 201 Status with location in header and body
-		return ResponseEntity.created(location).body(location);
-	}
+  @PostMapping("/student")
+  public ResponseEntity<Object> createStudent(@Valid @RequestBody Student student) {
 
-	/*------- Employer Controller -------*/
-	@PostMapping("/employer")
-	public ResponseEntity<Object> createEmlpyer(@Valid @RequestBody Employer employer) {
-		Employer savedEmployer = service.createEmployer(employer);
+    Student savedStudent = service.createStudent(student);
+    // create URI of where the enitity can be found
+    URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
+        .buildAndExpand(savedStudent.getMcgillID()).toUri();
+    // return 201 Status with location in header and body
+    return ResponseEntity.created(location).body(location);
+  }
 
-		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
-				.buildAndExpand(savedEmployer.getEmail()).toUri();
 
-		return ResponseEntity.created(location).body(location);
-	}
+  /*------- EMPLOYER CONTROLLER -------*/
 
-	/*------- Coop Course Controller -------*/
+  @PostMapping("/employer")
+  public ResponseEntity<Object> createEmlpyer(@Valid @RequestBody Employer employer) {
+    Employer savedEmployer = service.createEmployer(employer);
 
-	@PostMapping("/coopCourse")
-	public ResponseEntity<Object> createCoopCourse(@Valid @RequestBody CoopCourse coopCourse) {
-		CoopCourse savedCoopCourse = service.createCoopCourse(coopCourse);
+    URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
+        .buildAndExpand(savedEmployer.getEmail()).toUri();
 
-		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
-				.buildAndExpand(savedCoopCourse.getCourseCode()).toUri();
+    return ResponseEntity.created(location).body(location);
+  }
 
-		return ResponseEntity.created(location).body(location);
-	}
 
-	/*------- Coop Course Offering Controller -------*/
+  /*------- COOP COURSE CONTROLLER -------*/
 
-	@PostMapping("/coopCourseOffering")
-	public ResponseEntity<Object> createCourseOffering(@Valid @RequestBody CoopCourseOffering cco,
-			@RequestParam(name = "courseCode") String courseCode) {
+  @PostMapping("/coopCourse")
+  public ResponseEntity<Object> createCoopCourse(@Valid @RequestBody CoopCourse coopCourse) {
+    CoopCourse savedCoopCourse = service.createCoopCourse(coopCourse);
 
-		CoopCourse c = service.getCoopCourse(courseCode);
+    URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
+        .buildAndExpand(savedCoopCourse.getCourseCode()).toUri();
 
-		CoopCourseOffering savedcco = service.createCoopCourseOffering(cco, c);
+    return ResponseEntity.created(location).body(location);
+  }
 
-		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
-				.buildAndExpand(savedcco.getOfferID()).toUri();
 
-		return ResponseEntity.created(location).body(location);
-	}
+  /*------- COOP COURSE OFFERING CONTROLLER -------*/
 
-	/*------- StudentEnrollment Controller -------*/
+  @PostMapping("/coopCourseOffering")
+  public ResponseEntity<Object> createCourseOffering(@Valid @RequestBody CoopCourseOffering cco,
+      @RequestParam(name = "courseCode") String courseCode) {
 
-	@PostMapping("/studentEnrollment")
-	public ResponseEntity<Object> createStudentEnrollment(@Valid @RequestBody StudentEnrollment se,
-			@RequestParam(name = "courseOfferingID") String offerID, @RequestParam(name = "studentID") Integer id,
-			@RequestParam(name = "employerEmail") String email,
-			@RequestParam(name = "coopAcceptanceForm") String coopAcceptanceForm,
-			@RequestParam(name = "employerContract") String employerContract) {
+    CoopCourse c = service.getCoopCourse(courseCode);
 
-		CoopCourseOffering cco = service.getCoopCourseOffering(offerID);
-		Student s = service.getStudent(id);
-		Employer e = service.getEmployer(email);
+    CoopCourseOffering savedcco = service.createCoopCourseOffering(cco, c);
 
-		StudentEnrollment savedse = service.createStudentEnrollment(se, s, e, cco, coopAcceptanceForm,
-				employerContract);
+    URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
+        .buildAndExpand(savedcco.getOfferID()).toUri();
 
-		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
-				.buildAndExpand(savedse.getEnrollmentID()).toUri();
+    return ResponseEntity.created(location).body(location);
+  }
 
-		return ResponseEntity.created(location).body(location);
-	}
 
-	/*------- Task Controller -------*/
+  /*------- STUDENT ENROLLMENT CONTROLLER -------*/
 
-	@PostMapping("/task")
-	public ResponseEntity<Object> createTask(@Valid @RequestBody Task task,
-			@RequestParam(name = "studentEnrollmentID") String id) {
-		Task savedTask = service.createTask(task, id);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
-				.buildAndExpand(savedTask.getTaskID()).toUri();
+  @PostMapping("/studentEnrollment")
+  public ResponseEntity<Object> createStudentEnrollment(@Valid @RequestBody StudentEnrollment se,
+      @RequestParam(name = "courseOfferingID") String offerID,
+      @RequestParam(name = "studentID") Integer id,
+      @RequestParam(name = "employerEmail") String email,
+      @RequestParam(name = "coopAcceptanceForm") String coopAcceptanceForm,
+      @RequestParam(name = "employerContract") String employerContract) {
 
-		return ResponseEntity.created(location).body(location);
-	}
+    CoopCourseOffering cco = service.getCoopCourseOffering(offerID);
+    Student s = service.getStudent(id);
+    Employer e = service.getEmployer(email);
 
-	/*------- Document Controller -------*/
+    StudentEnrollment savedse =
+        service.createStudentEnrollment(se, s, e, cco, coopAcceptanceForm, employerContract);
 
-	@PostMapping("/document")
-	public ResponseEntity<Object> createDocument(@Valid @RequestBody Document document,
-			@RequestParam(name = "studentEnrollmentID") String id, @RequestParam(name = "taskName") String name) {
-		Task t = service.getStudentEnrollment(id).getTask(name);
-		Document savedDocument = service.createDocument(document, id, name);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
-				.buildAndExpand(savedDocument.getDocumentID()).toUri();
+    URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
+        .buildAndExpand(savedse.getEnrollmentID()).toUri();
 
-		return ResponseEntity.created(location).body(location);
-	}
+    return ResponseEntity.created(location).body(location);
+  }
+
+
+  /*------- TASK CONTROLLER -------*/
+
+  @PostMapping("/task")
+  public ResponseEntity<Object> createTask(@Valid @RequestBody Task task,
+      @RequestParam(name = "studentEnrollmentID") String id) {
+    Task savedTask = service.createTask(task, id);
+    URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
+        .buildAndExpand(savedTask.getTaskID()).toUri();
+
+    return ResponseEntity.created(location).body(location);
+  }
+
+
+  /*------- DOCUMENT CONTROLLER -------*/
+
+  @PostMapping("/document")
+  public ResponseEntity<Object> createDocument(@Valid @RequestBody Document document,
+      @RequestParam(name = "studentEnrollmentID") String id,
+      @RequestParam(name = "taskName") String name) {
+    Document savedDocument = service.createDocument(document, id, name);
+    URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
+        .buildAndExpand(savedDocument.getDocumentID()).toUri();
+
+    return ResponseEntity.created(location).body(location);
+  }
 }
