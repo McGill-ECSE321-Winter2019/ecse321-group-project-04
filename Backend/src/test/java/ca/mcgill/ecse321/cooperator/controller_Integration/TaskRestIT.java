@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.cooperator.controller_Integration;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Date;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -172,6 +174,7 @@ public class TaskRestIT {
 	    //Forget this for now, because the task ID is a random number, I can't really compare
 	    //There might going to be a compare response status for task
 	    assertTrue(result.contains("/tasks/"));
+	    assertEquals(response6.getStatusCode(), HttpStatus.CREATED);
 	    
     }
     
@@ -259,6 +262,7 @@ public class TaskRestIT {
 	    String result = response6.getBody().toString();
 	    
 	    assertTrue(result.contains("Your task details are incomplete!"));
+	    assertEquals(response6.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
 	    
     }
     
@@ -345,7 +349,8 @@ public class TaskRestIT {
 	    
 	    String result = response6.getBody().toString(); 
 	   
-	    assertTrue(result.contains("Validation Failed"));
+	    assertTrue(result.contains("Your task details are incomplete!"));
+	    assertEquals(response6.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
 	    
     }
     private String createURLWithPort(String uri) {

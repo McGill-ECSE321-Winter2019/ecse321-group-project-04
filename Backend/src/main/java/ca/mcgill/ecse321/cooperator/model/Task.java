@@ -21,7 +21,6 @@ public class Task {
 	private TaskStatus taskStatus;
 
 	private long taskID;
-	@NotBlank(message = "description cannot be blank")
 	private String description;
 	private Date dueDate;
 	private String name;

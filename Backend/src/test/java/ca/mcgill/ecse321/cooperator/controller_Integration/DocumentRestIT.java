@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.cooperator.controller_Integration;
 
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Date;
@@ -17,6 +18,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -92,7 +94,7 @@ public class DocumentRestIT {
     
     
     @Test
-    public void createDocument() throws Exception {
+    public void createDocument()  {
     
     	Document document = new Document(); 
     	
@@ -190,11 +192,12 @@ public class DocumentRestIT {
 	    
 	    //Same as task, the document ID is a random number. 
 	    assertTrue(result.contains("/documents/")); 
+	    assertEquals(response7.getStatusCode(), HttpStatus.CREATED);
     }
     
     
     @Test
-    public void createNullNameDocument() throws Exception {
+    public void createNullNameDocument()  {
     
     	Document document = new Document(); 
     	
@@ -292,6 +295,7 @@ public class DocumentRestIT {
 	    
 	    System.out.println(result);
 	    assertTrue(result.contains("Your document details are incomplete!")); 
+	    assertEquals(response7.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
     }
     
     
