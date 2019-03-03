@@ -55,166 +55,129 @@ public class CourseOfferingRestIT {
 		coopCourseRepository.deleteAll();
 	}
 
-	@Test
-	public void createCourseOffering()  {
-
-		CoopCourseOffering courseOffering = new CoopCourseOffering();
-
+	@Before
+	public void preparTest() {
 		CoopCourse course = new CoopCourse();
 
 		course.setCourseCode("EBUC1000");
 		course.setCoopTerm(2);
-
-		courseOffering.setYear(2019);
-		courseOffering.setTerm(Term.SUMMER);
-		courseOffering.setActive(true);
-		courseOffering.setCoopCourse(course);
 
 		HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
 
 		restTemplate.exchange(createURLWithPort("/coopCourse"), HttpMethod.POST, entity, String.class);
 
-		HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
+	}
 
-		ResponseEntity<String> response2 = restTemplate.exchange(
-				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"), HttpMethod.POST, entity2, String.class);
+	@Test
+	public void createCourseOffering() {
 
-		String result = response2.getBody().toString();
+		CoopCourseOffering courseOffering = new CoopCourseOffering();
+
+		courseOffering.setYear(2019);
+		courseOffering.setTerm(Term.SUMMER);
+		courseOffering.setActive(true);
+
+		HttpEntity<CoopCourseOffering> entity = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
+
+		ResponseEntity<String> response = restTemplate.exchange(
+				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"), HttpMethod.POST, entity, String.class);
+
+		String result = response.getBody().toString();
 
 		assertTrue(result.contains("/coopCourseOfferings/EBUC1000-S19"));
-		assertEquals(response2.getStatusCode(), HttpStatus.CREATED);
+		assertEquals(response.getStatusCode(), HttpStatus.CREATED);
 
 	}
 
 	@Test
-	public void createNullYearCourseOffering()  {
+	public void createNullYearCourseOffering() {
 
 		CoopCourseOffering courseOffering = new CoopCourseOffering();
-
-		CoopCourse course = new CoopCourse();
-
-		course.setCourseCode("EBUC1000");
-		course.setCoopTerm(2);
 
 		courseOffering.setYear(null);
 		courseOffering.setTerm(Term.SUMMER);
 		courseOffering.setActive(true);
-		courseOffering.setCoopCourse(course);
 
-		HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+		HttpEntity<CoopCourseOffering> entity = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 
-		restTemplate.exchange(createURLWithPort("/coopCourse"), HttpMethod.POST, entity, String.class);
+		ResponseEntity<String> response = restTemplate.exchange(
+				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"), HttpMethod.POST, entity, String.class);
 
-		HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
-
-		ResponseEntity<String> response2 = restTemplate.exchange(
-				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"), HttpMethod.POST, entity2, String.class);
-
-		String result = response2.getBody().toString();
+		String result = response.getBody().toString();
 
 		assertTrue(result.contains("Your course offering details are incomplete!"));
-		assertEquals(response2.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
+		assertEquals(response.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
 
 	}
 
 	@Test
-	public void createNullTermCourseOffering()  {
+	public void createNullTermCourseOffering() {
 
 		CoopCourseOffering courseOffering = new CoopCourseOffering();
-
-		CoopCourse course = new CoopCourse();
-
-		course.setCourseCode("EBUC1000");
-		course.setCoopTerm(2);
 
 		courseOffering.setYear(2019);
 		courseOffering.setTerm(null);
 		courseOffering.setActive(true);
-		courseOffering.setCoopCourse(course);
 
-		HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+		HttpEntity<CoopCourseOffering> entity = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 
-		restTemplate.exchange(createURLWithPort("/coopCourse"), HttpMethod.POST, entity, String.class);
+		ResponseEntity<String> response = restTemplate.exchange(
+				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"), HttpMethod.POST, entity, String.class);
 
-		HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
-
-		ResponseEntity<String> response2 = restTemplate.exchange(
-				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"), HttpMethod.POST, entity2, String.class);
-
-		String result = response2.getBody().toString();
+		String result = response.getBody().toString();
 
 		assertTrue(result.contains("Your course offering details are incomplete!"));
-		assertEquals(response2.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
+		assertEquals(response.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
 
 	}
 
 	@Test
-	public void createNullActiveCourseOffering()  {
+	public void createNullActiveCourseOffering() {
 
 		CoopCourseOffering courseOffering = new CoopCourseOffering();
-
-		CoopCourse course = new CoopCourse();
-
-		course.setCourseCode("EBUC1000");
-		course.setCoopTerm(2);
 
 		courseOffering.setYear(2019);
 		courseOffering.setTerm(Term.SUMMER);
 		courseOffering.setActive(null);
-		courseOffering.setCoopCourse(course);
 
-		HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+		HttpEntity<CoopCourseOffering> entity = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 
-		restTemplate.exchange(createURLWithPort("/coopCourse"), HttpMethod.POST, entity, String.class);
+		ResponseEntity<String> response = restTemplate.exchange(
+				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"), HttpMethod.POST, entity, String.class);
 
-		HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
-
-		ResponseEntity<String> response2 = restTemplate.exchange(
-				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"), HttpMethod.POST, entity2, String.class);
-
-		String result = response2.getBody().toString();
+		String result = response.getBody().toString();
 
 		assertTrue(result.contains("Your course offering details are incomplete!"));
-		assertEquals(response2.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
+		assertEquals(response.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
 	}
 
 	@Test
-	public void createCourseOfferingTwice()  {
+	public void createCourseOfferingTwice() {
 
 		CoopCourseOffering courseOffering = new CoopCourseOffering();
-
-		CoopCourse course = new CoopCourse();
-
-		course.setCourseCode("EBUC1000");
-		course.setCoopTerm(2);
 
 		courseOffering.setYear(2019);
 		courseOffering.setTerm(Term.SUMMER);
 		courseOffering.setActive(true);
-		courseOffering.setCoopCourse(course);
 
-		HttpEntity<CoopCourse> entity = new HttpEntity<CoopCourse>(course, headers);
+		HttpEntity<CoopCourseOffering> entity = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 
-		restTemplate.exchange(createURLWithPort("/coopCourse"), HttpMethod.POST, entity, String.class);
+		ResponseEntity<String> response = restTemplate.exchange(
+				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"), HttpMethod.POST, entity, String.class);
 
-		HttpEntity<CoopCourseOffering> entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
-
-		ResponseEntity<String> response2 = restTemplate.exchange(
-				createURLWithPort("coopCourseOffering?courseCode=EBUC1000"), HttpMethod.POST, entity2, String.class);
-
-		String result = response2.getBody().toString();
+		String result = response.getBody().toString();
 
 		assertTrue(result.contains("/coopCourseOfferings/EBUC1000-S19"));
-		assertEquals(response2.getStatusCode(), HttpStatus.CREATED);
-		entity2 = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
+		assertEquals(response.getStatusCode(), HttpStatus.CREATED);
+		entity = new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 
-		response2 = restTemplate.exchange(createURLWithPort("coopCourseOffering?courseCode=EBUC1000"), HttpMethod.POST,
-				entity2, String.class);
+		response = restTemplate.exchange(createURLWithPort("coopCourseOffering?courseCode=EBUC1000"), HttpMethod.POST,
+				entity, String.class);
 
-		result = response2.getBody().toString();
-		
+		result = response.getBody().toString();
+
 		assertTrue(result.contains("Offering Already Exists"));
-		assertEquals(response2.getStatusCode(), HttpStatus.I_AM_A_TEAPOT);
+		assertEquals(response.getStatusCode(), HttpStatus.I_AM_A_TEAPOT);
 
 	}
 
