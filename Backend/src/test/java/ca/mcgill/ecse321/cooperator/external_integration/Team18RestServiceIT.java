@@ -27,8 +27,14 @@ public class Team18RestServiceIT {
 	private static final String URL = "https://cooperatorapp-backend-18.herokuapp.com/";
 
 	@Test
-	public void test() {
-		ResponseEntity<String> response = restTemplate.exchange(URL + "meetings", HttpMethod.GET, null, String.class);
+	public void testGetGradesFrom18() {
+		ResponseEntity<String> response = restTemplate.exchange(URL + "coopTermRegistrations/grades", HttpMethod.GET, null, String.class);
+		assertEquals(response.getStatusCode(), HttpStatus.OK);
+	}
+	
+	@Test
+	public void testGetRegisterationTermsFrom18() {
+		ResponseEntity<String> response = restTemplate.exchange(URL + "coopTermRegistrations/list", HttpMethod.GET, null, String.class);
 		assertEquals(response.getStatusCode(), HttpStatus.OK);
 	}
 

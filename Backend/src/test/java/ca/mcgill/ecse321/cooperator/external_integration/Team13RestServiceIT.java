@@ -27,9 +27,10 @@ public class Team13RestServiceIT {
 	private static final String URL = "http://cooperator-backend-123.herokuapp.com/";
 
 	@Test
-	public void test() {
-		ResponseEntity<String> response = restTemplate.exchange(URL + "statistics", HttpMethod.GET, null, String.class);
-		//assertEquals( HttpStatus.OK, response.getStatusCode()); //Server is currently down
+	public void testGetStudentStatusFrom13() {
+		
+		ResponseEntity<String> response = restTemplate.exchange(URL + "studnet/torresma", HttpMethod.GET, null, String.class);
+		//assertEquals( HttpStatus.OK, response.getStatusCode()); 
 	}
-
+	
 }
