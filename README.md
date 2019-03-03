@@ -43,10 +43,10 @@ co-op acceptance, submit required documents and track their co-op program progre
 |     Team members      |Total hours|                          Responsibility                        |
 |-----------------------|-----------|----------------------------------------------------------------|
 |**Remi Carriere**      |    27     |Main Developper (CTO)                                           |             
-|**Naxin Fang**         |    23     |Supporting tester                                               |
+|**Naxin Fang**         |    23     |Supporting Tester                                               |
 |**Boyang Ma**          |    25     |Tester                                                          |
-|**Angel Ortiz Regules**|    27     |Main Tester / Supporting developper                             |          
-|**Marie Vu**           |    25     |Documentation / Supporting tester                               |
+|**Angel Ortiz Regules**|    27     |Main Tester / Supporting Developper                             |          
+|**Marie Vu**           |    25     |Documentation / Supporting Tester                               |
 
 **Sprint 2 Documents**:
 
