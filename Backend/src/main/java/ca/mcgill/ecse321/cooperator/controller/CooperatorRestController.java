@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.cooperator.controller;
 
 import java.net.URI;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,10 +26,15 @@ public class CooperatorRestController {
   private CooperatorService service;
 
 
-  /*------- STUDENT CONTROLLER -------*/
+  /**
+   * Method to create a student via RESTful service call
+   * 
+   * @param student
+   * @return
+   */
 
   @PostMapping("/student")
-  public ResponseEntity<Object> createStudent(@Valid @RequestBody Student student) {
+  public ResponseEntity<Object> createStudent(@RequestBody Student student) {
 
     Student savedStudent = service.createStudent(student);
     // create URI of where the enitity can be found
@@ -41,10 +45,15 @@ public class CooperatorRestController {
   }
 
 
-  /*------- EMPLOYER CONTROLLER -------*/
+  /**
+   * Method to create an employer via RESTful service call
+   * 
+   * @param employer
+   * @return ResponseEntity with URI of created entity in body and header
+   */
 
   @PostMapping("/employer")
-  public ResponseEntity<Object> createEmlpyer(@Valid @RequestBody Employer employer) {
+  public ResponseEntity<Object> createEmlpyer(@RequestBody Employer employer) {
     Employer savedEmployer = service.createEmployer(employer);
 
     URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
@@ -54,10 +63,15 @@ public class CooperatorRestController {
   }
 
 
-  /*------- COOP COURSE CONTROLLER -------*/
+  /**
+   * Method to create a coop course via RESTful service call
+   * 
+   * @param coopCourse
+   * @return ResponseEntity with URI of created entity in body and header
+   */
 
   @PostMapping("/coopCourse")
-  public ResponseEntity<Object> createCoopCourse(@Valid @RequestBody CoopCourse coopCourse) {
+  public ResponseEntity<Object> createCoopCourse(@RequestBody CoopCourse coopCourse) {
     CoopCourse savedCoopCourse = service.createCoopCourse(coopCourse);
 
     URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
@@ -67,10 +81,16 @@ public class CooperatorRestController {
   }
 
 
-  /*------- COOP COURSE OFFERING CONTROLLER -------*/
+  /**
+   * Method to create a coop course offering via RESTful service call
+   * 
+   * @param cco
+   * @param courseCode
+   * @return ResponseEntity with URI of created entity in body and header
+   */
 
   @PostMapping("/coopCourseOffering")
-  public ResponseEntity<Object> createCourseOffering(@Valid @RequestBody CoopCourseOffering cco,
+  public ResponseEntity<Object> createCourseOffering(@RequestBody CoopCourseOffering cco,
       @RequestParam(name = "courseCode") String courseCode) {
 
     CoopCourse c = service.getCoopCourse(courseCode);
@@ -84,10 +104,20 @@ public class CooperatorRestController {
   }
 
 
-  /*------- STUDENT ENROLLMENT CONTROLLER -------*/
+  /**
+   * Method to create a student enrollment via RESTful service call
+   * 
+   * @param se
+   * @param offerID
+   * @param id
+   * @param email
+   * @param coopAcceptanceForm
+   * @param employerContract
+   * @return ResponseEntity with URI of created entity in body and header
+   */
 
   @PostMapping("/studentEnrollment")
-  public ResponseEntity<Object> createStudentEnrollment(@Valid @RequestBody StudentEnrollment se,
+  public ResponseEntity<Object> createStudentEnrollment(@RequestBody StudentEnrollment se,
       @RequestParam(name = "courseOfferingID") String offerID,
       @RequestParam(name = "studentID") Integer id,
       @RequestParam(name = "employerEmail") String email,
@@ -108,10 +138,16 @@ public class CooperatorRestController {
   }
 
 
-  /*------- TASK CONTROLLER -------*/
+  /**
+   * Method to create a task via RESTful service call
+   * 
+   * @param task
+   * @param id
+   * @return ResponseEntity with URI of created entity in body and header
+   */
 
   @PostMapping("/task")
-  public ResponseEntity<Object> createTask(@Valid @RequestBody Task task,
+  public ResponseEntity<Object> createTask(@RequestBody Task task,
       @RequestParam(name = "studentEnrollmentID") String id) {
     Task savedTask = service.createTask(task, id);
     URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("s/{id}")
@@ -121,10 +157,17 @@ public class CooperatorRestController {
   }
 
 
-  /*------- DOCUMENT CONTROLLER -------*/
+  /**
+   * Method to create a document via RESTful service call
+   * 
+   * @param document
+   * @param id
+   * @param name
+   * @return ResponseEntity with URI of created entity in body and header
+   */
 
   @PostMapping("/document")
-  public ResponseEntity<Object> createDocument(@Valid @RequestBody Document document,
+  public ResponseEntity<Object> createDocument(@RequestBody Document document,
       @RequestParam(name = "studentEnrollmentID") String id,
       @RequestParam(name = "taskName") String name) {
     Document savedDocument = service.createDocument(document, id, name);

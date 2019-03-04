@@ -48,9 +48,7 @@ public class CoopCourseRestIT {
 
   @Test
   public void createCourse() {
-    System.out.println("");
     CoopCourse course = new CoopCourse();
-
     course.setCourseCode("EBUC1000");
     course.setCoopTerm(2);
 
@@ -59,17 +57,16 @@ public class CoopCourseRestIT {
     ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/coopCourse"),
         HttpMethod.POST, entity, String.class);
 
-    String result = response.getBody().toString();
-
-    assertTrue(result.contains("/coopCourses/EBUC1000"));
+    // Check Status
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    // Check URI in body
+    String result = response.getBody().toString();
+    assertTrue(result.contains("/coopCourses/EBUC1000"));
   }
 
   @Test
   public void createNullCodeCourse() {
-
     CoopCourse course = new CoopCourse();
-
     course.setCourseCode(null);
     course.setCoopTerm(2);
 
@@ -78,16 +75,16 @@ public class CoopCourseRestIT {
     ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/coopCourse"),
         HttpMethod.POST, entity, String.class);
 
+    // Check Status
+    assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
+    // Check error message
     String result = response.getBody().toString();
     assertTrue(result.contains("Your course details are incomplete!"));
-    assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
   }
 
   @Test
   public void createNullTermCourse() {
-
     CoopCourse course = new CoopCourse();
-
     course.setCourseCode("EBUC1000");
     course.setCoopTerm(null);
 
@@ -96,16 +93,16 @@ public class CoopCourseRestIT {
     ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/coopCourse"),
         HttpMethod.POST, entity, String.class);
 
+    // Check Status
+    assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
+    // Check error message
     String result = response.getBody().toString();
     assertTrue(result.contains("Your course details are incomplete!"));
-    assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
   }
 
   @Test
   public void createNegativeTermCourse() {
-
     CoopCourse course = new CoopCourse();
-
     course.setCourseCode("EBUC1000");
     course.setCoopTerm(-1);
 
@@ -114,17 +111,16 @@ public class CoopCourseRestIT {
     ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/coopCourse"),
         HttpMethod.POST, entity, String.class);
 
-    String result = response.getBody().toString();
-
-    assertTrue(result.contains("Your course details are incomplete!"));
+    // Check Status
     assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
+    // Check error message
+    String result = response.getBody().toString();
+    assertTrue(result.contains("Your course details are incomplete!"));
   }
 
   @Test
   public void createCourseTwice() {
-
     CoopCourse course = new CoopCourse();
-
     course.setCourseCode("EBUC1000");
     course.setCoopTerm(2);
 
@@ -133,18 +129,18 @@ public class CoopCourseRestIT {
     ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/coopCourse"),
         HttpMethod.POST, entity, String.class);
 
-    String result = response.getBody().toString();
-
-    assertTrue(result.contains("/coopCourses/EBUC1000"));
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    String result = response.getBody().toString();
+    assertTrue(result.contains("/coopCourses/EBUC1000"));
 
     response = restTemplate.exchange(createURLWithPort("/coopCourse"), HttpMethod.POST, entity,
         String.class);
-    result = response.getBody().toString();
 
-
-    assertTrue(result.contains("Course Already Exists"));
+    // Check Status
     assertEquals(HttpStatus.I_AM_A_TEAPOT, response.getStatusCode());
+    // Check error message
+    result = response.getBody().toString();
+    assertTrue(result.contains("Course Already Exists"));
   }
 
   private String createURLWithPort(String uri) {
