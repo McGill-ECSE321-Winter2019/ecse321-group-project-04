@@ -54,6 +54,8 @@ co-op acceptance, submit required documents and track their co-op program progre
 
 [Report 2](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-2-Report)
 
+[Testing Documentation](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Testing-Documentation)
+
 
 ## Deliverable 3 (March 24, 2019)
 
