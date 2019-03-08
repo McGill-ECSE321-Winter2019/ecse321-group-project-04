@@ -166,7 +166,6 @@ public class TestDocument {
     } catch (EntityNotFoundException e) {
       error = e.getMessage();
     }
-
     assertEquals("Could not find a Document with URL test-url-1", error);
   }
 }

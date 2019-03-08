@@ -46,9 +46,7 @@ public class StudentRestIT {
 
   @Test
   public void createStudent() {
-
     Student student = new Student();
-
     student.setFirstName("uvw");
     student.setLastName("xyz");
     student.setMcgillID(260893874);
@@ -58,17 +56,17 @@ public class StudentRestIT {
 
     ResponseEntity<String> response =
         restTemplate.exchange(createURLWithPort("/student"), HttpMethod.POST, entity, String.class);
+
+    // Check Status
+    assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    // Check URI in body
     String result = response.getBody().toString();
     assertTrue(result.contains("/students/260893874"));
-    assertEquals(response.getStatusCode(), HttpStatus.CREATED);
-
   }
 
   @Test
   public void createEmptyNameStudent() {
-
     Student student = new Student();
-
     student.setFirstName("");
     student.setLastName("xyz");
     student.setMcgillID(260893874);
@@ -79,17 +77,16 @@ public class StudentRestIT {
     ResponseEntity<String> response =
         restTemplate.exchange(createURLWithPort("/student"), HttpMethod.POST, entity, String.class);
 
+    // Check Status
+    assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
+    // Check error message
     String result = response.getBody().toString();
     assertTrue(result.contains("Your student details are incomplete!"));
-    assertEquals(response.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
-
   }
 
   @Test
   public void createNullNameStudent() {
-
     Student student = new Student();
-
     student.setFirstName(null);
     student.setLastName("xyz");
     student.setMcgillID(260893874);
@@ -99,17 +96,17 @@ public class StudentRestIT {
 
     ResponseEntity<String> response =
         restTemplate.exchange(createURLWithPort("/student"), HttpMethod.POST, entity, String.class);
+
+    // Check Status
+    assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
+    // Check error message
     String result = response.getBody().toString();
     assertTrue(result.contains("Your student details are incomplete!"));
-    assertEquals(response.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
-
   }
 
   @Test
   public void createNullIDStudent() {
-
     Student student = new Student();
-
     student.setFirstName("uvw");
     student.setLastName("xyz");
     student.setMcgillID(null);
@@ -119,38 +116,36 @@ public class StudentRestIT {
 
     ResponseEntity<String> response =
         restTemplate.exchange(createURLWithPort("/student"), HttpMethod.POST, entity, String.class);
+
+    // Check Status
+    assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
+    // Check error message
     String result = response.getBody().toString();
     assertTrue(result.contains("Your student details are incomplete!"));
-    assertEquals(response.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
-
   }
 
   @Test
   public void createNullEmailStudent() {
-
     Student student = new Student();
-
     student.setFirstName("uvw");
     student.setLastName("xyz");
     student.setMcgillID(260893874);
     student.setMcgillEmail(null);
 
     HttpEntity<Student> entity = new HttpEntity<Student>(student, headers);
-
     ResponseEntity<String> response =
         restTemplate.exchange(createURLWithPort("/student"), HttpMethod.POST, entity, String.class);
 
+    // Check Status
+    assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
+    // Check error message
     String result = response.getBody().toString();
     assertTrue(result.contains("Your student details are incomplete!"));
-    assertEquals(response.getStatusCode(), HttpStatus.METHOD_NOT_ALLOWED);
-
   }
 
   @Test
   public void createStudentTwice() {
-
     Student student = new Student();
-
     student.setFirstName("uvw");
     student.setLastName("xyz");
     student.setMcgillID(260893874);
@@ -160,15 +155,19 @@ public class StudentRestIT {
 
     ResponseEntity<String> response =
         restTemplate.exchange(createURLWithPort("/student"), HttpMethod.POST, entity, String.class);
+
+    assertEquals(HttpStatus.CREATED, response.getStatusCode());
     String result = response.getBody().toString();
     assertTrue(result.contains("/students/260893874"));
-    assertEquals(response.getStatusCode(), HttpStatus.CREATED);
-
+    // Create duplicate
     response =
         restTemplate.exchange(createURLWithPort("/student"), HttpMethod.POST, entity, String.class);
+
+    // Check Status
+    assertEquals(HttpStatus.I_AM_A_TEAPOT, response.getStatusCode());
+    // Check error message
     result = response.getBody().toString();
     assertTrue(result.contains("Student Already Exists"));
-    assertEquals(response.getStatusCode(), HttpStatus.I_AM_A_TEAPOT);
   }
 
   private String createURLWithPort(String uri) {
