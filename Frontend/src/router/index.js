@@ -5,6 +5,7 @@ import Dashboard from '@/components/Dashboard'
 import Login from '@/components/Login'
 import CourseInfo from '@/components/CourseInfo'
 import AcceptanceForm from '@/components/AcceptanceForm'
+import Task from '@/components/Task'
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export default new Router({
         path: '/acceptanceform',
         name: 'AcceptanceForm',
         component: AcceptanceForm
+    },
+    {
+      path: '/task',
+      name: 'Task',
+      component: Task
     }
   ]
 })
