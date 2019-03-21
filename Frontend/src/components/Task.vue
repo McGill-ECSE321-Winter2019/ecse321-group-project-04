@@ -37,36 +37,32 @@
       </div>
     </div>
 
-    <br />
-
-    <nav class="navbar navbar">
-      <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="task-navbar">
-          <div class="row">
-            <div class="col-sm-9">
-              <ul class="nav nav-tabs">
-                <li v-for="tab in tabs" :class="selectedTab === tab ? 'active' : ''" @click="selectedTab = tab">
-                  <a>
-                    <font size="4">{{ tab }}</font>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="col-sm-3">
-              <ul class="nav navbar-nav navbar-right">
-                <li>
-                  <button type="button" class="btn btn-primary">
-                    SUBMIT DOCUMENT
-                  </button>
-                </li>
-              </ul>
-            </div>
+    <div class="container text-center">
+      <div class="container-fluid" id="nav-bar">
+        <div class="row">
+          <div class="col-sm-9">
+            <ul class="nav nav-tabs">
+              <li v-for=  "tab in tabs" :class="selectedTab === tab ? 'active' : ''" @click="selectedTab = tab">
+                <a>
+                  <font size="4">{{ tab }}</font>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-sm-3">
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <button type="button" class="btn btn-primary">
+                  SUBMIT DOCUMENT
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
-    </nav>
-    <br />
+    </div>
 
+    <br />
 
     <div v-if="selectedTab === 'Overview'" class="container" id="overview-container">
       <div class="row">
@@ -102,7 +98,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="col">
         <div class="row-sm-6">
           <div class="card border-inverse mb-3">
