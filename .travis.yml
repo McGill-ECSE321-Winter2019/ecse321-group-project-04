@@ -25,7 +25,7 @@ node_js:
 - "6"
 
 before_install:
-- cd frontend
+- cd Frontend
 - npm install
 
 script:
