@@ -82,7 +82,6 @@
 </template>
 
 <style>
-  /* Remove the jumbotron's default bottom margin */
   #top-container {
     margin-bottom: 0;
     background-color: #333335;

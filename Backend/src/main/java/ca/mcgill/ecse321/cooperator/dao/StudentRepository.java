@@ -6,9 +6,9 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import ca.mcgill.ecse321.cooperator.model.Student;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin
 public interface StudentRepository extends CrudRepository<Student, Integer> {
 
-  @CrossOrigin(origins = "*")
   Student findByMcgillID(@Param(value = "id") Integer id);
 
   Student findByLastName(@Param(value = "name") String name); // For testing only, if used in

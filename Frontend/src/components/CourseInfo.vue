@@ -7,6 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
   </head>
 
   <body>
@@ -15,22 +16,26 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-8">
-            <h2>Co-Op-Erator</h2>
+            <h2>Co-Op-Erator {{this.$route.params.studentID}} {{student != null?student.firstName: '-'}}</h2>
           </div>
           <div class="col-sm-4">
-            <br>
-
-            <!-- the my account button will have to be changed, waiting for Angel's code -->
-
-            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>
-            My Account
-            </button>
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary dropdown-toggle" id="account-btn" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user"></span>
+                Account
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Account Information</a></li>
+                <li><a href="#">Log Out</a></li>
+              </ul>
+            </div>
           </div>
+
         </div>
       </div>
     </div>
 
-    <div class="container-fluid" id = "course-title">
+    <div class="container-fluid" id="course-title">
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-12">
@@ -48,38 +53,78 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav nav-tabs">
-            <li class="active"><a href="#"><font size = "4">Overview</font></a></li>
-            <li><a href="#"><font size = "4">Tasks</font></a></li>
-            <li><a href="#"><font size = "4">Information</font></a></li>
+            <li v-for="tab in tabs" :class="selectedTab === tab ? 'active' : ''" @click="selectedTab = tab">
+              <a>
+                <font size="4">{{ tab }}</font>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
     <br>
 
-    <div class="container">
+    <div v-if="selectedTab === 'Overview'" class="container" id="overview-container">
       <div class="row">
         <div class="col-sm-6">
-          <div class="panel panel-success text-center">
-            <div class="panel-heading"><font size = "5">Progress</font></div>
-            <!--add the tracking thing here-->
-            <div class="panel-body"></div>
+          <div class="card border-inverse mb-3">
+            <div class="card-body">
+              <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">Progress</h3>
+            </div>
           </div>
         </div>
 
         <div class="col-sm-6">
-          <div class="panel panel-primary text-center">
-            <div class="panel-heading"><font size = "5">Upcomming Deadlines</font></div>
-            <div class="panel-body">
-              <!--Some Examples-->
-              <a href=""><font size = "4">Semester Report Due</font></a>
-              <br>
-              <a href="_"><font size = "4">End of Term Report Due</font></a>
+          <div class="card border-inverse mb-3">
+            <div class="card-body">
+              <h3 class="card-title" style="margin-top:10px; margin-bottom:30px;">Upcoming Deadlines</h3>
+              <h4><a href="#">FACC 201 - Term Report</a></h4>
+              <h4>Due Tomorrow</h4>
+              <hr>
+              <h4><a href="#">FACC 202 - Employer Evaluation Report</a></h4>
+              <h4>Due In 3 Days</h4>
+              <hr>
+              <h4><a href="#">FACC 202 - Term Report</a></h4>
+              <h4>Due In 5 Days</h4>
             </div>
           </div>
         </div>
       </div>
-    </div><br>
+    </div>
+
+    <div v-if="selectedTab === 'Tasks'" class="container">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td colspan="2">Larry the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <br>
     <br>
 
 
@@ -89,13 +134,6 @@
 </template>
 
 <style>
-  /* Remove the navbar's default rounded borders and increase the bottom margin */
-  .navbar {
-    margin-bottom: 50px;
-    border-radius: 0;
-  }
-
-  /* Remove the jumbotron's default bottom margin */
   #top-container {
     margin-bottom: 0;
     background-color: #333335;
@@ -105,7 +143,11 @@
   #top-container h2 {
     text-align: left;
     margin-top: 30px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+  }
+
+  #account-btn {
+    margin-top: 30px;
   }
 
   #top-container a {
@@ -113,7 +155,7 @@
     margin-top: 35px;
   }
 
-  #course-title h2{
+  #course-title h2 {
     text-align: left;
     margin-top: 30px;
     margin-bottom: 15px;
@@ -123,19 +165,145 @@
   nav {
     margin-top: 15px;
   }
-
 </style>
 
 <script>
+  import axios from 'axios'
+  var config = require('../../config')
+
+  var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+  var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+
+  var AXIOS = axios.create({
+    baseURL: backendUrl,
+    headers: {
+      'Access-Control-Allow-Origin': frontendUrl
+    }
+  })
   export default {
-    data: () => ({}),
-    mounted() {
-      let s1 = document.createElement('script')
-      s1.setAttribute('src', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
-      document.head.appendChild(s1)
-      let s2 = document.createElement('script')
-      s2.setAttribute('src', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js')
-      document.head.appendChild(s2)
+    name: 'courseinfo',
+    data() {
+      // TODO: Replace course offering and tasks with real REST calls
+      return {
+        tabs: ['Overview', 'Tasks', 'Information'],
+        selectedTab: 'Overview',
+        courseOffering: {
+          "term": "WINTER",
+          "year": 2019,
+          "active": true,
+          "_links": {
+            "self": {
+              "href": "http://cooperator-backend-0000.herokuapp.com/coopCourseOfferings/ECSE-321-W19"
+            },
+            "coopCourseOffering": {
+              "href": "http://cooperator-backend-0000.herokuapp.com/coopCourseOfferings/ECSE-321-W19"
+            },
+            "studentEnrollments": {
+              "href": "http://cooperator-backend-0000.herokuapp.com/coopCourseOfferings/ECSE-321-W19/studentEnrollments"
+            },
+            "coopCourse": {
+              "href": "http://cooperator-backend-0000.herokuapp.com/coopCourseOfferings/ECSE-321-W19/coopCourse"
+            }
+          }
+        },
+        tasks: [{
+            "taskStatus": "COMPLETED",
+            "description": "Submit the CO-OP position acceptance form.",
+            "dueDate": "2019-03-21",
+            "name": "Report CO-OP Position Acceptance",
+            "_links": {
+              "self": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11830"
+              },
+              "task": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11830"
+              },
+              "documents": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11830/documents"
+              }
+            }
+          },
+          {
+            "taskStatus": "INCOMPLETE",
+            "description": "Submit the final evaluation report for the internship experience.",
+            "dueDate": "2019-07-21",
+            "name": "Internship Evaluation Report",
+            "_links": {
+              "self": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11836"
+              },
+              "task": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11836"
+              },
+              "documents": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11836/documents"
+              }
+            }
+          },
+          {
+            "taskStatus": "INCOMPLETE",
+            "description": "Submit the term technical report about the internship experience.",
+            "dueDate": "2019-07-21",
+            "name": "Technical Experience Report",
+            "_links": {
+              "self": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11835"
+              },
+              "task": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11835"
+              },
+              "documents": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11835/documents"
+              }
+            }
+          },
+          {
+            "taskStatus": "INCOMPLETE",
+            "description": "Submit an initial report of the tasks and workload of the internship.",
+            "dueDate": "2019-04-04",
+            "name": "Initial Workload Report",
+            "_links": {
+              "self": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11834"
+              },
+              "task": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11834"
+              },
+              "documents": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11834/documents"
+              }
+            }
+          },
+          {
+            "taskStatus": "COMPLETED",
+            "description": "Submit the employer contract document.",
+            "dueDate": "2019-03-21",
+            "name": "Upload Employer Contract",
+            "_links": {
+              "self": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11832"
+              },
+              "task": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11832"
+              },
+              "documents": {
+                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11832/documents"
+              }
+            }
+          }
+        ]
+      }
+    },
+    created() {
+      AXIOS.get(`/students/` + this.$route.params.studentID)
+        .then(response => {
+          this.student = response.data
+        })
+        .catch(e => {
+          var errorMsg = e.message
+          console.log(errorMsg)
+          this.errorPerson = errorMsg
+        })
     },
     methods: {}
   }
