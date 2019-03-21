@@ -15,64 +15,66 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-8">
-            <h2>Co-Op-Erator</h2>
+            <h2>Co-Op-Erator {{this.$route.params.studentID}} {{student != null?student.firstName: '-'}}</h2>
           </div>
           <div class="col-sm-4">
-            <a href="#"><span class="glyphicon glyphicon-user"></span> Your Account</a>
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary dropdown-toggle" id="account-btn" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user"></span>
+                Account
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Account Information</a></li>
+                <li><a href="#">Log Out</a></li>
+              </ul>
+            </div>
           </div>
 
         </div>
       </div>
     </div>
 
-    <nav class="navbar navbar">
-      <div class="container-fluid">
-        <div class="navbar-header">
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#">Active Courses</a></li>
-            <li><a href="#">Archieved Courses</a></li>
+    <div class="container text-center">
+      <div class="container-fluid" id="nav-bar">
+        <div class="row">
+          <div class="col-sm-9">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#">Active Courses</a></li>
+              <li><a href="#">Archieved Courses</a></li>
+            </ul>
+          </div>
+          <ul class="nav navbar-nav navbar-right">
             <li><button type="button" class="btn btn-success" href="#">Register Course</button></li>
           </ul>
         </div>
       </div>
-    </nav>
+    </div>
 
-    <div class="container">
+    <div class="container" id="course-list">
       <div class="row">
-        <div class="col-sm-4">
-          <div class="panel panel-primary">
-            <div class="panel-heading">BLACK FRIDAY DEAL</div>
-            <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-            <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="panel panel-danger">
-            <div class="panel-heading">BLACK FRIDAY DEAL</div>
-            <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-            <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="panel panel-success">
-            <div class="panel-heading">BLACK FRIDAY DEAL</div>
-            <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-            <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-body">FACC 201 - Winter 2019</div>
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-body">FACC 202 - Winter 2019</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-body">FACC 203 - Winter 2019</div>
+          </div>
+        </div>
+      </div>
+    </div>
     </div><br>
     <br>
-
-    <footer class="container-fluid text-center">
-      <p>Online Store Copyright</p>
-      <form class="form-inline">Get deals:
-        <input type="email" class="form-control" size="50" placeholder="Email Address">
-        <button type="button" class="btn btn-danger">Sign Up</button>
-      </form>
-    </footer>
 
   </body>
 
@@ -80,12 +82,6 @@
 </template>
 
 <style>
-  /* Remove the navbar's default rounded borders and increase the bottom margin */
-  .navbar {
-    margin-bottom: 50px;
-    border-radius: 0;
-  }
-
   /* Remove the jumbotron's default bottom margin */
   #top-container {
     margin-bottom: 0;
@@ -96,35 +92,56 @@
   #top-container h2 {
     text-align: left;
     margin-top: 30px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
   }
 
-  #top-container a {
-    display: inline-block;
-    margin-top: 35px;
+  #account-btn {
+    margin-top: 30px;
   }
 
-  nav {
-    margin-top: 15px;
+  #nav-bar {
+    margin-top: 25px;
+    margin-bottom: 25px;
   }
 
-  /* Add a gray background color and some padding to the footer */
-  footer {
-    background-color: #f2f2f2;
-    padding: 25px;
+  #course-list .panel-body {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: large;
   }
 </style>
 
 <script>
+  import axios from 'axios'
+  var config = require('../../config')
+
+  var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+  var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+
+  var AXIOS = axios.create({
+    baseURL: backendUrl,
+    headers: { 'Access-Control-Allow-Origin': frontendUrl }
+  })
+
   export default {
-    data: () => ({}),
-    mounted() {
-      let s1 = document.createElement('script')
-      s1.setAttribute('src', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
-      document.head.appendChild(s1)
-      let s2 = document.createElement('script')
-      s2.setAttribute('src', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js')
-      document.head.appendChild(s2)
+    name: 'dashboard',
+    data() {
+      return {
+        student : null
+      }
+    },
+    created() {
+      console.log('Hello!!')
+      AXIOS.get(`/students/` + this.$route.params.studentID)
+        .then(response => {
+          this.student = response.data
+        })
+        .catch(e => {
+          var errorMsg = e.message
+          console.log(errorMsg)
+          this.errorPerson = errorMsg
+        })
+        console.log(this.student)
     },
     methods: {}
   }

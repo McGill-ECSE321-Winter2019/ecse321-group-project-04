@@ -17,7 +17,14 @@
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
+  <div>
+    <router-link to="{name:'Dashboard'}">Dashboard</router-link>
+    <router-link to="{ name: 'Dashboard', params: { id: tree.id }}"> DB </router-link>
+    <button v-on:click="goToDashboard">Dashboard</button>
   </div>
+  </div>
+
+
 </template>
 
 <script>
@@ -27,6 +34,11 @@
       return {
         msg: 'Welcome to Your Vue.js App'
       }
+    },
+    methods: {
+        goToDashboard: function() {
+            this.$router.push({name:'Dashboard', params:{studentID:260123456}})
+        }
     }
   }
 </script>
