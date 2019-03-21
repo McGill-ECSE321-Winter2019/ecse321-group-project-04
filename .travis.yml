@@ -1,3 +1,5 @@
+
+#JOB 1: Backend
 language: java
 
 env:
@@ -13,5 +15,26 @@ deploy:
  api_key:
    secure: abbd43ef-e17e-466a-92cb-68e03e2affeb
  app: cooperator-backend-0000
+ on:
+   repo: McGill-ECSE321-Winter2019/ecse321-group-project-04
+
+
+#JOB 2 FRONTEND
+- language: node_js
+node_js:
+- "6"
+
+before_install:
+- cd frontend
+- npm install
+
+script:
+- npm run build
+
+deploy:
+ provider: heroku
+ api_key:
+   secure: a7f85a30-34cf-420c-9409-2f289506a89b
+ app: cooperator-frontend-0000
  on:
    repo: McGill-ECSE321-Winter2019/ecse321-group-project-04
