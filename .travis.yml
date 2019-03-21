@@ -1,8 +1,8 @@
 
-# check different combinations of build flags which is able to divide builds into “jobs”.
+# divide builds into “jobs”.
 matrix:
 
-# Helps to run different languages in one .travis.yml file
+# run different languages in one .travis.yml file
 include:
 
 #JOB 1: Backend
@@ -25,10 +25,10 @@ script:
 #    repo: McGill-ECSE321-Winter2019/ecse321-group-project-04
 
 
-#JOB 2 FRONTEND
-# - language: node_js
-#   node_js:
-#   - "6"
+JOB 2 FRONTEND
+- language: node_js
+  node_js:
+  - "6"
 
 # before_install:
 #   - cd Frontend
