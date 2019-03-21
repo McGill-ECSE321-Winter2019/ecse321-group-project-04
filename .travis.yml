@@ -25,21 +25,21 @@ matrix:
 
 
 # JOB 2 FRONTEND
-    - language: node_js
-      node_js:
-        - "6"
+    # - language: node_js
+    #   node_js:
+    #     - "6"
 
-    before_install:
-    - cd Frontend
-    - npm install
+    # before_install:
+    # - cd Frontend
+    # - npm install
 
-    script:
-    - npm run build
+    # script:
+    # - npm run build
 
-    deploy:
-     provider: heroku
-     api_key:
-       secure: a7f85a30-34cf-420c-9409-2f289506a89b
-     app: cooperator-frontend-0000
-     on:
-       repo: McGill-ECSE321-Winter2019/ecse321-group-project-04
+    # deploy:
+    #  provider: heroku
+    #  api_key:
+    #    secure: a7f85a30-34cf-420c-9409-2f289506a89b
+    #  app: cooperator-frontend-0000
+    #  on:
+    #    repo: McGill-ECSE321-Winter2019/ecse321-group-project-04
