@@ -9,12 +9,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   </head>
 
-  <!--<body style = "background: url(https://static.boredpanda.com/blog/wp-content/uploads/2015/04/night-sky-stars-milky-way-photography-23__880.jpg)
-  ; background-size: 100% 100%;">-->
-
   <body>
-
-
+    
   <div class="container-fluid" id="top-container">
      <div class="container text-center">
        <img  src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png"
@@ -23,10 +19,6 @@
   </div>
 
   <div class="container-fluid text-center" id = "background">
-    <!--<div class="container text-center">
-      <img  src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png"
-      width="300" height="100">
-    </div>-->
       <div class="col-sm-2 sidenav"></div>
       <div class="col-sm-8">
         <div class="row">
@@ -53,7 +45,7 @@
                   <font size="4" face = "Times"><b>Login</b></font>
                 </button>
                 <br>
-                <a href="#"><i><b>need help?</b></i></a>
+                <a href="#"><i><b>Need help?</b></i></a>
               </div>
              </div>
            </div>
@@ -77,15 +69,10 @@
   #top-container {
     margin-bottom: 0;
     margin-top: 0;
-    background-image:url(https://static.boredpanda.com/blog/wp-content/uploads/2015/04/night-sky-stars-milky-way-photography-23__880.jpg);
-    /*--background-color: #333335;*/
+    background-color: #333335;
     color: #ffffff;
   }
-  /*#background{
-    background-image:url(https://static.boredpanda.com/blog/wp-content/uploads/2015/04/night-sky-stars-milky-way-photography-23__880.jpg);
-    background-repeat: no-repeat;
-    background-size: 100% 120%;
-  }*/
+
 
   #welcome {
     max-width: 100%;

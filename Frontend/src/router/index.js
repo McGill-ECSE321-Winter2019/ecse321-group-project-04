@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 import Dashboard from '@/components/Dashboard'
 import Login from '@/components/Login'
 import CourseInfo from '@/components/CourseInfo'
+import AcceptanceForm from '@/components/AcceptanceForm'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
         path: '/courseinfo',
         name: 'CourseInfo',
         component: CourseInfo
+    },
+    {
+        path: '/acceptanceform',
+        name: 'AcceptanceForm',
+        component: AcceptanceForm
     }
   ]
 })
