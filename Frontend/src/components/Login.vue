@@ -9,25 +9,33 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   </head>
 
+  <!--<body style = "background: url(https://static.boredpanda.com/blog/wp-content/uploads/2015/04/night-sky-stars-milky-way-photography-23__880.jpg)
+  ; background-size: 100% 100%;">-->
+
   <body>
+
 
   <div class="container-fluid" id="top-container">
      <div class="container text-center">
-       <h1>Co-Op-Erator</h1>
+       <img  src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png"
+       width="300" height="100">
      </div>
   </div>
 
-  <div class="container-fluid text-center">
-    <div class="row content">
+  <div class="container-fluid text-center" id = "background">
+    <!--<div class="container text-center">
+      <img  src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png"
+      width="300" height="100">
+    </div>-->
       <div class="col-sm-2 sidenav"></div>
       <div class="col-sm-8">
         <div class="row">
           <div class="col-sm-2"></div>
           <div class="col-sm-8">
-            <br><br>
+            <br>
             <div class="container-fluid">
               <div class="container text-left" id = "welcome">
-                <h2>Welcome!</h2>
+                <h2><font>Welcome!</font></h2>
                 <h3>You look amazing today</h3>
               </div><hr>
             </div>
@@ -54,8 +62,7 @@
        </div>
        <div class="col-sm-2 sidenav"></div>
      </div>
-   </div>
- </body>
+   </body>
 
   </html>
 </template>
@@ -69,24 +76,25 @@
 
   #top-container {
     margin-bottom: 0;
-    background-color: #333335;
+    margin-top: 0;
+    background-image:url(https://static.boredpanda.com/blog/wp-content/uploads/2015/04/night-sky-stars-milky-way-photography-23__880.jpg);
+    /*--background-color: #333335;*/
     color: #ffffff;
   }
-
-  #top-container h1 {
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 15px;
-    font-size:45px
-  }
+  /*#background{
+    background-image:url(https://static.boredpanda.com/blog/wp-content/uploads/2015/04/night-sky-stars-milky-way-photography-23__880.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 120%;
+  }*/
 
   #welcome {
     max-width: 100%;
+    margin-top: 0px;
   }
 
   #welcome h2 {
     text-align: center;
-    margin-top: 0px;
+    margin-top: 15px;
     margin-bottom: 10px;
     font-size:37px
   }
@@ -97,7 +105,7 @@
     font-size:25px;
     font-family: Lucida;
     font-style: oblique;
-    color:#005CB9;
+    color: #333335;
   }
 
 </style>

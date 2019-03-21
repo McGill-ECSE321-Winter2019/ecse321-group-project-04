@@ -8,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   </head>
-  
+
   <body>
-    
+
     <div class="container-fluid" id="top-container">
       <div class="container text-center">
         <div class="row">
@@ -19,22 +19,22 @@
           </div>
           <div class="col-sm-4">
             <br>
-            
+
             <!-- the my account button will have to be changed, waiting for Angel's code -->
-            
-            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span> 
+
+            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>
             My Account
             </button>
           </div>
         </div>
       </div>
     </div>
-   
+
     <div class="container-fluid" id = "course-title">
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-12">
-          
+
             <!-- The course name here on line 36 has to be changed to the real one that link to the dashboard -->
             <h2>Winter 2019 - FACC 201</h2>
           </div>
@@ -48,37 +48,40 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav nav-tabs">
-            <li class="active"><a href="#">Active Courses</a></li>
-            <li><a href="#">Archieved Courses</a></li>
-            <li><button type="button" class="btn btn-success" href="#">Register Course</button></li>
+            <li class="active"><a href="#"><font size = "4">Overview</font></a></li>
+            <li><a href="#"><font size = "4">Tasks</font></a></li>
+            <li><a href="#"><font size = "4">Information</font></a></li>
           </ul>
         </div>
       </div>
     </nav>
-    
-    
-    
+    <br>
+
     <div class="container">
       <div class="row">
         <div class="col-sm-6">
-          <div class="panel panel-primary">
-            <div class="panel-heading">BLACK FRIDAY DEAL</div>
-            <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-            <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+          <div class="panel panel-success text-center">
+            <div class="panel-heading"><font size = "5">Progress</font></div>
+            <!--add the tracking thing here-->
+            <div class="panel-body"></div>
           </div>
         </div>
- 
+
         <div class="col-sm-6">
-          <div class="panel panel-success">
-            <div class="panel-heading">BLACK FRIDAY DEAL</div>
-            <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-            <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+          <div class="panel panel-primary text-center">
+            <div class="panel-heading"><font size = "5">Upcomming Deadlines</font></div>
+            <div class="panel-body">
+              <!--Some Examples-->
+              <a href=""><font size = "4">Semester Report Due</font></a>
+              <br>
+              <a href="_"><font size = "4">End of Term Report Due</font></a>
+            </div>
           </div>
         </div>
       </div>
     </div><br>
     <br>
-    
+
 
   </body>
 
@@ -114,13 +117,13 @@
     text-align: left;
     margin-top: 30px;
     margin-bottom: 15px;
-  
+
   }
-  
+
   nav {
     margin-top: 15px;
   }
-  
+
 </style>
 
 <script>
