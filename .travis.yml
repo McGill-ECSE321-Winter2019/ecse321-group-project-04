@@ -26,16 +26,16 @@ script:
 
 
 #JOB 2 FRONTEND
-- language: node_js
-  node_js:
-  - "6"
+# - language: node_js
+#   node_js:
+#   - "6"
 
-before_install:
-  - cd Frontend
-  - npm install
+# before_install:
+#   - cd Frontend
+#   - npm install
 
-script:
-  - npm run build
+# script:
+#   - npm run build
 
 # deploy:
 #  provider: heroku
