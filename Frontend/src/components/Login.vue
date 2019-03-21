@@ -13,68 +13,93 @@
 
   <div class="container-fluid" id="top-container">
      <div class="container text-center">
-           <h1>Co-Op-Erator</h1>
+       <h1>Co-Op-Erator</h1>
      </div>
   </div>
 
-  <div class="container-fluid text-center">    
-	<div class="row content">
-	  <div class="col-sm-2 sidenav"></div>
-	    <div class="col-sm-8"> 
-		  <div class="row">
-			<div class="col-sm-2"></div>
-			   <div class="col-sm-8">
-			     <br><br>
-				 <div class="container-fluid">
-			       <div class="container text-left">
-					 <h1>Welcome</h1>
-				   </div><hr>
-				 </div>
-						    
-				 <div class="panel panel-default text-center">
-				   <div class="panel-body">
-					 <br><br><br><br>
-					   <div class="form-group">
-						 <label for="usr">Student Number:</label>
-						   <input type="text" class="form-control form-control-lg" id="usr">
-				 	   </div>
-			           <button type="button" class="btn btn-primary btn-block">Login</button><br>  
-				       <a href="#">need help?</a>
-					</div>
-				 </div>        
-			   </div>	
-			 <div class="col-sm-2"> </div>
-	       </div>
-	    <div class="col-sm-2 sidenav"></div>
-	  </div>
-	</div>
-  </div>
+  <div class="container-fluid text-center">
+    <div class="row content">
+      <div class="col-sm-2 sidenav"></div>
+      <div class="col-sm-8">
+        <div class="row">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-8">
+            <br><br>
+            <div class="container-fluid">
+              <div class="container text-left" id = "welcome">
+                <h2>Welcome!</h2>
+                <h3>You look amazing today</h3>
+              </div><hr>
+            </div>
 
-  </body>
+            <div class="panel panel-default text-center">
+              <div class="panel-body">
+                <br><br><br><br>
+                <div class="form-group">
+                  <label for="usr">
+                    <font size="4">Student Number:</font>
+                  </label>
+                  <input type="text" class="form-control form-control-lg" id="usr">
+                </div>
+                <button type="button" class="btn btn-primary btn-block">
+                  <font size="4" face = "Times"><b>Login</b></font>
+                </button>
+                <br>
+                <a href="#"><i><b>need help?</b></i></a>
+              </div>
+             </div>
+           </div>
+           <div class="col-sm-2"> </div>
+         </div>
+       </div>
+       <div class="col-sm-2 sidenav"></div>
+     </div>
+   </div>
+ </body>
 
   </html>
 </template>
 
-
 <style>
-  
+
   .panel {
     min-height: 80%;
-    max-width: 100%; 
+    max-width: 100%;
   }
- 
+
   #top-container {
     margin-bottom: 0;
     background-color: #333335;
     color: #ffffff;
   }
-  
+
   #top-container h1 {
     text-align: center;
     margin-top: 30px;
     margin-bottom: 15px;
+    font-size:45px
   }
-  
+
+  #welcome {
+    max-width: 100%;
+  }
+
+  #welcome h2 {
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    font-size:37px
+  }
+  #welcome h3 {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    font-size:25px;
+    font-family: Lucida;
+    font-style: oblique;
+    color:#005CB9;
+  }
+
 </style>
 
 <script>
@@ -91,5 +116,3 @@
     methods: {}
   }
 </script>
-
-
