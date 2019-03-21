@@ -25,10 +25,10 @@ script:
 #    repo: McGill-ECSE321-Winter2019/ecse321-group-project-04
 
 
-JOB 2 FRONTEND
-- language: node_js
-  node_js:
-  - "6"
+#JOB 2 FRONTEND
+# - language: node_js
+#   node_js:
+#   - "6"
 
 # before_install:
 #   - cd Frontend
