@@ -19,12 +19,18 @@ module.exports = {
     // View the bundle analyzer report after build finishes:
     // `npm run build --report`
     // Set to `true` or `false` to always turn it on or off
-    bundleAnalyzerReport: process.env.npm_config_report
+    bundleAnalyzerReport: process.env.npm_config_report,
+    host: 'cooperator-frontend-0000.herokuapp.com/',
+    port: 443,
+    backendHost: 'cooperator-backend-0000.herokuapp.com/',
+    backendPort: 443,
   },
   dev: {
     env: require('./dev.env'),
     host: '127.0.0.1',
-    port: 8080,
+    port: 8087,
+    backendHost: 'cooperator-backend-0000.herokuapp.com/',
+    backendPort: 8080,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
