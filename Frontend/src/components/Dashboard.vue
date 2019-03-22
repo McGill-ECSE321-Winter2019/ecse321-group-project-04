@@ -18,16 +18,10 @@
             <h2>Co-Op-Erator {{this.$route.params.id}} {{student != null?student.firstName: '-'}}</h2>
           </div>
           <div class="col-sm-4">
-            <div class="btn-group">
-              <button type="button" class="btn btn-primary dropdown-toggle" id="account-btn" data-toggle="dropdown">
+              <button type="button" class="btn btn-primary dropdown-toggle" @click="goToAccount" style="margin-top:30px">
                 <span class="glyphicon glyphicon-user"></span>
                 Account
               </button>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Account Information</a></li>
-                <li><a href="#">Log Out</a></li>
-              </ul>
-            </div>
           </div>
 
         </div>
@@ -142,6 +136,10 @@
         })
         console.log(this.student)
     },
-    methods: {}
+    methods: {
+      goToAccount: function() {
+        this.$router.push({name:'StudentInformation', params:{studentID:this.$route.params.studentID}})
+      }
+    }
   }
 </script>
