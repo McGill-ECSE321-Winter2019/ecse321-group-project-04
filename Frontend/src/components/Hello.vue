@@ -37,7 +37,7 @@
     },
     methods: {
         goToDashboard: function() {
-            this.$router.push({name:'Dashboard', params:{studentID:260123456}})
+            this.$router.push({name:'Dashboard', params:{id:260123456}})
         }
     }
   }
