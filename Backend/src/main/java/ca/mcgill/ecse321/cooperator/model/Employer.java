@@ -10,7 +10,7 @@ import javax.persistence.OneToMany;
 public class Employer {
 
   private String name;
-
+  private String address; 
   private String email;
   private Set<StudentEnrollment> studentEnrollments;
 
@@ -45,5 +45,13 @@ public class Employer {
   public void setStudentEnrollments(Set<StudentEnrollment> studentEnrollments) {
     this.studentEnrollments = studentEnrollments;
   }
+
+public String getAddress() {
+	return address;
+}
+
+public void setAddress(String address) {
+	this.address = address;
+}
 
 }

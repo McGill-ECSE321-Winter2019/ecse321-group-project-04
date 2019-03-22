@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.cooperator.model;
 
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -18,6 +19,9 @@ public class StudentEnrollment {
   private CourseStatus status;
 
   private Boolean active;
+  private Date startDate;
+  private Date endDate;
+  private Boolean workPermit;
   private Employer studentEmployer;
   private Student enrolledStudent;
   private Set<Task> courseTasks;
@@ -104,5 +108,29 @@ public class StudentEnrollment {
     }
     return null;
   }
+
+public Date getStartDate() {
+	return startDate;
+}
+
+public void setStartDate(Date startDate) {
+	this.startDate = startDate;
+}
+
+public Date getEndDate() {
+	return endDate;
+}
+
+public void setEndDate(Date endDate) {
+	this.endDate = endDate;
+}
+
+public Boolean getWorkPermit() {
+	return workPermit;
+}
+
+public void setWorkPermit(Boolean workPermit) {
+	this.workPermit = workPermit;
+}
 
 }

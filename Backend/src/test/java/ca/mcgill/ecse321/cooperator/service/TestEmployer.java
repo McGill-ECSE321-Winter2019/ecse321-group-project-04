@@ -53,7 +53,7 @@ public class TestEmployer {
   @Test
   public void testCreateEmployer() {
     try {
-      service.createEmployer(NAME, EMAIL);
+      service.createEmployer(NAME, EMAIL, "");
     } catch (InvalidParameterException e) {
       fail();
     }
@@ -85,7 +85,7 @@ public class TestEmployer {
   public void testCreateNullNameEmployer() {
     String error = null;
     try {
-      service.createEmployer(null, EMAIL);
+      service.createEmployer(null, EMAIL, "");
     } catch (InvalidParameterException e) {
       error = e.getMessage();
     }

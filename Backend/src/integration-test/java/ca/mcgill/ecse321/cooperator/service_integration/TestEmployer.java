@@ -34,7 +34,7 @@ public class TestEmployer {
   @Test
   public void testCreateEmployer() {
     try {
-      service.createEmployer("Google", "google@gmail.com");
+      service.createEmployer("Google", "google@gmail.com", "");
     } catch (InvalidParameterException e) {
       fail();
     }
@@ -70,7 +70,7 @@ public class TestEmployer {
   public void testCreateNullNameEmployer() {
     String error = null;
     try {
-      service.createEmployer(null, "google@gmail.com");
+      service.createEmployer(null, "google@gmail.com", "");
     } catch (InvalidParameterException e) {
       error = e.getMessage();
     }
