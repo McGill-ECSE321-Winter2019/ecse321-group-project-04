@@ -74,9 +74,9 @@ public class TestTask {
     CoopCourse c = service.createCoopCourse("ECSE302", 1);
     CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
     Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-    Employer emp = service.createEmployer("Facebook", "fb@email.com");
+    Employer emp = service.createEmployer("Facebook", "fb@email.com", "");
     StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco,
-        "test-url-1", "test-url-2");
+        "test-url-1", "test-url-2", null, null, null);
 
     try {
       Task t = service.createTask("Task name", "Some description", dueDate, TaskStatus.COMPLETED,
@@ -106,9 +106,9 @@ public class TestTask {
     CoopCourse c = service.createCoopCourse("ECSE302", 1);
     CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
     Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-    Employer emp = service.createEmployer("Facebook", "fb@email.com");
+    Employer emp = service.createEmployer("Facebook", "fb@email.com", "");
     StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco,
-        "test-url-1", "test-url-2");
+        "test-url-1", "test-url-2", null, null, null);
 
     Task param = new Task();
     param.setName("Task name");

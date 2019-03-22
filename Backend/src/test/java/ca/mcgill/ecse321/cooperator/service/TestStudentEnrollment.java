@@ -128,10 +128,10 @@ public class TestStudentEnrollment {
     CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
     CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, Term.FALL, true, c);
     Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-    Employer emp = service.createEmployer(NAME, EMAIL);
+    Employer emp = service.createEmployer(NAME, EMAIL, "");
 
     try {
-      service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL);
+      service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL, null, null, null);
     } catch (InvalidParameterException e) {
       fail();
     }
@@ -188,7 +188,7 @@ public class TestStudentEnrollment {
     CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
     CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, Term.FALL, true, c);
     Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-    Employer emp = service.createEmployer(NAME, EMAIL);
+    Employer emp = service.createEmployer(NAME, EMAIL,"");
 
     StudentEnrollment param = new StudentEnrollment();
     param.setActive(true);
@@ -253,10 +253,10 @@ public class TestStudentEnrollment {
     CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
     CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, Term.FALL, true, c);
     Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-    Employer emp = service.createEmployer(NAME, EMAIL);
+    Employer emp = service.createEmployer(NAME, EMAIL, "");
 
     try {
-      service.createStudentEnrollment(null, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL);
+      service.createStudentEnrollment(null, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL, null, null, null);
     } catch (InvalidParameterException e) {
       error = e.getMessage();
     }

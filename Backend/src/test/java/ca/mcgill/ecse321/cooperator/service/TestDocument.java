@@ -156,9 +156,9 @@ public class TestDocument {
     CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
     CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, c);
     Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-    Employer emp = service.createEmployer(NAME, EMAIL);
+    Employer emp = service.createEmployer(NAME, EMAIL, "");
     StudentEnrollment se =
-        service.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, emp, cco, D1_URL, D2_URL);
+        service.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, emp, cco, D1_URL, D2_URL, null, null, null);
     Task t = service.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS, se.getEnrollmentID());
 
     Document param = new Document();

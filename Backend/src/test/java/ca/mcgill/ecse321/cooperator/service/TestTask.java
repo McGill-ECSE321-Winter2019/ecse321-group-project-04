@@ -144,9 +144,9 @@ public class TestTask {
     CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
     CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, Term.FALL, ACTIVE, c);
     Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-    Employer emp = service.createEmployer(NAME, EMAIL);
+    Employer emp = service.createEmployer(NAME, EMAIL, "");
     StudentEnrollment se =
-        service.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, emp, cco, D1_URL, D2_URL);
+        service.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, emp, cco, D1_URL, D2_URL, null, null, null);
 
     try {
       Task t =
@@ -171,9 +171,9 @@ public class TestTask {
     CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
     CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, Term.FALL, ACTIVE, c);
     Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-    Employer emp = service.createEmployer(NAME, EMAIL);
+    Employer emp = service.createEmployer(NAME, EMAIL,"");
     StudentEnrollment se =
-        service.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, emp, cco, D1_URL, D2_URL);
+        service.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, emp, cco, D1_URL, D2_URL, null, null, null);
 
     Task param = new Task();
     param.setName(TASK_NAME);

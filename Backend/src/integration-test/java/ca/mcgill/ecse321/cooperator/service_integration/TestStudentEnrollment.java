@@ -71,11 +71,11 @@ public class TestStudentEnrollment {
     CoopCourse c = service.createCoopCourse("ECSE302", 1);
     CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
     Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-    Employer emp = service.createEmployer("Facebook", "fb@email.com");
+    Employer emp = service.createEmployer("Facebook", "fb@email.com", "");
 
     try {
       service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, "test-url-1",
-          "test-url-2");
+          "test-url-2", null, null, null);
     } catch (InvalidParameterException e) {
       fail();
     }
@@ -146,7 +146,7 @@ public class TestStudentEnrollment {
     CoopCourse c = service.createCoopCourse("ECSE302", 1);
     CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
     Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-    Employer emp = service.createEmployer("Facebook", "fb@email.com");
+    Employer emp = service.createEmployer("Facebook", "fb@email.com", "");
 
     StudentEnrollment param = new StudentEnrollment();
     param.setActive(true);
@@ -227,11 +227,11 @@ public class TestStudentEnrollment {
     CoopCourse c = service.createCoopCourse("ECSE302", 1);
     CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
     Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-    Employer emp = service.createEmployer("Facebook", "fb@email.com");
+    Employer emp = service.createEmployer("Facebook", "fb@email.com", "");
 
     try {
       service.createStudentEnrollment(null, CourseStatus.PASSED, s, emp, cco, "test-url-1",
-          "test-url-2");
+          "test-url-2", null, null, null);
     } catch (InvalidParameterException e) {
       error = e.getMessage();
     }
@@ -260,7 +260,7 @@ public class TestStudentEnrollment {
     CoopCourse c = service.createCoopCourse("ECSE302", 1);
     CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
     Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-    Employer empl = service.createEmployer("Facebook", "fb@email.com");
+    Employer empl = service.createEmployer("Facebook", "fb@email.com", "");
 
     StudentEnrollment param1 = new StudentEnrollment();
     param1.setActive(true);
