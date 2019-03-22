@@ -29,6 +29,7 @@ import ca.mcgill.ecse321.cooperator.model.Term;
 import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
 
 import java.util.Set;
+import java.util.HashSet;
 
 @Service
 public class CooperatorService {
@@ -106,8 +107,8 @@ public class CooperatorService {
   @Transactional
   public Set<Student> getAllStudents() {
       Iterable<Student> iterable = studentRepository.findAll();
-      Set<T> res = new HashSet<T>();
-      for (T t : iterable) {
+      Set<Student> res = new HashSet<Student>();
+      for (Student t : iterable) {
           res.add(t);
       }
       return res;
