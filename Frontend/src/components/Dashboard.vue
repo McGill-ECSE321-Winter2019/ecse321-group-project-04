@@ -35,7 +35,7 @@
         <div class="row">
           <div class="col-sm-9">
             <ul class="nav nav-tabs">
-              <li v-for="tab in tabs" :class="selectedTab == tab ? 'active' : ''"><a href="#">{{tab}}</a></li>
+              <li v-for="tab in tabs" :class="selectedTab == tab ? 'active' : ''" @click="selectedTab = tab"><a href="#">{{tab}}</a></li>
             </ul>
           </div>
           <ul class="nav navbar-nav navbar-right">
@@ -45,7 +45,17 @@
       </div>
     </div>
 
-    <div class="container" id="course-list">
+    <div v-if="selectedTab === 'Active Courses'" class="container" id="course-list">
+      <div v-for="enrollment in enrollments" v-if="enrollment.status === 'ONGOING'" class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-body">{{getEnrollmentID(enrollment)}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="selectedTab === 'Archieved Courses'" class="container" id="course-list">
       <div class="row">
         <div class="col-sm-12">
           <div class="panel panel-default">
@@ -68,7 +78,10 @@
         </div>
       </div>
     </div>
-    </div><br>
+
+    </div>
+
+    <br>
     <br>
 
   </body>
@@ -125,11 +138,12 @@
       return {
         tabs: ['Active Courses', 'Archieved Courses'],
         selectedTab: 'Active Courses',
-        student: null
+        student: null,
+        enrollments: null
       }
     },
     created() {
-      AXIOS.get(`/students/` + this.$route.params.id)
+      /*AXIOS.get(`/students/` + this.$route.params.id)
         .then(response => {
           this.student = response.data
         })
@@ -137,7 +151,17 @@
           var errorMsg = e.message
           console.log(errorMsg)
           this.errorPerson = errorMsg
+        })*/
+      AXIOS.get(`/students`)
+        .then(response => {
+          this.enrollments = response.data._embedded.studentEnrollments
         })
+        .catch(e => {
+          var errorMsg = e.message
+          console.log(errorMsg)
+          this.errorPerson = errorMsg
+        })
+        console.log(this.enrollments)
     },
     methods: {
       goToAccount: function() {
@@ -147,6 +171,30 @@
             id: this.$route.params.id
           }
         })
+      },
+      getEnrollmentName: function(enrollment) {
+        var tmp = enrollment._links.self.href.split('/')
+        tmp = tmp[tmp.length - 1]
+
+        var offeringCode = tmp.split('-')
+        offeringCode.shift()
+        var term = offeringCode.pop()
+        var courseCode = offeringCode.join('')
+
+        var displayName = null
+        switch(term[0]) {
+          case 'W':
+            displayName = 'Winter '
+            break;
+          case 'F':
+            displayName = 'Fall '
+            break;
+          case 'S':
+            displayName = 'Summer '
+            break;
+        }
+        display += '20' + term.slice(1) + ' - ' + courseCode
+        return display
       }
     }
   }
