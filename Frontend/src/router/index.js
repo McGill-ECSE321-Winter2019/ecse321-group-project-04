@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import Dashboard from '@/components/Dashboard'
 import Login from '@/components/Login'
-import CourseInfo from '@/components/CourseInfo'
+import CourseInformation from '@/components/CourseInformation'
 import AcceptanceForm from '@/components/AcceptanceForm'
 import StudentInformation from '@/components/StudentInformation'
 import TaskView from '@/components/TaskView'
@@ -28,9 +28,9 @@ export default new Router({
       component: Login
     },
     {
-      path: '/courseinfo',
-      name: 'CourseInfo',
-      component: CourseInfo
+      path: '/courseinformation',
+      name: 'CourseInformation',
+      component: CourseInformation
     },
     {
       path: '/acceptanceform',
@@ -38,7 +38,7 @@ export default new Router({
       component: AcceptanceForm
     },
     {
-	path: '/studentInformation',
+	path: '/studentinformation',
 	name: 'StudentInformation',
 	component: StudentInformation
      },
