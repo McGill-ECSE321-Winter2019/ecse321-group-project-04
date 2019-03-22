@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public interface StudentRepository extends CrudRepository<Student, Integer> {
 
   Student findByMcgillID(@Param(value = "id") Integer id);
+  Iterable<Student> findAll();
 
   // Disable default POST end point
   @Override
