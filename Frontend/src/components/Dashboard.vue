@@ -15,7 +15,7 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-8">
-            <h2>Co-Op-Erator {{this.$route.params.studentID}} {{student != null?student.firstName: '-'}}</h2>
+            <h2>Co-Op-Erator {{this.$route.params.id}} {{student != null?student.firstName: '-'}}</h2>
           </div>
           <div class="col-sm-4">
             <div class="btn-group">
@@ -131,7 +131,7 @@
     },
     created() {
       console.log('Hello!!')
-      AXIOS.get(`/students/` + this.$route.params.studentID)
+      AXIOS.get(`/students/` + this.$route.params.id)
         .then(response => {
           this.student = response.data
         })
