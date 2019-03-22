@@ -5,14 +5,13 @@ import Dashboard from '@/components/Dashboard'
 import Login from '@/components/Login'
 import CourseInfo from '@/components/CourseInfo'
 import AcceptanceForm from '@/components/AcceptanceForm'
-import Task from '@/components/Task'
+import TaskView from '@/components/TaskView'
 
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'Hello',
       component: Hello
@@ -23,24 +22,24 @@ export default new Router({
       component: Dashboard
     },
     {
-        path: '/login',
-        name: 'Login',
-        component: Login
+      path: '/login',
+      name: 'Login',
+      component: Login
     },
     {
-        path: '/courseinfo',
-        name: 'CourseInfo',
-        component: CourseInfo
+      path: '/courseinfo',
+      name: 'CourseInfo',
+      component: CourseInfo
     },
     {
-        path: '/acceptanceform',
-        name: 'AcceptanceForm',
-        component: AcceptanceForm
+      path: '/acceptanceform',
+      name: 'AcceptanceForm',
+      component: AcceptanceForm
     },
     {
-      path: '/task',
-      name: 'Task',
-      component: Task
+      path: '/taskview',
+      name: 'TaskView',
+      component: TaskView
     }
   ]
 })

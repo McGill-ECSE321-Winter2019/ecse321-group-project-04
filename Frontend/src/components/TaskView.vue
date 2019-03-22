@@ -92,7 +92,7 @@
       </div>
     </div>
 
-    <div v-if="selectedTab === 'Tasks'" class="container">
+    <div v-if="selectedTab === 'Submissions'" class="container">
       <table class="table table-striped table-bordered">
         <thead>
           <tr>
@@ -223,7 +223,7 @@
   }
 
   /* AXIOS object configuration */
-  var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+  var frontendUrl = 'http://' + config.dev.hoiust + ':' + config.dev.port
   var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
   var AXIOS = axios.create({
@@ -237,7 +237,7 @@
     data() {
       // TODO: Replace course offering and tasks with real REST calls
       return {
-        tabs: ['Overview', 'Tasks', 'Information'],
+        tabs: ['Overview', 'Submissions'],
         selectedTab: 'Overview',
         taskStatusDisplay: {
           COMPLETED: 'Completed',
@@ -263,92 +263,7 @@
             }
           }
         },
-        tasks: [{
-            "taskStatus": "COMPLETED",
-            "description": "Submit the CO-OP position acceptance form.",
-            "dueDate": "2019-03-21",
-            "name": "Report CO-OP Position Acceptance",
-            "_links": {
-              "self": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11830"
-              },
-              "task": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11830"
-              },
-              "documents": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11830/documents"
-              }
-            }
-          },
-          {
-            "taskStatus": "INCOMPLETE",
-            "description": "Submit the final evaluation report for the internship experience.",
-            "dueDate": "2019-07-21",
-            "name": "Internship Evaluation Report",
-            "_links": {
-              "self": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11836"
-              },
-              "task": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11836"
-              },
-              "documents": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11836/documents"
-              }
-            }
-          },
-          {
-            "taskStatus": "INCOMPLETE",
-            "description": "Submit the term technical report about the internship experience.",
-            "dueDate": "2019-07-21",
-            "name": "Technical Experience Report",
-            "_links": {
-              "self": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11835"
-              },
-              "task": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11835"
-              },
-              "documents": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11835/documents"
-              }
-            }
-          },
-          {
-            "taskStatus": "INCOMPLETE",
-            "description": "Submit an initial report of the tasks and workload of the internship.",
-            "dueDate": "2019-04-04",
-            "name": "Initial Workload Report",
-            "_links": {
-              "self": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11834"
-              },
-              "task": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11834"
-              },
-              "documents": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11834/documents"
-              }
-            }
-          },
-          {
-            "taskStatus": "COMPLETED",
-            "description": "Submit the employer contract document.",
-            "dueDate": "2019-03-21",
-            "name": "Upload Employer Contract",
-            "_links": {
-              "self": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11832"
-              },
-              "task": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11832"
-              },
-              "documents": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11832/documents"
-              }
-            }
-          }
-        ]
+        task:{}
       }
     },
     created() {
@@ -363,7 +278,7 @@
         var taskID = taskURL[taskURL.length - 1]
         console.log(taskID)
         this.$router.push({
-          name: 'TaskView',
+          name: 'Taskview',
           params: {
             id: taskID
           }
