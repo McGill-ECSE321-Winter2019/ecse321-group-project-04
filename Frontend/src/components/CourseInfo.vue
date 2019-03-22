@@ -16,7 +16,10 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-8">
-            <h2>Co-Op-Erator</h2>
+            <div class="container text-left">
+              <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png"
+                width="240" height="80">
+            </div>
           </div>
           <div class="col-sm-4">
             <div class="btn-group">
