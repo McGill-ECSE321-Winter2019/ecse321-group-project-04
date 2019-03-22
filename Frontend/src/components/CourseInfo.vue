@@ -130,7 +130,6 @@
     <div v-if="selectedTab === 'Information'" class="container">
       <div class="container">
         <div class="row">
-<<<<<<< Updated upstream
           <div class="col-sm-6">
             <div class="card border-inverse mb-3">
               <div class="card-body">
@@ -179,7 +178,6 @@
         </div>
       </div>
     </div><br>
-=======
           <div class="col-sm-4">
             <div class="panel panel-primary">
               <div class="panel-heading">BLACK FRIDAY DEAL</div>
@@ -203,7 +201,6 @@
           </div>
         </div>
       </div><br>
->>>>>>> Stashed changes
 
     </div>
 

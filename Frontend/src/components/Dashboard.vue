@@ -16,15 +16,14 @@
         <div class="row">
           <div class="col-sm-8">
             <h2>
-                <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png"
-                width="240" height="80">
-               {{this.$route.params.id}} {{student != null?student.firstName: '-'}}</h2>
+              <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
+              {{this.$route.params.id}} {{student != null?student.firstName: '-'}}</h2>
           </div>
           <div class="col-sm-4">
-              <button type="button" class="btn btn-primary dropdown-toggle" @click="goToAccount" style="margin-top:30px">
-                <span class="glyphicon glyphicon-user"></span>
-                Account
-              </button>
+            <button type="button" class="btn btn-primary dropdown-toggle" @click="goToAccount" style="margin-top:30px">
+              <span class="glyphicon glyphicon-user"></span>
+              Account
+            </button>
           </div>
 
         </div>
@@ -36,8 +35,7 @@
         <div class="row">
           <div class="col-sm-9">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#">Active Courses</a></li>
-              <li><a href="#">Archieved Courses</a></li>
+              <li v-for="tab in tabs" :class="selectedTab == tab ? 'active' : ''"><a href="#">{{tab}}</a></li>
             </ul>
           </div>
           <ul class="nav navbar-nav navbar-right">
@@ -116,18 +114,21 @@
 
   var AXIOS = axios.create({
     baseURL: backendUrl,
-    headers: { 'Access-Control-Allow-Origin': frontendUrl }
+    headers: {
+      'Access-Control-Allow-Origin': frontendUrl
+    }
   })
 
   export default {
     name: 'dashboard',
     data() {
       return {
-        student : null
+        tabs: ['Active Courses', 'Archieved Courses'],
+        selectedTab: 'Active Courses',
+        student: null
       }
     },
     created() {
-      console.log('Hello!!')
       AXIOS.get(`/students/` + this.$route.params.id)
         .then(response => {
           this.student = response.data
@@ -137,11 +138,15 @@
           console.log(errorMsg)
           this.errorPerson = errorMsg
         })
-        console.log(this.student)
     },
     methods: {
       goToAccount: function() {
-        this.$router.push({name:'StudentInformation', params:{id:this.$route.params.id}})
+        this.$router.push({
+          name: 'StudentInformation',
+          params: {
+            id: this.$route.params.id
+          }
+        })
       }
     }
   }
