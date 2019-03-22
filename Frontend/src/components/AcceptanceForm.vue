@@ -36,7 +36,7 @@
         <div class="row">
           <br>
           <div class="container-fluid">
-            <div class="container text-left" id="welcome">
+            <div class="container text-left" id="Acceptance-Form">
               <h2>
                 <font>Acceptance Form</font>
               </h2>
@@ -46,29 +46,179 @@
 
           <div class="panel panel-default text-center">
             <div class="panel-body">
-              <br><br>
+              <br>
               <div class="form-group">
+                <div class="container-fluid">
+                  <div class="container text-left" id="Job-Information">
+                    <h3>
+                      <font><b>Job Information</b></font>
+                    </h3>
+                  </div>
+                  <hr>
+                </div>
+                <br>
                 <form class="form-inline" action="/action_page.php">
-                  <label for="email2" class="mb-2 mr-sm-2">Job Posting ID:</label>
+                  <label for="jobid2" class="mb-2 mr-sm-2">Job Posting ID:</label>
                   <input type="text" class="form-control mb-2 mr-sm-2" id="JobID" placeholder="Enter Job ID" name="Job ID">
                 </form>
                 <br>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <form class="form-inline" action="/action_page.php">
+                      <label for="start2" class="mb-2 mr-sm-2">Starting date:</label>
+                      <input type="date" class="form-control mb-2 mr-sm-2" id="start" name="Start">
+                    </form>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <form class="form-inline" action="/action_page.php">
+                      <label for="end2" class="mb-2 mr-sm-2">Ending date:</label>
+                      <input type="date" class="form-control mb-2 mr-sm-2" id="end" name="End">
+                    </form>
+                  </div>
+                </div>
+                <br>
+
                 <form class="form-inline" action="/action_page.php">
-                  <label for="email2" class="mb-2 mr-sm-2">Company's Name:</label>
-                  <input type="text" class="form-control mb-2 mr-sm-2"
-                  height="5" id="Company-Name" placeholder="Enter Company Name" name="Company Name">
+                  <label for="acdemicterm2" class="mb-2 mr-sm-2">Acdemic Term:</label>
+
+                  <div class="form-check-inline">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" name="optradio" id="Fall">Fall
+                    </label>
+                  </div>
+
+                  <div class="form-check-inline">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" name="optradio" id="Fall">Winter
+                    </label>
+                  </div>
+
+                  <div class="form-check-inline">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" name="optradio" id="Fall">Summer
+                    </label>
+                  </div>
                 </form>
+                <br>
+
+                <form class="form-inline" action="/action_page.php">
+                  <label for="acdemicterm2" class="mb-2 mr-sm-2">Work Permit Required:</label>
+
+                  <div class="form-check-inline">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" name="optradio" id="W-Yes">Yes
+                    </label>
+                  </div>
+
+                  <div class="form-check-inline">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" name="optradio" id="W-No">No
+                    </label>
+                  </div>
+
+                </form>
+                </br>
+
+                <div class="container-fluid">
+                  <div class="container text-left" id="Employer-Information">
+                    <h3>
+                      <font><b>Employer Information</b></font>
+                    </h3>
+                  </div>
+                  <hr>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <form class="form-inline" action="/action_page.php">
+                      <label for="companyname2" class="mb-2 mr-sm-2">Company Name:</label>
+                      <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="Company-Name" placeholder="Enter Company Name" name="Company Name">
+                    </form>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <form class="form-inline" action="/action_page.php">
+                      <label for="employername2" class="mb-2 mr-sm-2">Employer Name:</label>
+                      <input type="text" class="form-control mb-2 mr-sm-2" size="30" margin="" id="Employer-Name" placeholder="Enter Employer Name" name="Employer Name">
+                    </form>
+                  </div>
+                </div>
+                <br>
+                <form class="form-inline" action="/action_page.php">
+                  <label for="employeremail2" class="mb-2 mr-sm-2">Employer E-mail:</label>
+                  <input type="text" class="form-control mb-2 mr-sm-2" size="55" margin="" id="Employer-Email" placeholder="Enter Employer Email" name="Employer Email">
+                </form>
+                <br>
+                <form class="form-inline" action="/action_page.php">
+                  <label for="addressline1" class="mb-2 mr-sm-2">Address Line 1:</label>
+                  <input type="text" class="form-control mb-2 mr-sm-2" size="110" id="Address-Line-1" placeholder="Address Line 1" name="Address Line 1">
+                </form>
+                <br>
+                <form class="form-inline" action="/action_page.php">
+                  <label for="addressline2" class="mb-2 mr-sm-2">Address Line 2:</label>
+                  <input type="text" class="form-control mb-2 mr-sm-2" size="110" id="Address-Line-2" placeholder="Address Line 2" name="Address Line 2">
+                </form>
+                <br>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <form class="form-inline" action="/action_page.php">
+                      <label for="city2" class="mb-2 mr-sm-2">City:</label>
+                      <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="City" placeholder="City" name="City">
+                    </form>
+                  </div>
+                  <div class="col-sm-6">
+                    <form class="form-inline" action="/action_page.php">
+                      <label for="province2" class="mb-2 mr-sm-2">Province:</label>
+                      <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="Province" placeholder="Province" name="Province">
+                    </form>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <form class="form-inline" action="/action_page.php">
+                      <label for="postalcode2" class="mb-2 mr-sm-2">Postal Code:</label>
+                      <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="Postal-Code" placeholder="Postal Code" name="Postal Code">
+                    </form>
+                  </div>
+                  <div class="col-sm-6">
+                    <form class="form-inline" action="/action_page.php">
+                      <label for="country2" class="mb-2 mr-sm-2">Country:</label>
+                      <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="Country" placeholder="Country" name="Country">
+                    </form>
+                  </div>
+                </div>
               </div>
-              <button type="button" class="btn btn-primary btn-block">
-                <font size="4">Submit</b></font>
-              </button>
               <br>
-              <a href="#"><i><b>need help?</b></i></a>
+              <br>
+
+              <div class="row">
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-4">
+                  <div class="row">
+                    <div class="col-sm-6 text-center">
+                      <button type="button" class="btn btn-outline-secondary">
+                        <font size="4">Cancel</b></font>
+                      </button>
+                    </div>
+                    <div class="col-sm-6 text-center">
+                      <button type="button" class="btn btn-outline-primary">
+                        <font size="4">Submit</b></font>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        <div class="col-sm-2 sidenav"></div>
       </div>
-      <div class="col-sm-2 sidenav"></div>
     </div>
   </body>
 
@@ -92,26 +242,94 @@
     text-align: left;
   }
 
-  #welcome {
+  #Acceptance-Form {
     max-width: 100%;
     margin-top: 0px;
   }
 
-  #welcome h2 {
+  #Acceptance-Form h2 {
     text-align: center;
     margin-top: 15px;
     margin-bottom: 10px;
     font-size: 37px
   }
 
-  #welcome h3 {
+  #Fall {
+    margin-left: 20px;
+  }
+
+  #Winter {
+    margin-left: 30px;
+  }
+
+  #Summer {
+    margin-left: 30px;
+  }
+
+  #W-Yes {
+    margin-left: 30px;
+  }
+
+  #W-No {
+    margin-left: 20px;
+  }
+
+  #Job-Information {
+    max-width: 100%;
+    margin-top: 0px;
+  }
+
+  #Job-Information h3 {
     text-align: center;
-    margin-top: 5px;
-    margin-bottom: 0px;
-    font-size: 25px;
-    font-family: Lucida;
-    font-style: oblique;
-    color: #333335;
+  }
+
+  #Employer-Information {
+    max-width: 100%;
+    margin-top: 0px;
+  }
+
+  #Employer-Information h3 {
+    text-align: center;
+  }
+
+  #JobID {
+    margin-left: 10px;
+  }
+
+  #start {
+    margin-left: 20px;
+  }
+
+  #end {
+    margin-left: 20px;
+  }
+
+  #Company-Name {
+    margin-left: 13px;
+  }
+
+  #Employer-Name {
+    margin-left: 13px;
+  }
+
+  #Employer-Email {
+    margin-left: 10px;
+  }
+
+  #City{
+    margin-left: 66px;
+  }
+
+  #Province {
+    margin-left: 5px;
+  }
+
+  #Postal-Code {
+    margin-left: 10px;
+  }
+
+  #Country {
+    margin-left: 10px;
   }
 </style>
 
