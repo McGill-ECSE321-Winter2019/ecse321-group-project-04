@@ -5,6 +5,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
 import ca.mcgill.ecse321.cooperator.model.CoopCourseOffering;
 
+@CrossOrigin(origins = "*")
 public interface CoopCourseOfferingRepository extends CrudRepository<CoopCourseOffering, String> {
 
   CoopCourseOffering findByOfferID(@Param(value = "id") String id);

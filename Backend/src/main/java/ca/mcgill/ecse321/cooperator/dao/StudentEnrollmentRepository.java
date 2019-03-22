@@ -7,6 +7,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import ca.mcgill.ecse321.cooperator.model.Employer;
 import ca.mcgill.ecse321.cooperator.model.StudentEnrollment;
 
+@CrossOrigin(origins = "*")
 public interface StudentEnrollmentRepository extends CrudRepository<StudentEnrollment, String> {
   StudentEnrollment findByEnrollmentID(@Param(value = "id") String id);
 

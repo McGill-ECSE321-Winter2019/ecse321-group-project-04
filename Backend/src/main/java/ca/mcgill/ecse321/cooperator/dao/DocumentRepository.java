@@ -5,6 +5,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
 import ca.mcgill.ecse321.cooperator.model.Document;
 
+@CrossOrigin(origins = "*")
 public interface DocumentRepository extends CrudRepository<Document, Long> {
   Document findByUrl(@Param(value = "url") String url);
 
