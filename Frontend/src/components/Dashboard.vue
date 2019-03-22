@@ -138,7 +138,7 @@
     },
     methods: {
       goToAccount: function() {
-        this.$router.push({name:'StudentInformation', params:{studentID:this.$route.params.studentID}})
+        this.$router.push({name:'StudentInformation', params:{id:this.$route.params.id}})
       }
     }
   }

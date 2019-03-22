@@ -125,10 +125,10 @@
     data(){
         return {
         student: null
-        }       
+        }
     },
     created() {
-        AXIOS.get(`/students/` + this.$route.params.studentID)
+        AXIOS.get(`/students/` + this.$route.params.id)
         .then(response => {
           this.student = response.data
         })

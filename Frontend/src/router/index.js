@@ -38,11 +38,11 @@ export default new Router({
       component: AcceptanceForm
     },
     {
-	path: '/studentInformation',
-	name: 'StudentInformation',
-	component: StudentInformation
-     },
-     {
+      path: '/studentinformation/:id',
+      name: 'StudentInformation',
+      component: StudentInformation
+    },
+    {
       path: '/taskview',
       name: 'TaskView',
       component: TaskView
