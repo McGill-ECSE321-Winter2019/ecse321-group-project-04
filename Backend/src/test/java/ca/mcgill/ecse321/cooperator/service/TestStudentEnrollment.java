@@ -83,7 +83,7 @@ public class TestStudentEnrollment {
     });
 
     when(employerRepository.save(any(Employer.class))).thenAnswer((InvocationOnMock invocation) -> {
-      return TestUtil.createEmployer(NAME, EMAIL);
+      return TestUtil.createEmployer(NAME, EMAIL, "");
     });
 
     when(coopCourseRepository.save(any(CoopCourse.class)))
@@ -100,7 +100,7 @@ public class TestStudentEnrollment {
     when(studentEnrollmentRepository.save(any(StudentEnrollment.class)))
         .thenAnswer((InvocationOnMock invocation) -> {
           Student s = TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-          Employer e = TestUtil.createEmployer(NAME, EMAIL);
+          Employer e = TestUtil.createEmployer(NAME, EMAIL, "");
           CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
           CoopCourseOffering cco = TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
           return TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e, cco, D1_URL,
@@ -111,7 +111,7 @@ public class TestStudentEnrollment {
         .thenAnswer((InvocationOnMock invocation) -> {
           if (invocation.getArgument(0).equals(ENROLLMENT_ID)) {
             Student s = TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-            Employer e = TestUtil.createEmployer(NAME, EMAIL);
+            Employer e = TestUtil.createEmployer(NAME, EMAIL,"");
             CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
             CoopCourseOffering cco =
                 TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
