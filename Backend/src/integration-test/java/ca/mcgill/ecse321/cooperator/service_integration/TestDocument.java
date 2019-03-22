@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 import java.sql.Date;
 import javax.persistence.EntityNotFoundException;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,16 @@ public class TestDocument {
   private TaskRepository taskRepository;
   @Autowired
   private DocumentRepository documentRepository;
+  
+  @SuppressWarnings("deprecation")
+  private static final Date START_DATE = new Date(2019, 05, 15);
+  @SuppressWarnings("deprecation")
+  private static final Date END_DATE = new Date(2019, 11, 15);
+  private static final Boolean WORK_PERMIT = true;
+  private static final String JOB_ID = "ABC123456";
 
   @After
+  @Before
   public void cleanDataBase() {
     studentEnrollmentRepository.deleteAll();
     studentRepository.deleteAll();
@@ -71,9 +80,9 @@ public class TestDocument {
     CoopCourse c = service.createCoopCourse("ECSE302", 1);
     CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
     Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-    Employer emp = service.createEmployer("Facebook", "fb@email.com", "");
+    Employer emp = service.createEmployer("Facebook", "fb@email.com", "123 Sherbrooke");
     StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco,
-        "test-url-1", "test-url-2", null, null, null);
+        "test-url-1", "test-url-2", START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
     Task t = service.createTask("Task name", "Some description", dueDate, TaskStatus.COMPLETED,
         se.getEnrollmentID());
 
@@ -102,9 +111,9 @@ public class TestDocument {
     CoopCourse c = service.createCoopCourse("ECSE302", 1);
     CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
     Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-    Employer emp = service.createEmployer("Facebook", "fb@email.com", "");
+    Employer emp = service.createEmployer("Facebook", "fb@email.com", "123 Sherbrooke");
     StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco,
-        "test-url-1", "test-url-2", null, null, null);
+        "test-url-1", "test-url-2", START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
     Task t = service.createTask("Task name", "Some description", dueDate, TaskStatus.COMPLETED,
         se.getEnrollmentID());
 

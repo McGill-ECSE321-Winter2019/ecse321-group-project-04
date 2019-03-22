@@ -155,7 +155,7 @@ public class AllGetEndPointsRestIT {
   public void getEmployerByID() {
     ResponseEntity<String> response = restTemplate.exchange(
         createURLWithPort("/employers/tom@email.com"), HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -170,7 +170,7 @@ public class AllGetEndPointsRestIT {
     ResponseEntity<String> response =
         restTemplate.exchange(createURLWithPort("/employers/tom@email.com/studentEnrollments"),
             HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -197,7 +197,7 @@ public class AllGetEndPointsRestIT {
   public void getCoursesByID() {
     ResponseEntity<String> response = restTemplate
         .exchange(createURLWithPort("/coopCourses/EBUC1000"), HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -212,7 +212,7 @@ public class AllGetEndPointsRestIT {
     ResponseEntity<String> response =
         restTemplate.exchange(createURLWithPort("/coopCourses/EBUC1000/coopCourseOffering"),
             HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -230,7 +230,7 @@ public class AllGetEndPointsRestIT {
   public void getCourseOferings() {
     ResponseEntity<String> response = restTemplate
         .exchange(createURLWithPort("/coopCourseOfferings"), HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -242,7 +242,7 @@ public class AllGetEndPointsRestIT {
   public void getCourseOferingByID() {
     ResponseEntity<String> response = restTemplate.exchange(
         createURLWithPort("/coopCourseOfferings/EBUC1000-S19"), HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -259,7 +259,7 @@ public class AllGetEndPointsRestIT {
     ResponseEntity<String> response = restTemplate.exchange(
         createURLWithPort("/coopCourseOfferings/EBUC1000-S19/studentEnrollments"), HttpMethod.GET,
         null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -287,7 +287,7 @@ public class AllGetEndPointsRestIT {
     ResponseEntity<String> response =
         restTemplate.exchange(createURLWithPort("/studentEnrollments/260893874-EBUC1000-S19"),
             HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -303,7 +303,7 @@ public class AllGetEndPointsRestIT {
     ResponseEntity<String> response = restTemplate.exchange(
         createURLWithPort("/studentEnrollments/260893874-EBUC1000-S19/enrolledStudent"),
         HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -320,7 +320,7 @@ public class AllGetEndPointsRestIT {
     ResponseEntity<String> response = restTemplate.exchange(
         createURLWithPort("/studentEnrollments/260893874-EBUC1000-S19/coopCourseOffering"),
         HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -337,7 +337,7 @@ public class AllGetEndPointsRestIT {
     ResponseEntity<String> response = restTemplate.exchange(
         createURLWithPort("/studentEnrollments/260893874-EBUC1000-S19/studentEmployer"),
         HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -352,7 +352,7 @@ public class AllGetEndPointsRestIT {
     ResponseEntity<String> response = restTemplate.exchange(
         createURLWithPort("/studentEnrollments/260893874-EBUC1000-S19/courseTasks"), HttpMethod.GET,
         null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -373,7 +373,7 @@ public class AllGetEndPointsRestIT {
   public void getTasks() {
     ResponseEntity<String> response =
         restTemplate.exchange(createURLWithPort("/tasks"), HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -385,7 +385,7 @@ public class AllGetEndPointsRestIT {
   public void getTaskByID() {
     ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/tasks/" + taskId),
         HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -399,7 +399,7 @@ public class AllGetEndPointsRestIT {
   public void getDocumentsOfTask() {
     ResponseEntity<String> response = restTemplate.exchange(
         createURLWithPort("/tasks/" + taskId + "/documents"), HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -413,7 +413,7 @@ public class AllGetEndPointsRestIT {
   public void getDocuments() {
     ResponseEntity<String> response =
         restTemplate.exchange(createURLWithPort("/documents/"), HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -425,7 +425,7 @@ public class AllGetEndPointsRestIT {
   public void getDocumentByID() {
     ResponseEntity<String> response = restTemplate
         .exchange(createURLWithPort("/documents/" + docId), HttpMethod.GET, null, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.OK, response.getStatusCode());
     String result = response.getBody().toString();
@@ -450,6 +450,7 @@ public class AllGetEndPointsRestIT {
     Employer employer = new Employer();
     employer.setName("Tom");
     employer.setEmail("tom@email.com");
+    employer.setAddress("123 Sherbrooke");
 
     HttpEntity<Employer> entity = new HttpEntity<Employer>(employer, headers);
     restTemplate.exchange(createURLWithPort("/employer"), HttpMethod.POST, entity, String.class);
@@ -479,10 +480,15 @@ public class AllGetEndPointsRestIT {
         HttpMethod.POST, entity, String.class);
   }
 
+  @SuppressWarnings("deprecation")
   private void createStudentEnrollment() {
     StudentEnrollment studentEnrollment = new StudentEnrollment();
     studentEnrollment.setActive(true);
     studentEnrollment.setStatus(CourseStatus.ONGOING);
+    studentEnrollment.setStartDate(new Date(2018, 05, 15));
+    studentEnrollment.setEndDate(new Date(2018, 11, 15));
+    studentEnrollment.setWorkPermit(true);
+    studentEnrollment.setJobID("ABC123456");
 
     HttpEntity<StudentEnrollment> entity =
         new HttpEntity<StudentEnrollment>(studentEnrollment, headers);

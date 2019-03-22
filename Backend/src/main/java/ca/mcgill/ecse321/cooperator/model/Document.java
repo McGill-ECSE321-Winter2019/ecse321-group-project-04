@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.cooperator.model;
 
+import java.sql.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -8,7 +9,7 @@ import javax.persistence.Id;
 public class Document {
 
   private String name;
-
+  private Date submissionDate;
   private String url;
   private long documentID;
 
@@ -36,6 +37,14 @@ public class Document {
 
   public void setDocumentID(long documentID) {
     this.documentID = documentID;
+  }
+
+  public Date getSubmissionDate() {
+    return submissionDate;
+  }
+
+  public void setSubmissionDate(Date submissionDate) {
+    this.submissionDate = submissionDate;
   }
 
 }
