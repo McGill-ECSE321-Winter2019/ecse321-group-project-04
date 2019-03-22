@@ -7,6 +7,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y"
+      crossorigin="anonymous">
+
   </head>
 
   <body>
@@ -20,7 +23,7 @@
           <div class="col-sm-4">
             <br>
             <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>
-              My Account
+            Account
             </button>
           </div>
         </div>
@@ -42,7 +45,7 @@
         <div class="row">
           <div class="col-sm-9">
             <ul class="nav nav-tabs">
-              <li v-for=  "tab in tabs" :class="selectedTab === tab ? 'active' : ''" @click="selectedTab = tab">
+              <li v-for="tab in tabs" :class="selectedTab === tab ? 'active' : ''" @click="selectedTab = tab">
                 <a>
                   <font size="4">{{ tab }}</font>
                 </a>
@@ -52,8 +55,9 @@
           <div class="col-sm-3">
             <ul class="nav navbar-nav navbar-right">
               <li>
-                <button type="button" class="btn btn-primary">
-                  SUBMIT DOCUMENT
+                <button type="button" class="btn btn-primary btn-lg">
+                  <i class="fas fa-file-upload"></i>
+                  Submit Document
                 </button>
               </li>
             </ul>
@@ -112,6 +116,8 @@
       </div>
 
   </body>
+
+  </html>
 
 </template>
 
