@@ -22,6 +22,7 @@ public class StudentEnrollment {
   private Date startDate;
   private Date endDate;
   private Boolean workPermit;
+  private String jobID;
   private Employer studentEmployer;
   private Student enrolledStudent;
   private Set<Task> courseTasks;
@@ -131,6 +132,14 @@ public class StudentEnrollment {
 
   public void setWorkPermit(Boolean workPermit) {
 	this.workPermit = workPermit;
+  }
+
+  public String getJobID() {
+    return jobID;
+  }
+
+  public void setJobID(String jobID) {
+    this.jobID = jobID;
   }
 
 }

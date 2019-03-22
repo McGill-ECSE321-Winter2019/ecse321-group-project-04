@@ -34,7 +34,7 @@ public class TestEmployer {
   @Test
   public void testCreateEmployer() {
     try {
-      service.createEmployer("Google", "google@gmail.com", "");
+      service.createEmployer("Google", "google@gmail.com", "123 Sherbrooke");
     } catch (InvalidParameterException e) {
       fail();
     }
@@ -52,6 +52,7 @@ public class TestEmployer {
     Employer param = new Employer();
     param.setName("Google");
     param.setEmail("google@gmail.com");
+    param.setAddress("123 Sherbrooke");
     try {
       service.createEmployer(param);
     } catch (InvalidParameterException e) {
@@ -98,10 +99,12 @@ public class TestEmployer {
     Employer param1 = new Employer();
     param1.setName("Google");
     param1.setEmail("google@gmail.com");
+    param1.setAddress("123 Sherbrooke");
 
     Employer param2 = new Employer();
     param2.setName("Google");
     param2.setEmail("google@gmail.com");
+    param2.setAddress("123 Sherbrooke");
 
     try {
       service.createEmployer(param1);

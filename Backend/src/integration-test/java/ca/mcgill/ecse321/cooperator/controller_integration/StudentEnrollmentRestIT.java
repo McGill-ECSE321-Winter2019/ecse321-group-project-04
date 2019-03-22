@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.cooperator.controller_integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import java.sql.Date;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -89,11 +90,17 @@ public class StudentEnrollmentRestIT {
     createCourseOffering();
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void createStudentEnrollment() {
     StudentEnrollment studentEnrollment = new StudentEnrollment();
     studentEnrollment.setActive(true);
     studentEnrollment.setStatus(CourseStatus.ONGOING);
+    studentEnrollment.setStartDate(new Date(2018, 05, 15));
+    studentEnrollment.setEndDate(new Date(2018, 11, 15));
+    studentEnrollment.setWorkPermit(true);
+    studentEnrollment.setJobID("ABC123456");
+
 
     HttpEntity<StudentEnrollment> entity =
         new HttpEntity<StudentEnrollment>(studentEnrollment, headers);
@@ -133,11 +140,17 @@ public class StudentEnrollmentRestIT {
     assertTrue(result.contains("Your student enrollment details are incomplete!"));
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void createStudentEnrollmentTwice() {
     StudentEnrollment studentEnrollment = new StudentEnrollment();
     studentEnrollment.setActive(true);
     studentEnrollment.setStatus(CourseStatus.ONGOING);
+    studentEnrollment.setStartDate(new Date(2018, 05, 15));
+    studentEnrollment.setEndDate(new Date(2018, 11, 15));
+    studentEnrollment.setWorkPermit(true);
+    studentEnrollment.setJobID("ABC123456");
+
 
     HttpEntity<StudentEnrollment> entity =
         new HttpEntity<StudentEnrollment>(studentEnrollment, headers);
@@ -180,6 +193,7 @@ public class StudentEnrollmentRestIT {
     Employer employer = new Employer();
     employer.setName("Tom");
     employer.setEmail("tom@email.com");
+    employer.setAddress("123 Sherbrooke");
 
     HttpEntity<Employer> entity = new HttpEntity<Employer>(employer, headers);
     restTemplate.exchange(createURLWithPort("/employer"), HttpMethod.POST, entity, String.class);

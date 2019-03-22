@@ -46,6 +46,7 @@ public class TestDocument {
 
   private static final String NAME = "Facebook";
   private static final String EMAIL = "fb@email.com";
+  private static final String ADDRESS = "845 rue Sherbrookes";
 
   private static final String COURSE_CODE = "ECSE302";
   private static final Integer COURSE_TERM = 1;
@@ -58,6 +59,12 @@ public class TestDocument {
   private static final String D2_URL = "test-url-2";
   private static final String ENROLLMENT_ID = "260654321-ECSE302-F19";
   private static final CourseStatus ENROLLMENT_STATUS = CourseStatus.PASSED;
+  @SuppressWarnings("deprecation")
+  private static final Date START_DATE = new Date(2019, 05, 15);
+  @SuppressWarnings("deprecation")
+  private static final Date END_DATE = new Date(2019, 11, 15);
+  private static final Boolean WORK_PERMIT = true;
+  private static final String JOB_ID = "ABC123456";
 
   private static final String TASK_NAME = "Task name";
   private static final String TASK_DESC = "Some description";
@@ -156,9 +163,9 @@ public class TestDocument {
     CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
     CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, c);
     Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-    Employer emp = service.createEmployer(NAME, EMAIL, "");
+    Employer emp = service.createEmployer(NAME, EMAIL, ADDRESS);
     StudentEnrollment se =
-        service.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, emp, cco, D1_URL, D2_URL, null, null, null);
+        service.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, emp, cco, D1_URL, D2_URL, START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
     Task t = service.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS, se.getEnrollmentID());
 
     Document param = new Document();

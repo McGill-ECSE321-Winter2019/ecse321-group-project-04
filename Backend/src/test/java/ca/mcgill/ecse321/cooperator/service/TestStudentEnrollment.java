@@ -46,6 +46,7 @@ public class TestStudentEnrollment {
 
   private static final String NAME = "Facebook";
   private static final String EMAIL = "fb@email.com";
+  private static final String ADDRESS = "123 Sherbrooke, Montreal, QC";
 
   private static final String COURSE_CODE = "ECSE302";
   private static final Integer COURSE_TERM = 1;
@@ -53,6 +54,12 @@ public class TestStudentEnrollment {
   private static final Integer YEAR = 2019;
   private static final Term OFFER_TERM = Term.FALL;
   private static final Boolean ACTIVE = true;
+  @SuppressWarnings("deprecation")
+  private static final Date START_DATE = new Date(2019, 05, 15);
+  @SuppressWarnings("deprecation")
+  private static final Date END_DATE = new Date(2019, 11, 15);
+  private static final Boolean WORK_PERMIT = true;
+  private static final String JOB_ID = "ABC123456";
 
   private static final String D1_URL = "test-url-1";
   private static final String D2_URL = "test-url-2";
@@ -128,10 +135,10 @@ public class TestStudentEnrollment {
     CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
     CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, Term.FALL, true, c);
     Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-    Employer emp = service.createEmployer(NAME, EMAIL, "");
+    Employer emp = service.createEmployer(NAME, EMAIL, ADDRESS);
 
     try {
-      service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL, null, null, null);
+      service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL, START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
     } catch (InvalidParameterException e) {
       fail();
     }
@@ -188,12 +195,15 @@ public class TestStudentEnrollment {
     CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
     CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, Term.FALL, true, c);
     Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-    Employer emp = service.createEmployer(NAME, EMAIL,"");
+    Employer emp = service.createEmployer(NAME, EMAIL, ADDRESS);
 
     StudentEnrollment param = new StudentEnrollment();
     param.setActive(true);
     param.setStatus(CourseStatus.PASSED);
-
+    param.setStartDate(START_DATE);
+    param.setEndDate(END_DATE);
+    param.setWorkPermit(WORK_PERMIT);
+    param.setJobID(JOB_ID);
     try {
       service.createStudentEnrollment(param, s, emp, cco, D1_URL, D2_URL);
     } catch (InvalidParameterException e) {
@@ -253,10 +263,10 @@ public class TestStudentEnrollment {
     CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
     CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, Term.FALL, true, c);
     Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-    Employer emp = service.createEmployer(NAME, EMAIL, "");
+    Employer emp = service.createEmployer(NAME, EMAIL, ADDRESS);
 
     try {
-      service.createStudentEnrollment(null, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL, null, null, null);
+      service.createStudentEnrollment(null, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL, null, null, null, null);
     } catch (InvalidParameterException e) {
       error = e.getMessage();
     }

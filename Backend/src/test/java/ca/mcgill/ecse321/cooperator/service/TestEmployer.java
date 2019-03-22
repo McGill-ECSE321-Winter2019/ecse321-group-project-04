@@ -118,10 +118,12 @@ public class TestEmployer {
     Employer param1 = new Employer();
     param1.setName(NAME);
     param1.setEmail(EMAIL);
+    param1.setAddress(ADDRESS);
 
     Employer param2 = new Employer();
     param2.setName(NAME);
     param2.setEmail(EMAIL);
+    param2.setAddress(ADDRESS);
 
     try {
       service.createEmployer(param1);
