@@ -175,6 +175,7 @@ public class TaskRestIT {
     Employer employer = new Employer();
     employer.setName("Tom");
     employer.setEmail("tom@email.com");
+    employer.setAddress("123 Sherbrooke");
 
     HttpEntity<Employer> entity = new HttpEntity<Employer>(employer, headers);
     restTemplate.exchange(createURLWithPort("/employer"), HttpMethod.POST, entity, String.class);
@@ -204,10 +205,16 @@ public class TaskRestIT {
         HttpMethod.POST, entity, String.class);
   }
 
+  @SuppressWarnings("deprecation")
   private void createStudentEnrollment() {
     StudentEnrollment studentEnrollment = new StudentEnrollment();
     studentEnrollment.setActive(true);
     studentEnrollment.setStatus(CourseStatus.ONGOING);
+    studentEnrollment.setStartDate(new Date(2018, 05, 15));
+    studentEnrollment.setEndDate(new Date(2018, 11, 15));
+    studentEnrollment.setWorkPermit(true);
+    studentEnrollment.setJobID("ABC123456");
+
 
     HttpEntity<StudentEnrollment> entity =
         new HttpEntity<StudentEnrollment>(studentEnrollment, headers);

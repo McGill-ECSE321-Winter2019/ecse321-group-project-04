@@ -25,6 +25,7 @@ import ca.mcgill.ecse321.cooperator.util.TestUtil;
 public class TestEmployer {
 
   private static final String NAME = "Google";
+  private static final String ADDRESS = "845 rue Sherbrookes";
   private static final String EMAIL = "google@gmail.com";
 
   @InjectMocks
@@ -36,12 +37,12 @@ public class TestEmployer {
   @Before
   public void mockSetUp() {
     when(employerRepository.save(any(Employer.class))).thenAnswer((InvocationOnMock invocation) -> {
-      return TestUtil.createEmployer(NAME, EMAIL);
+      return TestUtil.createEmployer(NAME, EMAIL, ADDRESS);
     });
 
     when(employerRepository.findByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
       if (invocation.getArgument(0).equals(EMAIL)) {
-        return TestUtil.createEmployer(NAME, EMAIL);
+        return TestUtil.createEmployer(NAME, EMAIL, ADDRESS);
       } else {
         return null;
       }
@@ -53,15 +54,16 @@ public class TestEmployer {
   @Test
   public void testCreateEmployer() {
     try {
-      service.createEmployer(NAME, EMAIL, "");
+      service.createEmployer(NAME, EMAIL, ADDRESS);
     } catch (InvalidParameterException e) {
       fail();
     }
-
+   
     Employer e = service.getEmployer(EMAIL);
     // Check attributes
     assertEquals(NAME, e.getName());
     assertEquals(EMAIL, e.getEmail());
+    assertEquals(ADDRESS, e.getAddress());
   }
 
   @Test
@@ -69,6 +71,7 @@ public class TestEmployer {
     Employer param = new Employer();
     param.setName(NAME);
     param.setEmail(EMAIL);
+    param.setAddress(ADDRESS);
     try {
       service.createEmployer(param);
     } catch (InvalidParameterException e) {
@@ -76,16 +79,18 @@ public class TestEmployer {
     }
 
     Employer e = service.getEmployer(EMAIL);
+    System.out.print(e.getAddress());
     // Check attributes
     assertEquals(NAME, e.getName());
     assertEquals(EMAIL, e.getEmail());
+    assertEquals(ADDRESS, e.getAddress());
   }
 
   @Test
   public void testCreateNullNameEmployer() {
     String error = null;
     try {
-      service.createEmployer(null, EMAIL, "");
+      service.createEmployer(null, EMAIL, ADDRESS);
     } catch (InvalidParameterException e) {
       error = e.getMessage();
     }
@@ -113,10 +118,12 @@ public class TestEmployer {
     Employer param1 = new Employer();
     param1.setName(NAME);
     param1.setEmail(EMAIL);
+    param1.setAddress(ADDRESS);
 
     Employer param2 = new Employer();
     param2.setName(NAME);
     param2.setEmail(EMAIL);
+    param2.setAddress(ADDRESS);
 
     try {
       service.createEmployer(param1);

@@ -16,7 +16,10 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-8">
-            <h2>Co-Op-Erator</h2>
+            <div class="container text-left">
+              <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png"
+                width="240" height="80">
+            </div>
           </div>
           <div class="col-sm-4">
             <div class="btn-group">
@@ -122,6 +125,86 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div v-if="selectedTab === 'Information'" class="container">
+      <div class="container">
+        <div class="row">
+<<<<<<< Updated upstream
+          <div class="col-sm-6">
+            <div class="card border-inverse mb-3">
+              <div class="card-body">
+                <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">
+                  Course Information
+                </h3>
+                <hr><br>
+                <form class="form-inline" action="/action_page.php">
+                  <h4>Course Name:</h4>
+                  <h4 style="margin-left: 20px;">Surgery Practice 1</h4>
+                </form><br>
+                <form class="form-inline" action="/action_page.php">
+                  <h4>Course ID:</h4>
+                  <h4 style="margin-left: 20px;">MDSP 300</h4>
+                </form><br>
+                <form class="form-inline" action="/action_page.php">
+                  <h4>Course Offerting Term:</h4>
+                  <h4 style="margin-left: 20px;">Spring 3019</h4>
+                </form><br>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="card border-inverse mb-3">
+              <div class="card-body">
+                <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">
+                  Employer Information
+                </h3>
+                <hr><br>
+                <form class="form-inline" action="/action_page.php">
+                  <h4>Company Name:</h4>
+                  <h4 style="margin-left: 20px;">Mars Mission 1709</h4>
+                </form><br>
+                <form class="form-inline" action="/action_page.php">
+                  <h4>Emloyer E-mail:</h4>
+                  <h4 style="margin-left: 20px;">mm-1709!mail</h4>
+                </form><br>
+                <form class="form-inline" action="/action_page.php">
+                  <h4>Company Address:</h4>
+                  <h4 style="margin-left: 20px;">@9906, st-Star88, Milkway3, Earth98</h4>
+                </form><br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><br>
+=======
+          <div class="col-sm-4">
+            <div class="panel panel-primary">
+              <div class="panel-heading">BLACK FRIDAY DEAL</div>
+              <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+              <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="panel panel-danger">
+              <div class="panel-heading">BLACK FRIDAY DEAL</div>
+              <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+              <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="panel panel-success">
+              <div class="panel-heading">BLACK FRIDAY DEAL</div>
+              <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+              <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+            </div>
+          </div>
+        </div>
+      </div><br>
+>>>>>>> Stashed changes
+
     </div>
 
     <br>

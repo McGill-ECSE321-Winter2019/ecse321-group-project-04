@@ -51,6 +51,13 @@ public class TestTask {
   private TaskRepository taskRepository;
   @Autowired
   private DocumentRepository documentRepository;
+  
+  @SuppressWarnings("deprecation")
+  private static final Date START_DATE = new Date(2019, 05, 15);
+  @SuppressWarnings("deprecation")
+  private static final Date END_DATE = new Date(2019, 11, 15);
+  private static final Boolean WORK_PERMIT = true;
+  private static final String JOB_ID = "ABC123456";
 
   @Before
   @After
@@ -74,9 +81,9 @@ public class TestTask {
     CoopCourse c = service.createCoopCourse("ECSE302", 1);
     CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
     Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-    Employer emp = service.createEmployer("Facebook", "fb@email.com", "");
+    Employer emp = service.createEmployer("Facebook", "fb@email.com", "123 Sherbrooke");
     StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco,
-        "test-url-1", "test-url-2", null, null, null);
+        "test-url-1", "test-url-2", START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
 
     try {
       Task t = service.createTask("Task name", "Some description", dueDate, TaskStatus.COMPLETED,
@@ -106,9 +113,9 @@ public class TestTask {
     CoopCourse c = service.createCoopCourse("ECSE302", 1);
     CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
     Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
-    Employer emp = service.createEmployer("Facebook", "fb@email.com", "");
+    Employer emp = service.createEmployer("Facebook", "fb@email.com", "123 Sherbrooke");
     StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco,
-        "test-url-1", "test-url-2", null, null, null);
+        "test-url-1", "test-url-2", START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
 
     Task param = new Task();
     param.setName("Task name");

@@ -49,6 +49,7 @@ public class EmployerRestIT {
     Employer employer = new Employer();
     employer.setName("Tom");
     employer.setEmail("tom@email.com");
+    employer.setAddress("123 Sherbrooke");
 
     HttpEntity<Employer> entity = new HttpEntity<Employer>(employer, headers);
 
@@ -86,6 +87,7 @@ public class EmployerRestIT {
     Employer employer = new Employer();
     employer.setName("Tom");
     employer.setEmail("tom@email.com");
+    employer.setAddress("123 Sherbrooke");
 
     HttpEntity<Employer> entity = new HttpEntity<Employer>(employer, headers);
 

@@ -22,6 +22,7 @@ public class StudentEnrollment {
   private Date startDate;
   private Date endDate;
   private Boolean workPermit;
+  private String jobID;
   private Employer studentEmployer;
   private Student enrolledStudent;
   private Set<Task> courseTasks;
@@ -109,28 +110,36 @@ public class StudentEnrollment {
     return null;
   }
 
-public Date getStartDate() {
+  public Date getStartDate() {
 	return startDate;
-}
+  }
 
-public void setStartDate(Date startDate) {
+  public void setStartDate(Date startDate) {
 	this.startDate = startDate;
-}
+  }
 
-public Date getEndDate() {
+  public Date getEndDate() {
 	return endDate;
-}
+  }
 
-public void setEndDate(Date endDate) {
+  public void setEndDate(Date endDate) {
 	this.endDate = endDate;
-}
+  }
 
-public Boolean getWorkPermit() {
+  public Boolean getWorkPermit() {
 	return workPermit;
-}
+  }
 
-public void setWorkPermit(Boolean workPermit) {
+  public void setWorkPermit(Boolean workPermit) {
 	this.workPermit = workPermit;
-}
+  }
+
+  public String getJobID() {
+    return jobID;
+  }
+
+  public void setJobID(String jobID) {
+    this.jobID = jobID;
+  }
 
 }
