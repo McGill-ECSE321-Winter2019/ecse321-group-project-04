@@ -7,6 +7,7 @@ import CourseInfo from '@/components/CourseInfo'
 import AcceptanceForm from '@/components/AcceptanceForm'
 import StudentInformation from '@/components/StudentInformation'
 import TaskView from '@/components/TaskView'
+import SampleModal from '@/components/SampleModal'
 
 Vue.use(Router)
 
@@ -38,14 +39,19 @@ export default new Router({
       component: AcceptanceForm
     },
     {
-	path: '/studentinformation',
-	name: 'StudentInformation',
-	component: StudentInformation
-     },
-     {
+      path: '/studentinformation/:id',
+      name: 'StudentInformation',
+      component: StudentInformation
+    },
+    {
       path: '/taskview',
       name: 'TaskView',
       component: TaskView
+    },
+    {
+      path: '/modal',
+      name: 'SampleModal',
+      component: SampleModal
     }
   ]
 })
