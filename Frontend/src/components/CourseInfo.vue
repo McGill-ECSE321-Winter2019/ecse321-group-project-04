@@ -124,6 +124,10 @@
       </table>
     </div>
 
+    <div v-if="selectedTab === 'Information'" class="container">
+
+    </div>
+
     <br>
     <br>
 
