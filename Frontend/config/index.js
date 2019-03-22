@@ -20,7 +20,7 @@ module.exports = {
     // `npm run build --report`
     // Set to `true` or `false` to always turn it on or off
     bundleAnalyzerReport: process.env.npm_config_report,
-    host: 'cooperator-frontend-0000.herokuapp.com/',
+    host: 'cooperator-frontend-0000.herokuapp.com',
     port: 443,
     backendHost: 'cooperator-backend-0000.herokuapp.com/',
     backendPort: 443,
