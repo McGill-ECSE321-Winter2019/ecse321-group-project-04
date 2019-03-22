@@ -38,7 +38,7 @@ export default new Router({
       component: AcceptanceForm
     },
     {
-	path: '/studentInformation',
+	path: '/studentinformation',
 	name: 'StudentInformation',
 	component: StudentInformation
      },

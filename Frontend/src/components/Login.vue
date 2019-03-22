@@ -10,15 +10,14 @@
   </head>
 
   <body>
-    
-  <div class="container-fluid" id="top-container">
-     <div class="container text-center">
-       <img  src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png"
-       width="300" height="100">
-     </div>
-  </div>
 
-  <div class="container-fluid text-center" id = "background">
+    <div class="container-fluid" id="top-container">
+      <div class="container text-center">
+        <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
+      </div>
+    </div>
+
+    <div class="container-fluid text-center" id="background">
       <div class="col-sm-2 sidenav"></div>
       <div class="col-sm-8">
         <div class="row">
@@ -26,10 +25,13 @@
           <div class="col-sm-8">
             <br>
             <div class="container-fluid">
-              <div class="container text-left" id = "welcome">
-                <h2><font>Welcome!</font></h2>
+              <div class="container text-left" id="welcome">
+                <h2>
+                  <font>Welcome!</font>
+                </h2>
                 <h3>You look amazing today</h3>
-              </div><hr>
+              </div>
+              <hr>
             </div>
 
             <div class="panel panel-default text-center">
@@ -40,27 +42,27 @@
                     <font size="4">Student Number:</font>
                   </label>
                   <input type="text" class="form-control form-control-lg" id="usr">
+                  <p id="demo"></p>
                 </div>
-                <button type="button" class="btn btn-primary btn-block">
-                  <font size="4" face = "Times"><b>Login</b></font>
+                <button @click="goToDashboard" type="button" class="btn btn-primary btn-block" id="login">
+                  <font size="4" face="Times"><b>Login</b></font>
                 </button>
                 <br>
                 <a href="#"><i><b>Need help?</b></i></a>
               </div>
-             </div>
-           </div>
-           <div class="col-sm-2"> </div>
-         </div>
-       </div>
-       <div class="col-sm-2 sidenav"></div>
-     </div>
-   </body>
+            </div>
+          </div>
+          <div class="col-sm-2"> </div>
+        </div>
+      </div>
+      <div class="col-sm-2 sidenav"></div>
+    </div>
+  </body>
 
   </html>
 </template>
 
 <style>
-
   .panel {
     min-height: 80%;
     max-width: 100%;
@@ -83,31 +85,83 @@
     text-align: center;
     margin-top: 15px;
     margin-bottom: 10px;
-    font-size:37px
+    font-size: 37px
   }
+
   #welcome h3 {
     text-align: center;
     margin-top: 5px;
     margin-bottom: 0px;
-    font-size:25px;
+    font-size: 25px;
     font-family: Lucida;
     font-style: oblique;
     color: #333335;
   }
-
 </style>
 
 <script>
+  import axios from 'axios'
+  var config = require('../../config')
+
+  /* AXIOS object setup */
+  var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
+  var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
+
+  var AXIOS = axios.create({
+    baseURL: backendUrl,
+    headers: {
+      'Access-Control-Allow-Origin': frontendUrl
+    }
+  })
+
+  /* Input checking */
+
+
   export default {
-    data: () => ({}),
-    mounted() {
-      let s1 = document.createElement('script')
-      s1.setAttribute('src', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
-      document.head.appendChild(s1)
-      let s2 = document.createElement('script')
-      s2.setAttribute('src', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js')
-      document.head.appendChild(s2)
+    name: 'login',
+    data() {
+      return {
+        student: null
+      }
     },
-    methods: {}
+    methods: {
+      checkId: function() {
+        console.log('Hello!!')
+        document.getElementById("demo").innerHTML = "errorMsg";
+      },
+      goToDashboard: function() {
+        var input = document.getElementById("usr").value;
+        this.$router.push({
+            name: 'Dashboard',
+            params: {
+              id: input
+            }})
+      },
+      /*checkInput: function(input) {
+        var ret = false
+
+        if (input.length != 9) {
+          console.log(input)
+          return ret
+        }
+
+        AXIOS.get(`/students/` + input)
+          .then(response => {
+            this.student = response.data
+          })
+          .catch(e => {
+            console.log(3)
+            var errorMsg = e.message
+            console.log(errorMsg)
+            this.errorPerson = errorMsg
+          })
+
+        console.log(this.student)
+
+
+        console.log(ret)
+        return ret
+      }*/
+    }
   }
 </script>

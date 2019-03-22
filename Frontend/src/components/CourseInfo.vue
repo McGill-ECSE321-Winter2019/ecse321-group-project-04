@@ -124,6 +124,60 @@
       </table>
     </div>
 
+    <div v-if="selectedTab === 'Information'" class="container">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card border-inverse mb-3">
+              <div class="card-body">
+                <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">
+                  Course Information
+                </h3>
+                <hr><br>
+                <form class="form-inline" action="/action_page.php">
+                  <h4>Course Name:</h4>
+                  <h4 style="margin-left: 20px;">Surgery Practice 1</h4>
+                </form><br>
+                <form class="form-inline" action="/action_page.php">
+                  <h4>Course ID:</h4>
+                  <h4 style="margin-left: 20px;">MDSP 300</h4>
+                </form><br>
+                <form class="form-inline" action="/action_page.php">
+                  <h4>Course Offerting Term:</h4>
+                  <h4 style="margin-left: 20px;">Spring 3019</h4>
+                </form><br>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="card border-inverse mb-3">
+              <div class="card-body">
+                <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">
+                  Employer Information
+                </h3>
+                <hr><br>
+                <form class="form-inline" action="/action_page.php">
+                  <h4>Company Name:</h4>
+                  <h4 style="margin-left: 20px;">Mars Mission 1709</h4>
+                </form><br>
+                <form class="form-inline" action="/action_page.php">
+                  <h4>Emloyer E-mail:</h4>
+                  <h4 style="margin-left: 20px;">mm-1709!mail</h4>
+                </form><br>
+                <form class="form-inline" action="/action_page.php">
+                  <h4>Company Address:</h4>
+                  <h4 style="margin-left: 20px;">@9906, st-Star88, Milkway3, Earth98</h4>
+                </form><br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><br>
+
+    </div>
+
     <br>
     <br>
 

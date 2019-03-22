@@ -22,9 +22,15 @@
 
             <!-- the my account button will have to be changed, waiting for Angel's code -->
 
-            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>
+            <!--<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>
+              Account
+            </button>-->
+
+            <button type="button" class="btn btn-primary dropdown-toggle" id="account-btn" data-toggle="dropdown">
+              <span class="glyphicon glyphicon-user"></span>
               Account
             </button>
+
           </div>
         </div>
       </div>
@@ -67,14 +73,14 @@
                   <div class="col-sm-6">
                     <form class="form-inline" action="/action_page.php">
                       <label for="start2" class="mb-2 mr-sm-2">Starting date:</label>
-                      <input type="date" class="form-control mb-2 mr-sm-2" id="start" name="Start">
+                      <input type="date" class="form-control mb-2 mr-sm-2" id="Start" name="Start">
                     </form>
                   </div>
 
                   <div class="col-sm-6">
                     <form class="form-inline" action="/action_page.php">
                       <label for="end2" class="mb-2 mr-sm-2">Ending date:</label>
-                      <input type="date" class="form-control mb-2 mr-sm-2" id="end" name="End">
+                      <input type="date" class="form-control mb-2 mr-sm-2" id="End" name="End">
                     </form>
                   </div>
                 </div>
@@ -148,17 +154,17 @@
                 <br>
                 <form class="form-inline" action="/action_page.php">
                   <label for="employeremail2" class="mb-2 mr-sm-2">Employer E-mail:</label>
-                  <input type="text" class="form-control mb-2 mr-sm-2" size="55" margin="" id="Employer-Email" placeholder="Enter Employer Email" name="Employer Email">
+                  <input type="text" class="form-control mb-2 mr-sm-2" margin="" id="Employer-Email" placeholder="Enter Employer Email" name="Employer Email">
                 </form>
                 <br>
                 <form class="form-inline" action="/action_page.php">
                   <label for="addressline1" class="mb-2 mr-sm-2">Address Line 1:</label>
-                  <input type="text" class="form-control mb-2 mr-sm-2" size="110" id="Address-Line-1" placeholder="Address Line 1" name="Address Line 1">
+                  <input type="text" class="form-control mb-2 mr-sm-2" id="Address-Line-1" placeholder="Address Line 1" name="Address Line 1">
                 </form>
                 <br>
                 <form class="form-inline" action="/action_page.php">
                   <label for="addressline2" class="mb-2 mr-sm-2">Address Line 2:</label>
-                  <input type="text" class="form-control mb-2 mr-sm-2" size="110" id="Address-Line-2" placeholder="Address Line 2" name="Address Line 2">
+                  <input type="text" class="form-control mb-2 mr-sm-2" id="Address-Line-2" placeholder="Address Line 2" name="Address Line 2">
                 </form>
                 <br>
                 <div class="row">
@@ -186,7 +192,7 @@
                   <div class="col-sm-6">
                     <form class="form-inline" action="/action_page.php">
                       <label for="country2" class="mb-2 mr-sm-2">Country:</label>
-                      <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="Country" placeholder="Country" name="Country">
+                      <input type="text" class="form-control mb-2 mr-sm-2" size="30"id="Country" placeholder="Country" name="Country">
                     </form>
                   </div>
                 </div>
@@ -294,42 +300,60 @@
 
   #JobID {
     margin-left: 10px;
+    min-width: 27.7%;
   }
 
-  #start {
+  #Start {
     margin-left: 20px;
+
   }
 
-  #end {
+  #End {
     margin-left: 20px;
+    min-width: 0%;
   }
 
   #Company-Name {
     margin-left: 13px;
+    min-width: 30%;
   }
 
   #Employer-Name {
     margin-left: 13px;
+    min-width: 30%;
   }
 
   #Employer-Email {
     margin-left: 10px;
+    min-width: 52%;
+  }
+
+  #Address-Line-1{
+    min-width: 100%;
+  }
+
+  #Address-Line-2{
+    min-width: 100%;
   }
 
   #City{
     margin-left: 66px;
+    min-width: 65%;
   }
 
   #Province {
     margin-left: 5px;
+    min-width: 65%;
   }
 
   #Postal-Code {
     margin-left: 10px;
+    min-width: 65%;
   }
 
   #Country {
     margin-left: 10px;
+    min-width: 65%;
   }
 </style>
 

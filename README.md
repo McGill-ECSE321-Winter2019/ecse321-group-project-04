@@ -69,6 +69,9 @@ co-op acceptance, submit required documents and track their co-op program progre
 
 **Sprint 3 Documents**:
 
+[Deliverable 3](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Deliverable-3:-Web-Frontend,-Architecture-Modeling)
+
+[Report 3](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-3-Report)
 
 ## Deliverable 4 (April 4, 2019)
 
