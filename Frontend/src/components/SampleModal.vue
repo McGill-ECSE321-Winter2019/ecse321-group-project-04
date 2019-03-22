@@ -21,32 +21,40 @@
     <!-- Modal -->
     <div v-if="showModal">
       <transition name="modal">
-            <div class="modal-mask">
+        <div class="modal-mask">
 
-        <div class="modal-wrapper">
-          <div class="modal-container">
+          <div class="modal-wrapper">
+            <div class="modal-container">
 
-            <div class="modal-header">
-              <slot name="header">
-                File Name
-              </slot>
-            </div>
+              <div class="modal-header">
+                <slot name="header">
+                  File Name
+                </slot>
+              </div>
 
-            <div class="modal-body">
-              <slot name="body">
-                Add your file(s) here
-              </slot>
-            </div>
+              <div class="modal-body">
+                <slot name="body">
+                  <div id="upload">
+                    <div v-if="!file">
+                      <input type="file" @change="onFileChange">
+                    </div>
+                    <div v-else>
+                      <button @click="removeFile">Remove File</button>
+                      <span>{{file}}</span>
+                    </div>
+                  </div>
+                </slot>
+              </div>
 
-            <div class="modal-footer">
-              <slot name="footer">
-                <button class="btn btn-secondary btn-sm active" @click="showModal=false">
-                  OK
-                </button>
-              </slot>
+              <div class="modal-footer">
+                <slot name="footer">
+                  <button class="btn btn-primary btn-sm" @click="showModal=false">
+                    OK
+                  </button>
+                </slot>
+              </div>
             </div>
           </div>
-        </div>
         </div>
       </transition>
 
@@ -76,7 +84,7 @@
   }
 
   .modal-container {
-    width: 300px;
+    width: 400px;
     margin: 0px auto;
     padding: 20px 30px;
     background-color: #fff;
@@ -86,13 +94,14 @@
     font-family: Helvetica, Arial, sans-serif;
   }
 
-  .modal-header h3 {
+  .modal-header {
     margin-top: 0;
+    font-size: 24px;
     color: #42b983;
   }
 
   .modal-body {
-    margin: 20px 0;
+    margin: 0;
   }
 
   .modal-default-button {
@@ -127,8 +136,20 @@
 <script>
   export default {
     data: () => ({
-      showModal: false
+      showModal: false,
+      file: ''
     }),
+    methods: {
+      onFileChange(e) {
+        var files = e.target.files || e.dataTransfer.files;
+        if (!files.length)
+          return;
+        this.file = files[0].name
+      },
+      removeFile: function (e) {
+        this.file = '';
+      }
+    }
   }
 
 </script>
