@@ -109,28 +109,28 @@ public class StudentEnrollment {
     return null;
   }
 
-public Date getStartDate() {
+  public Date getStartDate() {
 	return startDate;
-}
+  }
 
-public void setStartDate(Date startDate) {
+  public void setStartDate(Date startDate) {
 	this.startDate = startDate;
-}
+  }
 
-public Date getEndDate() {
+  public Date getEndDate() {
 	return endDate;
-}
+  }
 
-public void setEndDate(Date endDate) {
+  public void setEndDate(Date endDate) {
 	this.endDate = endDate;
-}
+  }
 
-public Boolean getWorkPermit() {
+  public Boolean getWorkPermit() {
 	return workPermit;
-}
+  }
 
-public void setWorkPermit(Boolean workPermit) {
+  public void setWorkPermit(Boolean workPermit) {
 	this.workPermit = workPermit;
-}
+  }
 
 }

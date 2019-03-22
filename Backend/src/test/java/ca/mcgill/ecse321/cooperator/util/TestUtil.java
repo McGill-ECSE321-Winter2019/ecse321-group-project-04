@@ -43,10 +43,11 @@ public class TestUtil {
     return s;
   }
 
-  public static Employer createEmployer(String name, String email) {
+  public static Employer createEmployer(String name, String email, String address) {
     Employer e = new Employer();
     e.setName(name);
     e.setEmail(email);
+    e.setAddress(address);
     return e;
   }
 

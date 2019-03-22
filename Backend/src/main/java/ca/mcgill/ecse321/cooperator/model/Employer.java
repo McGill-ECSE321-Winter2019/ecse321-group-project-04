@@ -25,6 +25,14 @@ public class Employer {
   public void setEmail(String value) {
     this.email = value;
   }
+  
+  public void setAddress(String value) {
+	this.address = value;
+  }
+  
+  public String getAddress() {
+	return this.address;
+  }
 
   @Id
   public String getEmail() {
@@ -45,13 +53,5 @@ public class Employer {
   public void setStudentEnrollments(Set<StudentEnrollment> studentEnrollments) {
     this.studentEnrollments = studentEnrollments;
   }
-
-public String getAddress() {
-	return address;
-}
-
-public void setAddress(String address) {
-	this.address = address;
-}
 
 }
