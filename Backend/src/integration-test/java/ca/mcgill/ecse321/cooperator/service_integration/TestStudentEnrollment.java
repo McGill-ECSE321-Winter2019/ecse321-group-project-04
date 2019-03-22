@@ -93,6 +93,10 @@ public class TestStudentEnrollment {
     assertEquals(true, se.getActive());
     assertEquals("260654321-ECSE302-F19", se.getEnrollmentID());
     assertEquals(CourseStatus.PASSED, se.getStatus());
+    assertEquals(START_DATE, se.getStartDate());
+    assertEquals(END_DATE, se.getEndDate());
+    assertEquals(WORK_PERMIT, se.getWorkPermit());
+    assertEquals(JOB_ID, se.getJobID());
 
     // Check references
     assertEquals("ECSE302-F19", se.getCoopCourseOffering().getOfferID());
@@ -175,6 +179,10 @@ public class TestStudentEnrollment {
     assertEquals(true, se.getActive());
     assertEquals("260654321-ECSE302-F19", se.getEnrollmentID());
     assertEquals(CourseStatus.PASSED, se.getStatus());
+    assertEquals(START_DATE, se.getStartDate());
+    assertEquals(END_DATE, se.getEndDate());
+    assertEquals(WORK_PERMIT, se.getWorkPermit());
+    assertEquals(JOB_ID, se.getJobID());
 
     // Check references
     assertEquals("ECSE302-F19", se.getCoopCourseOffering().getOfferID());

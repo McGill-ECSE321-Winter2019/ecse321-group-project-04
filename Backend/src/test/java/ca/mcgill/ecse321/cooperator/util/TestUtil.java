@@ -70,7 +70,8 @@ public class TestUtil {
   }
 
   public static StudentEnrollment createStudentEnrollment(Boolean active, CourseStatus status,
-      Student s, Employer e, CoopCourseOffering cco, String d1URL, String d2URL) {
+      Student s, Employer e, CoopCourseOffering cco, String d1URL, String d2URL, Date startDate,
+      Date endDate, Boolean workPermit, String jobID) {
     StudentEnrollment se = new StudentEnrollment();
     se.setEnrolledStudent(s);
     se.setStudentEmployer(e);
@@ -78,6 +79,10 @@ public class TestUtil {
     se.setStatus(status);
     se.setEnrollmentID(s, cco);
     se.setCoopCourseOffering(cco);
+    se.setStartDate(startDate);
+    se.setEndDate(endDate);
+    se.setWorkPermit(workPermit);
+    se.setJobID(jobID);
 
     // Populate the enrollment
     Calendar currentCal = Calendar.getInstance();
@@ -120,9 +125,12 @@ public class TestUtil {
   }
 
   public static Document createDocument(String name, String url) {
+    Calendar currentCal = Calendar.getInstance();
+    Date currentDate = new Date(currentCal.getTimeInMillis());
     Document d = new Document();
     d.setName(name);
     d.setUrl(url);
+    d.setSubmissionDate(currentDate);
     return d;
   }
 

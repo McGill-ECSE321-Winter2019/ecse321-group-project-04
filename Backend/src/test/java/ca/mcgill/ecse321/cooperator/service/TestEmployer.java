@@ -99,6 +99,20 @@ public class TestEmployer {
     // check nothing was added
     assertEquals(0, service.getAllEmployers().size());
   }
+  
+  @Test
+  public void testCreateNullAdressEmployer() {
+    String error = null;
+    try {
+      service.createEmployer(NAME, EMAIL, null);
+    } catch (InvalidParameterException e) {
+      error = e.getMessage();
+    }
+    // check error message
+    assertEquals("Your employer details are incomplete!", error);
+    // check nothing was added
+    assertEquals(0, service.getAllEmployers().size());
+  }
 
   @Test
   public void testGetNonexistentEmployer() {

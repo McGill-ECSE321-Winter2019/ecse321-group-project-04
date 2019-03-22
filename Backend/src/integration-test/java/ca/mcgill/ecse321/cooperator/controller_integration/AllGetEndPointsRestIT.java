@@ -68,6 +68,11 @@ public class AllGetEndPointsRestIT {
 
   @Autowired
   private TaskRepository taskRepository;
+  
+  @SuppressWarnings("deprecation")
+  private static final Date START_DATE = new Date(2019-1900, 05, 15);
+  @SuppressWarnings("deprecation")
+  private static final Date END_DATE = new Date(2019-1900, 11, 15);
 
   @Before
   @After
@@ -295,7 +300,11 @@ public class AllGetEndPointsRestIT {
     assertTrue(result.contains("/studentEnrollments/260893874-EBUC1000-S19"));
     // Check attributes
     assertTrue(result.contains(" \"status\" : \"ONGOING\""));
-    assertTrue(result.contains("  \"active\" : true,"));
+    assertTrue(result.contains("  \"active\" : true,"));    
+    assertTrue(result.contains("\"startDate\" : \"2019-06-14\""));
+    assertTrue(result.contains("\"endDate\" : \"2019-12-14\""));
+    assertTrue(result.contains("\"workPermit\" : true"));
+    assertTrue(result.contains("\"jobID\" : \"ABC123456\""));
   }
 
   @Test
@@ -393,6 +402,7 @@ public class AllGetEndPointsRestIT {
     assertTrue(result.contains("/tasks/" + taskId));
     // Check attributes
     assertTrue(result.contains("some description"));
+    assertTrue(result.contains("\"dueDate\" : \"2019-01-31\""));
   }
 
   @Test
@@ -432,7 +442,9 @@ public class AllGetEndPointsRestIT {
     // Check URI
     assertTrue(result.contains("/documents/" + docId));
     // Check attributes
-    assertTrue(result.contains("DocName"));
+    assertTrue(result.contains("\"name\" : \"DocName\""));
+    assertTrue(result.contains("\"submissionDate\" : "));
+    System.out.println(result);
   }
 
   /*------- TEST PREPARATION METHODS -------*/
@@ -480,13 +492,12 @@ public class AllGetEndPointsRestIT {
         HttpMethod.POST, entity, String.class);
   }
 
-  @SuppressWarnings("deprecation")
   private void createStudentEnrollment() {
     StudentEnrollment studentEnrollment = new StudentEnrollment();
     studentEnrollment.setActive(true);
     studentEnrollment.setStatus(CourseStatus.ONGOING);
-    studentEnrollment.setStartDate(new Date(2018, 05, 15));
-    studentEnrollment.setEndDate(new Date(2018, 11, 15));
+    studentEnrollment.setStartDate(START_DATE);
+    studentEnrollment.setEndDate(END_DATE);
     studentEnrollment.setWorkPermit(true);
     studentEnrollment.setJobID("ABC123456");
 
@@ -503,7 +514,7 @@ public class AllGetEndPointsRestIT {
   private void createTask() {
     Task task = new Task();
     @SuppressWarnings("deprecation")
-    Date dueDate = new Date(2019, 1, 1);
+    Date dueDate = new Date(2019-1900, 1, 1);
     task.setName("someTask");
     task.setDescription("some description");
     task.setDueDate(dueDate);

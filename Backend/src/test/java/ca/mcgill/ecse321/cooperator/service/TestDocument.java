@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import java.sql.Date;
+import java.util.Calendar;
 import javax.persistence.EntityNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
@@ -120,7 +121,7 @@ public class TestDocument {
           CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
           CoopCourseOffering cco = TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
           StudentEnrollment se = TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e,
-              cco, D1_URL, D2_URL);
+              cco, D1_URL, D2_URL, START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
           Task t = TestUtil.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS);
           se.addCourseTasks(t);
           return se;
@@ -135,7 +136,7 @@ public class TestDocument {
             CoopCourseOffering cco =
                 TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
             StudentEnrollment se = TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e,
-                cco, D1_URL, D2_URL);
+                cco, D1_URL, D2_URL, START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
             Task t = TestUtil.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS);
             se.addCourseTasks(t);
             return se;
@@ -180,6 +181,10 @@ public class TestDocument {
     Document d = service.getDocument(DOC_URL);
 
     assertEquals(DOC_NAME, d.getName());
+    
+    Calendar currentCal = Calendar.getInstance();
+    Date currentDate = new Date(currentCal.getTimeInMillis());
+    assertEquals(currentDate.toString(), d.getSubmissionDate().toString());
   }
 
   @Test

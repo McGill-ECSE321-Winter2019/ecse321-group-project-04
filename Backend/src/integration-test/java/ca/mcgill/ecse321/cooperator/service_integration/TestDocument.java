@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.cooperator.service_integration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import java.sql.Date;
+import java.util.Calendar;
 import javax.persistence.EntityNotFoundException;
 import org.junit.After;
 import org.junit.Before;
@@ -99,6 +100,9 @@ public class TestDocument {
 
     assertEquals("doc name", d.getName());
     assertEquals("http://test-url.this/is/just/for/testing", d.getUrl());
+    Calendar currentCal = Calendar.getInstance();
+    Date currentDate = new Date(currentCal.getTimeInMillis());
+    assertEquals(currentDate.toString(), d.getSubmissionDate().toString());
 
     assertEquals(3, service.getAllDocuments().size());
   }

@@ -111,19 +111,19 @@ public class TestStudentEnrollment {
           CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
           CoopCourseOffering cco = TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
           return TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e, cco, D1_URL,
-              D2_URL);
+              D2_URL, START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
         });
 
     when(studentEnrollmentRepository.findByEnrollmentID(anyString()))
         .thenAnswer((InvocationOnMock invocation) -> {
           if (invocation.getArgument(0).equals(ENROLLMENT_ID)) {
             Student s = TestUtil.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
-            Employer e = TestUtil.createEmployer(NAME, EMAIL,"");
+            Employer e = TestUtil.createEmployer(NAME, EMAIL, "");
             CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
             CoopCourseOffering cco =
                 TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
             return TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e, cco, D1_URL,
-                D2_URL);
+                D2_URL, START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
           } else {
             return null;
           }
@@ -138,7 +138,8 @@ public class TestStudentEnrollment {
     Employer emp = service.createEmployer(NAME, EMAIL, ADDRESS);
 
     try {
-      service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL, START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
+      service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL,
+          START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
     } catch (InvalidParameterException e) {
       fail();
     }
@@ -149,6 +150,11 @@ public class TestStudentEnrollment {
     assertEquals(true, se.getActive());
     assertEquals(ENROLLMENT_ID, se.getEnrollmentID());
     assertEquals(CourseStatus.PASSED, se.getStatus());
+    assertEquals(START_DATE, se.getStartDate());
+    assertEquals(END_DATE, se.getEndDate());
+    assertEquals(WORK_PERMIT, se.getWorkPermit());
+    assertEquals(JOB_ID, se.getJobID());
+
 
     // Check references
     assertEquals("ECSE302-F19", se.getCoopCourseOffering().getOfferID());
@@ -216,6 +222,10 @@ public class TestStudentEnrollment {
     assertEquals(true, se.getActive());
     assertEquals(ENROLLMENT_ID, se.getEnrollmentID());
     assertEquals(CourseStatus.PASSED, se.getStatus());
+    assertEquals(START_DATE, se.getStartDate());
+    assertEquals(END_DATE, se.getEndDate());
+    assertEquals(WORK_PERMIT, se.getWorkPermit());
+    assertEquals(JOB_ID, se.getJobID());
 
     // Check references
     assertEquals("ECSE302-F19", se.getCoopCourseOffering().getOfferID());
@@ -266,7 +276,8 @@ public class TestStudentEnrollment {
     Employer emp = service.createEmployer(NAME, EMAIL, ADDRESS);
 
     try {
-      service.createStudentEnrollment(null, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL, null, null, null, null);
+      service.createStudentEnrollment(null, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL, null,
+          null, null, null);
     } catch (InvalidParameterException e) {
       error = e.getMessage();
     }

@@ -118,7 +118,7 @@ public class TestTask {
           CoopCourse cc = TestUtil.createCoopCourse(COURSE_CODE, COURSE_TERM);
           CoopCourseOffering cco = TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
           StudentEnrollment se = TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e,
-              cco, D1_URL, D2_URL);
+              cco, D1_URL, D2_URL, START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
           Task t = TestUtil.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS);
           se.addCourseTasks(t);
           return se;
@@ -133,7 +133,7 @@ public class TestTask {
             CoopCourseOffering cco =
                 TestUtil.createCoopCourseOffering(YEAR, OFFER_TERM, ACTIVE, cc);
             StudentEnrollment se = TestUtil.createStudentEnrollment(ACTIVE, ENROLLMENT_STATUS, s, e,
-                cco, D1_URL, D2_URL);
+                cco, D1_URL, D2_URL, START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
             Task t = TestUtil.createTask(TASK_NAME, TASK_DESC, TASK_DATE, TASK_STATUS);
             se.addCourseTasks(t);
             return se;
