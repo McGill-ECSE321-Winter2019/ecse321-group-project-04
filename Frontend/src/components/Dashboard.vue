@@ -15,7 +15,10 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-8">
-            <h2>Co-Op-Erator {{this.$route.params.id}} {{student != null?student.firstName: '-'}}</h2>
+            <h2>
+                <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png"
+                width="240" height="80">
+               {{this.$route.params.id}} {{student != null?student.firstName: '-'}}</h2>
           </div>
           <div class="col-sm-4">
               <button type="button" class="btn btn-primary dropdown-toggle" @click="goToAccount" style="margin-top:30px">

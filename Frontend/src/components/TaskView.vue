@@ -16,7 +16,12 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-8">
-            <h2>Co-Op-Erator</h2>
+              <div class="container-fluid" id="top-container">
+                <div class="container text-left">
+                  <img  src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png"
+                  width="240" height="80">
+              </div>
+  </div>
           </div>
           <div class="col-sm-4">
             <div class="btn-group">
@@ -39,12 +44,22 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-12">
-            <!-- The course name here on line 36 has to be changed to the real one that link to the dashboard -->
-
-            <h2>Winter 2019 - FACC 201</h2>
+            <!-- Change Task name to the actual -->
+            <h1>Task name</h1>
           </div>
         </div>
       </div>
+    </div>
+    <br>
+    <div class="container-fluid">
+              <div class="container text-left" id = "information">
+                <h3><font>Task Description</font></h3>
+                <h4>Reports are due on the Friday of the week following the lab session.Only one report per group of two students 
+                  should be submitted. Make sure to put the name and student numbers of both group members on the report, 
+                  otherwise grades will not be assigned. Students are responsible for all content in the reports.</h4>
+                <h3><font>Due date</font></h3>
+                <h4> 2019-03-21 </h4>
+              </div><hr>
     </div>
 
     <div class="container text-center">
@@ -69,55 +84,66 @@
         <div class="col-sm-6">
           <div class="card border-inverse mb-3">
             <div class="card-body">
-              <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">Progress</h3>
+              <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">Attach document(s)</h3>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+               Add file(s)
+              </button>
             </div>
           </div>
         </div>
-
+        <br>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <div class="col-sm-6">
           <div class="card border-inverse mb-3">
             <div class="card-body">
-              <h3 class="card-title" style="margin-top:10px; margin-bottom:30px;">Upcoming Deadlines</h3>
-              <h4><a href="#">FACC 201 - Term Report</a></h4>
-              <h4>Due Tomorrow</h4>
-              <hr>
-              <h4><a href="#">FACC 202 - Employer Evaluation Report</a></h4>
-              <h4>Due In 3 Days</h4>
-              <hr>
-              <h4><a href="#">FACC 202 - Term Report</a></h4>
-              <h4>Due In 5 Days</h4>
+              <h3 class="card-title" style="margin-top:10px; margin-bottom:30px;">Information</h3>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div v-if="selectedTab === 'Submissions'" class="container">
+    <div v-if="selectedTab === 'Submission History'" class="container">
       <table class="table table-striped table-bordered">
         <thead>
           <tr>
             <th scope="col" style="text-align:center; vertical-align:middle">
-              <h4>Task</h4>
+              <h4>Submission(s)</h4>
             </th>
             <th scope="col" style="text-align:center; vertical-align:middle">
-              <h4>Completion Status</h4>
-            </th>
-            <th scope="col" style="text-align:center; vertical-align:middle">
-              <h4>Due Date</h4>
+              <h4>Date submitted</h4>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="task in tasks">
-            <td>
-              <h4><a href="#" @click="goToTask(task)">{{task.name}}</a></h4>
-              <h5 style="color:gray">{{task.description}}</h5>
+          <tr v-for="submisson in submissions">
+            <td style="text-align:center; vertical-align:middle">
+              <!-- the name of file submitted should be displayed -->
+              <h5>allo</h5>
             </td>
             <td style="text-align:center; vertical-align:middle">
-              <h5 :style="task.taskStatus == 'COMPLETED' ? 'color:green' : 'color:'">{{taskStatusDisplay[task.taskStatus]}}</h5>
-            </td>
-            <td style="text-align:center; vertical-align:middle">
-              {{ displayDate(task.dueDate) }}
+              <h5>{{ displayDate(submisson.dueDate) }}</h5>
             </td>
           </tr>
         </tbody>
@@ -147,7 +173,7 @@
   }
 
   #account-btn {
-    margin-top: 30px;
+    margin-top: 20px;
   }
 
   #top-container a {
@@ -237,53 +263,31 @@
     data() {
       // TODO: Replace course offering and tasks with real REST calls
       return {
-        tabs: ['Overview', 'Submissions'],
-        selectedTab: 'Overview',
-        taskStatusDisplay: {
-          COMPLETED: 'Completed',
-          INCOMPLETE: 'Incomplete',
-          LATE_SUBMITTED: 'Completed Late'
-        },
-        courseOffering: {
-          "term": "WINTER",
-          "year": 2019,
-          "active": true,
-          "_links": {
-            "self": {
-              "href": "http://cooperator-backend-0000.herokuapp.com/coopCourseOfferings/ECSE-321-W19"
-            },
-            "coopCourseOffering": {
-              "href": "http://cooperator-backend-0000.herokuapp.com/coopCourseOfferings/ECSE-321-W19"
-            },
-            "studentEnrollments": {
-              "href": "http://cooperator-backend-0000.herokuapp.com/coopCourseOfferings/ECSE-321-W19/studentEnrollments"
-            },
-            "coopCourse": {
-              "href": "http://cooperator-backend-0000.herokuapp.com/coopCourseOfferings/ECSE-321-W19/coopCourse"
-            }
+        tabs: ['Overview', 'Submission History'],
+        selectedTab: 'Submission History',
+        submissions: [
+          {
+            "dueDate": "2019-03-21",
+            "name": "Report CO-OP Position Acceptance"
+          },
+          {
+            "dueDate": "2019-07-21",
+            "name": "Internship Evaluation Report"
+          },
+          {
+            "dueDate": "2019-07-21",
+            "name": "Technical Experience Report"
           }
-        },
-        task:{}
+        ]
       }
     },
     created() {
       // Convert all the dates to date objects
-      for (var task in this.tasks) {
-        task.dueDate = parseDate(task.dueDate)
+      for (var submission in this.submissions) {
+        submission.dueDate = parseDate(submisson.dueDate)
       }
     },
     methods: {
-      goToTask: function(task) {
-        var taskURL = task._links.task.href.split('/')
-        var taskID = taskURL[taskURL.length - 1]
-        console.log(taskID)
-        this.$router.push({
-          name: 'Taskview',
-          params: {
-            id: taskID
-          }
-        })
-      },
       displayDate: function(d) {
         d = parseDate(d)
         var display = months[parseInt(d.month)] + ' ' + parseInt(d.day)
