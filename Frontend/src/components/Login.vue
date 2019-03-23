@@ -44,7 +44,7 @@
                   <input type="text" class="form-control form-control-lg" id="usr">
                   <p id="demo"></p>
                 </div>
-                <button @click="goToDashboard" type="button" class="btn btn-primary btn-block" id="login">
+                <button @click="printOut" type="button" class="btn btn-primary btn-block" id="login">
                   <font size="4" face="Times"><b>Login</b></font>
                 </button>
                 <br>
@@ -116,6 +116,75 @@
 
   /* Input checking */
 
+  /*var checkInput = async (input) => {
+    var ret = false
+    //var length = input.length
+    //console.log(length)
+    if (input.length !== 9) {
+      //console.log("a")
+      return ret
+    } else {
+      await AXIOS.get(/students/ + input)
+        .then(response => {
+          if (response.data !== {}) {
+            ret = true;
+            console.log(ret);
+            return ret;
+          }
+        })
+        .catch(e => {
+          console.log(3)
+          var errorMsg = e.message
+          console.log(errorMsg)
+          ret = false;
+          return ret;
+        })
+    }
+    return ret
+  }*/
+
+  var created = async () => {
+    AXIOS.get(`/students/`)
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch(e => {
+        var errorMsg = e.message
+        console.log(errorMsg)
+      })
+    /*try {
+      let response = await AXIOS.get(/students/);
+        console.log("successful response 😀 ");
+        console.log(response.data);
+        this.student = response.data;
+      } catch (e) {
+        console.log("unsuccessful response 😞");
+      }*/
+
+  }
+  /*var checkInput = async (input) => {
+    if (input.length !== 9) {
+      console.log("length is not 9 😠 ");
+      return false;
+    } else {
+      try {
+        let response = await AXIOS.get(/students/ + input);
+        if (response.data !== {}) {
+          console.log("successful request ! 🙂 ");
+          return true;
+        } else {
+          console.log("successful request but data is empty 😞");
+          return false;
+        }
+      } catch (e) {
+        console.log("unsuccessful request 😞 ");
+        return false;
+      }
+
+    }
+    console.log("none of the if/else statements got entered");
+    return false;
+  }*/
 
   export default {
     name: 'login',
@@ -125,43 +194,66 @@
       }
     },
     methods: {
-      checkId: function() {
-        console.log('Hello!!')
-        document.getElementById("demo").innerHTML = "errorMsg";
+      printOut: async function() {
+         var result = await created();
+         console.log(result);
       },
-      goToDashboard: function() {
+
+      /*goToDashboard: async function() {
         var input = document.getElementById("usr").value;
+        var result = await checkInput(input);
+        if (result) {
+          this.$router.push({
+            name: 'Dashboard',
+            params: {
+              id: input
+            }
+          })
+        } else {
+          console.log("b");
+          document.getElementById("demo").innerHTML = "Please Enter Correct Sudent ID";
+        };
+      //var result = checkInput(input).then(ret);
+      console.log("hey")
+
+    },*/
+
+    /*goToDashboard: function() {
+      var input = document.getElementById("usr").value;
+      var result = checkInput(input);
+      console.log(result);
+      //checkInput(input).then(ret =>
+      if (result) {
+        console.log(result);
+        this.$router.push({
+          name: 'Dashboard',
+          params: {
+            id: input
+          }
+        })
+      } else {
+        console.log("b");
+        document.getElementById("demo").innerHTML = "Please Enter Correct Sudent ID";
+      }
+      //var result = checkInput(input).then(ret);
+      console.log("hey")
+    },*/
+    /*goToDashboard: function() {
+      var input = document.getElementById("usr").value;
+      checkInput(input).then(ret =>
+        if(checkInput(input)){
         this.$router.push({
             name: 'Dashboard',
             params: {
               id: input
             }})
-      },
-      /*checkInput: function(input) {
-        var ret = false
+      }
+      else{
+        console.log("b");
+        document.getElementById("demo").innerHTML = "Please Enter Correct Sudent ID";
+      });
+    },*/
 
-        if (input.length != 9) {
-          console.log(input)
-          return ret
-        }
-
-        AXIOS.get(`/students/` + input)
-          .then(response => {
-            this.student = response.data
-          })
-          .catch(e => {
-            console.log(3)
-            var errorMsg = e.message
-            console.log(errorMsg)
-            this.errorPerson = errorMsg
-          })
-
-        console.log(this.student)
-
-
-        console.log(ret)
-        return ret
-      }*/
-    }
+  }
   }
 </script>

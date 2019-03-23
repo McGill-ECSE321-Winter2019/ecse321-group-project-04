@@ -15,15 +15,14 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-8">
-              <div class="container text-left">
-                <img  src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png"
-                width="240" height="80">
+            <div class="container text-left">
+              <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
             </div>
           </div>
           <div class="col-sm-4">
             <br>
-
-            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>
+            <button type="button" class="btn btn-primary" @click="goToAccount" style="margin-top:7px">
+              <span class="glyphicon glyphicon-user"></span>
               Account
             </button>
           </div>
@@ -50,14 +49,14 @@
               <br><br>
               <div class="form-group">
                 <form class="form-inline" action="/action_page.php">
-                  <label for="email2" class="mb-2 mr-sm-2">First Name:  {{student.firstName}}</label>
+                  <label for="email2" class="mb-2 mr-sm-2">First Name: {{student.firstName}}</label>
                 </form>
                 <br>
                 <form class="form-inline" action="/action_page.php">
                   <label for="email2" class="mb-2 mr-sm-2">Last Name: {{student.lastName}}</label>
                 </form>
                 <br>
-                 <form class="form-inline" action="/action_page.php">
+                <form class="form-inline" action="/action_page.php">
                   <label for="email2" class="mb-2 mr-sm-2">Email: {{student.mcgillEmail}}</label>
                 </form>
               </div>
@@ -113,7 +112,7 @@
 </style>
 
 <script>
- import axios from 'axios'
+  import axios from 'axios'
   var config = require('../../config')
 
   var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
@@ -121,17 +120,19 @@
 
   var AXIOS = axios.create({
     baseURL: backendUrl,
-    headers: { 'Access-Control-Allow-Origin': frontendUrl }
+    headers: {
+      'Access-Control-Allow-Origin': frontendUrl
+    }
   })
 
   export default {
-    data(){
-        return {
+    data() {
+      return {
         student: null
-        }
+      }
     },
     created() {
-        AXIOS.get(`/students/` + this.$route.params.id)
+      AXIOS.get(`/students/` + this.$route.params.id)
         .then(response => {
           this.student = response.data
         })
@@ -142,7 +143,7 @@
         })
     },
     methods: {
-        
+
     }
   }
 </script>

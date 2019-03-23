@@ -25,12 +25,7 @@
 
             <!-- the my account button will have to be changed, waiting for Angel's code -->
 
-            <!--<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>
-              Account
-            </button>-->
-
-            <button type="button" class="btn btn-primary dropdown-toggle" id="account-btn" data-toggle="dropdown">
-              <span class="glyphicon glyphicon-user"></span>
+            <button type="button" class="btn btn-primary" @click="goToAccount" ><span class="glyphicon glyphicon-user"></span>
               Account
             </button>
 
@@ -361,16 +356,36 @@
 </style>
 
 <script>
+  import axios from 'axios'
+  var config = require('../../config')
+
+  var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
+  var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
+
+  var AXIOS = axios.create({
+    baseURL: backendUrl,
+    headers: {
+      'Access-Control-Allow-Origin': frontendUrl
+    }
+  })
+
   export default {
-    data: () => ({}),
-    mounted() {
-      let s1 = document.createElement('script')
-      s1.setAttribute('src', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
-      document.head.appendChild(s1)
-      let s2 = document.createElement('script')
-      s2.setAttribute('src', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js')
-      document.head.appendChild(s2)
+    name: 'acceptanceform',
+    data() {
+      return {
+      }
     },
-    methods: {}
+    created() {
+    },
+    methods: {
+      goToAccount: function() {
+        this.$router.push({
+          name: 'StudentInformation',
+          params: {
+            id: this.$route.params.id
+          }
+        })
+      }
+    }
   }
 </script>

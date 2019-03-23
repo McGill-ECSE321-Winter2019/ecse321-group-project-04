@@ -17,13 +17,15 @@
           <div class="col-sm-8">
             <h2>
               <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
-              {{this.$route.params.id}} {{student != null?student.firstName: '-'}}</h2>
+              {{this.$route.params.id}} {{student != null?student.firstName: '-'}}
+            </h2>
           </div>
           <div class="col-sm-4">
-            <button type="button" class="btn btn-primary dropdown-toggle" @click="goToAccount" style="margin-top:30px">
+            <button type="button" class="btn btn-primary" @click="goToAccount" style="margin-top:55px">
               <span class="glyphicon glyphicon-user"></span>
               Account
             </button>
+
           </div>
 
         </div>
@@ -125,12 +127,14 @@
       return {
         tabs: ['Active Courses', 'Archieved Courses'],
         selectedTab: 'Active Courses',
-        student: null
+        //student: null
       }
     },
     created() {
+      //AXIOS.get(`/students/`)
       AXIOS.get(`/students/` + this.$route.params.id)
         .then(response => {
+          //console.log(response.data)
           this.student = response.data
         })
         .catch(e => {

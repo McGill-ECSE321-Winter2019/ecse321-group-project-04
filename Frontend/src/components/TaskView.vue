@@ -25,7 +25,7 @@
           </div>
           <div class="col-sm-4">
             <div class="btn-group">
-              <button type="button" class="btn btn-primary dropdown-toggle" id="account-btn" data-toggle="dropdown">
+              <button type="button" class="btn btn-primary" @click="goToAccount" style="margin-top:30px">
                 <span class="glyphicon glyphicon-user"></span>
                 Account
               </button>
@@ -54,8 +54,8 @@
     <div class="container-fluid">
               <div class="container text-left" id = "information">
                 <h3><font>Task Description</font></h3>
-                <h4>Reports are due on the Friday of the week following the lab session.Only one report per group of two students 
-                  should be submitted. Make sure to put the name and student numbers of both group members on the report, 
+                <h4>Reports are due on the Friday of the week following the lab session.Only one report per group of two students
+                  should be submitted. Make sure to put the name and student numbers of both group members on the report,
                   otherwise grades will not be assigned. Students are responsible for all content in the reports.</h4>
                 <h3><font>Due date</font></h3>
                 <h4> 2019-03-21 </h4>
@@ -92,7 +92,7 @@
           </div>
         </div>
         <br>
-        
+
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
@@ -113,7 +113,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="col-sm-6">
           <div class="card border-inverse mb-3">
             <div class="card-body">
@@ -170,10 +170,6 @@
     text-align: left;
     margin-top: 30px;
     margin-bottom: 20px;
-  }
-
-  #account-btn {
-    margin-top: 20px;
   }
 
   #top-container a {
