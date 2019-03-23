@@ -16,22 +16,25 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="container  text-left">
-              <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
+              <div @click="goToDashboard">
+                <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
+              </div>
             </div>
           </div>
           <div class="col-sm-6">
             <div class="row">
               <div class="col-sm-12">
-                <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but" style="min-width: 100px; margin-right: 0px; margin-top: 22px">
+                <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but" style="min-width: 100px; margin-right: 0px; margin-top: 35px">
                   <span class="glyphicon glyphicon-user"></span>
                   Account
                 </button>
-                <button type="button" class="btn btn-danger" @click="goToLogin" id="Logout-but" style="min-width: 100px; margin-left: 5px; margin-top: 22px">
+                <button type="button" class="btn btn-danger" @click="goToLogin" id="Logout-but" style="min-width: 100px; margin-left: 5px; margin-top: 35px">
                   Logout
                 </button>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -48,10 +51,18 @@
               </li>
             </ul>
           </div>
-          <div class="col-sm-3">
-            <ul class="nav navbar-nav">
-              <li><button type="button" class="btn btn-success" style="min-width: 170px">Register Course</button></li>
-            </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><button @click = "goToAcceptanceForm" type="button" class="btn btn-success" href="#">Register Course</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="selectedTab === 'Active Courses'" class="container" id="course-list">
+      <div v-for="enrollment in enrollments" v-if="enrollment.status === 'ONGOING'" class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-body">{{getEnrollmentID(enrollment)}}</div>
           </div>
         </div>
       </div>
@@ -180,6 +191,22 @@
         })
     },
     methods: {
+      goToDashboard: function() {
+        this.$router.push({
+          name: 'Dashboard',
+          params: {
+            id: this.$route.params.id
+          }
+        })
+      },
+      goToAcceptanceForm: function() {
+        this.$router.push({
+          name: 'AcceptanceForm',
+          params: {
+            id: this.$route.params.id
+          }
+        })
+      },
       goToAccount: function() {
         this.$router.push({
           name: 'StudentInformation',
