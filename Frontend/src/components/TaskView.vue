@@ -16,10 +16,10 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-8">
-            <div class="container-fluid" id="top-container">
-              <div class="container text-left">
+            <div class="container  text-left">
+              <!--<a href="google.com">-->
                 <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
-              </div>
+              <!--</a>-->
             </div>
           </div>
           <div class="col-sm-4">
@@ -100,48 +100,30 @@
     </div>
     <br>
 
-    <div v-if="selectedTab === 'Overview'" class="container" id="overview-container">
+    <div v-if="selectedTab === 'Submit Document'" class="container" id="Submit Document-container">
       <div class="row">
-        <div class="col-sm-6">
-          <div class="card border-inverse mb-3">
-            <div class="card-body">
-              <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">Attach document(s)</h3>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Add file(s)
-              </button>
-            </div>
-          </div>
-        </div>
-        <br>
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
+        <div class="col-sm-1 sidenav"></div>
+        <div class="col-sm-10">
+          <div class="col-sm-6">
+            <div class="card border-inverse mb-3">
+              <div class="card-body">
+                <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">Attach Document(s)</h3>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  Add file(s)
                 </button>
               </div>
-              <div class="modal-body">
-                ...
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
             </div>
           </div>
-        </div>
 
-        <div class="col-sm-6">
-          <div class="card border-inverse mb-3">
-            <div class="card-body">
-              <h3 class="card-title" style="margin-top:10px; margin-bottom:30px;">Information</h3>
+          <div class="col-sm-6">
+            <div class="card border-inverse mb-3">
+              <div class="card-body">
+                <h3 class="card-title" style="margin-top:10px; margin-bottom:30px;">Information</h3>
+              </div>
             </div>
           </div>
         </div>
+        <div class="col-sm-1 sidenav"></div>
       </div>
     </div>
 
@@ -204,11 +186,17 @@
     margin-top: 35px;
   }
 
-  #Account-but{
+  #logo-link {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  #Account-but {
     margin-left: 100px;
     min-width: 0%;
   }
-  #Logout-but{
+
+  #Logout-but {
     margin-left: 50px;
     min-width: 50%;
   }
@@ -295,8 +283,8 @@
     data() {
       // TODO: Replace course offering and tasks with real REST calls
       return {
-        tabs: ['Overview', 'Submission History'],
-        selectedTab: 'Submission History',
+        tabs: ['Submit Document', 'Submission History'],
+        selectedTab: 'Submit Document',
         submissions: [{
             "dueDate": "2019-03-21",
             "name": "Report CO-OP Position Acceptance"
@@ -341,7 +329,7 @@
         return display
       },
 
-      goToLogin: function(){
+      goToLogin: function() {
         this.$router.push({
           name: 'Login',
         })

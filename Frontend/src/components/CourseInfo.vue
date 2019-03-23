@@ -24,24 +24,24 @@
             <br>
             <div class="row">
               <div class="col-sm-6">
-                <button type="button" class="btn btn-primary" @click="goToAccount" id = "Account-but">
+                <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but">
                   <span class="glyphicon glyphicon-user"></span>
                   Account
                 </button>
               </div>
               <div class="col-sm-6">
-                <button type="button" class="btn btn-danger" @click="goToLogin" id = "Logout-but">
+                <button type="button" class="btn btn-danger" @click="goToLogin" id="Logout-but">
                   Logout
                 </button>
               </div>
 
             </div>
 
-            </div>
           </div>
-
         </div>
+
       </div>
+    </div>
     </div>
 
     <div class="container-fluid" id="course-title">
@@ -210,13 +210,17 @@
     margin-top: 30px;
     margin-bottom: 20px;
   }
+  #logo-button{
+    color: #333335;
+    background:#333335;
+  }
 
-  #Account-but{
+  #Account-but {
     margin-left: 100px;
     min-width: 0%;
   }
 
-  #Logout-but{
+  #Logout-but {
     margin-left: 50px;
     min-width: 50%;
   }
@@ -449,7 +453,12 @@
           }
         })
       },
-      goToLogin: function(){
+      goToDashboard: function() {
+        this.$router.push({
+          name: 'Dashboard',
+        })
+      },
+      goToLogin: function() {
         this.$router.push({
           name: 'Login',
         })
