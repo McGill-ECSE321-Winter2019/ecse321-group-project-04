@@ -18,7 +18,7 @@
           <div class="col-sm-8">
             <div class="container  text-left">
               <!--<a href="google.com">-->
-                <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
+              <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
               <!--</a>-->
             </div>
           </div>
@@ -108,9 +108,53 @@
             <div class="card border-inverse mb-3">
               <div class="card-body">
                 <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">Attach Document(s)</h3>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                  Add file(s)
+
+                <button @click="showModal=true" type="button" class="btn btn-primary">
+                  Add File(s)
                 </button>
+
+                <!-- Modal -->
+                <div v-if="showModal">
+                  <transition name="modal">
+                    <div class="modal-mask">
+
+                      <div class="modal-wrapper">
+                        <div class="modal-container">
+
+                          <div class="modal-header">
+                            <slot name="header">
+                              File Name
+                            </slot>
+                          </div>
+
+                          <div class="modal-body">
+                            <slot name="body">
+                              <div id="upload">
+                                <div v-if="!file">
+                                  <input type="file" @change="onFileChange">
+                                </div>
+                                <div v-else>
+                                  <button @click="removeFile">Remove File</button>
+                                  <span>{{file}}</span>
+                                </div>
+                              </div>
+                            </slot>
+                          </div>
+
+                          <div class="modal-footer">
+                            <slot name="footer">
+                              <button class="btn btn-primary btn-sm" @click="showModal=false">
+                                OK
+                              </button>
+                            </slot>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </transition>
+
+                </div>
+
               </div>
             </div>
           </div>
@@ -210,13 +254,78 @@
   #nav-bar {
     min-width: 100%;
   }
+
+  .modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: table;
+    transition: opacity .3s ease;
+  }
+
+  .modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .modal-container {
+    width: 400px;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  .modal-header {
+    margin-top: 0;
+    font-size: 24px;
+    color: #42b983;
+  }
+
+  .modal-body {
+    margin: 0;
+  }
+
+  .modal-default-button {
+    float: right;
+  }
+
+  /*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+  .modal-enter {
+    opacity: 0;
+  }
+
+  .modal-leave-active {
+    opacity: 0;
+  }
+
+  .modal-enter .modal-container,
+  .modal-leave-active .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+
 </style>
 
 <script>
   import Router from 'vue-router'
   import axios from 'axios'
   var config = require('../../config')
-
   /* Date handling */
   var months = {
     1: 'Jan',
@@ -249,29 +358,24 @@
     } else if (d1.year < d2.year) {
       return -1
     }
-
     // If equal compare the months
     if (d1.month > d2.month) {
       return 1
     } else if (d1.month < d2.month) {
       return -1
     }
-
     // If equal compare the days
     if (d1.day > d2.day) {
       return 1
     } else if (d1.day < d2.day) {
       return -1
     }
-
     // Else they are the same
     return 0
   }
-
   /* AXIOS object configuration */
   var frontendUrl = 'http://' + config.dev.hoiust + ':' + config.dev.port
   var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
-
   var AXIOS = axios.create({
     baseURL: backendUrl,
     headers: {
@@ -280,7 +384,28 @@
   })
   export default {
     name: 'courseinfo',
-    data() {
+    data: () => ({
+      showModal: false,
+      file: '',
+      tabs: ['Submit Document', 'Submission History'],
+      selectedTab: 'Submit Document',
+      submissions: [{
+          "dueDate": "2019-03-21",
+          "name": "Report CO-OP Position Acceptance"
+        },
+        {
+          "dueDate": "2019-07-21",
+          "name": "Internship Evaluation Report"
+        },
+        {
+          "dueDate": "2019-07-21",
+          "name": "Technical Experience Report"
+        }
+      ]
+    }),
+
+    /*data() {
+
       // TODO: Replace course offering and tasks with real REST calls
       return {
         tabs: ['Submit Document', 'Submission History'],
@@ -299,15 +424,25 @@
           }
         ]
       }
-    },
+    },*/
+
     created() {
       // Convert all the dates to date objects
       for (var submission in this.submissions) {
         submission.dueDate = parseDate(submisson.dueDate)
       }
     },
-    methods: {
 
+    methods: {
+      onFileChange(e) {
+        var files = e.target.files || e.dataTransfer.files;
+        if (!files.length)
+          return;
+        this.file = files[0].name
+      },
+      removeFile: function(e) {
+        this.file = '';
+      },
       displayDate: function(d) {
         d = parseDate(d)
         var display = months[parseInt(d.month)] + ' ' + parseInt(d.day)
@@ -328,7 +463,6 @@
         display += ', ' + d.year
         return display
       },
-
       goToLogin: function() {
         this.$router.push({
           name: 'Login',
