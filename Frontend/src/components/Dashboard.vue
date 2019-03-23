@@ -17,10 +17,10 @@
           <div class="col-sm-8">
             <h2>
               <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
-              {{this.$route.params.id}} {{student != null?student.firstName: '-'}}</h2>
+            </h2>
           </div>
           <div class="col-sm-4">
-            <button type="button" class="btn btn-primary dropdown-toggle" @click="goToAccount" style="margin-top:30px">
+            <button type="button" class="btn btn-primary dropdown-toggle" @click="goToAccount" style="margin-top:55px">
               <span class="glyphicon glyphicon-user"></span>
               Account
             </button>
@@ -45,39 +45,27 @@
       </div>
     </div>
 
-    <div v-if="selectedTab === 'Active Courses'" class="container" id="course-list">
-      <div v-for="enrollment in enrollments" v-if="enrollment.status === 'ONGOING'" class="row">
-        <div class="col-sm-12">
-          <div class="panel panel-default">
-            <div class="panel-body">{{getEnrollmentID(enrollment)}}</div>
+    <transition name="slide-fade" mode="out-in">
+      <div v-if="selectedTab === 'Active Courses'" key="active" class="container" id="course-list">
+        <div v-for="enrollment in enrollments" v-if="enrollment.status === 'ONGOING'" class="row">
+          <div class="col-sm-12">
+            <div class="panel panel-default">
+              <div class="panel-body" style="margin-left:10px; text-align:center"><a href="#">{{getEnrollmentID(enrollment)}}</a></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div v-if="selectedTab === 'Archieved Courses'" class="container" id="course-list">
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="panel panel-default">
-            <div class="panel-body">FACC 201 - Winter 2019</div>
+      <div v-else="selectedTab === 'Archieved Courses'" key="archieved" class="container" id="course-list">
+        <div v-for="enrollment in enrollments" v-if="enrollment.status !== 'ONGOING'" class="row">
+          <div class="col-sm-12">
+            <div class="panel panel-default">
+              <div class="panel-body" style="margin-left:10px; text-align:center"><a href="#">{{getEnrollmentID(enrollment)}}</a></div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="panel panel-default">
-            <div class="panel-body">FACC 202 - Winter 2019</div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="panel panel-default">
-            <div class="panel-body">FACC 203 - Winter 2019</div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </transition>
 
     </div>
 
@@ -116,6 +104,22 @@
     margin-bottom: 10px;
     font-size: large;
   }
+
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+
+  .slide-fade-leave-active {
+    transition: all .3s ease;
+  }
+
+  .slide-fade-enter,
+  .slide-fade-leave-to
+  /* .slide-fade-leave-active below version 2.1.8 */
+    {
+    transform: translateX(10px);
+    opacity: 0;
+  }
 </style>
 
 <script>
@@ -126,10 +130,10 @@
   var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
 
   var AXIOS = axios.create({
-    baseURL: backendUrl,
-    headers: {
+    baseURL: backendUrl
+    /*headers: {
       'Access-Control-Allow-Origin': frontendUrl
-    }
+    }*/
   })
 
   export default {
@@ -143,7 +147,7 @@
       }
     },
     created() {
-      /*AXIOS.get(`/students/` + this.$route.params.id)
+      AXIOS.get(`/students/` + this.$route.params.id)
         .then(response => {
           this.student = response.data
         })
@@ -151,9 +155,10 @@
           var errorMsg = e.message
           console.log(errorMsg)
           this.errorPerson = errorMsg
-        })*/
-      AXIOS.get(`/students`)
+        })
+      AXIOS.get(`/students/` + this.$route.params.id + `/courseEnrollments`)
         .then(response => {
+          console.log(response.data)
           this.enrollments = response.data._embedded.studentEnrollments
         })
         .catch(e => {
@@ -161,7 +166,7 @@
           console.log(errorMsg)
           this.errorPerson = errorMsg
         })
-        console.log(this.enrollments)
+      console.log(this.enrollments)
     },
     methods: {
       goToAccount: function() {
@@ -172,7 +177,7 @@
           }
         })
       },
-      getEnrollmentName: function(enrollment) {
+      getEnrollmentID: function(enrollment) {
         var tmp = enrollment._links.self.href.split('/')
         tmp = tmp[tmp.length - 1]
 
@@ -182,7 +187,7 @@
         var courseCode = offeringCode.join('')
 
         var displayName = null
-        switch(term[0]) {
+        switch (term[0]) {
           case 'W':
             displayName = 'Winter '
             break;
@@ -193,8 +198,8 @@
             displayName = 'Summer '
             break;
         }
-        display += '20' + term.slice(1) + ' - ' + courseCode
-        return display
+        displayName += '20' + term.slice(1) + ' - ' + courseCode
+        return displayName
       }
     }
   }
