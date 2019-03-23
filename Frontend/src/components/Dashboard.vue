@@ -144,7 +144,7 @@
       }
     },
     created() {
-      AXIOS.get(`/students/` + this.$route.params.id)
+      /*AXIOS.get(`/students/` + this.$route.params.id)
         .then(response => {
           //console.log(response.data)
           this.student = response.data
