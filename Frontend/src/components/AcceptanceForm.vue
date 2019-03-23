@@ -15,26 +15,29 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-8">
-              <div class="container text-left">
-                  <img  src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png"
-                  width="240" height="80">
-              </div>
+            <div class="container text-left">
+              <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
+            </div>
           </div>
           <div class="col-sm-4">
             <br>
 
-            <!-- the my account button will have to be changed, waiting for Angel's code -->
-
-            <!--<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>
-              Account
-            </button>-->
-
-            <button type="button" class="btn btn-primary dropdown-toggle" id="account-btn" data-toggle="dropdown">
-              <span class="glyphicon glyphicon-user"></span>
-              Account
-            </button>
+            <div class="row">
+              <div class="col-sm-6">
+                <button type="button" class="btn btn-primary" @click="goToAccount" id = "Account-but">
+                  <span class="glyphicon glyphicon-user"></span>
+                  Account
+                </button>
+              </div>
+              <div class="col-sm-6">
+                <button type="button" class="btn btn-danger" @click="goToLogin" id = "Logout-but">
+                  Logout
+                </button>
+              </div>
+            </div>
 
           </div>
+
         </div>
       </div>
     </div>
@@ -195,7 +198,7 @@
                   <div class="col-sm-6">
                     <form class="form-inline" action="/action_page.php">
                       <label for="country2" class="mb-2 mr-sm-2">Country:</label>
-                      <input type="text" class="form-control mb-2 mr-sm-2" size="30"id="Country" placeholder="Country" name="Country">
+                      <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="Country" placeholder="Country" name="Country">
                     </form>
                   </div>
                 </div>
@@ -251,6 +254,14 @@
     text-align: left;
   }
 
+  #Account-but{
+    margin-left: 100px;
+    min-width: 0%;
+  }
+  #Logout-but{
+    margin-left: 50px;
+    min-width: 50%;
+  }
   #Acceptance-Form {
     max-width: 100%;
     margin-top: 0px;
@@ -331,15 +342,15 @@
     min-width: 52%;
   }
 
-  #Address-Line-1{
+  #Address-Line-1 {
     min-width: 100%;
   }
 
-  #Address-Line-2{
+  #Address-Line-2 {
     min-width: 100%;
   }
 
-  #City{
+  #City {
     margin-left: 66px;
     min-width: 65%;
   }
@@ -361,16 +372,39 @@
 </style>
 
 <script>
+  import axios from 'axios'
+  var config = require('../../config')
+
+  var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
+  var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
+
+  var AXIOS = axios.create({
+    baseURL: backendUrl,
+    headers: {
+      'Access-Control-Allow-Origin': frontendUrl
+    }
+  })
+
   export default {
-    data: () => ({}),
-    mounted() {
-      let s1 = document.createElement('script')
-      s1.setAttribute('src', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
-      document.head.appendChild(s1)
-      let s2 = document.createElement('script')
-      s2.setAttribute('src', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js')
-      document.head.appendChild(s2)
+
+    data() {
+      return {}
     },
-    methods: {}
+    methods: {
+      goToLogin: function(){
+        this.$router.push({
+          name: 'Login',
+        })
+      },
+      
+      goToAccount: function() {
+        this.$router.push({
+          name: 'StudentInformation',
+          params: {
+            id: this.$route.params.id
+          }
+        })
+      }
+    }
   }
 </script>

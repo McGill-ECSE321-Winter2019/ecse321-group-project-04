@@ -14,60 +14,70 @@
     <div class="container-fluid" id="top-container">
       <div class="container text-center">
         <div class="row">
-          <div class="col-sm-8">
-            <h2>
+          <div class="col-sm-6">
+            <div class="container  text-left">
               <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
-            </h2>
+            </div>
           </div>
-          <div class="col-sm-4">
-            <button type="button" class="btn btn-primary dropdown-toggle" @click="goToAccount" style="margin-top:55px">
-              <span class="glyphicon glyphicon-user"></span>
-              Account
-            </button>
+          <div class="col-sm-6">
+            <div class="row">
+              <div class="col-sm-12">
+                <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but" style="min-width: 100px; margin-right: 0px; margin-top: 22px">
+                  <span class="glyphicon glyphicon-user"></span>
+                  Account
+                </button>
+                <button type="button" class="btn btn-danger" @click="goToLogin" id="Logout-but" style="min-width: 100px; margin-left: 5px; margin-top: 22px">
+                  Logout
+                </button>
+              </div>
+            </div>
           </div>
-
         </div>
       </div>
     </div>
 
-    <div class="container text-center">
-      <div class="container-fluid" id="nav-bar">
+    <div class="container-fluid" id="nav-bar">
+      <div class="container text-center">
         <div class="row">
           <div class="col-sm-9">
             <ul class="nav nav-tabs">
-              <li v-for="tab in tabs" :class="selectedTab == tab ? 'active' : ''" @click="selectedTab = tab"><a href="#">{{tab}}</a></li>
+              <li v-for="tab in tabs" :class="selectedTab == tab ? 'active' : ''" @click="selectedTab = tab">
+                <a>
+                  {{tab}}
+                </a>
+              </li>
             </ul>
           </div>
-          <ul class="nav navbar-nav navbar-right">
-            <li><button type="button" class="btn btn-success" href="#">Register Course</button></li>
-          </ul>
+          <div class="col-sm-3">
+            <ul class="nav navbar-nav">
+              <li><button type="button" class="btn btn-success" style="min-width: 170px">Register Course</button></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
 
-    <transition name="slide-fade" mode="out-in">
-      <div v-if="selectedTab === 'Active Courses'" key="active" class="container" id="course-list">
-        <div v-for="enrollment in enrollments" v-if="enrollment.status === 'ONGOING'" class="row">
-          <div class="col-sm-12">
-            <div class="panel panel-default">
-              <div class="panel-body" style="margin-left:10px; text-align:center"><a href="#">{{getEnrollmentID(enrollment)}}</a></div>
+      <transition name="slide-fade" mode="out-in" appear>
+        <div v-if="selectedTab === 'Active Courses'" key="active" class="container" id="course-list">
+          <div v-for="enrollment in enrollments" v-if="enrollment.status === 'ONGOING'" class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-default">
+                <div class="panel-body" style="margin-left:10px; text-align:center"><a href="#">{{getEnrollmentID(enrollment)}}</a></div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div v-else="selectedTab === 'Archieved Courses'" key="archieved" class="container" id="course-list">
-        <div v-for="enrollment in enrollments" v-if="enrollment.status !== 'ONGOING'" class="row">
-          <div class="col-sm-12">
-            <div class="panel panel-default">
-              <div class="panel-body" style="margin-left:10px; text-align:center"><a href="#">{{getEnrollmentID(enrollment)}}</a></div>
+        <div v-else="selectedTab === 'Archieved Courses'" key="archieved" class="container" id="course-list">
+          <div v-for="enrollment in enrollments" v-if="enrollment.status !== 'ONGOING'" class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-default">
+                <div class="panel-body" style="margin-left:10px; text-align:center"><a href="#">{{getEnrollmentID(enrollment)}}</a></div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </transition>
-
-    </div>
+      </transition>
 
     <br>
     <br>
@@ -79,7 +89,7 @@
 
 <style>
   #top-container {
-    margin-bottom: 0;
+    margin-bottom: 0%;
     background-color: #333335;
     color: #ffffff;
   }
@@ -90,8 +100,14 @@
     margin-bottom: 20px;
   }
 
-  #account-btn {
-    margin-top: 30px;
+  #Account-but {
+    margin-left: 100px;
+    min-width: 0%;
+  }
+
+  #Logout-but {
+    margin-left: 50px;
+    min-width: 50%;
   }
 
   #nav-bar {
@@ -115,6 +131,7 @@
 
   .slide-fade-enter,
   .slide-fade-leave-to
+
   /* .slide-fade-leave-active below version 2.1.8 */
     {
     transform: translateX(10px);
@@ -125,30 +142,25 @@
 <script>
   import axios from 'axios'
   var config = require('../../config')
-
   var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
   var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
-
   var AXIOS = axios.create({
     baseURL: backendUrl
-    /*headers: {
-      'Access-Control-Allow-Origin': frontendUrl
-    }*/
   })
-
   export default {
     name: 'dashboard',
     data() {
       return {
         tabs: ['Active Courses', 'Archieved Courses'],
         selectedTab: 'Active Courses',
+        enrollments: [],
         student: null,
-        enrollments: null
       }
     },
     created() {
       AXIOS.get(`/students/` + this.$route.params.id)
         .then(response => {
+          //console.log(response.data)
           this.student = response.data
         })
         .catch(e => {
@@ -166,7 +178,6 @@
           console.log(errorMsg)
           this.errorPerson = errorMsg
         })
-      console.log(this.enrollments)
     },
     methods: {
       goToAccount: function() {
@@ -177,15 +188,18 @@
           }
         })
       },
+      goToLogin: function() {
+        this.$router.push({
+          name: 'Login',
+        })
+      },
       getEnrollmentID: function(enrollment) {
         var tmp = enrollment._links.self.href.split('/')
         tmp = tmp[tmp.length - 1]
-
         var offeringCode = tmp.split('-')
         offeringCode.shift()
         var term = offeringCode.pop()
         var courseCode = offeringCode.join('')
-
         var displayName = null
         switch (term[0]) {
           case 'W':

@@ -108,14 +108,54 @@
   var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
 
   var AXIOS = axios.create({
-    baseURL: backendUrl,
-    headers: {
-      'Access-Control-Allow-Origin': frontendUrl
-    }
+    baseURL: backendUrl
   })
 
   /* Input checking */
 
+
+  /*var created = async () => {
+    AXIOS.get(`/students/`)
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch(e => {
+        var errorMsg = e.message
+        console.log(errorMsg)
+      })
+    /*try {
+      let response = await AXIOS.get(/students/);
+        console.log("successful response 😀 ");
+        console.log(response.data);
+        this.student = response.data;
+      } catch (e) {
+        console.log("unsuccessful response 😞");
+      }
+
+  }*/
+  var checkInput = async (input) => {
+    if (input.length !== 9) {
+      console.log("length is not 9 😠 ");
+      return false;
+    } else {
+      try {
+        let response = await AXIOS.get(/students/ + input);
+        if (response.data !== {}) {
+          console.log("successful request ! 🙂 ");
+          return true;
+        } else {
+          console.log("successful request but data is empty 😞");
+          return false;
+        }
+      } catch (e) {
+        console.log("unsuccessful request 😞 ");
+        return false;
+      }
+
+    }
+    console.log("none of the if/else statements got entered");
+    return false;
+  }
 
   export default {
     name: 'login',
@@ -125,43 +165,29 @@
       }
     },
     methods: {
-      checkId: function() {
-        console.log('Hello!!')
-        document.getElementById("demo").innerHTML = "errorMsg";
-      },
-      goToDashboard: function() {
+      /*printOut: async function() {
+         var result = await created();
+         console.log(result);
+      },*/
+
+      goToDashboard: async function() {
         var input = document.getElementById("usr").value;
-        this.$router.push({
+        var result = await checkInput(input);
+        if (result) {
+          this.$router.push({
             name: 'Dashboard',
             params: {
               id: input
-            }})
-      },
-      /*checkInput: function(input) {
-        var ret = false
-
-        if (input.length != 9) {
-          console.log(input)
-          return ret
-        }
-
-        AXIOS.get(`/students/` + input)
-          .then(response => {
-            this.student = response.data
+            }
           })
-          .catch(e => {
-            console.log(3)
-            var errorMsg = e.message
-            console.log(errorMsg)
-            this.errorPerson = errorMsg
-          })
+        } else {
+          console.log("b");
+          document.getElementById("demo").innerHTML = "Please Enter Correct Sudent ID";
+        };
+      //var result = checkInput(input).then(ret);
+      console.log("hey")
 
-        console.log(this.student)
-
-
-        console.log(ret)
-        return ret
-      }*/
-    }
+    },
+  }
   }
 </script>

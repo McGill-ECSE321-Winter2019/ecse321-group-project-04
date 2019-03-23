@@ -17,25 +17,31 @@
         <div class="row">
           <div class="col-sm-8">
             <div class="container text-left">
-              <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png"
-                width="240" height="80">
+              <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
             </div>
           </div>
           <div class="col-sm-4">
-            <div class="btn-group">
-              <button type="button" class="btn btn-primary dropdown-toggle" id="account-btn" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-user"></span>
-                Account
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Account Information</a></li>
-                <li><a href="#">Log Out</a></li>
-              </ul>
-            </div>
-          </div>
+            <br>
+            <div class="row">
+              <div class="col-sm-6">
+                <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but">
+                  <span class="glyphicon glyphicon-user"></span>
+                  Account
+                </button>
+              </div>
+              <div class="col-sm-6">
+                <button type="button" class="btn btn-danger" @click="goToLogin" id="Logout-but">
+                  Logout
+                </button>
+              </div>
 
+            </div>
+
+          </div>
         </div>
+
       </div>
+    </div>
     </div>
 
     <div class="container-fluid" id="course-title">
@@ -178,29 +184,8 @@
         </div>
       </div>
     </div><br>
-          <div class="col-sm-4">
-            <div class="panel panel-primary">
-              <div class="panel-heading">BLACK FRIDAY DEAL</div>
-              <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-              <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="panel panel-danger">
-              <div class="panel-heading">BLACK FRIDAY DEAL</div>
-              <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-              <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="panel panel-success">
-              <div class="panel-heading">BLACK FRIDAY DEAL</div>
-              <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-              <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-            </div>
-          </div>
-        </div>
-      </div><br>
+    </div>
+    </div><br>
 
     </div>
 
@@ -226,8 +211,19 @@
     margin-bottom: 20px;
   }
 
-  #account-btn {
-    margin-top: 30px;
+  #logo-button {
+    color: #333335;
+    background: #333335;
+  }
+
+  #Account-but {
+    margin-left: 100px;
+    min-width: 0%;
+  }
+
+  #Logout-but {
+    margin-left: 50px;
+    min-width: 50%;
   }
 
   #top-container a {
@@ -307,10 +303,7 @@
   var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
   var AXIOS = axios.create({
-    baseURL: backendUrl,
-    headers: {
-      'Access-Control-Allow-Origin': frontendUrl
-    }
+    baseURL: backendUrl
   })
   export default {
     name: 'courseinfo',
@@ -447,6 +440,25 @@
           params: {
             id: taskID
           }
+        })
+      },
+      //not working here, i am not sure why, the id thing
+      goToAccount: function() {
+        this.$router.push({
+          name: 'StudentInformation',
+          params: {
+            id: this.$route.params.id
+          }
+        })
+      },
+      goToDashboard: function() {
+        this.$router.push({
+          name: 'Dashboard',
+        })
+      },
+      goToLogin: function() {
+        this.$router.push({
+          name: 'Login',
         })
       },
       displayDate: function(d) {
