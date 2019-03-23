@@ -15,19 +15,28 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-8">
-            <h2>
+            <div class="container  text-left">
               <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
-              {{this.$route.params.id}} {{student != null?student.firstName: '-'}}
-            </h2>
+              <font size = "5">{{this.$route.params.id}} {{student != null?student.firstName: '-'}}</font>
+            </div>
           </div>
           <div class="col-sm-4">
-            <button type="button" class="btn btn-primary" @click="goToAccount" style="margin-top:55px">
-              <span class="glyphicon glyphicon-user"></span>
-              Account
-            </button>
+            <br>
+            <div class="row">
+              <div class="col-sm-6">
+                <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but">
+                  <span class="glyphicon glyphicon-user"></span>
+                  Account
+                </button>
+              </div>
+              <div class="col-sm-6">
+                <button type="button" class="btn btn-danger" @click="goToLogin" id="Logout-but">
+                  Logout
+                </button>
+              </div>
+            </div>
 
           </div>
-
         </div>
       </div>
     </div>
@@ -93,7 +102,7 @@
 
 <style>
   #top-container {
-    margin-bottom: 0;
+    margin-bottom: 0%;
     background-color: #333335;
     color: #ffffff;
   }
@@ -104,8 +113,14 @@
     margin-bottom: 20px;
   }
 
-  #account-btn {
-    margin-top: 30px;
+  #Account-but {
+    margin-left: 100px;
+    min-width: 0%;
+  }
+
+  #Logout-but {
+    margin-left: 50px;
+    min-width: 50%;
   }
 
   #nav-bar {
@@ -123,17 +138,14 @@
 <script>
   import axios from 'axios'
   var config = require('../../config')
-
   var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
   var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
-
   var AXIOS = axios.create({
     baseURL: backendUrl,
     headers: {
       'Access-Control-Allow-Origin': frontendUrl
     }
   })
-
   export default {
     name: 'dashboard',
     data() {
@@ -163,7 +175,7 @@
           console.log(errorMsg)
           this.errorPerson = errorMsg
         })
-        console.log(this.enrollments)
+      console.log(this.enrollments)
     },
     methods: {
       goToAccount: function() {
@@ -174,17 +186,20 @@
           }
         })
       },
+      goToLogin: function() {
+        this.$router.push({
+          name: 'Login',
+        })
+      },
       getEnrollmentName: function(enrollment) {
         var tmp = enrollment._links.self.href.split('/')
         tmp = tmp[tmp.length - 1]
-
         var offeringCode = tmp.split('-')
         offeringCode.shift()
         var term = offeringCode.pop()
         var courseCode = offeringCode.join('')
-
         var displayName = null
-        switch(term[0]) {
+        switch (term[0]) {
           case 'W':
             displayName = 'Winter '
             break;

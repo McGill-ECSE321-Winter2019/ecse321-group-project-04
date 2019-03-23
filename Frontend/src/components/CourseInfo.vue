@@ -21,11 +21,22 @@
             </div>
           </div>
           <div class="col-sm-4">
-            <div class="btn-group">
-              <button type="button" class="btn btn-primary" @click="goToAccount" style="margin-top:30px">
-                <span class="glyphicon glyphicon-user"></span>
-                Account
-              </button>
+            <br>
+            <div class="row">
+              <div class="col-sm-6">
+                <button type="button" class="btn btn-primary" @click="goToAccount" id = "Account-but">
+                  <span class="glyphicon glyphicon-user"></span>
+                  Account
+                </button>
+              </div>
+              <div class="col-sm-6">
+                <button type="button" class="btn btn-danger" @click="goToLogin" id = "Logout-but">
+                  Logout
+                </button>
+              </div>
+
+            </div>
+
             </div>
           </div>
 
@@ -200,8 +211,14 @@
     margin-bottom: 20px;
   }
 
-  #account-btn {
-    margin-top: 30px;
+  #Account-but{
+    margin-left: 100px;
+    min-width: 0%;
+  }
+
+  #Logout-but{
+    margin-left: 50px;
+    min-width: 50%;
   }
 
   #top-container a {
@@ -423,9 +440,18 @@
           }
         })
       },
+      //not working here, i am not sure why, the id thing
       goToAccount: function() {
         this.$router.push({
           name: 'StudentInformation',
+          params: {
+            id: this.$route.params.id
+          }
+        })
+      },
+      goToLogin: function(){
+        this.$router.push({
+          name: 'Login',
         })
       },
       displayDate: function(d) {

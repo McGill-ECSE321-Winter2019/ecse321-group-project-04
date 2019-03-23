@@ -21,10 +21,19 @@
           </div>
           <div class="col-sm-4">
             <br>
-            <button type="button" class="btn btn-primary" @click="goToAccount" style="margin-top:7px">
-              <span class="glyphicon glyphicon-user"></span>
-              Account
-            </button>
+            <div class="row">
+              <div class="col-sm-6">
+                <button type="button" class="btn btn-primary" @click="goToAccount" id = "Account-but">
+                  <span class="glyphicon glyphicon-user"></span>
+                  Account
+                </button>
+              </div>
+              <div class="col-sm-6">
+                <button type="button" class="btn btn-danger" @click="goToLogin" id = "Logout-but">
+                  Logout
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -36,7 +45,7 @@
         <div class="row">
           <br>
           <div class="container-fluid">
-            <div class="container text-left" id="welcome">
+            <div class="container text-left" id="Student-Info">
               <h2>
                 <font>Student Information</font>
               </h2>
@@ -88,27 +97,26 @@
     text-align: left;
   }
 
-  #welcome {
+  #Account-but{
+    margin-left: 100px;
+    min-width: 0%;
+  }
+  #Logout-but{
+    margin-left: 50px;
+    min-width: 50%;
+  }
+  #Student-Info {
     max-width: 100%;
     margin-top: 0px;
   }
 
-  #welcome h2 {
+  #Student-Info h2 {
     text-align: center;
     margin-top: 15px;
     margin-bottom: 10px;
     font-size: 37px
   }
 
-  #welcome h3 {
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 0px;
-    font-size: 25px;
-    font-family: Lucida;
-    font-style: oblique;
-    color: #333335;
-  }
 </style>
 
 <script>
@@ -143,7 +151,20 @@
         })
     },
     methods: {
-
+      goToLogin: function(){
+        this.$router.push({
+          name: 'Login',
+        })
+      },
+      //not working here, i am not sure why, the id thing
+      goToAccount: function() {
+        this.$router.push({
+          name: 'StudentInformation',
+          params: {
+            id: this.$route.params.id
+          }
+        })
+      }
     }
   }
 </script>
