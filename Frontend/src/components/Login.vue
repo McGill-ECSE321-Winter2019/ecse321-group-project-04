@@ -10,10 +10,10 @@
   </head>
 
   <body>
-    
+
     <div class="container-fluid" id="top-container">
       <div class="container text-center">
-        <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
+          <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
       </div>
     </div>
 
@@ -118,23 +118,15 @@
 
 
   /*var created = async () => {
-    AXIOS.get(`/students/`)
-      .then(response => {
-        console.log(response.data)
-      })
-      .catch(e => {
-        var errorMsg = e.message
-        console.log(errorMsg)
-      })
-    /*try {
+    try {
       let response = await AXIOS.get(/students/);
-        console.log("successful response 😀 ");
-        console.log(response.data);
-        this.student = response.data;
-      } catch (e) {
-        console.log("unsuccessful response 😞");
-      }
-
+      console.log("successful response 😀 ");
+      console.log(response.data);
+      this.student = response.data;
+    } catch (e) {
+      console.log(e);
+      console.log("unsuccessful response 😞");
+    }
   }*/
   var checkInput = async (input) => {
     if (input.length !== 9) {
@@ -168,10 +160,10 @@
       }
     },
     methods: {
-      /*printOut: async function() {
-         var result = await created();
-         console.log(result);
-      },*/
+      printOut: async function() {
+        var result = await created();
+        console.log(result);
+      },
 
       goToDashboard: async function() {
         var input = document.getElementById("usr").value;
@@ -187,10 +179,10 @@
           console.log("b");
           document.getElementById("demo").innerHTML = "Please Enter Correct Sudent ID";
         };
-      //var result = checkInput(input).then(ret);
-      console.log("hey")
+        //var result = checkInput(input).then(ret);
+        console.log("hey")
 
-    },
-  }
+      },
+    }
   }
 </script>

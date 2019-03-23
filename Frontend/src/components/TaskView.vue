@@ -17,13 +17,21 @@
         <div class="row">
           <div class="col-sm-8">
             <div class="container  text-left">
-              <!--<a href="google.com">-->
-              <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
-              <!--</a>-->
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="container  text-left">
+                    <div @click="goToDashboard">
+                      <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-9">
+                </div>
+              </div>
             </div>
           </div>
           <div class="col-sm-4">
-            <br>
+            <br><br>
 
             <div class="row">
               <div class="col-sm-6">
@@ -39,7 +47,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -231,7 +238,6 @@
   }
 
   #logo-link {
-    margin-top: 0px;
     margin-bottom: 0px;
   }
 
@@ -319,7 +325,6 @@
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
   }
-
 </style>
 
 <script>
@@ -405,7 +410,6 @@
     }),
 
     /*data() {
-
       // TODO: Replace course offering and tasks with real REST calls
       return {
         tabs: ['Submit Document', 'Submission History'],
@@ -462,6 +466,14 @@
         }
         display += ', ' + d.year
         return display
+      },
+      goToDashboard: function() {
+        this.$router.push({
+          name: 'Dashboard',
+          params: {
+            id: this.$route.params.id
+          }
+        })
       },
       goToLogin: function() {
         this.$router.push({

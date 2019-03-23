@@ -29,12 +29,12 @@ export default new Router({
       component: Login
     },
     {
-      path: '/courseinfo',
+      path: '/courseinfo/:id',
       name: 'CourseInfo',
       component: CourseInfo
     },
     {
-      path: '/acceptanceform',
+      path: '/acceptanceform/:id',
       name: 'AcceptanceForm',
       component: AcceptanceForm
     },
@@ -44,7 +44,7 @@ export default new Router({
       component: StudentInformation
     },
     {
-      path: '/taskview',
+      path: '/taskview/:id',
       name: 'TaskView',
       component: TaskView
     },

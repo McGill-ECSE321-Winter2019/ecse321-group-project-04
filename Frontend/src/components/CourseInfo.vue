@@ -16,12 +16,22 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-8">
-            <div class="container text-left">
-              <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
+            <div class="container  text-left">
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="container  text-left">
+                    <div @click="goToDashboard">
+                      <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-9">
+                </div>
+              </div>
             </div>
           </div>
           <div class="col-sm-4">
-            <br>
+            <br><br>
             <div class="row">
               <div class="col-sm-6">
                 <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but">
@@ -34,14 +44,10 @@
                   Logout
                 </button>
               </div>
-
             </div>
-
           </div>
         </div>
-
       </div>
-    </div>
     </div>
 
     <div class="container-fluid" id="course-title">
@@ -210,9 +216,10 @@
     margin-top: 30px;
     margin-bottom: 20px;
   }
-  #logo-button{
+
+  #logo-button {
     color: #333335;
-    background:#333335;
+    background: #333335;
   }
 
   #Account-but {
@@ -456,11 +463,17 @@
       goToDashboard: function() {
         this.$router.push({
           name: 'Dashboard',
+          params: {
+            id: this.$route.params.id
+          }
         })
       },
       goToLogin: function() {
         this.$router.push({
           name: 'Login',
+          params: {
+            id: this.$route.params.id
+          }
         })
       },
       displayDate: function(d) {

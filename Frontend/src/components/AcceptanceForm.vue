@@ -15,29 +15,36 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-8">
-            <div class="container text-left">
-              <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
+            <div class="container  text-left">
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="container  text-left">
+                    <div @click="alert">
+                      <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-9">
+                </div>
+              </div>
             </div>
           </div>
           <div class="col-sm-4">
-            <br>
-
+            <br><br>
             <div class="row">
               <div class="col-sm-6">
-                <button type="button" class="btn btn-primary" @click="goToAccount" id = "Account-but">
+                <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but">
                   <span class="glyphicon glyphicon-user"></span>
                   Account
                 </button>
               </div>
               <div class="col-sm-6">
-                <button type="button" class="btn btn-danger" @click="goToLogin" id = "Logout-but">
+                <button type="button" class="btn btn-danger" @click="goToLogin" id="Logout-but">
                   Logout
                 </button>
               </div>
             </div>
-
           </div>
-
         </div>
       </div>
     </div>
@@ -212,7 +219,7 @@
                 <div class="col-sm-4">
                   <div class="row">
                     <div class="col-sm-6 text-center">
-                      <button type="button" class="btn btn-outline-secondary">
+                      <button @click="alert" type="button" class="btn btn-outline-secondary">
                         <font size="4">Cancel</b></font>
                       </button>
                     </div>
@@ -254,14 +261,16 @@
     text-align: left;
   }
 
-  #Account-but{
+  #Account-but {
     margin-left: 100px;
     min-width: 0%;
   }
-  #Logout-but{
+
+  #Logout-but {
     margin-left: 50px;
     min-width: 50%;
   }
+
   #Acceptance-Form {
     max-width: 100%;
     margin-top: 0px;
@@ -391,12 +400,31 @@
       return {}
     },
     methods: {
-      goToLogin: function(){
+      alert: function() {
+        var txt;
+        var click = confirm("Do you want to cancel the regeristraton?");
+        if (click == true) {
+          this.$router.push({
+            name: 'Dashboard',
+            params: {
+              id: this.$route.params.id
+            }
+          })
+        }
+      },
+      goToLogin: function() {
         this.$router.push({
           name: 'Login',
         })
       },
-      
+      goToDashboard: function() {
+        this.$router.push({
+          name: 'Dashboard',
+          params: {
+            id: this.$route.params.id
+          }
+        })
+      },
       goToAccount: function() {
         this.$router.push({
           name: 'StudentInformation',

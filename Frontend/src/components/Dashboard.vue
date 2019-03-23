@@ -16,12 +16,15 @@
         <div class="row">
           <div class="col-sm-8">
             <div class="container  text-left">
-              <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="240" height="80">
-              <font size = "5">{{this.$route.params.id}} {{student != null?student.firstName: '-'}}</font>
+              <div @click="goToDashboard">
+                <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
+                <font size="5">{{this.$route.params.id}} {{student != null?student.firstName: '-'}}</font>
+              </div>
             </div>
           </div>
           <div class="col-sm-4">
-            <br>
+            <br><br>
+
             <div class="row">
               <div class="col-sm-6">
                 <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but">
@@ -35,8 +38,8 @@
                 </button>
               </div>
             </div>
-
           </div>
+
         </div>
       </div>
     </div>
@@ -50,7 +53,7 @@
             </ul>
           </div>
           <ul class="nav navbar-nav navbar-right">
-            <li><button type="button" class="btn btn-success" href="#">Register Course</button></li>
+            <li><button @click = "goToAcceptanceForm" type="button" class="btn btn-success" href="#">Register Course</button></li>
           </ul>
         </div>
       </div>
@@ -178,6 +181,22 @@
       console.log(this.enrollments)
     },
     methods: {
+      goToDashboard: function() {
+        this.$router.push({
+          name: 'Dashboard',
+          params: {
+            id: this.$route.params.id
+          }
+        })
+      },
+      goToAcceptanceForm: function() {
+        this.$router.push({
+          name: 'AcceptanceForm',
+          params: {
+            id: this.$route.params.id
+          }
+        })
+      },
       goToAccount: function() {
         this.$router.push({
           name: 'StudentInformation',
