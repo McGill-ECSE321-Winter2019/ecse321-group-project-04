@@ -199,8 +199,12 @@
                 </div>
               </div>
               <br>
+              <form class="form-inline">
+                <label for="Employer-Contract" class="mb-2 mr-sm-2">Employer Contract URL:</label>
+                <input type="text" class="form-control mb-2 mr-sm-2" id="Employer-Contract" placeholder="Employer Contract URL" name="Employer-Contract">
+              </form>
               <br>
-
+              <br>
               <div class="row">
                 <div class="col-sm-4">
                 </div>
@@ -221,6 +225,7 @@
                 <div class="col-sm-4">
                 </div>
               </div>
+              <br>
             </div>
           </div>
         </div>
@@ -335,7 +340,7 @@
 
   #Employer-Email {
     margin-left: 10px;
-    min-width: 52%;
+    min-width: 51%;
   }
 
   #Address-Line-1 {
@@ -364,6 +369,11 @@
   #Country {
     margin-left: 10px;
     min-width: 65%;
+  }
+
+  #Employer-Contract {
+    margin-left: 15px;
+    min-width: 73%;
   }
 </style>
 
