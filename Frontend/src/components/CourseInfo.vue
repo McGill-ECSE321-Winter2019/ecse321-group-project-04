@@ -94,7 +94,7 @@
               <div class="card-body">
                 <h3 class="card-title" style="margin-top:10px; margin-bottom:30px;">Upcoming Deadlines</h3>
                 <div v-for="task in upcomingDeadlines">
-                  <h4><a href="#" @click="goToTask(task.task)">{{task.task.name}}</a></h4>
+                  <h4><a href="" @click="goToTask(task.task)">{{task.task.name}}</a></h4>
                   <h4>{{task.dueTime}}</h4>
                   <hr>
                 </div>
@@ -122,7 +122,7 @@
           <tbody>
             <tr v-for="task in pTasks">
               <td>
-                <h4><a href="#" @click="goToTask(task)">{{task.name}}</a></h4>
+                <h4><a href="" @click="goToTask(task)">{{task.name}}</a></h4>
                 <h5 style="color:gray">{{task.description}}</h5>
               </td>
               <td style="text-align:center; vertical-align:middle">
