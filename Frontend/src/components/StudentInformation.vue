@@ -109,7 +109,7 @@
 
   .student-card {
     box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2);
-    width: 250px;
+    max-width: 400px;
     height: auto;
     margin: auto;
     text-align: center;
@@ -123,10 +123,15 @@
     margin-bottom: auto;
   }
 
+  .student-fullname {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
   .student-email {
     color: darkgray;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 15px;
+    margin-right: 15px;
     margin-bottom: 20px;
   }
 
