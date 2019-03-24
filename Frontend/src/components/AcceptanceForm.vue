@@ -65,17 +65,17 @@
                   <hr>
                 </div>
                 <br <div class="row">
-                <div class="coll-sm-6">
+                <div class="col-sm-6">
                   <form class="form-inline" action="/action_page.php">
                     <label for="courseid" class="mb-2 mr-sm-2">Course ID:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="CourseID" placeholder="Enter Course ID" name="Course ID">
                   </form>
                 </div>
                 <br>
-                <div class="coll-sm-6">
+                <div class="col-sm-6">
                   <div class="form-group form-inline">
                     <label for="sel1">Coop Term:</label>
-                    <select class="form-control" id="CoopTerm" style="max-width:300px">
+                    <select class="form-control" id="CoopTerm">
                       <option>1</option>
                       <option>2</option>
                       <option>3</option>
@@ -277,6 +277,7 @@
 
   #top-container h2 {
     text-align: left;
+    margin-bottom: 20px;
   }
 
   #Account-but {
@@ -291,7 +292,7 @@
 
   #Acceptance-Form {
     max-width: 100%;
-    margin-top: 0px;
+    margin-top: 20px;
   }
 
   #Acceptance-Form h2 {
