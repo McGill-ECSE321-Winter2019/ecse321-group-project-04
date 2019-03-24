@@ -55,181 +55,207 @@
             <div class="panel-body">
               <br>
               <div class="form-group">
+
                 <div class="container-fluid">
                   <div class="container text-left" id="Job-Information">
                     <h3>
-                      <font><b>Job Information</b></font>
+                      <font><b>Course Information</b></font>
                     </h3>
                   </div>
                   <hr>
                 </div>
-                <br>
-                <form class="form-inline" action="/action_page.php">
-                  <label for="jobid2" class="mb-2 mr-sm-2">Job Posting ID:</label>
-                  <input type="text" class="form-control mb-2 mr-sm-2" id="JobID" placeholder="Enter Job ID" name="Job ID">
-                </form>
-                <br>
-
-                <div class="row">
-                  <div class="col-sm-6">
-                    <form class="form-inline" action="/action_page.php">
-                      <label for="start2" class="mb-2 mr-sm-2">Starting date:</label>
-                      <input type="date" class="form-control mb-2 mr-sm-2" id="Start" name="Start">
-                    </form>
-                  </div>
-
-                  <div class="col-sm-6">
-                    <form class="form-inline" action="/action_page.php">
-                      <label for="end2" class="mb-2 mr-sm-2">Ending date:</label>
-                      <input type="date" class="form-control mb-2 mr-sm-2" id="End" name="End">
-                    </form>
-                  </div>
+                <br <div class="row">
+                <div class="coll-sm-6">
+                  <form class="form-inline" action="/action_page.php">
+                    <label for="courseid" class="mb-2 mr-sm-2">Course ID:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="CourseID" placeholder="Enter Course ID" name="Job ID">
+                  </form>
                 </div>
                 <br>
-
-                <form class="form-inline" action="/action_page.php">
-                  <label for="acdemicterm2" class="mb-2 mr-sm-2">Acdemic Term:</label>
-
-                  <div class="form-check-inline">
-                    <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="optradio" id="Fall">Fall
-                    </label>
-                  </div>
-
-                  <div class="form-check-inline">
-                    <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="optradio" id="Fall">Winter
-                    </label>
-                  </div>
-
-                  <div class="form-check-inline">
-                    <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="optradio" id="Fall">Summer
-                    </label>
-                  </div>
-                </form>
-                <br>
-
-                <form class="form-inline" action="/action_page.php">
-                  <label for="acdemicterm2" class="mb-2 mr-sm-2">Work Permit Required:</label>
-
-                  <div class="form-check-inline">
-                    <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="optradio" id="W-Yes">Yes
-                    </label>
-                  </div>
-
-                  <div class="form-check-inline">
-                    <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="optradio" id="W-No">No
-                    </label>
-                  </div>
-
-                </form>
-                </br>
-
-                <div class="container-fluid">
-                  <div class="container text-left" id="Employer-Information">
-                    <h3>
-                      <font><b>Employer Information</b></font>
-                    </h3>
-                  </div>
-                  <hr>
-                </div>
-                <br>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <form class="form-inline" action="/action_page.php">
-                      <label for="companyname2" class="mb-2 mr-sm-2">Company Name:</label>
-                      <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="Company-Name" placeholder="Enter Company Name" name="Company Name">
-                    </form>
-                  </div>
-
-                  <div class="col-sm-6">
-                    <form class="form-inline" action="/action_page.php">
-                      <label for="employername2" class="mb-2 mr-sm-2">Employer Name:</label>
-                      <input type="text" class="form-control mb-2 mr-sm-2" size="30" margin="" id="Employer-Name" placeholder="Enter Employer Name" name="Employer Name">
-                    </form>
-                  </div>
-                </div>
-                <br>
-                <form class="form-inline" action="/action_page.php">
-                  <label for="employeremail2" class="mb-2 mr-sm-2">Employer E-mail:</label>
-                  <input type="text" class="form-control mb-2 mr-sm-2" margin="" id="Employer-Email" placeholder="Enter Employer Email" name="Employer Email">
-                </form>
-                <br>
-                <form class="form-inline" action="/action_page.php">
-                  <label for="addressline1" class="mb-2 mr-sm-2">Address Line 1:</label>
-                  <input type="text" class="form-control mb-2 mr-sm-2" id="Address-Line-1" placeholder="Address Line 1" name="Address Line 1">
-                </form>
-                <br>
-                <form class="form-inline" action="/action_page.php">
-                  <label for="addressline2" class="mb-2 mr-sm-2">Address Line 2:</label>
-                  <input type="text" class="form-control mb-2 mr-sm-2" id="Address-Line-2" placeholder="Address Line 2" name="Address Line 2">
-                </form>
-                <br>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <form class="form-inline" action="/action_page.php">
-                      <label for="city2" class="mb-2 mr-sm-2">City:</label>
-                      <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="City" placeholder="City" name="City">
-                    </form>
-                  </div>
-                  <div class="col-sm-6">
-                    <form class="form-inline" action="/action_page.php">
-                      <label for="province2" class="mb-2 mr-sm-2">Province:</label>
-                      <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="Province" placeholder="Province" name="Province">
-                    </form>
-                  </div>
-                </div>
-                <br>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <form class="form-inline" action="/action_page.php">
-                      <label for="postalcode2" class="mb-2 mr-sm-2">Postal Code:</label>
-                      <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="Postal-Code" placeholder="Postal Code" name="Postal Code">
-                    </form>
-                  </div>
-                  <div class="col-sm-6">
-                    <form class="form-inline" action="/action_page.php">
-                      <label for="country2" class="mb-2 mr-sm-2">Country:</label>
-                      <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="Country" placeholder="Country" name="Country">
-                    </form>
+                <div class="coll-sm-6">
+                  <div class="form-group form-inline">
+                    <label for="sel1">Coop Term:</label>
+                    <select class="form-control" id="CoopTerm" style="max-width:300px">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                    </select>
                   </div>
                 </div>
               </div>
-              <br>
-              <form class="form-inline">
-                <label for="Employer-Contract" class="mb-2 mr-sm-2">Employer Contract URL:</label>
-                <input type="text" class="form-control mb-2 mr-sm-2" id="Employer-Contract" placeholder="Employer Contract URL" name="Employer-Contract">
+              <form class="form-inline" action="/action_page.php">
+                <label for="acdemicterm2" class="mb-2 mr-sm-2">Acdemic Term:</label>
+
+                <div class="form-check-inline">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optradio" id="Fall">
+                    <h4 style="margin-left:5px">Fall</h4>
+                  </label>
+                </div>
+
+                <div class="form-check-inline">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optradio" id="Fall">
+                    <h4 style="margin-left:5px">Winter</h4>
+                  </label>
+                </div>
+
+                <div class="form-check-inline">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optradio" id="Fall">
+                    <h4 style="margin-left:5px">Summer</h4>
+                  </label>
+                </div>
               </form>
               <br>
               <br>
+
+
+              <div class="container-fluid">
+                <div class="container text-left" id="Job-Information">
+                  <h3>
+                    <font><b>Job Information</b></font>
+                  </h3>
+                </div>
+                <hr>
+              </div>
+              <br>
+              <form class="form-inline" action="/action_page.php">
+                <label for="jobid2" class="mb-2 mr-sm-2">Job Posting ID:</label>
+                <input type="text" class="form-control mb-2 mr-sm-2" id="JobID" placeholder="Enter Job ID" name="Job ID">
+              </form>
+              <br>
+
               <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6">
+                  <form class="form-inline" action="/action_page.php">
+                    <label for="start2" class="mb-2 mr-sm-2">Starting date:</label>
+                    <input type="date" class="form-control mb-2 mr-sm-2" id="Start" name="Start">
+                  </form>
                 </div>
-                <div class="col-sm-4">
-                  <div class="row">
-                    <div class="col-sm-6 text-center">
-                      <button @click="alert" type="button" class="btn btn-outline-secondary">
-                        <font size="4">Cancel</b></font>
-                      </button>
-                    </div>
-                    <div class="col-sm-6 text-center">
-                      <button type="button" class="btn btn-outline-primary">
-                        <font size="4">Submit</b></font>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-4">
+
+                <div class="col-sm-6">
+                  <form class="form-inline" action="/action_page.php">
+                    <label for="end2" class="mb-2 mr-sm-2">Ending date:</label>
+                    <input type="date" class="form-control mb-2 mr-sm-2" id="End" name="End">
+                  </form>
                 </div>
               </div>
               <br>
+
+
+              <form class="form-inline" action="/action_page.php">
+                <label for="acdemicterm2" class="mb-2 mr-sm-2">Work Permit Required:</label>
+
+                <div class="form-check-inline">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optradio" id="W-Yes">
+                    <h4 style="margin-left:5px">Yes</h4>
+                  </label>
+                </div>
+
+                <div class="form-check-inline">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optradio" id="W-No">
+                    <h4 style="margin-left:5px">No</h4>
+                  </label>
+                </div>
+
+              </form>
+              </br>
+
+              <div class="container-fluid">
+                <div class="container text-left" id="Employer-Information">
+                  <h3>
+                    <font><b>Employer Information</b></font>
+                  </h3>
+                </div>
+                <hr>
+              </div>
+              <br>
+              <form class="form-inline" action="/action_page.php">
+                <label for="companyname2" class="mb-2 mr-sm-2">Company Name:</label>
+                <input type="text" class="form-control mb-2 mr-sm-2" id="Company-Name" placeholder="Enter Company Name" name="Company Name">
+              </form>
+              <br>
+              <form class="form-inline" action="/action_page.php">
+                <label for="employeremail2" class="mb-2 mr-sm-2">Employer E-mail:</label>
+                <input type="text" class="form-control mb-2 mr-sm-2" margin="" id="Employer-Email" placeholder="Enter Employer Email" name="Employer Email">
+              </form>
+              <br>
+              <form class="form-inline" action="/action_page.php">
+                <label for="addressline1" class="mb-2 mr-sm-2">Address Line 1:</label>
+                <input type="text" class="form-control mb-2 mr-sm-2" id="Address-Line-1" placeholder="Address Line 1" name="Address Line 1">
+              </form>
+              <br>
+              <form class="form-inline" action="/action_page.php">
+                <label for="addressline2" class="mb-2 mr-sm-2">Address Line 2:</label>
+                <input type="text" class="form-control mb-2 mr-sm-2" id="Address-Line-2" placeholder="Address Line 2" name="Address Line 2">
+              </form>
+              <br>
+              <div class="row">
+                <div class="col-sm-6">
+                  <form class="form-inline" action="/action_page.php">
+                    <label for="city2" class="mb-2 mr-sm-2">City:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="City" placeholder="City" name="City">
+                  </form>
+                </div>
+                <div class="col-sm-6">
+                  <form class="form-inline" action="/action_page.php">
+                    <label for="province2" class="mb-2 mr-sm-2">Province:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="Province" placeholder="Province" name="Province">
+                  </form>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-sm-6">
+                  <form class="form-inline" action="/action_page.php">
+                    <label for="postalcode2" class="mb-2 mr-sm-2">Postal Code:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="Postal-Code" placeholder="Postal Code" name="Postal Code">
+                  </form>
+                </div>
+                <div class="col-sm-6">
+                  <form class="form-inline" action="/action_page.php">
+                    <label for="country2" class="mb-2 mr-sm-2">Country:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="Country" placeholder="Country" name="Country">
+                  </form>
+                </div>
+              </div>
             </div>
+            <br>
+            <form class="form-inline">
+              <label for="Employer-Contract" class="mb-2 mr-sm-2">Employer Contract URL:</label>
+              <input type="text" class="form-control mb-2 mr-sm-2" id="Employer-Contract" placeholder="Employer Contract URL" name="Employer-Contract">
+            </form>
+            <br>
+            <br>
+            <div class="row">
+              <div class="col-sm-4">
+              </div>
+              <div class="col-sm-4">
+                <div class="row">
+                  <div class="col-sm-6 text-center">
+                    <button @click="alert" type="button" class="btn btn-outline-secondary">
+                      <font size="4">Cancel</b></font>
+                    </button>
+                  </div>
+                  <div class="col-sm-6 text-center">
+                    <button type="button" class="btn btn-outline-primary">
+                      <font size="4">Submit</b></font>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+              </div>
+            </div>
+            <br>
           </div>
         </div>
       </div>
+    </div>
     </div>
   </body>
 
@@ -318,6 +344,16 @@
     min-width: 27.7%;
   }
 
+  #CourseID {
+    margin-left: 10px;
+    min-width: 27.7%;
+  }
+
+  #CoopTerm {
+    margin-left: 10px;
+    min-width: 27.7%;
+  }
+
   #Start {
     margin-left: 20px;
 
@@ -330,7 +366,7 @@
 
   #Company-Name {
     margin-left: 13px;
-    min-width: 30%;
+    min-width: 51%;
   }
 
   #Employer-Name {
