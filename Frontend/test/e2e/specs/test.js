@@ -30,11 +30,22 @@ module.exports = {
       .assert.urlContains('dashboard')
   },
 
+  'ViewStudentInfo': function (browser) {
+    browser
+      .assert.visible('#Account-but')
+      .pause(500)
+      .click('#Account-but')
+      .waitForElementVisible('#Student-Info', 2000)
+      .assert.urlContains('studentinformation')
+      .assert.visible('.student-card')
+      // Go back to DashBoard
+      .pause(500)
+      .back()
+  },
+
   'SubmitDocument': function (browser) {
     browser
-      .waitForElementVisible('#app', 2000)
-      .waitForElementVisible('body', 2000)
-      .assert.visible('#course-list')
+      .waitForElementVisible('#course-list', 2000)
       .element('css selector', '#course-list div', function (result_c) {
         // If there is at least an active Course
         if (result_c.value.ELEMENT) {
@@ -62,18 +73,35 @@ module.exports = {
                   .waitForElementVisible('#task-submission .modal-mask', 2000)
                   .assert.visible('.modal-mask .modal-container')
                   .pause(500)
-                  .setValue('input[id="docName"]', 'Coop Report 001')
-                  .setValue('input[id="docURL"]', 'https://www.dropbox.com/sh/coopreport001')
+                var docName = 'CoopReport 0001';
+                browser
+                  .setValue('input[id="docName"]', docName)
+                  .setValue('input[id="docURL"]', 'https://www.dropbox.com/sh/coopreport0001')
                   .pause(500)
                   // Submit Document
                   .click('.modal-container button')
                   .pause(500)
                   .assert.containsText('.modal-container button', 'Done')
                   .click('.modal-container button')
+                  // Check if Document is added
+                  .pause(500)
+                  .click('#task-submission>.row ul>li:nth-child(2)')
+                  .waitForElementVisible('table', 2000)
+                  .assert.containsText('tbody', docName)
               }
             })
         }
       })
+  },
+
+  'Logout': function (browser) {
+    browser
+      .pause(500)
+      .assert.visible('button[id="Logout-but"]')
+      // Go back to Login 
+      .click('button[id="Logout-but"]')
+      .waitForElementVisible('button[id="login"]', 2000)
+      .assert.urlContains('login')
   },
 
   'Close': function (browser) {
