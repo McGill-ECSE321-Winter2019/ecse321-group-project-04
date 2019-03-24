@@ -15,6 +15,7 @@ export default new Router({
   mode: 'history',
   routes: [{
       path: '/',
+      redirect: '/login',
       name: 'Hello',
       component: Hello
     },

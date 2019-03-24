@@ -14,32 +14,21 @@
     <div class="container-fluid" id="top-container">
       <div class="container text-center">
         <div class="row">
-          <div class="col-sm-8">
+          <div class="col-sm-6">
             <div class="container  text-left">
-              <div class="row">
-                <div class="col-sm-3">
-                  <div class="container  text-left">
-                    <div @click="alert">
-                      <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-9">
-                </div>
+              <div @click="goToDashboard" style="display: inline-block;">
+                <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
               </div>
             </div>
           </div>
-          <div class="col-sm-4">
-            <br><br>
+          <div class="col-sm-6">
             <div class="row">
-              <div class="col-sm-6">
-                <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but">
+              <div class="col-sm-12">
+                <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but" style="min-width: 100px; margin-right: 0px; margin-top: 35px">
                   <span class="glyphicon glyphicon-user"></span>
                   Account
                 </button>
-              </div>
-              <div class="col-sm-6">
-                <button type="button" class="btn btn-danger" @click="goToLogin" id="Logout-but">
+                <button type="button" class="btn btn-danger" @click="goToLogin" id="Logout-but" style="min-width: 100px; margin-left: 5px; margin-top: 35px">
                   Logout
                 </button>
               </div>
@@ -49,9 +38,8 @@
       </div>
     </div>
 
-    <div class="container-fluid text-center" id="background">
-      <div class="col-sm-2 sidenav"></div>
-      <div class="col-sm-8">
+    <div class="container-fluid" id="background">
+      <div class="container text-center">
         <div class="row">
           <br>
           <div class="container-fluid">
@@ -236,7 +224,6 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-2 sidenav"></div>
       </div>
     </div>
   </body>
@@ -388,10 +375,7 @@
   var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
 
   var AXIOS = axios.create({
-    baseURL: backendUrl,
-    headers: {
-      'Access-Control-Allow-Origin': frontendUrl
-    }
+    baseURL: backendUrl
   })
 
   export default {

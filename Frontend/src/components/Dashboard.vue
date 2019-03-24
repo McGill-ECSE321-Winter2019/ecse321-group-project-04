@@ -16,7 +16,7 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="container  text-left">
-              <div @click="goToDashboard">
+              <div @click="goToDashboard" style="display: inline-block;">
                 <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
               </div>
             </div>
@@ -34,7 +34,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -52,43 +51,33 @@
             </ul>
           </div>
           <ul class="nav navbar-nav navbar-right">
-            <li><button @click = "goToAcceptanceForm" type="button" class="btn btn-success" href="#">Register Course</button></li>
+            <li><button @click="goToAcceptanceForm" type="button" class="btn btn-success" href="#">Register Course</button></li>
           </ul>
         </div>
       </div>
     </div>
 
-    <div v-if="selectedTab === 'Active Courses'" class="container" id="course-list">
-      <div v-for="enrollment in enrollments" v-if="enrollment.status === 'ONGOING'" class="row">
-        <div class="col-sm-12">
-          <div class="panel panel-default">
-            <div class="panel-body">{{getEnrollmentID(enrollment)}}</div>
+    <transition name="slide-fade" mode="out-in" appear>
+      <div v-if="selectedTab === 'Active Courses'" key="active" class="container" id="course-list">
+        <div v-for="enrollment in enrollments" v-if="enrollment.status === 'ONGOING'" class="row">
+          <div class="col-sm-12">
+            <div class="panel panel-default">
+              <div class="panel-body" style="margin-left:10px; text-align:center"><a href="#" @click="goToCourseview(enrollment)">{{getEnrollmentName(enrollment)}}</a></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-      <transition name="slide-fade" mode="out-in" appear>
-        <div v-if="selectedTab === 'Active Courses'" key="active" class="container" id="course-list">
-          <div v-for="enrollment in enrollments" v-if="enrollment.status === 'ONGOING'" class="row">
-            <div class="col-sm-12">
-              <div class="panel panel-default">
-                <div class="panel-body" style="margin-left:10px; text-align:center"><a href="#">{{getEnrollmentID(enrollment)}}</a></div>
-              </div>
+      <div v-else="selectedTab === 'Archieved Courses'" key="archieved" class="container" id="course-list">
+        <div v-for="enrollment in enrollments" v-if="enrollment.status !== 'ONGOING'" class="row">
+          <div class="col-sm-12">
+            <div class="panel panel-default">
+              <div class="panel-body" style="margin-left:10px; text-align:center"><a href="#">{{getEnrollmentID(enrollment)}}</a></div>
             </div>
           </div>
         </div>
-
-        <div v-else="selectedTab === 'Archieved Courses'" key="archieved" class="container" id="course-list">
-          <div v-for="enrollment in enrollments" v-if="enrollment.status !== 'ONGOING'" class="row">
-            <div class="col-sm-12">
-              <div class="panel panel-default">
-                <div class="panel-body" style="margin-left:10px; text-align:center"><a href="#">{{getEnrollmentID(enrollment)}}</a></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </transition>
+      </div>
+    </transition>
 
     <br>
     <br>
@@ -132,6 +121,7 @@
     font-size: large;
   }
 
+  /* Tab transition animations */
   .slide-fade-enter-active {
     transition: all .3s ease;
   }
@@ -142,8 +132,6 @@
 
   .slide-fade-enter,
   .slide-fade-leave-to
-
-  /* .slide-fade-leave-active below version 2.1.8 */
     {
     transform: translateX(10px);
     opacity: 0;
@@ -153,11 +141,14 @@
 <script>
   import axios from 'axios'
   var config = require('../../config')
+
   var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
   var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
+
   var AXIOS = axios.create({
     baseURL: backendUrl
   })
+
   export default {
     name: 'dashboard',
     data() {
@@ -165,7 +156,7 @@
         tabs: ['Active Courses', 'Archieved Courses'],
         selectedTab: 'Active Courses',
         enrollments: [],
-        student: null,
+        student: null
       }
     },
     created() {
@@ -220,10 +211,19 @@
           name: 'Login',
         })
       },
-      getEnrollmentID: function(enrollment) {
-        var tmp = enrollment._links.self.href.split('/')
-        tmp = tmp[tmp.length - 1]
-        var offeringCode = tmp.split('-')
+      goToCourseview: function(enrollment) {
+        var enrollmentID = enrollment._links.self.href.split('/').pop()
+        this.$router.push({
+          name: 'CourseInfo',
+          params: {
+            id: enrollmentID
+          }
+        })
+      },
+      getEnrollmentName: function(enrollment) {
+        var enrollmentCode = enrollment._links.self.href.split('/')
+        enrollmentCode = enrollmentCode[enrollmentCode.length - 1]
+        var offeringCode = enrollmentCode.split('-')
         offeringCode.shift()
         var term = offeringCode.pop()
         var courseCode = offeringCode.join('')
@@ -240,6 +240,7 @@
             break;
         }
         displayName += '20' + term.slice(1) + ' - ' + courseCode
+
         return displayName
       }
     }

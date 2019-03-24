@@ -111,20 +111,6 @@
     baseURL: backendUrl
   })
 
-  /* Input checking */
-
-
-  /*var created = async () => {
-    try {
-      let response = await AXIOS.get(/students/);
-      console.log("successful response 😀 ");
-      console.log(response.data);
-      this.student = response.data;
-    } catch (e) {
-      console.log(e);
-      console.log("unsuccessful response 😞");
-    }
-  }*/
   var checkInput = async (input) => {
     if (input.length !== 9) {
       console.log("length is not 9 😠 ");
@@ -133,14 +119,14 @@
       try {
         let response = await AXIOS.get(/students/ + input);
         if (response.data !== {}) {
-          console.log("successful request ! 🙂 ");
+          console.log("successful request! 🙂 ");
           return true;
         } else {
           console.log("successful request but data is empty 😞");
           return false;
         }
       } catch (e) {
-        console.log("unsuccessful request 😞 ");
+        console.log("unsuccessful request 😞");
         return false;
       }
 
@@ -173,6 +159,7 @@
             }
           })
         } else {
+          document.getElementById("usr").className = 'form-control form-control-lg is-invalid'
           console.log("b");
           document.getElementById("demo").innerHTML = "Please Enter Correct Sudent ID";
         };
