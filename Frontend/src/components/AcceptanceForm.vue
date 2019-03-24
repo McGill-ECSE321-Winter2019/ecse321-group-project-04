@@ -469,8 +469,8 @@
 
           // Get the offering Details
           var active = true; //default for new course
-          var term = null; 
-          var year = document.getElementById("Start").value.substring(0,4) 
+          var term = null;
+          var year = document.getElementById("Start").value.substring(0,4)
           var yearID = document.getElementById("Start").value.substring(2,4);
           if(document.getElementById("Fall").checked){
             term = "FALL";

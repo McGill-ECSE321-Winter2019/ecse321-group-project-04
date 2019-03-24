@@ -1597,8 +1597,8 @@
   }
 
   /* AXIOS object configuration */
-  var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-  var backendUrl = 'http://' + config.dev.backendHost // + ':' + config.dev.backendPort
+  var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
+  var backendUrl = 'https://' + config.dev.backendHost // + ':' + config.dev.backendPort
 
   var AXIOS = axios.create({
     baseURL: backendUrl
@@ -1811,14 +1811,16 @@
         return moment(d).format("MMM Do, YYYY")
       },
       getCourseProgress: function() {
-        var completed = 0
-        for (var i in this.tasks) {
-          if (this.tasks[i].taskStatus != 'INCOMPLETE') {
-            completed++
+        var progress = 100
+        if (this.tasks.length != 0) {
+          var completed = 0
+          for (var i in this.tasks) {
+            if (this.tasks[i].taskStatus != 'INCOMPLETE') {
+              completed++
+            }
           }
+          progress = Math.round((completed / this.tasks.length) * 100)
         }
-
-        var progress = Math.round((completed / this.tasks.length) * 100)
         this.courseProgress = progress + '%'
         return 'c100 p' + progress + ' big green'
       }

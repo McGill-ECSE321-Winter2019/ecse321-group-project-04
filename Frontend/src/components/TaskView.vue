@@ -395,8 +395,8 @@
   var config = require('../../config')
 
   /* AXIOS object configuration */
-  var frontendUrl = 'http://' + config.dev.hoiust + ':' + config.dev.port
-  var backendUrl = 'http://' + config.dev.backendHost //+ ':' + config.dev.backendPort
+  var frontendUrl = 'https://' + config.dev.hoiust + ':' + config.dev.port
+  var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
 
   var AXIOS = axios.create({
     baseURL: backendUrl
