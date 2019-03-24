@@ -79,7 +79,7 @@
         </div>
       </div>
 
-      <div v-else="selectedTab === 'Archieved Courses'" key="archieved" class="container" id="course-list">
+      <div v-else="selectedTab === 'Archived Courses'" key="archived" class="container" id="course-list">
         <div v-for="enrollment in enrollments" v-if="enrollment.status !== 'ONGOING'" class="row">
           <div class="col-sm-12">
             <div class="panel panel-default">
@@ -169,7 +169,7 @@
     name: 'dashboard',
     data() {
       return {
-        tabs: ['Active Courses', 'Archieved Courses'],
+        tabs: ['Active Courses', 'Archived Courses'],
         selectedTab: 'Active Courses',
         enrollments: [],
         student: null

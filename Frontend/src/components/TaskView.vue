@@ -80,7 +80,7 @@
         </div>
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <button @click="showModal=true" type="button" class="btn btn-success">
+            <button @click="showModal=true" :disabled="courseStatus !== 'ONGOING'" type="button" class="btn btn-success">
               <font size="4">
                 Submit Document
               </font>
@@ -184,7 +184,7 @@
           </div>
         </div>
 
-      <!-- Success Modal -->
+        <!-- Success Modal -->
         <div v-if="showModalSuccess" key="success">
           <div class="modal-mask">
             <div class="modal-wrapper" @click="showModalSuccess=false">
@@ -229,7 +229,7 @@
                   <h4><b>{{displayURLName}}</b></h4>
                   <br>
                 </div>
-                  <br>
+                <br>
                 <div style="text-align:center">
                   <slot>
                     <button class="btn btn-primary" style="min-width:120px" @click="showModalURL=false">
@@ -419,7 +419,8 @@
           LATE_COMPLETED: 'Late Completed'
         },
         displayDocName: null,
-        displayURLName: null
+        displayURLName: null,
+        courseStatus: null
       }
     },
     created() {
@@ -435,6 +436,15 @@
       AXIOS.get(`/tasks/` + this.$route.params.id + `/documents`)
         .then(response => {
           this.documents = response.data._embedded.documents;
+        })
+        .catch(e => {
+          var errorMsg = e.message;
+          console.log(errorMsg);
+          this.errorPerson = errorMsg;
+        })
+      AXIOS.get(`/studentEnrollments/` + this.$route.params.enrollmentID)
+        .then(response => {
+          this.courseStatus = response.data.status
         })
         .catch(e => {
           var errorMsg = e.message;

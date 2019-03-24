@@ -45,7 +45,7 @@
                   <p id="demo"></p>
                 </div>
                 <button @click="goToDashboard" type="button" class="btn btn-primary btn-block" id="login">
-                  <font size="4" face="Times"><b>Login</b></font>
+                  <font size="4"><b>Login</b></font>
                 </button>
                 <br>
                 <a href="#"><i><b>Need help?</b></i></a>

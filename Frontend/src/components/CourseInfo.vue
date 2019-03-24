@@ -182,10 +182,78 @@
               </div>
             </div>
           </div>
+          <br>
+          <br>
+          <hr style="margin-bottom:0px">
+          <div v-if="courseStatus === 'ONGOING'">
+            <div class="row">
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4" style="text-align:center">
+                <button type="button" class="btn btn-danger" @click="showModalWarning=true" id="Logout-but" style="min-width: 100px; margin-left: 5px; margin-top: 35px">
+                  <font size="4">Withdraw Course</font>
+                </button>
+                <div class="col-sm-4"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div><br>
 
       </div><br>
+    </transition>
+
+    <!-- Warning Modal -->
+    <transition name="modal" mode="out-in">
+      <div v-if="showModalWarning" key="warning">
+        <div class="modal-mask">
+          <div class="modal-wrapper" @click="showModalWarning=false">
+            <div class="modal-container" @click.stop>
+              <div class="modal-header">
+                <slot name="header">
+                  Course Withdrawal
+                </slot>
+              </div>
+              <div class="modal-body">
+                <h4 style="text-align:center">Do you want to withdraw from {{courseID}}?</h4>
+                <br>
+                <h4 style="text-align:center">This action cannot be undone.</h4>
+                <br>
+              </div>
+              <div style="text-align:center">
+                <slot>
+                  <button class="btn btn-danger" style="min-width:120px" @click="withdrawCourse">
+                    <font size="3">Withdraw Course</font>
+                  </button>
+                </slot>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sucessful Withdrawal Modal -->
+      <div v-if="showModalSuccessWithdrawal" key="success">
+        <div class="modal-mask">
+          <div class="modal-wrapper" @click="showModalSuccessWithdrawal=false">
+            <div class="modal-container" @click.stop>
+              <div class="modal-header">
+                <slot name="header">
+                  Successful Withdrawal
+                </slot>
+              </div>
+              <div style="text-align:center">
+                <slot>
+                  <br>
+                  <br>
+                  <button class="btn btn-primary" style="min-width:120px" @click="showModalSuccessWithdrawal=false">
+                    <font size="3">Done</font>
+                  </button>
+                </slot>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </transition>
 
   </body>
@@ -1403,6 +1471,68 @@
   .c100.green:hover>span {
     color: #1f67c1;
   }
+
+  .modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: table;
+    transition: opacity .3s ease;
+  }
+
+  .modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .modal-container {
+    width: 400px;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  .modal-header {
+    margin-top: 0;
+    font-size: 24px;
+  }
+
+  .modal-body {
+    margin: 0;
+  }
+
+  .modal-default-button {
+    float: right;
+  }
+
+  .modal-enter {
+    opacity: 0;
+  }
+
+  .modal-leave-active {
+    opacity: 0;
+    transition: all .3s ease;
+  }
+
+  /*.modal-enter-active {
+    opacity: 0;
+    transition: all .3s ease;
+  }*/
+
+  .modal-enter .modal-container,
+  .modal-leave-active .modal-container,
+  .modal-leave-to .modal-container {
+    /*-webkit-transform: scale(1.1);*/
+    transform: translateY(100px);
+  }
 </style>
 
 <script>
@@ -1538,7 +1668,9 @@
         activityStatus: null,
         employerInfo: null,
         courseProgress: null,
-        upcomingDeadlinesNotEmpty: true
+        upcomingDeadlinesNotEmpty: true,
+        showModalWarning: false,
+        showModalSuccessWithdrawal: false
       }
     },
     created() {
@@ -1571,7 +1703,7 @@
           this.courseID = displayName.split('-').pop().trim()
           this.courseOffering = displayName.split('-').shift().trim()
           this.courseStatus = this.enrollment.status
-          this.activityStatus = this.enrollment.active ? 'Active': 'Inactive'
+          this.activityStatus = this.enrollment.active ? 'Active' : 'Inactive'
         })
         .catch(e => {
           var errorMsg = e.message
@@ -1647,6 +1779,33 @@
             id: this.$route.params.id
           }
         })
+      },
+      withdrawCourse: function() {
+        var enrollmentCode = this.enrollment._links.self.href.split('/').pop()
+        AXIOS.put(`studentEnrollment?enrollmentID=` + enrollmentCode + `&active=false&status=WITHDRAWED`)
+          .then(response => {
+            // Update the enrollment info
+            AXIOS.get(`/studentEnrollments/` + this.$route.params.id)
+              .then(response => {
+                this.enrollment = response.data
+                this.courseStatus = this.enrollment.status
+                this.activityStatus = this.enrollment.active ? 'Active' : 'Inactive'
+              })
+              .catch(e => {
+                var errorMsg = e.message
+                console.log(errorMsg)
+                this.errorPerson = errorMsg
+              })
+
+            // Show the success withdrawal modal
+            this.showModalWarning = false
+            this.showModalSuccessWithdrawal = true
+          })
+          .catch(e => {
+            var errorMsg = e.message;
+            console.log(errorMsg);
+            this.errorPerson = errorMsg;
+          })
       },
       displayDate: function(d) {
         return moment(d).format("MMM Do, YYYY")
