@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/circle.css">
   </head>
 
   <body>
@@ -71,8 +72,17 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="card border-inverse mb-3">
-              <div class="card-body">
-                <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">Progress</h3>
+              <h3 class="card-title align-items-center d-flex justify-content-center" style="margin-top:10px; margin-bottom:20px;">Progress</h3>
+              <div class="card-body align-items-center d-flex justify-content-center">
+
+                <div class="c100 p50 big green">
+                    <span>50%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+
               </div>
             </div>
           </div>
