@@ -44,7 +44,7 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-12">
-            <h2>{{ enrollmentName }}</h2>
+            <h1>{{ enrollmentName }}</h1>
           </div>
         </div>
       </div>
@@ -139,21 +139,14 @@
             <div class="col-sm-6">
               <div class="card border-inverse mb-3">
                 <div class="card-body">
-                  <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">
+                  <h3 class="card-title" style="margin-top:10px; margin-bottom:30px;">
                     Course Information
                   </h3>
-                  <form class="form-inline" action="/action_page.php">
-                    <h4>Course Name:</h4>
-                    <h4 style="margin-left: 20px;">Surgery Practice 1</h4>
-                  </form><br>
-                  <form class="form-inline" action="/action_page.php">
-                    <h4>Course ID:</h4>
-                    <h4 style="margin-left: 20px;">MDSP 300</h4>
-                  </form><br>
-                  <form class="form-inline" action="/action_page.php">
-                    <h4>Course Offerting Term:</h4>
-                    <h4 style="margin-left: 20px;">Spring 3019</h4>
-                  </form><br>
+                  <h4 style="color:gray"><em>Course ID</em></h4>
+                  <h4><b>{{courseID}}</b></h4>
+                  <br>
+                  <h4 style="color:gray"><em>Course Offering</em></h4>
+                  <h4><b>{{courseOffering}}</b></h4>
                 </div>
               </div>
             </div>
@@ -161,21 +154,17 @@
             <div class="col-sm-6">
               <div class="card border-inverse mb-3">
                 <div class="card-body">
-                  <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">
+                  <h3 class="card-title" style="margin-top:10px; margin-bottom:30px;">
                     Employer Information
                   </h3>
-                  <form class="form-inline" action="/action_page.php">
-                    <h4>Company Name:</h4>
-                    <h4 style="margin-left: 20px;">Mars Mission 1709</h4>
-                  </form><br>
-                  <form class="form-inline" action="/action_page.php">
-                    <h4>Emloyer E-mail:</h4>
-                    <h4 style="margin-left: 20px;">mm-1709!mail</h4>
-                  </form><br>
-                  <form class="form-inline" action="/action_page.php">
-                    <h4>Company Address:</h4>
-                    <h4 style="margin-left: 20px;">@9906, st-Star88, Milkway3, Earth98</h4>
-                  </form><br>
+                  <h4 style="color:gray"><em>Company Name</em></h4>
+                  <h4><b>{{employerInfo.name}}</b></h4>
+                  <br>
+                  <h4 style="color:gray"><em>Company Address</em></h4>
+                  <h4><b>{{employerInfo.address}}</b></h4>
+                  <br>
+                  <h4 style="color:gray"><em>Employer Email Address</em></h4>
+                  <h4><b>{{employerInfo.email}}</b></h4>
                 </div>
               </div>
             </div>
@@ -224,14 +213,15 @@
     margin-top: 35px;
   }
 
-  #course-title h2 {
+  #course-title h1 {
     text-align: left;
     margin-top: 30px;
-    margin-bottom: 15px;
+    margin-bottom: 40px;
   }
 
-  nav {
-    margin-top: 15px;
+  #nav-bar {
+    margin-top: 25px;
+    margin-bottom: 40px;
   }
 
   /* Tab transition animations */
@@ -331,7 +321,10 @@
         },
         courseOffering: {},
         tasks: [],
-        enrollmentName: null
+        enrollmentName: null,
+        courseID: null,
+        courseOffering: null,
+        employerInfo: null
       }
     },
     created() {
@@ -361,6 +354,8 @@
           displayName += '20' + term.slice(1) + ' - ' + courseCode
 
           this.enrollmentName = displayName
+          this.courseID = displayName.split('-').pop().trim()
+          this.courseOffering = displayName.split('-').shift().trim()
         })
         .catch(e => {
           var errorMsg = e.message
@@ -376,15 +371,31 @@
           console.log(errorMsg);
           this.errorPerson = errorMsg;
         })
+      AXIOS.get(`/studentEnrollments/` + this.$route.params.id + `/studentEmployer`)
+        .then(response => {
+          var employer = response.data;
+          this.employerInfo = {
+            name: employer.name,
+            address: employer.address,
+            email: employer._links.self.href.split('/').pop()
+          }
+        })
+        .catch(e => {
+          var errorMsg = e.message;
+          console.log(errorMsg);
+          this.errorPerson = errorMsg;
+        })
 
     },
     methods: {
       goToTask: function(task) {
+        var enrollmentID = this.enrollment._links.self.href.split('/').pop()
         var taskID = task._links.self.href.split('/').pop()
         console.log(taskID)
         this.$router.push({
           name: 'TaskView',
           params: {
+            'enrollmentID': enrollmentID,
             id: taskID
           }
         })

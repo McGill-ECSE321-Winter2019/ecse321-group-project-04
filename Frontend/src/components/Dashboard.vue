@@ -38,6 +38,17 @@
       </div>
     </div>
 
+    <div class="container-fluid" id="title">
+      <div class="container text-center">
+        <div class="row">
+          <div class="col-sm-12">
+            <h1>Dashboard</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
     <div class="container-fluid" id="nav-bar">
       <div class="container text-center">
         <div class="row">
@@ -45,13 +56,13 @@
             <ul class="nav nav-tabs">
               <li v-for="tab in tabs" :class="selectedTab == tab ? 'active' : ''" @click="selectedTab = tab">
                 <a>
-                  {{tab}}
+                  <font size="4">{{ tab }}</font>
                 </a>
               </li>
             </ul>
           </div>
           <ul class="nav navbar-nav navbar-right">
-            <li><button @click="goToAcceptanceForm" type="button" class="btn btn-success" href="#">Register Course</button></li>
+            <li><button @click="goToAcceptanceForm" type="button" class="btn btn-success" href="#"><font size="4">Register Course</font></button></li>
           </ul>
         </div>
       </div>
@@ -110,9 +121,15 @@
     min-width: 50%;
   }
 
+  #title h1 {
+    text-align: left;
+    margin-top: 30px;
+    margin-bottom: 0px;
+  }
+
   #nav-bar {
     margin-top: 25px;
-    margin-bottom: 25px;
+    margin-bottom: 40px;
   }
 
   #course-list .panel-body {
@@ -131,8 +148,7 @@
   }
 
   .slide-fade-enter,
-  .slide-fade-leave-to
-    {
+  .slide-fade-leave-to {
     transform: translateX(10px);
     opacity: 0;
   }

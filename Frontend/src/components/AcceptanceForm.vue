@@ -396,7 +396,7 @@
     methods: {
       alert: function() {
         var txt;
-        var click = confirm("Do you want to cancel the regeristraton?");
+        var click = confirm("Do you want to cancel the registration?");
         if (click == true) {
           this.$router.push({
             name: 'Dashboard',
