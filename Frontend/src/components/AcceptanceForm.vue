@@ -242,7 +242,7 @@
                     </button>
                   </div>
                   <div class="col-sm-6 text-center">
-                    <button @click="submitForm"ype="button" class="btn btn-outline-primary">
+                    <button @click="submitForm" ype="button" class="btn btn-outline-primary">
                       <font size="4">Submit</b></font>
                     </button>
                   </div>
@@ -429,7 +429,7 @@
 
     data() {
       return {
-        employer : null
+        employer: null
       }
     },
     methods: {
@@ -445,7 +445,7 @@
           })
         }
       },
-      submitForm:  function() {
+      submitForm: function() {
 
         var click = confirm("Do you want to register for this course?");
         if (click == true) {
@@ -462,7 +462,7 @@
           var province = document.getElementById("Province").value;
           var postalCode = document.getElementById("Postal-Code").value;
           var country = document.getElementById("Country").value;
-          var address = addressline1 + " " + addressline2 + ", " + city + ", " + province + " "+ postalCode + ", " + country
+          var address = addressline1 + " " + addressline2 + ", " + city + ", " + province + " " + postalCode + ", " + country
 
           // Get the course details
           var courseID = document.getElementById("CourseID").value
@@ -471,16 +471,16 @@
           // Get the offering Details
           var active = true; //default for new course
           var term = null;
-          var year = document.getElementById("Start").value.substring(0,4)
-          var yearID = document.getElementById("Start").value.substring(2,4);
-          if(document.getElementById("Fall").checked){
+          var year = document.getElementById("Start").value.substring(0, 4)
+          var yearID = document.getElementById("Start").value.substring(2, 4);
+          if (document.getElementById("Fall").checked) {
             term = "FALL";
-          }else if(document.getElementById("Winter").checked){
+          } else if (document.getElementById("Winter").checked) {
             term = "WINTER";
-          }else if(document.getElementById("Summer").checked){
+          } else if (document.getElementById("Summer").checked) {
             term = "SUMMER";
           }
-          if(term!=null)
+          if (term != null)
             var offeringID = courseID + "-" + term.charAt() + yearID;
 
           // Get the Enrollment Details
@@ -493,48 +493,48 @@
           var coopAcceptanceForm = "www.urlforthisform.com" //Just a sample for now
 
           //Create the employer, course and offering (Won't be created if already in DB)
-          AXIOS.post(`/employer/`,{
-            "name" : companyName,
-            "email" : employerEmail,
-            "address" : address
+          AXIOS.post(`/employer/`, {
+            "name": companyName,
+            "email": employerEmail,
+            "address": address
           })
 
-          AXIOS.post(`/coopCourse/`,{
-            "courseCode" : courseID,
-            "coopTerm" : coopTerm
-          }).then(response => {
-            AXIOS.post(`/coopCourseOffering?courseCode=` + courseID,{
-              "year" : year,
-              "term" : term,
-              "active": active
+          AXIOS.post(`/coopCourse/`, {
+              "courseCode": courseID,
+              "coopTerm": coopTerm
             }).then(response => {
-               AXIOS.post(`studentEnrollment?courseOfferingID=` + offeringID + `&studentID=` + studentID + `&employerEmail=` + employerEmail + `&coopAcceptanceForm=` + coopAcceptanceForm + `&employerContract=` + employerContractURL, {
-                "active": active,
-                "status": status,
-                "startDate" : startDate,
-                "endDate" : endDate,
-                "workPermit" : workPermit,
-                "jobID" : jobID
-              }).then(response => {
+              AXIOS.post(`/coopCourseOffering?courseCode=` + courseID, {
+                  "year": year,
+                  "term": term,
+                  "active": active
+                }).then(response => {
+                  AXIOS.post(`studentEnrollment?courseOfferingID=` + offeringID + `&studentID=` + studentID + `&employerEmail=` + employerEmail + `&coopAcceptanceForm=` + coopAcceptanceForm + `&employerContract=` + employerContractURL, {
+                      "active": active,
+                      "status": status,
+                      "startDate": startDate,
+                      "endDate": endDate,
+                      "workPermit": workPermit,
+                      "jobID": jobID
+                    }).then(response => {
 
-              })
-              .catch(e => {
+                    })
+                    .catch(e => {
+                      var errorMsg = e.message
+                      console.log(errorMsg)
+                      this.error = errorMsg
+                    })
+                })
+                .catch(e => {
+                  var errorMsg = e.message
+                  console.log(errorMsg)
+                  this.error = errorMsg
+                })
+            })
+            .catch(e => {
               var errorMsg = e.message
               console.log(errorMsg)
               this.error = errorMsg
-              })
             })
-            .catch(e => {
-            var errorMsg = e.message
-            console.log(errorMsg)
-            this.error = errorMsg
-            })
-          })
-          .catch(e => {
-          var errorMsg = e.message
-          console.log(errorMsg)
-          this.error = errorMsg
-          })
 
           this.$router.push({
             name: 'Dashboard',
