@@ -15,32 +15,21 @@
     <div class="container-fluid" id="top-container">
       <div class="container text-center">
         <div class="row">
-          <div class="col-sm-8">
+          <div class="col-sm-6">
             <div class="container  text-left">
-              <div class="row">
-                <div class="col-sm-3">
-                  <div class="container  text-left">
-                    <div @click="goToDashboard">
-                      <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-9">
-                </div>
+              <div @click="goToDashboard" style="display: inline-block;">
+                <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
               </div>
             </div>
           </div>
-          <div class="col-sm-4">
-            <br><br>
+          <div class="col-sm-6">
             <div class="row">
-              <div class="col-sm-6">
-                <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but">
+              <div class="col-sm-12">
+                <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but" style="min-width: 100px; margin-right: 0px; margin-top: 35px">
                   <span class="glyphicon glyphicon-user"></span>
                   Account
                 </button>
-              </div>
-              <div class="col-sm-6">
-                <button type="button" class="btn btn-danger" @click="goToLogin" id="Logout-but">
+                <button type="button" class="btn btn-danger" @click="goToLogin" id="Logout-but" style="min-width: 100px; margin-left: 5px; margin-top: 35px">
                   Logout
                 </button>
               </div>
@@ -54,9 +43,7 @@
       <div class="container text-center">
         <div class="row">
           <div class="col-sm-12">
-            <!-- The course name here on line 36 has to be changed to the real one that link to the dashboard -->
-
-            <h2>Winter 2019 - FACC 201</h2>
+            <h2>{{ enrollmentName }}</h2>
           </div>
         </div>
       </div>
@@ -79,125 +66,115 @@
     </div>
     <br>
 
-    <div v-if="selectedTab === 'Overview'" class="container" id="overview-container">
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="card border-inverse mb-3">
-            <div class="card-body">
-              <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">Progress</h3>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-6">
-          <div class="card border-inverse mb-3">
-            <div class="card-body">
-              <h3 class="card-title" style="margin-top:10px; margin-bottom:30px;">Upcoming Deadlines</h3>
-              <h4><a href="#">FACC 201 - Term Report</a></h4>
-              <h4>Due Tomorrow</h4>
-              <hr>
-              <h4><a href="#">FACC 202 - Employer Evaluation Report</a></h4>
-              <h4>Due In 3 Days</h4>
-              <hr>
-              <h4><a href="#">FACC 202 - Term Report</a></h4>
-              <h4>Due In 5 Days</h4>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div v-if="selectedTab === 'Tasks'" class="container">
-      <table class="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th scope="col" style="text-align:center; vertical-align:middle">
-              <h4>Task</h4>
-            </th>
-            <th scope="col" style="text-align:center; vertical-align:middle">
-              <h4>Completion Status</h4>
-            </th>
-            <th scope="col" style="text-align:center; vertical-align:middle">
-              <h4>Due Date</h4>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="task in tasks">
-            <td>
-              <h4><a href="#" @click="goToTask(task)">{{task.name}}</a></h4>
-              <h5 style="color:gray">{{task.description}}</h5>
-            </td>
-            <td style="text-align:center; vertical-align:middle">
-              <h5 :style="task.taskStatus == 'COMPLETED' ? 'color:green' : 'color:'">{{taskStatusDisplay[task.taskStatus]}}</h5>
-            </td>
-            <td style="text-align:center; vertical-align:middle">
-              {{ displayDate(task.dueDate) }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div v-if="selectedTab === 'Information'" class="container">
-      <div class="container">
+    <transition name="slide-fade" mode="out-in" appear>
+      <div v-if="selectedTab === 'Overview'" key="overview" class="container" id="overview-container">
         <div class="row">
           <div class="col-sm-6">
             <div class="card border-inverse mb-3">
               <div class="card-body">
-                <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">
-                  Course Information
-                </h3>
-                <hr><br>
-                <form class="form-inline" action="/action_page.php">
-                  <h4>Course Name:</h4>
-                  <h4 style="margin-left: 20px;">Surgery Practice 1</h4>
-                </form><br>
-                <form class="form-inline" action="/action_page.php">
-                  <h4>Course ID:</h4>
-                  <h4 style="margin-left: 20px;">MDSP 300</h4>
-                </form><br>
-                <form class="form-inline" action="/action_page.php">
-                  <h4>Course Offerting Term:</h4>
-                  <h4 style="margin-left: 20px;">Spring 3019</h4>
-                </form><br>
+                <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">Progress</h3>
               </div>
             </div>
           </div>
-
           <div class="col-sm-6">
             <div class="card border-inverse mb-3">
               <div class="card-body">
-                <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">
-                  Employer Information
-                </h3>
-                <hr><br>
-                <form class="form-inline" action="/action_page.php">
-                  <h4>Company Name:</h4>
-                  <h4 style="margin-left: 20px;">Mars Mission 1709</h4>
-                </form><br>
-                <form class="form-inline" action="/action_page.php">
-                  <h4>Emloyer E-mail:</h4>
-                  <h4 style="margin-left: 20px;">mm-1709!mail</h4>
-                </form><br>
-                <form class="form-inline" action="/action_page.php">
-                  <h4>Company Address:</h4>
-                  <h4 style="margin-left: 20px;">@9906, st-Star88, Milkway3, Earth98</h4>
-                </form><br>
+                <h3 class="card-title" style="margin-top:10px; margin-bottom:30px;">Upcoming Deadlines</h3>
+                <div v-for="task in upcomingDeadlines">
+                  <h4><a href="#" @click="goToTask(task.task)">{{task.task.name}}</a></h4>
+                  <h4>{{task.dueTime}}</h4>
+                  <hr>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div><br>
-    </div>
-    </div><br>
 
-    </div>
+      <div v-if="selectedTab === 'Tasks'" key="tasks" class="container">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th scope="col" style="text-align:center; vertical-align:middle">
+                <h4>Task</h4>
+              </th>
+              <th scope="col" style="text-align:center; vertical-align:middle">
+                <h4>Completion Status</h4>
+              </th>
+              <th scope="col" style="text-align:center; vertical-align:middle">
+                <h4>Due Date</h4>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="task in pTasks">
+              <td>
+                <h4><a href="#" @click="goToTask(task)">{{task.name}}</a></h4>
+                <h5 style="color:gray">{{task.description}}</h5>
+              </td>
+              <td style="text-align:center; vertical-align:middle">
+                <h5 :style="task.taskStatus == 'COMPLETED' ? 'color:green' : 'color:'">{{taskStatusDisplay[task.taskStatus]}}</h5>
+              </td>
+              <td style="text-align:center; vertical-align:middle">
+                {{ displayDate(task.dueDate) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-    <br>
-    <br>
+      <div v-if="selectedTab === 'Information'" class="container">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="card border-inverse mb-3">
+                <div class="card-body">
+                  <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">
+                    Course Information
+                  </h3>
+                  <form class="form-inline" action="/action_page.php">
+                    <h4>Course Name:</h4>
+                    <h4 style="margin-left: 20px;">Surgery Practice 1</h4>
+                  </form><br>
+                  <form class="form-inline" action="/action_page.php">
+                    <h4>Course ID:</h4>
+                    <h4 style="margin-left: 20px;">MDSP 300</h4>
+                  </form><br>
+                  <form class="form-inline" action="/action_page.php">
+                    <h4>Course Offerting Term:</h4>
+                    <h4 style="margin-left: 20px;">Spring 3019</h4>
+                  </form><br>
+                </div>
+              </div>
+            </div>
 
+            <div class="col-sm-6">
+              <div class="card border-inverse mb-3">
+                <div class="card-body">
+                  <h3 class="card-title" style="margin-top:10px; margin-bottom:20px;">
+                    Employer Information
+                  </h3>
+                  <form class="form-inline" action="/action_page.php">
+                    <h4>Company Name:</h4>
+                    <h4 style="margin-left: 20px;">Mars Mission 1709</h4>
+                  </form><br>
+                  <form class="form-inline" action="/action_page.php">
+                    <h4>Emloyer E-mail:</h4>
+                    <h4 style="margin-left: 20px;">mm-1709!mail</h4>
+                  </form><br>
+                  <form class="form-inline" action="/action_page.php">
+                    <h4>Company Address:</h4>
+                    <h4 style="margin-left: 20px;">@9906, st-Star88, Milkway3, Earth98</h4>
+                  </form><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><br>
+
+      </div><br>
+    </transition>
 
   </body>
 
@@ -246,12 +223,28 @@
   nav {
     margin-top: 15px;
   }
+
+  /* Tab transition animations */
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+
+  .slide-fade-leave-active {
+    transition: all .3s ease;
+  }
+
+  .slide-fade-enter,
+  .slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+  }
 </style>
 
 <script>
   import Router from 'vue-router'
   import axios from 'axios'
   var config = require('../../config')
+  var moment = require('moment')
 
   /* Date handling */
   var months = {
@@ -270,51 +263,54 @@
   }
 
   function parseDate(dateString) {
-    var vals = dateString.split('-')
-    return {
+    var valsString = dateString.split('-');
+    var vals = valsString.map(function(n) {
+      return parseInt(n, 10);
+    })
+    var ret = {
       year: vals[0],
       month: vals[1],
       day: vals[2]
-    }
+    };
+    return ret;
   }
 
   function compareDates(d1, d2) {
     // Compare the years
     if (d1.year > d2.year) {
-      return 1
+      return 1;
     } else if (d1.year < d2.year) {
-      return -1
+      return -1;
     }
 
     // If equal compare the months
     if (d1.month > d2.month) {
-      return 1
+      return 1;
     } else if (d1.month < d2.month) {
-      return -1
+      return -1;
     }
 
     // If equal compare the days
     if (d1.day > d2.day) {
-      return 1
+      return 1;
     } else if (d1.day < d2.day) {
-      return -1
+      return -1;
     }
-
     // Else they are the same
-    return 0
+    return 0;
   }
 
   /* AXIOS object configuration */
   var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-  var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+  var backendUrl = 'http://' + config.dev.backendHost // + ':' + config.dev.backendPort
 
   var AXIOS = axios.create({
     baseURL: backendUrl
   })
+
   export default {
     name: 'courseinfo',
     data() {
-      // TODO: Replace course offering and tasks with real REST calls
       return {
         tabs: ['Overview', 'Tasks', 'Information'],
         selectedTab: 'Overview',
@@ -323,123 +319,58 @@
           INCOMPLETE: 'Incomplete',
           LATE_SUBMITTED: 'Completed Late'
         },
-        courseOffering: {
-          "term": "WINTER",
-          "year": 2019,
-          "active": true,
-          "_links": {
-            "self": {
-              "href": "http://cooperator-backend-0000.herokuapp.com/coopCourseOfferings/ECSE-321-W19"
-            },
-            "coopCourseOffering": {
-              "href": "http://cooperator-backend-0000.herokuapp.com/coopCourseOfferings/ECSE-321-W19"
-            },
-            "studentEnrollments": {
-              "href": "http://cooperator-backend-0000.herokuapp.com/coopCourseOfferings/ECSE-321-W19/studentEnrollments"
-            },
-            "coopCourse": {
-              "href": "http://cooperator-backend-0000.herokuapp.com/coopCourseOfferings/ECSE-321-W19/coopCourse"
-            }
-          }
-        },
-        tasks: [{
-            "taskStatus": "COMPLETED",
-            "description": "Submit the CO-OP position acceptance form.",
-            "dueDate": "2019-03-21",
-            "name": "Report CO-OP Position Acceptance",
-            "_links": {
-              "self": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11830"
-              },
-              "task": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11830"
-              },
-              "documents": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11830/documents"
-              }
-            }
-          },
-          {
-            "taskStatus": "INCOMPLETE",
-            "description": "Submit the final evaluation report for the internship experience.",
-            "dueDate": "2019-07-21",
-            "name": "Internship Evaluation Report",
-            "_links": {
-              "self": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11836"
-              },
-              "task": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11836"
-              },
-              "documents": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11836/documents"
-              }
-            }
-          },
-          {
-            "taskStatus": "INCOMPLETE",
-            "description": "Submit the term technical report about the internship experience.",
-            "dueDate": "2019-07-21",
-            "name": "Technical Experience Report",
-            "_links": {
-              "self": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11835"
-              },
-              "task": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11835"
-              },
-              "documents": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11835/documents"
-              }
-            }
-          },
-          {
-            "taskStatus": "INCOMPLETE",
-            "description": "Submit an initial report of the tasks and workload of the internship.",
-            "dueDate": "2019-04-04",
-            "name": "Initial Workload Report",
-            "_links": {
-              "self": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11834"
-              },
-              "task": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11834"
-              },
-              "documents": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11834/documents"
-              }
-            }
-          },
-          {
-            "taskStatus": "COMPLETED",
-            "description": "Submit the employer contract document.",
-            "dueDate": "2019-03-21",
-            "name": "Upload Employer Contract",
-            "_links": {
-              "self": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11832"
-              },
-              "task": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11832"
-              },
-              "documents": {
-                "href": "http://cooperator-backend-0000.herokuapp.com/tasks/11832/documents"
-              }
-            }
-          }
-        ]
+        courseOffering: {},
+        tasks: [],
+        enrollmentName: null
       }
     },
     created() {
-      // Convert all the dates to date objects
-      for (var task in this.tasks) {
-        task.dueDate = parseDate(task.dueDate)
-      }
+      AXIOS.get(`/studentEnrollments/` + this.$route.params.id)
+        .then(response => {
+          this.enrollment = response.data
+
+          // Get the enrollment name
+          var enrollmentCode = this.enrollment._links.self.href.split('/')
+          enrollmentCode = enrollmentCode[enrollmentCode.length - 1]
+          var offeringCode = enrollmentCode.split('-')
+          offeringCode.shift()
+          var term = offeringCode.pop()
+          var courseCode = offeringCode.join('')
+          var displayName = null
+          switch (term[0]) {
+            case 'W':
+              displayName = 'Winter '
+              break;
+            case 'F':
+              displayName = 'Fall '
+              break;
+            case 'S':
+              displayName = 'Summer '
+              break;
+          }
+          displayName += '20' + term.slice(1) + ' - ' + courseCode
+
+          this.enrollmentName = displayName
+        })
+        .catch(e => {
+          var errorMsg = e.message
+          console.log(errorMsg)
+          this.errorPerson = errorMsg
+        })
+      AXIOS.get(`/studentEnrollments/` + this.$route.params.id + `/courseTasks`)
+        .then(response => {
+          this.tasks = response.data._embedded.tasks;
+        })
+        .catch(e => {
+          var errorMsg = e.message;
+          console.log(errorMsg);
+          this.errorPerson = errorMsg;
+        })
+
     },
     methods: {
       goToTask: function(task) {
-        var taskURL = task._links.task.href.split('/')
-        var taskID = taskURL[taskURL.length - 1]
+        var taskID = task._links.self.href.split('/').pop()
         console.log(taskID)
         this.$router.push({
           name: 'TaskView',
@@ -448,20 +379,21 @@
           }
         })
       },
-      //not working here, i am not sure why, the id thing
       goToAccount: function() {
+        var studentID = this.enrollment._links.self.href.split('/').pop().split('-').shift()
         this.$router.push({
           name: 'StudentInformation',
           params: {
-            id: this.$route.params.id
+            id: studentID
           }
         })
       },
       goToDashboard: function() {
+        var studentID = this.enrollment._links.self.href.split('/').pop().split('-').shift()
         this.$router.push({
           name: 'Dashboard',
           params: {
-            id: this.$route.params.id
+            id: studentID
           }
         })
       },
@@ -493,6 +425,51 @@
         display += ', ' + d.year
         return display
       }
+    },
+    computed: {
+      pTasks: function() {
+        var pt = []
+        for (var i in this.tasks) {
+          pt.push(this.tasks[i])
+        }
+        pt.sort(function(a, b) {
+          return compareDates(parseDate(a.dueDate), parseDate(b.dueDate))
+        })
+        return pt
+      },
+      upcomingDeadlines: function(pTasks) {
+        var pTasks = []
+        for (var i in this.tasks) {
+          pTasks.push(this.tasks[i])
+        }
+        pTasks.sort(function(a, b) {
+          return compareDates(parseDate(a.dueDate), parseDate(b.dueDate))
+        })
+
+        var ret = []
+        var currDate = moment()
+        for (var i in pTasks) {
+          var dd = moment(pTasks[i].dueDate)
+          var timeDiff = Math.floor(moment.duration(dd.diff(currDate)).asDays())
+          if (timeDiff < 1) {
+            ret.push({
+              task: pTasks[i],
+              dueTime: 'Due Today'
+            })
+          } else if (timeDiff < 2) {
+            ret.push({
+              task: pTasks[i],
+              dueTime: 'Due Tomorrow'
+            })
+          } else if (timeDiff <= 10) {
+            ret.push({
+              task: pTasks[i],
+              dueTime: 'Due In ' + timeDiff + ' Days'
+            })
+          }
+        }
+        return ret
+      },
     }
   }
 </script>
