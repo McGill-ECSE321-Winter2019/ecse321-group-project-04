@@ -63,7 +63,7 @@ co-op acceptance, submit required documents and track their co-op program progre
 |-----------------------|-----------|----------------------------------------------------------------|
 |**Remi Carriere**      |     19    |Backend Developer Lead / Supporting Frontend Developper (CTO)   |
 |**Naxin Fang**         |     16    |Supporting Frontend Developper                                  |
-|**Boyang Ma**          |     24    |Frontend Developer Lead                                         |
+|**Boyang Ma**          |     24    |Frontend Developer Second                                       |
 |**Angel Ortiz Regules**|     24    |Frontend Developer Lead                                         |
 |**Marie Vu**           |     19    |Supporting Frontend Developper                                  |
 
