@@ -118,6 +118,45 @@ public class StudentEnrollmentRestIT {
     assertTrue(result.contains("/studentEnrollments/260893874-EBUC1000-S19"));
   }
 
+  @SuppressWarnings("deprecation")
+  @Test
+  public void updateStudentEnrollment() {
+    StudentEnrollment studentEnrollment = new StudentEnrollment();
+    studentEnrollment.setActive(true);
+    studentEnrollment.setStatus(CourseStatus.ONGOING);
+    studentEnrollment.setStartDate(new Date(2018, 05, 15));
+    studentEnrollment.setEndDate(new Date(2018, 11, 15));
+    studentEnrollment.setWorkPermit(true);
+    studentEnrollment.setJobID("ABC123456");
+
+
+    HttpEntity<StudentEnrollment> entity =
+        new HttpEntity<StudentEnrollment>(studentEnrollment, headers);
+
+    ResponseEntity<String> response = restTemplate.exchange(
+        createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
+            + "&studentID=260893874&employerEmail=tom@email.com"
+            + "&coopAcceptanceForm=url1&employerContract=url2"),
+        HttpMethod.POST, entity, String.class);
+
+    // Check Status
+    assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    // Check URI in body
+    String result = response.getBody().toString();
+    assertTrue(result.contains("/studentEnrollments/260893874-EBUC1000-S19"));
+
+    // Update the enrollment
+    response = restTemplate.exchange(createURLWithPort(
+        "/studentEnrollment?enrollmentID=260893874-EBUC1000-S19&active=false&status=WITHDRAWED"),
+        HttpMethod.PUT, entity, String.class);
+    // Check Status
+    assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+    // Check URI in body
+    result = response.getBody().toString();
+    assertTrue(result.contains("/studentEnrollments/260893874-EBUC1000-S19"));
+    
+  }
+
   @Test
   public void createNullStatusStudentEnrollment() {
     StudentEnrollment studentEnrollment = new StudentEnrollment();
@@ -160,12 +199,12 @@ public class StudentEnrollmentRestIT {
             + "&studentID=260893874&employerEmail=tom@email.com"
             + "&coopAcceptanceForm=url1&employerContract=url2"),
         HttpMethod.POST, entity, String.class);
-    
+
     // Check Status
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
     String result = response.getBody().toString();
     assertTrue(result.contains("/studentEnrollments/260893874-EBUC1000-S19"));
-    
+
     // Create Duplicate
     response = restTemplate.exchange(
         createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
@@ -215,7 +254,7 @@ public class StudentEnrollmentRestIT {
     courseOffering.setYear(2019);
     courseOffering.setTerm(Term.SUMMER);
     courseOffering.setActive(true);
-    
+
     HttpEntity<CoopCourseOffering> entity =
         new HttpEntity<CoopCourseOffering>(courseOffering, headers);
 

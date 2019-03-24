@@ -11,32 +11,6 @@
 
   <body>
 
-    <div class="container-fluid" id="top-container">
-      <div class="container text-center">
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="container  text-left">
-              <div @click="goToDashboard" style="display: inline-block;">
-                <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="row">
-              <div class="col-sm-12">
-                <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but" style="min-width: 100px; margin-right: 0px; margin-top: 35px">
-                  <span class="glyphicon glyphicon-user"></span>
-                  Account
-                </button>
-                <button type="button" class="btn btn-danger" @click="goToLogin" id="Logout-but" style="min-width: 100px; margin-left: 5px; margin-top: 35px">
-                  Logout
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <div class="container-fluid" id="nav-bar">
       <div class="container text-center">

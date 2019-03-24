@@ -197,6 +197,38 @@ public class TestStudentEnrollment {
   }
 
   @Test
+  public void testUpdateStudentEnrollment() {
+    CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
+    CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, Term.FALL, true, c);
+    Student s = service.createStudent(FIRST_NAME, LAST_NAME, MCGILL_ID, MCGILL_EMAIL);
+    Employer emp = service.createEmployer(NAME, EMAIL, ADDRESS);
+
+    try {
+      service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, D1_URL, D2_URL,
+          START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
+    } catch (InvalidParameterException e) {
+      fail();
+    }
+
+    StudentEnrollment se = service.getStudentEnrollment(ENROLLMENT_ID);
+
+    // Check attributes
+    assertEquals(true, se.getActive());
+    assertEquals(ENROLLMENT_ID, se.getEnrollmentID());
+    assertEquals(CourseStatus.PASSED, se.getStatus());
+    assertEquals(START_DATE, se.getStartDate());
+    assertEquals(END_DATE, se.getEndDate());
+    assertEquals(WORK_PERMIT, se.getWorkPermit());
+    assertEquals(JOB_ID, se.getJobID());
+    
+    se = service.updateStudentEnrollment(ENROLLMENT_ID, false, CourseStatus.WITHDRAWED);
+    // check if updated
+    assertEquals(false, se.getActive());
+    assertEquals(ENROLLMENT_ID, se.getEnrollmentID());
+    assertEquals(CourseStatus.WITHDRAWED, se.getStatus());
+  }
+
+  @Test
   public void testCreateStudentEnrollmentWithObject() {
     CoopCourse c = service.createCoopCourse(COURSE_CODE, COURSE_TERM);
     CoopCourseOffering cco = service.createCoopCourseOffering(YEAR, Term.FALL, true, c);

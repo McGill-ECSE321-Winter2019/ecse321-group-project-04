@@ -27,7 +27,6 @@ import ca.mcgill.ecse321.cooperator.model.Task;
 import ca.mcgill.ecse321.cooperator.model.TaskStatus;
 import ca.mcgill.ecse321.cooperator.model.Term;
 import ca.mcgill.ecse321.cooperator.requesthandler.InvalidParameterException;
-
 import java.util.Set;
 import java.util.HashSet;
 
@@ -106,13 +105,13 @@ public class CooperatorService {
    */
   @Transactional
   public Set<Student> getAllStudents() {
-      Iterable<Student> iterable = studentRepository.findAll();
-      Set<Student> res = new HashSet<Student>();
-      for (Student t : iterable) {
-          res.add(t);
-      }
-      return res;
-      //return toList(studentRepository.findAll());
+    Iterable<Student> iterable = studentRepository.findAll();
+    Set<Student> res = new HashSet<Student>();
+    for (Student t : iterable) {
+      res.add(t);
+    }
+    return res;
+    // return toList(studentRepository.findAll());
   }
 
   /**
@@ -461,6 +460,25 @@ public class CooperatorService {
         se.getWorkPermit(), se.getJobID());
     return savedSe;
   }
+/**
+ * Method that updates active and status for enrollment
+ * @param id
+ * @param active
+ * @param status
+ * @return
+ */
+  @Transactional
+  public StudentEnrollment updateStudentEnrollment(String id, Boolean active, CourseStatus status) {
+    if (active == null || status == null) {
+      throw new InvalidParameterException("Your student enrollment details are incomplete!");
+    }
+    StudentEnrollment se = getStudentEnrollment(id);
+
+    se.setActive(active);
+    se.setStatus(status);
+    studentEnrollmentRepository.save(se);
+    return se;
+  }
 
   /**
    * Method to create the initial tasks of a Student Enrollment.
@@ -555,11 +573,12 @@ public class CooperatorService {
       Employer e, CoopCourseOffering cco, String coopAcceptanceForm, String employerContract,
       Date startDate, Date endDate, Boolean workPermit, String jobID) {
     if (active == null || status == null || s == null || e == null || coopAcceptanceForm == null
-        || coopAcceptanceForm.trim().length() ==0 || employerContract == null
-        || employerContract.trim().length() ==0) {
+        || coopAcceptanceForm.trim().length() == 0 || employerContract == null
+        || employerContract.trim().length() == 0) {
       return true;
     }
-    if (startDate == null || endDate == null || workPermit == null || jobID == null || jobID.trim().length() == 0) {
+    if (startDate == null || endDate == null || workPermit == null || jobID == null
+        || jobID.trim().length() == 0) {
       return true;
     }
     return false;

@@ -53,7 +53,7 @@ public class TestStudentEnrollment {
   private TaskRepository taskRepository;
   @Autowired
   private DocumentRepository documentRepository;
-  
+
   @SuppressWarnings("deprecation")
   private static final Date START_DATE = new Date(2019, 05, 15);
   @SuppressWarnings("deprecation")
@@ -153,6 +153,37 @@ public class TestStudentEnrollment {
   }
 
   @Test
+  public void testUpdateStudentEnrollment() {
+    CoopCourse c = service.createCoopCourse("ECSE302", 1);
+    CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
+    Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
+    Employer emp = service.createEmployer("Facebook", "fb@email.com", "123 Sherbrooke");
+
+    try {
+      service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco, "test-url-1",
+          "test-url-2", START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
+    } catch (InvalidParameterException e) {
+      fail();
+    }
+
+    StudentEnrollment se = service.getStudentEnrollment("260654321-ECSE302-F19");
+
+    // Check attributes
+    assertEquals(true, se.getActive());
+    assertEquals("260654321-ECSE302-F19", se.getEnrollmentID());
+    assertEquals(CourseStatus.PASSED, se.getStatus());
+
+    // Update the enrollment
+    service.updateStudentEnrollment("260654321-ECSE302-F19", false, CourseStatus.WITHDRAWED );
+    se = service.getStudentEnrollment("260654321-ECSE302-F19");
+    
+    assertEquals(false, se.getActive());
+    assertEquals("260654321-ECSE302-F19", se.getEnrollmentID());
+    assertEquals(CourseStatus.WITHDRAWED, se.getStatus());
+
+  }
+
+  @Test
   public void testCreateStudentEnrollmentWithObject() {
     CoopCourse c = service.createCoopCourse("ECSE302", 1);
     CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
@@ -166,7 +197,7 @@ public class TestStudentEnrollment {
     param.setEndDate(END_DATE);
     param.setWorkPermit(WORK_PERMIT);
     param.setJobID(JOB_ID);
-    
+
     try {
       service.createStudentEnrollment(param, s, emp, cco, "test-url-1", "test-url-2");
     } catch (InvalidParameterException e) {
