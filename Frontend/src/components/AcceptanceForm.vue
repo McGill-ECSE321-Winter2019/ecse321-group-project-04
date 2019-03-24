@@ -68,7 +68,7 @@
                 <div class="coll-sm-6">
                   <form class="form-inline" action="/action_page.php">
                     <label for="courseid" class="mb-2 mr-sm-2">Course ID:</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="CourseID" placeholder="Enter Course ID" name="Job ID">
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="CourseID" placeholder="Enter Course ID" name="Course ID">
                   </form>
                 </div>
                 <br>
@@ -96,14 +96,14 @@
 
                 <div class="form-check-inline">
                   <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optradio" id="Fall">
+                    <input type="radio" class="form-check-input" name="optradio" id="Summer">
                     <h4 style="margin-left:5px">Winter</h4>
                   </label>
                 </div>
 
                 <div class="form-check-inline">
                   <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optradio" id="Fall">
+                    <input type="radio" class="form-check-input" name="optradio" id="Winter">
                     <h4 style="margin-left:5px">Summer</h4>
                   </label>
                 </div>
@@ -242,7 +242,7 @@
                     </button>
                   </div>
                   <div class="col-sm-6 text-center">
-                    <button type="button" class="btn btn-outline-primary">
+                    <button @click="submitForm"ype="button" class="btn btn-outline-primary">
                       <font size="4">Submit</b></font>
                     </button>
                   </div>
@@ -427,13 +427,114 @@
   export default {
 
     data() {
-      return {}
+      return {
+        employer : null
+      }
     },
     methods: {
       alert: function() {
         var txt;
         var click = confirm("Do you want to cancel the registration?");
         if (click == true) {
+          this.$router.push({
+            name: 'Dashboard',
+            params: {
+              id: this.$route.params.id
+            }
+          })
+        }
+      },
+      submitForm:  function() {
+
+        var click = confirm("Do you want to register for this course?");
+        if (click == true) {
+          //Get the Student Details
+          var studentID = this.$route.params.id;
+
+          //Get the Employer Details
+          var companyName = document.getElementById("Company-Name").value;
+          var employerEmail = document.getElementById("Employer-Email").value;
+          //Address
+          var addressline1 = document.getElementById("Address-Line-1").value;
+          var addressline2 = document.getElementById("Address-Line-2").value;
+          var city = document.getElementById("City").value;
+          var province = document.getElementById("Province").value;
+          var postalCode = document.getElementById("Postal-Code").value;
+          var country = document.getElementById("Country").value;
+          var address = addressline1 + " " + addressline2 + ", " + city + ", " + province + " "+ postalCode + ", " + country
+
+          // Get the course details
+          var courseID = document.getElementById("CourseID").value
+          var coopTerm = document.getElementById("CoopTerm").value
+
+          // Get the offering Details
+          var active = true; //default for new course
+          var term = null; 
+          var year = document.getElementById("Start").value.substring(0,4) 
+          var yearID = document.getElementById("Start").value.substring(2,4);
+          if(document.getElementById("Fall").checked){
+            term = "FALL";
+          }else if(document.getElementById("Winter").checked){
+            term = "WINTER";
+          }else if(document.getElementById("Summer").checked){
+            term = "SUMMER";
+          }
+          if(term!=null)
+            var offeringID = courseID + "-" + term.charAt() + yearID;
+
+          // Get the Enrollment Details
+          var jobID = document.getElementById("JobID").value;
+          var startDate = document.getElementById("Start").value;
+          var endDate = document.getElementById("End").value;
+          var workPermit = document.getElementById("W-Yes").checked;
+          var status = "ONGOING"; //default for new enrollment
+          var employerContractURL = document.getElementById("Employer-Contract").value;
+          var coopAcceptanceForm = "www.urlforthisform.com" //Just a sample for now
+
+          //Create the employer, course and offering (Won't be created if already in DB)
+          AXIOS.post(`/employer/`,{
+            "name" : companyName,
+            "email" : employerEmail,
+            "address" : address
+          })
+
+          AXIOS.post(`/coopCourse/`,{
+            "courseCode" : courseID,
+            "coopTerm" : coopTerm
+          }).then(response => {
+            AXIOS.post(`/coopCourseOffering?courseCode=` + courseID,{
+              "year" : year,
+              "term" : term,
+              "active": active
+            }).then(response => {
+               AXIOS.post(`studentEnrollment?courseOfferingID=` + offeringID + `&studentID=` + studentID + `&employerEmail=` + employerEmail + `&coopAcceptanceForm=` + coopAcceptanceForm + `&employerContract=` + employerContractURL, {
+                "active": active,
+                "status": status,
+                "startDate" : startDate,
+                "endDate" : endDate,
+                "workPermit" : workPermit,
+                "jobID" : jobID
+              }).then(response => {
+
+              })
+              .catch(e => {
+              var errorMsg = e.message
+              console.log(errorMsg)
+              this.error = errorMsg
+              })
+            })
+            .catch(e => {
+            var errorMsg = e.message
+            console.log(errorMsg)
+            this.error = errorMsg
+            })
+          })
+          .catch(e => {
+          var errorMsg = e.message
+          console.log(errorMsg)
+          this.error = errorMsg
+          })
+
           this.$router.push({
             name: 'Dashboard',
             params: {
