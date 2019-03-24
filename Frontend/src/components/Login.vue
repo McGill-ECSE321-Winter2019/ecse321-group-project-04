@@ -160,7 +160,7 @@
         } else {
           document.getElementById("usr").className = 'form-control form-control-lg is-invalid'
           console.log("b");
-          document.getElementById("demo").innerHTML = "Please Enter Correct Sudent ID";
+          document.getElementById("demo").innerHTML = "Please Enter Correct a Student ID";
           document.getElementById("demo").style.color = 'red'
         };
         //var result = checkInput(input).then(ret);

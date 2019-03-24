@@ -85,7 +85,7 @@
                 </div>
               </div>
               <form class="form-inline" action="/action_page.php">
-                <label for="acdemicterm2" class="mb-2 mr-sm-2">Acdemic Term:</label>
+                <label for="acdemicterm2" class="mb-2 mr-sm-2">Academic Term:</label>
 
                 <div class="form-check-inline">
                   <label class="form-check-label">
