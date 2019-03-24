@@ -497,31 +497,42 @@
             "email" : employerEmail,
             "address" : address
           })
+
           AXIOS.post(`/coopCourse/`,{
             "courseCode" : courseID,
             "coopTerm" : coopTerm
-          })
-          AXIOS.post(`/coopCourseOffering?courseCode=` + courseID,{
-            "year" : year,
-            "term" : term,
-            "active": active
-          })
-
-          // Register Student for Coop!
-          AXIOS.post(`studentEnrollment?courseOfferingID=` + offeringID + `&studentID=` + studentID + `&employerEmail=` + employerEmail + `&coopAcceptanceForm=` + coopAcceptanceForm + `&employerContract=` + employerContractURL, {
-              "active": active,
-              "status": status,
-              "startDate" : startDate,
-              "endDate" : endDate,
-              "workPermit" : workPermit,
-              "jobID" : jobID
           }).then(response => {
-          this.student = response.data
+            AXIOS.post(`/coopCourseOffering?courseCode=` + courseID,{
+              "year" : year,
+              "term" : term,
+              "active": active
+            }).then(response => {
+               AXIOS.post(`studentEnrollment?courseOfferingID=` + offeringID + `&studentID=` + studentID + `&employerEmail=` + employerEmail + `&coopAcceptanceForm=` + coopAcceptanceForm + `&employerContract=` + employerContractURL, {
+                "active": active,
+                "status": status,
+                "startDate" : startDate,
+                "endDate" : endDate,
+                "workPermit" : workPermit,
+                "jobID" : jobID
+              }).then(response => {
+
+              })
+              .catch(e => {
+              var errorMsg = e.message
+              console.log(errorMsg)
+              this.error = errorMsg
+              })
+            })
+            .catch(e => {
+            var errorMsg = e.message
+            console.log(errorMsg)
+            this.error = errorMsg
+            })
           })
           .catch(e => {
           var errorMsg = e.message
           console.log(errorMsg)
-          this.errorPerson = errorMsg
+          this.error = errorMsg
           })
 
           this.$router.push({
