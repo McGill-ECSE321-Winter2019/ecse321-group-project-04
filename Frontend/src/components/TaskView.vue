@@ -122,15 +122,23 @@
                     <th scope="col" style="text-align:center; vertical-align:middle">
                       <h4>Submission Date</h4>
                     </th>
+                    <th scope="col" style="text-align:center; vertical-align:middle">
+                      <h4>Submission Status</h4>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="s in submissionInfo">
                     <td style="text-align:center; vertical-align:middle">
-                      <h5>{{s.name}}</h5>
+                      <div @click="showDocInfo(s)">
+                        <h5><a href="#">{{s.name}}</a></h5>
+                      </div>
                     </td>
                     <td style="text-align:center; vertical-align:middle">
                       <h5>{{s.date}}</h5>
+                    </td>
+                    <td style="text-align:center; vertical-align:middle">
+                      <h5>{{s.status}}</h5>
                     </td>
                   </tr>
                 </tbody>
@@ -176,12 +184,10 @@
           </div>
         </div>
 
-      <!-- Modal -->
+      <!-- Success Modal -->
         <div v-if="showModalSuccess" key="success">
           <div class="modal-mask">
-            <div class="modal-wrapper" @click="showModal=false">
-
-
+            <div class="modal-wrapper" @click="showModalSuccess=false">
               <div class="modal-container" @click.stop>
                 <div class="modal-header">
                   <slot name="header">
@@ -199,7 +205,39 @@
                   </slot>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </transition>
 
+      <!-- URL Display Modal -->
+      <transition name="modal" mode="out-in">
+        <div v-if="showModalURL" key="urlModal">
+          <div class="modal-mask">
+            <div class="modal-wrapper" @click="showModalURL=false">
+              <div class="modal-container" @click.stop>
+                <div class="modal-header">
+                  <slot name="header">
+                    Uploaded Information
+                  </slot>
+                </div>
+                <div class="modal-body">
+                  <h4 style="color:gray"><em>Document Name</em></h4>
+                  <h4><b>{{displayDocName}}</b></h4>
+                  <br>
+                  <h4 style="color:gray"><em>Document URL</em></h4>
+                  <h4><b>{{displayURLName}}</b></h4>
+                  <br>
+                </div>
+                  <br>
+                <div style="text-align:center">
+                  <slot>
+                    <button class="btn btn-primary" style="min-width:120px" @click="showModalURL=false">
+                      <font size="3">Done</font>
+                    </button>
+                  </slot>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -370,6 +408,7 @@
       return {
         showModal: false,
         showModalSuccess: false,
+        showModalURL: false,
         tabs: ['Task Information', 'Submission History'],
         selectedTab: 'Task Information',
         task: null,
@@ -378,7 +417,9 @@
           COMPLETED: 'Completed',
           INCOMPLETE: 'Incomplete',
           LATE_COMPLETED: 'Late Completed'
-        }
+        },
+        displayDocName: null,
+        displayURLName: null
       }
     },
     created() {
@@ -429,11 +470,17 @@
       displayDate: function(date) {
         return moment(date).format("MMM Do, YYYY")
       },
+      showDocInfo: function(s) {
+        this.displayDocName = s.name
+        this.displayURLName = s.url
+        this.showModalURL = true
+      },
       submitDocument: function() {
         var valid = true;
         var inputName = document.getElementById('docName').value
         var inputURL = document.getElementById('docURL').value
 
+        // Check the inputs
         if (inputName === '' || inputName === null) {
           valid = false
           document.getElementById('nameMsg').innerHTML = 'Please Enter A Valid Document Name'
@@ -458,7 +505,7 @@
           document.getElementById("docURL").className = 'form-control form-control-lg'
         }
 
-        console.log(valid)
+        // Perform the POST request
         if (valid) {
           AXIOS.post(`/document?studentEnrollmentID=` + this.$route.params.enrollmentID + `&taskName=` + this.task.name, {
               "name": inputName,
@@ -492,10 +539,14 @@
       submissionInfo: function() {
         console.log(this.documents)
         var ret = []
+        var currDate = moment(this.task.dueDate)
         for (var i in this.documents) {
+          var submissionDate = moment(this.documents[i].submissionDate)
           ret.push({
             name: this.documents[i].name,
-            date: moment(this.documents[i].submissionDate).format('MMM Do, YYYY')
+            date: moment(this.documents[i].submissionDate).format('MMM Do, YYYY'),
+            status: moment.duration(currDate.diff(submissionDate)).asDays() >= 0 ? 'On Time' : 'Late',
+            url: this.documents[i].url
           })
         }
         return ret
