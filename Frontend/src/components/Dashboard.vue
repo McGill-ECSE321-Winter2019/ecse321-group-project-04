@@ -83,7 +83,7 @@
         <div v-for="enrollment in enrollments" v-if="enrollment.status !== 'ONGOING'" class="row">
           <div class="col-sm-12">
             <div class="panel panel-default">
-              <div class="panel-body" style="margin-left:10px; text-align:center"><a href="">{{getEnrollmentID(enrollment)}}</a></div>
+              <div class="panel-body" style="margin-left:10px; text-align:center"><a href="" @click="goToCourseview(enrollment)">{{getEnrollmentName(enrollment)}}</a></div>
             </div>
           </div>
         </div>

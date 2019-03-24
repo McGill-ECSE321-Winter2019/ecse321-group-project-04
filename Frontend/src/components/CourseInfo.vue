@@ -72,14 +72,13 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="card border-inverse mb-3">
-              <h3 class="card-title align-items-left d-flex justify-content-left"
-              style="margin-top:23px; margin-bottom:20px; margin-left:13px;">Progress</h3>
+              <h3 class="card-title align-items-left d-flex justify-content-left" style="margin-top:23px; margin-bottom:20px; margin-left:13px;">Progress</h3>
               <div class="card-body align-items-center d-flex justify-content-center">
                 <!--Important To display the correct % change the
                 number inside the span, to make the grean bar grow the
                 correct amount change p# in " "-->
-                <div class="c100 p40 big green">
-                  <span>40%</span>
+                <div :class="getCourseProgress()">
+                  <span>{{courseProgress}}</span>
                   <div class="slice">
                     <div class="bar"></div>
                     <div class="fill"></div>
@@ -93,10 +92,15 @@
             <div class="card border-inverse mb-3">
               <div class="card-body">
                 <h3 class="card-title" style="margin-top:10px; margin-bottom:30px;">Upcoming Deadlines</h3>
-                <div v-for="task in upcomingDeadlines">
-                  <h4><a href="" @click="goToTask(task.task)">{{task.task.name}}</a></h4>
-                  <h4>{{task.dueTime}}</h4>
-                  <hr>
+                <div v-if="upcomingDeadlinesNotEmpty">
+                  <div v-for="task in upcomingDeadlines">
+                    <h4><a href="" @click="goToTask(task.task)">{{task.task.name}}</a></h4>
+                    <h4>{{task.dueTime}}</h4>
+                    <hr>
+                  </div>
+                </div>
+                <div v-else>
+                  <h4 style="color:gray"><em>There are no upcoming deadlines in the next 10 days.</em></h4>
                 </div>
               </div>
             </div>
@@ -150,6 +154,12 @@
                   <br>
                   <h4 style="color:gray"><em>Course Offering</em></h4>
                   <h4><b>{{courseOffering}}</b></h4>
+                  <br>
+                  <h4 style="color:gray"><em>Course Status</em></h4>
+                  <h4><b>{{courseStatusDisplay[courseStatus]}}</b></h4>
+                  <br>
+                  <h4 style="color:gray"><em>Activity Status</em></h4>
+                  <h4><b>{{activityStatus}}</b></h4>
                 </div>
               </div>
             </div>
@@ -243,12 +253,113 @@
   }
 
 
-   /* CSS Percentage Circle*/
-  .rect-auto, .c100.p51 .slice, .c100.p52 .slice, .c100.p53 .slice, .c100.p54 .slice, .c100.p55 .slice, .c100.p56 .slice, .c100.p57 .slice, .c100.p58 .slice, .c100.p59 .slice, .c100.p60 .slice, .c100.p61 .slice, .c100.p62 .slice, .c100.p63 .slice, .c100.p64 .slice, .c100.p65 .slice, .c100.p66 .slice, .c100.p67 .slice, .c100.p68 .slice, .c100.p69 .slice, .c100.p70 .slice, .c100.p71 .slice, .c100.p72 .slice, .c100.p73 .slice, .c100.p74 .slice, .c100.p75 .slice, .c100.p76 .slice, .c100.p77 .slice, .c100.p78 .slice, .c100.p79 .slice, .c100.p80 .slice, .c100.p81 .slice, .c100.p82 .slice, .c100.p83 .slice, .c100.p84 .slice, .c100.p85 .slice, .c100.p86 .slice, .c100.p87 .slice, .c100.p88 .slice, .c100.p89 .slice, .c100.p90 .slice, .c100.p91 .slice, .c100.p92 .slice, .c100.p93 .slice, .c100.p94 .slice, .c100.p95 .slice, .c100.p96 .slice, .c100.p97 .slice, .c100.p98 .slice, .c100.p99 .slice, .c100.p100 .slice {
+  /* CSS Percentage Circle*/
+  .rect-auto,
+  .c100.p51 .slice,
+  .c100.p52 .slice,
+  .c100.p53 .slice,
+  .c100.p54 .slice,
+  .c100.p55 .slice,
+  .c100.p56 .slice,
+  .c100.p57 .slice,
+  .c100.p58 .slice,
+  .c100.p59 .slice,
+  .c100.p60 .slice,
+  .c100.p61 .slice,
+  .c100.p62 .slice,
+  .c100.p63 .slice,
+  .c100.p64 .slice,
+  .c100.p65 .slice,
+  .c100.p66 .slice,
+  .c100.p67 .slice,
+  .c100.p68 .slice,
+  .c100.p69 .slice,
+  .c100.p70 .slice,
+  .c100.p71 .slice,
+  .c100.p72 .slice,
+  .c100.p73 .slice,
+  .c100.p74 .slice,
+  .c100.p75 .slice,
+  .c100.p76 .slice,
+  .c100.p77 .slice,
+  .c100.p78 .slice,
+  .c100.p79 .slice,
+  .c100.p80 .slice,
+  .c100.p81 .slice,
+  .c100.p82 .slice,
+  .c100.p83 .slice,
+  .c100.p84 .slice,
+  .c100.p85 .slice,
+  .c100.p86 .slice,
+  .c100.p87 .slice,
+  .c100.p88 .slice,
+  .c100.p89 .slice,
+  .c100.p90 .slice,
+  .c100.p91 .slice,
+  .c100.p92 .slice,
+  .c100.p93 .slice,
+  .c100.p94 .slice,
+  .c100.p95 .slice,
+  .c100.p96 .slice,
+  .c100.p97 .slice,
+  .c100.p98 .slice,
+  .c100.p99 .slice,
+  .c100.p100 .slice {
     clip: rect(auto, auto, auto, auto);
   }
 
-  .pie, .c100 .bar, .c100.p51 .fill, .c100.p52 .fill, .c100.p53 .fill, .c100.p54 .fill, .c100.p55 .fill, .c100.p56 .fill, .c100.p57 .fill, .c100.p58 .fill, .c100.p59 .fill, .c100.p60 .fill, .c100.p61 .fill, .c100.p62 .fill, .c100.p63 .fill, .c100.p64 .fill, .c100.p65 .fill, .c100.p66 .fill, .c100.p67 .fill, .c100.p68 .fill, .c100.p69 .fill, .c100.p70 .fill, .c100.p71 .fill, .c100.p72 .fill, .c100.p73 .fill, .c100.p74 .fill, .c100.p75 .fill, .c100.p76 .fill, .c100.p77 .fill, .c100.p78 .fill, .c100.p79 .fill, .c100.p80 .fill, .c100.p81 .fill, .c100.p82 .fill, .c100.p83 .fill, .c100.p84 .fill, .c100.p85 .fill, .c100.p86 .fill, .c100.p87 .fill, .c100.p88 .fill, .c100.p89 .fill, .c100.p90 .fill, .c100.p91 .fill, .c100.p92 .fill, .c100.p93 .fill, .c100.p94 .fill, .c100.p95 .fill, .c100.p96 .fill, .c100.p97 .fill, .c100.p98 .fill, .c100.p99 .fill, .c100.p100 .fill {
+  .pie,
+  .c100 .bar,
+  .c100.p51 .fill,
+  .c100.p52 .fill,
+  .c100.p53 .fill,
+  .c100.p54 .fill,
+  .c100.p55 .fill,
+  .c100.p56 .fill,
+  .c100.p57 .fill,
+  .c100.p58 .fill,
+  .c100.p59 .fill,
+  .c100.p60 .fill,
+  .c100.p61 .fill,
+  .c100.p62 .fill,
+  .c100.p63 .fill,
+  .c100.p64 .fill,
+  .c100.p65 .fill,
+  .c100.p66 .fill,
+  .c100.p67 .fill,
+  .c100.p68 .fill,
+  .c100.p69 .fill,
+  .c100.p70 .fill,
+  .c100.p71 .fill,
+  .c100.p72 .fill,
+  .c100.p73 .fill,
+  .c100.p74 .fill,
+  .c100.p75 .fill,
+  .c100.p76 .fill,
+  .c100.p77 .fill,
+  .c100.p78 .fill,
+  .c100.p79 .fill,
+  .c100.p80 .fill,
+  .c100.p81 .fill,
+  .c100.p82 .fill,
+  .c100.p83 .fill,
+  .c100.p84 .fill,
+  .c100.p85 .fill,
+  .c100.p86 .fill,
+  .c100.p87 .fill,
+  .c100.p88 .fill,
+  .c100.p89 .fill,
+  .c100.p90 .fill,
+  .c100.p91 .fill,
+  .c100.p92 .fill,
+  .c100.p93 .fill,
+  .c100.p94 .fill,
+  .c100.p95 .fill,
+  .c100.p96 .fill,
+  .c100.p97 .fill,
+  .c100.p98 .fill,
+  .c100.p99 .fill,
+  .c100.p100 .fill {
     position: absolute;
     border: 0.08em solid #307bbb;
     width: 0.84em;
@@ -266,7 +377,107 @@
     transform: rotate(0deg);
   }
 
-  .pie-fill, .c100.p51 .bar:after, .c100.p51 .fill, .c100.p52 .bar:after, .c100.p52 .fill, .c100.p53 .bar:after, .c100.p53 .fill, .c100.p54 .bar:after, .c100.p54 .fill, .c100.p55 .bar:after, .c100.p55 .fill, .c100.p56 .bar:after, .c100.p56 .fill, .c100.p57 .bar:after, .c100.p57 .fill, .c100.p58 .bar:after, .c100.p58 .fill, .c100.p59 .bar:after, .c100.p59 .fill, .c100.p60 .bar:after, .c100.p60 .fill, .c100.p61 .bar:after, .c100.p61 .fill, .c100.p62 .bar:after, .c100.p62 .fill, .c100.p63 .bar:after, .c100.p63 .fill, .c100.p64 .bar:after, .c100.p64 .fill, .c100.p65 .bar:after, .c100.p65 .fill, .c100.p66 .bar:after, .c100.p66 .fill, .c100.p67 .bar:after, .c100.p67 .fill, .c100.p68 .bar:after, .c100.p68 .fill, .c100.p69 .bar:after, .c100.p69 .fill, .c100.p70 .bar:after, .c100.p70 .fill, .c100.p71 .bar:after, .c100.p71 .fill, .c100.p72 .bar:after, .c100.p72 .fill, .c100.p73 .bar:after, .c100.p73 .fill, .c100.p74 .bar:after, .c100.p74 .fill, .c100.p75 .bar:after, .c100.p75 .fill, .c100.p76 .bar:after, .c100.p76 .fill, .c100.p77 .bar:after, .c100.p77 .fill, .c100.p78 .bar:after, .c100.p78 .fill, .c100.p79 .bar:after, .c100.p79 .fill, .c100.p80 .bar:after, .c100.p80 .fill, .c100.p81 .bar:after, .c100.p81 .fill, .c100.p82 .bar:after, .c100.p82 .fill, .c100.p83 .bar:after, .c100.p83 .fill, .c100.p84 .bar:after, .c100.p84 .fill, .c100.p85 .bar:after, .c100.p85 .fill, .c100.p86 .bar:after, .c100.p86 .fill, .c100.p87 .bar:after, .c100.p87 .fill, .c100.p88 .bar:after, .c100.p88 .fill, .c100.p89 .bar:after, .c100.p89 .fill, .c100.p90 .bar:after, .c100.p90 .fill, .c100.p91 .bar:after, .c100.p91 .fill, .c100.p92 .bar:after, .c100.p92 .fill, .c100.p93 .bar:after, .c100.p93 .fill, .c100.p94 .bar:after, .c100.p94 .fill, .c100.p95 .bar:after, .c100.p95 .fill, .c100.p96 .bar:after, .c100.p96 .fill, .c100.p97 .bar:after, .c100.p97 .fill, .c100.p98 .bar:after, .c100.p98 .fill, .c100.p99 .bar:after, .c100.p99 .fill, .c100.p100 .bar:after, .c100.p100 .fill {
+  .pie-fill,
+  .c100.p51 .bar:after,
+  .c100.p51 .fill,
+  .c100.p52 .bar:after,
+  .c100.p52 .fill,
+  .c100.p53 .bar:after,
+  .c100.p53 .fill,
+  .c100.p54 .bar:after,
+  .c100.p54 .fill,
+  .c100.p55 .bar:after,
+  .c100.p55 .fill,
+  .c100.p56 .bar:after,
+  .c100.p56 .fill,
+  .c100.p57 .bar:after,
+  .c100.p57 .fill,
+  .c100.p58 .bar:after,
+  .c100.p58 .fill,
+  .c100.p59 .bar:after,
+  .c100.p59 .fill,
+  .c100.p60 .bar:after,
+  .c100.p60 .fill,
+  .c100.p61 .bar:after,
+  .c100.p61 .fill,
+  .c100.p62 .bar:after,
+  .c100.p62 .fill,
+  .c100.p63 .bar:after,
+  .c100.p63 .fill,
+  .c100.p64 .bar:after,
+  .c100.p64 .fill,
+  .c100.p65 .bar:after,
+  .c100.p65 .fill,
+  .c100.p66 .bar:after,
+  .c100.p66 .fill,
+  .c100.p67 .bar:after,
+  .c100.p67 .fill,
+  .c100.p68 .bar:after,
+  .c100.p68 .fill,
+  .c100.p69 .bar:after,
+  .c100.p69 .fill,
+  .c100.p70 .bar:after,
+  .c100.p70 .fill,
+  .c100.p71 .bar:after,
+  .c100.p71 .fill,
+  .c100.p72 .bar:after,
+  .c100.p72 .fill,
+  .c100.p73 .bar:after,
+  .c100.p73 .fill,
+  .c100.p74 .bar:after,
+  .c100.p74 .fill,
+  .c100.p75 .bar:after,
+  .c100.p75 .fill,
+  .c100.p76 .bar:after,
+  .c100.p76 .fill,
+  .c100.p77 .bar:after,
+  .c100.p77 .fill,
+  .c100.p78 .bar:after,
+  .c100.p78 .fill,
+  .c100.p79 .bar:after,
+  .c100.p79 .fill,
+  .c100.p80 .bar:after,
+  .c100.p80 .fill,
+  .c100.p81 .bar:after,
+  .c100.p81 .fill,
+  .c100.p82 .bar:after,
+  .c100.p82 .fill,
+  .c100.p83 .bar:after,
+  .c100.p83 .fill,
+  .c100.p84 .bar:after,
+  .c100.p84 .fill,
+  .c100.p85 .bar:after,
+  .c100.p85 .fill,
+  .c100.p86 .bar:after,
+  .c100.p86 .fill,
+  .c100.p87 .bar:after,
+  .c100.p87 .fill,
+  .c100.p88 .bar:after,
+  .c100.p88 .fill,
+  .c100.p89 .bar:after,
+  .c100.p89 .fill,
+  .c100.p90 .bar:after,
+  .c100.p90 .fill,
+  .c100.p91 .bar:after,
+  .c100.p91 .fill,
+  .c100.p92 .bar:after,
+  .c100.p92 .fill,
+  .c100.p93 .bar:after,
+  .c100.p93 .fill,
+  .c100.p94 .bar:after,
+  .c100.p94 .fill,
+  .c100.p95 .bar:after,
+  .c100.p95 .fill,
+  .c100.p96 .bar:after,
+  .c100.p96 .fill,
+  .c100.p97 .bar:after,
+  .c100.p97 .fill,
+  .c100.p98 .bar:after,
+  .c100.p98 .fill,
+  .c100.p99 .bar:after,
+  .c100.p99 .fill,
+  .c100.p100 .bar:after,
+  .c100.p100 .fill {
     -webkit-transform: rotate(180deg);
     -moz-transform: rotate(180deg);
     -ms-transform: rotate(180deg);
@@ -288,7 +499,10 @@
     margin: 0 0.1em 0.1em 0;
     background-color: #cccccc;
   }
-  .c100 *, .c100 *:before, .c100 *:after {
+
+  .c100 *,
+  .c100 *:before,
+  .c100 *:after {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
@@ -298,7 +512,7 @@
     font-size: 240px;
   }
 
-  .c100 > span {
+  .c100>span {
     position: absolute;
     width: 100%;
     z-index: 1;
@@ -324,6 +538,7 @@
     -o-transition-timing-function: ease-out;
     transition-timing-function: ease-out;
   }
+
   .c100:after {
     position: absolute;
     top: 0.08em;
@@ -351,6 +566,7 @@
     -o-transition-timing-function: ease-in;
     transition-timing-function: ease-in;
   }
+
   /*Stop the green bar from growing back*/
   .c100 .slice {
     position: absolute;
@@ -358,6 +574,7 @@
     height: 1em;
     clip: rect(0em, 1em, 1em, 0.5em);
   }
+
   /*Make the bar growing*/
   .c100.p1 .bar {
     -webkit-transform: rotate(3.6deg);
@@ -366,6 +583,7 @@
     -o-transform: rotate(3.6deg);
     transform: rotate(3.6deg);
   }
+
   .c100.p2 .bar {
     -webkit-transform: rotate(7.2deg);
     -moz-transform: rotate(7.2deg);
@@ -373,6 +591,7 @@
     -o-transform: rotate(7.2deg);
     transform: rotate(7.2deg);
   }
+
   .c100.p3 .bar {
     -webkit-transform: rotate(10.8deg);
     -moz-transform: rotate(10.8deg);
@@ -380,6 +599,7 @@
     -o-transform: rotate(10.8deg);
     transform: rotate(10.8deg);
   }
+
   .c100.p4 .bar {
     -webkit-transform: rotate(14.4deg);
     -moz-transform: rotate(14.4deg);
@@ -387,6 +607,7 @@
     -o-transform: rotate(14.4deg);
     transform: rotate(14.4deg);
   }
+
   .c100.p5 .bar {
     -webkit-transform: rotate(18deg);
     -moz-transform: rotate(18deg);
@@ -394,6 +615,7 @@
     -o-transform: rotate(18deg);
     transform: rotate(18deg);
   }
+
   .c100.p6 .bar {
     -webkit-transform: rotate(21.6deg);
     -moz-transform: rotate(21.6deg);
@@ -401,6 +623,7 @@
     -o-transform: rotate(21.6deg);
     transform: rotate(21.6deg);
   }
+
   .c100.p7 .bar {
     -webkit-transform: rotate(25.2deg);
     -moz-transform: rotate(25.2deg);
@@ -408,6 +631,7 @@
     -o-transform: rotate(25.2deg);
     transform: rotate(25.2deg);
   }
+
   .c100.p8 .bar {
     -webkit-transform: rotate(28.8deg);
     -moz-transform: rotate(28.8deg);
@@ -415,6 +639,7 @@
     -o-transform: rotate(28.8deg);
     transform: rotate(28.8deg);
   }
+
   .c100.p9 .bar {
     -webkit-transform: rotate(32.4deg);
     -moz-transform: rotate(32.4deg);
@@ -422,6 +647,7 @@
     -o-transform: rotate(32.4deg);
     transform: rotate(32.4deg);
   }
+
   .c100.p10 .bar {
     -webkit-transform: rotate(36deg);
     -moz-transform: rotate(36deg);
@@ -429,6 +655,7 @@
     -o-transform: rotate(36deg);
     transform: rotate(36deg);
   }
+
   .c100.p11 .bar {
     -webkit-transform: rotate(39.6deg);
     -moz-transform: rotate(39.6deg);
@@ -436,6 +663,7 @@
     -o-transform: rotate(39.6deg);
     transform: rotate(39.6deg);
   }
+
   .c100.p12 .bar {
     -webkit-transform: rotate(43.2deg);
     -moz-transform: rotate(43.2deg);
@@ -443,6 +671,7 @@
     -o-transform: rotate(43.2deg);
     transform: rotate(43.2deg);
   }
+
   .c100.p13 .bar {
     -webkit-transform: rotate(46.8deg);
     -moz-transform: rotate(46.8deg);
@@ -450,6 +679,7 @@
     -o-transform: rotate(46.8deg);
     transform: rotate(46.8deg);
   }
+
   .c100.p14 .bar {
     -webkit-transform: rotate(50.4deg);
     -moz-transform: rotate(50.4deg);
@@ -457,6 +687,7 @@
     -o-transform: rotate(50.4deg);
     transform: rotate(50.4deg);
   }
+
   .c100.p15 .bar {
     -webkit-transform: rotate(54deg);
     -moz-transform: rotate(54deg);
@@ -464,6 +695,7 @@
     -o-transform: rotate(54deg);
     transform: rotate(54deg);
   }
+
   .c100.p16 .bar {
     -webkit-transform: rotate(57.6deg);
     -moz-transform: rotate(57.6deg);
@@ -471,6 +703,7 @@
     -o-transform: rotate(57.6deg);
     transform: rotate(57.6deg);
   }
+
   .c100.p17 .bar {
     -webkit-transform: rotate(61.2deg);
     -moz-transform: rotate(61.2deg);
@@ -478,6 +711,7 @@
     -o-transform: rotate(61.2deg);
     transform: rotate(61.2deg);
   }
+
   .c100.p18 .bar {
     -webkit-transform: rotate(64.8deg);
     -moz-transform: rotate(64.8deg);
@@ -485,6 +719,7 @@
     -o-transform: rotate(64.8deg);
     transform: rotate(64.8deg);
   }
+
   .c100.p19 .bar {
     -webkit-transform: rotate(68.4deg);
     -moz-transform: rotate(68.4deg);
@@ -492,6 +727,7 @@
     -o-transform: rotate(68.4deg);
     transform: rotate(68.4deg);
   }
+
   .c100.p20 .bar {
     -webkit-transform: rotate(72deg);
     -moz-transform: rotate(72deg);
@@ -499,6 +735,7 @@
     -o-transform: rotate(72deg);
     transform: rotate(72deg);
   }
+
   .c100.p21 .bar {
     -webkit-transform: rotate(75.6deg);
     -moz-transform: rotate(75.6deg);
@@ -506,6 +743,7 @@
     -o-transform: rotate(75.6deg);
     transform: rotate(75.6deg);
   }
+
   .c100.p22 .bar {
     -webkit-transform: rotate(79.2deg);
     -moz-transform: rotate(79.2deg);
@@ -513,6 +751,7 @@
     -o-transform: rotate(79.2deg);
     transform: rotate(79.2deg);
   }
+
   .c100.p23 .bar {
     -webkit-transform: rotate(82.8deg);
     -moz-transform: rotate(82.8deg);
@@ -520,6 +759,7 @@
     -o-transform: rotate(82.8deg);
     transform: rotate(82.8deg);
   }
+
   .c100.p24 .bar {
     -webkit-transform: rotate(86.4deg);
     -moz-transform: rotate(86.4deg);
@@ -527,6 +767,7 @@
     -o-transform: rotate(86.4deg);
     transform: rotate(86.4deg);
   }
+
   .c100.p25 .bar {
     -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
@@ -534,6 +775,7 @@
     -o-transform: rotate(90deg);
     transform: rotate(90deg);
   }
+
   .c100.p26 .bar {
     -webkit-transform: rotate(93.6deg);
     -moz-transform: rotate(93.6deg);
@@ -541,6 +783,7 @@
     -o-transform: rotate(93.6deg);
     transform: rotate(93.6deg);
   }
+
   .c100.p27 .bar {
     -webkit-transform: rotate(97.2deg);
     -moz-transform: rotate(97.2deg);
@@ -548,6 +791,7 @@
     -o-transform: rotate(97.2deg);
     transform: rotate(97.2deg);
   }
+
   .c100.p28 .bar {
     -webkit-transform: rotate(100.8deg);
     -moz-transform: rotate(100.8deg);
@@ -555,6 +799,7 @@
     -o-transform: rotate(100.8deg);
     transform: rotate(100.8deg);
   }
+
   .c100.p29 .bar {
     -webkit-transform: rotate(104.4deg);
     -moz-transform: rotate(104.4deg);
@@ -562,6 +807,7 @@
     -o-transform: rotate(104.4deg);
     transform: rotate(104.4deg);
   }
+
   .c100.p30 .bar {
     -webkit-transform: rotate(108deg);
     -moz-transform: rotate(108deg);
@@ -569,6 +815,7 @@
     -o-transform: rotate(108deg);
     transform: rotate(108deg);
   }
+
   .c100.p31 .bar {
     -webkit-transform: rotate(111.6deg);
     -moz-transform: rotate(111.6deg);
@@ -576,6 +823,7 @@
     -o-transform: rotate(111.6deg);
     transform: rotate(111.6deg);
   }
+
   .c100.p32 .bar {
     -webkit-transform: rotate(115.2deg);
     -moz-transform: rotate(115.2deg);
@@ -583,6 +831,7 @@
     -o-transform: rotate(115.2deg);
     transform: rotate(115.2deg);
   }
+
   .c100.p33 .bar {
     -webkit-transform: rotate(118.8deg);
     -moz-transform: rotate(118.8deg);
@@ -590,6 +839,7 @@
     -o-transform: rotate(118.8deg);
     transform: rotate(118.8deg);
   }
+
   .c100.p34 .bar {
     -webkit-transform: rotate(122.4deg);
     -moz-transform: rotate(122.4deg);
@@ -597,6 +847,7 @@
     -o-transform: rotate(122.4deg);
     transform: rotate(122.4deg);
   }
+
   .c100.p35 .bar {
     -webkit-transform: rotate(126deg);
     -moz-transform: rotate(126deg);
@@ -604,6 +855,7 @@
     -o-transform: rotate(126deg);
     transform: rotate(126deg);
   }
+
   .c100.p36 .bar {
     -webkit-transform: rotate(129.6deg);
     -moz-transform: rotate(129.6deg);
@@ -611,6 +863,7 @@
     -o-transform: rotate(129.6deg);
     transform: rotate(129.6deg);
   }
+
   .c100.p37 .bar {
     -webkit-transform: rotate(133.2deg);
     -moz-transform: rotate(133.2deg);
@@ -618,6 +871,7 @@
     -o-transform: rotate(133.2deg);
     transform: rotate(133.2deg);
   }
+
   .c100.p38 .bar {
     -webkit-transform: rotate(136.8deg);
     -moz-transform: rotate(136.8deg);
@@ -625,6 +879,7 @@
     -o-transform: rotate(136.8deg);
     transform: rotate(136.8deg);
   }
+
   .c100.p39 .bar {
     -webkit-transform: rotate(140.4deg);
     -moz-transform: rotate(140.4deg);
@@ -632,6 +887,7 @@
     -o-transform: rotate(140.4deg);
     transform: rotate(140.4deg);
   }
+
   .c100.p40 .bar {
     -webkit-transform: rotate(144deg);
     -moz-transform: rotate(144deg);
@@ -639,6 +895,7 @@
     -o-transform: rotate(144deg);
     transform: rotate(144deg);
   }
+
   .c100.p41 .bar {
     -webkit-transform: rotate(147.6deg);
     -moz-transform: rotate(147.6deg);
@@ -646,6 +903,7 @@
     -o-transform: rotate(147.6deg);
     transform: rotate(147.6deg);
   }
+
   .c100.p42 .bar {
     -webkit-transform: rotate(151.2deg);
     -moz-transform: rotate(151.2deg);
@@ -653,6 +911,7 @@
     -o-transform: rotate(151.2deg);
     transform: rotate(151.2deg);
   }
+
   .c100.p43 .bar {
     -webkit-transform: rotate(154.8deg);
     -moz-transform: rotate(154.8deg);
@@ -660,6 +919,7 @@
     -o-transform: rotate(154.8deg);
     transform: rotate(154.8deg);
   }
+
   .c100.p44 .bar {
     -webkit-transform: rotate(158.4deg);
     -moz-transform: rotate(158.4deg);
@@ -667,6 +927,7 @@
     -o-transform: rotate(158.4deg);
     transform: rotate(158.4deg);
   }
+
   .c100.p45 .bar {
     -webkit-transform: rotate(162deg);
     -moz-transform: rotate(162deg);
@@ -674,6 +935,7 @@
     -o-transform: rotate(162deg);
     transform: rotate(162deg);
   }
+
   .c100.p46 .bar {
     -webkit-transform: rotate(165.6deg);
     -moz-transform: rotate(165.6deg);
@@ -681,6 +943,7 @@
     -o-transform: rotate(165.6deg);
     transform: rotate(165.6deg);
   }
+
   .c100.p47 .bar {
     -webkit-transform: rotate(169.2deg);
     -moz-transform: rotate(169.2deg);
@@ -688,6 +951,7 @@
     -o-transform: rotate(169.2deg);
     transform: rotate(169.2deg);
   }
+
   .c100.p48 .bar {
     -webkit-transform: rotate(172.8deg);
     -moz-transform: rotate(172.8deg);
@@ -695,6 +959,7 @@
     -o-transform: rotate(172.8deg);
     transform: rotate(172.8deg);
   }
+
   .c100.p49 .bar {
     -webkit-transform: rotate(176.4deg);
     -moz-transform: rotate(176.4deg);
@@ -702,6 +967,7 @@
     -o-transform: rotate(176.4deg);
     transform: rotate(176.4deg);
   }
+
   .c100.p50 .bar {
     -webkit-transform: rotate(180deg);
     -moz-transform: rotate(180deg);
@@ -709,6 +975,7 @@
     -o-transform: rotate(180deg);
     transform: rotate(180deg);
   }
+
   .c100.p51 .bar {
     -webkit-transform: rotate(183.6deg);
     -moz-transform: rotate(183.6deg);
@@ -716,6 +983,7 @@
     -o-transform: rotate(183.6deg);
     transform: rotate(183.6deg);
   }
+
   .c100.p52 .bar {
     -webkit-transform: rotate(187.2deg);
     -moz-transform: rotate(187.2deg);
@@ -723,6 +991,7 @@
     -o-transform: rotate(187.2deg);
     transform: rotate(187.2deg);
   }
+
   .c100.p53 .bar {
     -webkit-transform: rotate(190.8deg);
     -moz-transform: rotate(190.8deg);
@@ -730,6 +999,7 @@
     -o-transform: rotate(190.8deg);
     transform: rotate(190.8deg);
   }
+
   .c100.p54 .bar {
     -webkit-transform: rotate(194.4deg);
     -moz-transform: rotate(194.4deg);
@@ -737,6 +1007,7 @@
     -o-transform: rotate(194.4deg);
     transform: rotate(194.4deg);
   }
+
   .c100.p55 .bar {
     -webkit-transform: rotate(198deg);
     -moz-transform: rotate(198deg);
@@ -744,6 +1015,7 @@
     -o-transform: rotate(198deg);
     transform: rotate(198deg);
   }
+
   .c100.p56 .bar {
     -webkit-transform: rotate(201.6deg);
     -moz-transform: rotate(201.6deg);
@@ -751,6 +1023,7 @@
     -o-transform: rotate(201.6deg);
     transform: rotate(201.6deg);
   }
+
   .c100.p57 .bar {
     -webkit-transform: rotate(205.2deg);
     -moz-transform: rotate(205.2deg);
@@ -758,6 +1031,7 @@
     -o-transform: rotate(205.2deg);
     transform: rotate(205.2deg);
   }
+
   .c100.p58 .bar {
     -webkit-transform: rotate(208.8deg);
     -moz-transform: rotate(208.8deg);
@@ -765,6 +1039,7 @@
     -o-transform: rotate(208.8deg);
     transform: rotate(208.8deg);
   }
+
   .c100.p59 .bar {
     -webkit-transform: rotate(212.4deg);
     -moz-transform: rotate(212.4deg);
@@ -772,6 +1047,7 @@
     -o-transform: rotate(212.4deg);
     transform: rotate(212.4deg);
   }
+
   .c100.p60 .bar {
     -webkit-transform: rotate(216deg);
     -moz-transform: rotate(216deg);
@@ -779,6 +1055,7 @@
     -o-transform: rotate(216deg);
     transform: rotate(216deg);
   }
+
   .c100.p61 .bar {
     -webkit-transform: rotate(219.6deg);
     -moz-transform: rotate(219.6deg);
@@ -786,6 +1063,7 @@
     -o-transform: rotate(219.6deg);
     transform: rotate(219.6deg);
   }
+
   .c100.p62 .bar {
     -webkit-transform: rotate(223.2deg);
     -moz-transform: rotate(223.2deg);
@@ -793,6 +1071,7 @@
     -o-transform: rotate(223.2deg);
     transform: rotate(223.2deg);
   }
+
   .c100.p63 .bar {
     -webkit-transform: rotate(226.8deg);
     -moz-transform: rotate(226.8deg);
@@ -800,6 +1079,7 @@
     -o-transform: rotate(226.8deg);
     transform: rotate(226.8deg);
   }
+
   .c100.p64 .bar {
     -webkit-transform: rotate(230.4deg);
     -moz-transform: rotate(230.4deg);
@@ -807,6 +1087,7 @@
     -o-transform: rotate(230.4deg);
     transform: rotate(230.4deg);
   }
+
   .c100.p65 .bar {
     -webkit-transform: rotate(234deg);
     -moz-transform: rotate(234deg);
@@ -814,6 +1095,7 @@
     -o-transform: rotate(234deg);
     transform: rotate(234deg);
   }
+
   .c100.p66 .bar {
     -webkit-transform: rotate(237.6deg);
     -moz-transform: rotate(237.6deg);
@@ -821,6 +1103,7 @@
     -o-transform: rotate(237.6deg);
     transform: rotate(237.6deg);
   }
+
   .c100.p67 .bar {
     -webkit-transform: rotate(241.2deg);
     -moz-transform: rotate(241.2deg);
@@ -828,6 +1111,7 @@
     -o-transform: rotate(241.2deg);
     transform: rotate(241.2deg);
   }
+
   .c100.p68 .bar {
     -webkit-transform: rotate(244.8deg);
     -moz-transform: rotate(244.8deg);
@@ -835,6 +1119,7 @@
     -o-transform: rotate(244.8deg);
     transform: rotate(244.8deg);
   }
+
   .c100.p69 .bar {
     -webkit-transform: rotate(248.4deg);
     -moz-transform: rotate(248.4deg);
@@ -842,6 +1127,7 @@
     -o-transform: rotate(248.4deg);
     transform: rotate(248.4deg);
   }
+
   .c100.p70 .bar {
     -webkit-transform: rotate(252deg);
     -moz-transform: rotate(252deg);
@@ -849,6 +1135,7 @@
     -o-transform: rotate(252deg);
     transform: rotate(252deg);
   }
+
   .c100.p71 .bar {
     -webkit-transform: rotate(255.6deg);
     -moz-transform: rotate(255.6deg);
@@ -856,6 +1143,7 @@
     -o-transform: rotate(255.6deg);
     transform: rotate(255.6deg);
   }
+
   .c100.p72 .bar {
     -webkit-transform: rotate(259.2deg);
     -moz-transform: rotate(259.2deg);
@@ -863,6 +1151,7 @@
     -o-transform: rotate(259.2deg);
     transform: rotate(259.2deg);
   }
+
   .c100.p73 .bar {
     -webkit-transform: rotate(262.8deg);
     -moz-transform: rotate(262.8deg);
@@ -870,6 +1159,7 @@
     -o-transform: rotate(262.8deg);
     transform: rotate(262.8deg);
   }
+
   .c100.p74 .bar {
     -webkit-transform: rotate(266.4deg);
     -moz-transform: rotate(266.4deg);
@@ -877,6 +1167,7 @@
     -o-transform: rotate(266.4deg);
     transform: rotate(266.4deg);
   }
+
   .c100.p75 .bar {
     -webkit-transform: rotate(270deg);
     -moz-transform: rotate(270deg);
@@ -884,6 +1175,7 @@
     -o-transform: rotate(270deg);
     transform: rotate(270deg);
   }
+
   .c100.p76 .bar {
     -webkit-transform: rotate(273.6deg);
     -moz-transform: rotate(273.6deg);
@@ -891,6 +1183,7 @@
     -o-transform: rotate(273.6deg);
     transform: rotate(273.6deg);
   }
+
   .c100.p77 .bar {
     -webkit-transform: rotate(277.2deg);
     -moz-transform: rotate(277.2deg);
@@ -898,6 +1191,7 @@
     -o-transform: rotate(277.2deg);
     transform: rotate(277.2deg);
   }
+
   .c100.p78 .bar {
     -webkit-transform: rotate(280.8deg);
     -moz-transform: rotate(280.8deg);
@@ -905,6 +1199,7 @@
     -o-transform: rotate(280.8deg);
     transform: rotate(280.8deg);
   }
+
   .c100.p79 .bar {
     -webkit-transform: rotate(284.4deg);
     -moz-transform: rotate(284.4deg);
@@ -912,6 +1207,7 @@
     -o-transform: rotate(284.4deg);
     transform: rotate(284.4deg);
   }
+
   .c100.p80 .bar {
     -webkit-transform: rotate(288deg);
     -moz-transform: rotate(288deg);
@@ -919,6 +1215,7 @@
     -o-transform: rotate(288deg);
     transform: rotate(288deg);
   }
+
   .c100.p81 .bar {
     -webkit-transform: rotate(291.6deg);
     -moz-transform: rotate(291.6deg);
@@ -926,6 +1223,7 @@
     -o-transform: rotate(291.6deg);
     transform: rotate(291.6deg);
   }
+
   .c100.p82 .bar {
     -webkit-transform: rotate(295.2deg);
     -moz-transform: rotate(295.2deg);
@@ -933,6 +1231,7 @@
     -o-transform: rotate(295.2deg);
     transform: rotate(295.2deg);
   }
+
   .c100.p83 .bar {
     -webkit-transform: rotate(298.8deg);
     -moz-transform: rotate(298.8deg);
@@ -940,6 +1239,7 @@
     -o-transform: rotate(298.8deg);
     transform: rotate(298.8deg);
   }
+
   .c100.p84 .bar {
     -webkit-transform: rotate(302.4deg);
     -moz-transform: rotate(302.4deg);
@@ -947,6 +1247,7 @@
     -o-transform: rotate(302.4deg);
     transform: rotate(302.4deg);
   }
+
   .c100.p85 .bar {
     -webkit-transform: rotate(306deg);
     -moz-transform: rotate(306deg);
@@ -954,6 +1255,7 @@
     -o-transform: rotate(306deg);
     transform: rotate(306deg);
   }
+
   .c100.p86 .bar {
     -webkit-transform: rotate(309.6deg);
     -moz-transform: rotate(309.6deg);
@@ -961,6 +1263,7 @@
     -o-transform: rotate(309.6deg);
     transform: rotate(309.6deg);
   }
+
   .c100.p87 .bar {
     -webkit-transform: rotate(313.2deg);
     -moz-transform: rotate(313.2deg);
@@ -968,6 +1271,7 @@
     -o-transform: rotate(313.2deg);
     transform: rotate(313.2deg);
   }
+
   .c100.p88 .bar {
     -webkit-transform: rotate(316.8deg);
     -moz-transform: rotate(316.8deg);
@@ -975,6 +1279,7 @@
     -o-transform: rotate(316.8deg);
     transform: rotate(316.8deg);
   }
+
   .c100.p89 .bar {
     -webkit-transform: rotate(320.4deg);
     -moz-transform: rotate(320.4deg);
@@ -982,6 +1287,7 @@
     -o-transform: rotate(320.4deg);
     transform: rotate(320.4deg);
   }
+
   .c100.p90 .bar {
     -webkit-transform: rotate(324deg);
     -moz-transform: rotate(324deg);
@@ -989,6 +1295,7 @@
     -o-transform: rotate(324deg);
     transform: rotate(324deg);
   }
+
   .c100.p91 .bar {
     -webkit-transform: rotate(327.6deg);
     -moz-transform: rotate(327.6deg);
@@ -996,6 +1303,7 @@
     -o-transform: rotate(327.6deg);
     transform: rotate(327.6deg);
   }
+
   .c100.p92 .bar {
     -webkit-transform: rotate(331.2deg);
     -moz-transform: rotate(331.2deg);
@@ -1003,6 +1311,7 @@
     -o-transform: rotate(331.2deg);
     transform: rotate(331.2deg);
   }
+
   .c100.p93 .bar {
     -webkit-transform: rotate(334.8deg);
     -moz-transform: rotate(334.8deg);
@@ -1010,6 +1319,7 @@
     -o-transform: rotate(334.8deg);
     transform: rotate(334.8deg);
   }
+
   .c100.p94 .bar {
     -webkit-transform: rotate(338.4deg);
     -moz-transform: rotate(338.4deg);
@@ -1017,6 +1327,7 @@
     -o-transform: rotate(338.4deg);
     transform: rotate(338.4deg);
   }
+
   .c100.p95 .bar {
     -webkit-transform: rotate(342deg);
     -moz-transform: rotate(342deg);
@@ -1024,6 +1335,7 @@
     -o-transform: rotate(342deg);
     transform: rotate(342deg);
   }
+
   .c100.p96 .bar {
     -webkit-transform: rotate(345.6deg);
     -moz-transform: rotate(345.6deg);
@@ -1031,6 +1343,7 @@
     -o-transform: rotate(345.6deg);
     transform: rotate(345.6deg);
   }
+
   .c100.p97 .bar {
     -webkit-transform: rotate(349.2deg);
     -moz-transform: rotate(349.2deg);
@@ -1038,6 +1351,7 @@
     -o-transform: rotate(349.2deg);
     transform: rotate(349.2deg);
   }
+
   .c100.p98 .bar {
     -webkit-transform: rotate(352.8deg);
     -moz-transform: rotate(352.8deg);
@@ -1045,6 +1359,7 @@
     -o-transform: rotate(352.8deg);
     transform: rotate(352.8deg);
   }
+
   .c100.p99 .bar {
     -webkit-transform: rotate(356.4deg);
     -moz-transform: rotate(356.4deg);
@@ -1052,6 +1367,7 @@
     -o-transform: rotate(356.4deg);
     transform: rotate(356.4deg);
   }
+
   .c100.p100 .bar {
     -webkit-transform: rotate(360deg);
     -moz-transform: rotate(360deg);
@@ -1059,29 +1375,34 @@
     -o-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+
   .c100:hover {
     cursor: default;
   }
-  .c100:hover > span {
+
+  .c100:hover>span {
     width: 3.33em;
     line-height: 3.33em;
     font-size: 0.3em;
     color: #307bbb;
   }
+
   .c100:hover:after {
     top: 0.04em;
     left: 0.04em;
     width: 0.92em;
     height: 0.92em;
   }
+
   /*Fill in green color*/
-  .c100.green .bar, .c100.green .fill {
-    border-color: #4db53c !important;
-  }
-  .c100.green:hover > span {
-    color: #4db53c;
+  .c100.green .bar,
+  .c100.green .fill {
+    border-color: #1f67c1 !important;
   }
 
+  .c100.green:hover>span {
+    color: #1f67c1;
+  }
 </style>
 
 <script>
@@ -1089,6 +1410,7 @@
   import axios from 'axios'
   var config = require('../../config')
   var moment = require('moment')
+  const UD_DAYS = 10
 
   /* Date handling */
   var months = {
@@ -1152,6 +1474,44 @@
     baseURL: backendUrl
   })
 
+  /* Get the upcoming deadlines */
+  function getUpcomingDeadlines(tasks) {
+    var pTasks = []
+    for (var i in tasks) {
+      pTasks.push(tasks[i])
+    }
+    pTasks.sort(function(a, b) {
+      return compareDates(parseDate(a.dueDate), parseDate(b.dueDate))
+    })
+
+    var ret = []
+    var currDate = moment()
+    for (var i in pTasks) {
+      var dd = moment(pTasks[i].dueDate)
+      var timeDiff = Math.floor(moment.duration(dd.diff(currDate)).asDays() + 1)
+      if (timeDiff < 1 && timeDiff >= 0) {
+        ret.push({
+          task: pTasks[i],
+          dueTime: 'Due Today'
+        })
+      } else if (timeDiff < 2 && timeDiff > 0) {
+        ret.push({
+          task: pTasks[i],
+          dueTime: 'Due Tomorrow'
+        })
+      } else if (timeDiff <= 10 && timeDiff > 0) {
+        ret.push({
+          task: pTasks[i],
+          dueTime: 'Due In ' + timeDiff + ' Days'
+        })
+      }
+    }
+
+    console.log(ret.length)
+
+    return ret
+  }
+
   export default {
     name: 'courseinfo',
     data() {
@@ -1163,12 +1523,22 @@
           INCOMPLETE: 'Incomplete',
           LATE_SUBMITTED: 'Completed Late'
         },
+        courseStatusDisplay: {
+          PASSED: 'Passed',
+          FAILED: 'Failed',
+          WITHDRAWED: 'Withdrawed',
+          ONGOING: 'Ongoing'
+        },
         courseOffering: {},
         tasks: [],
         enrollmentName: null,
         courseID: null,
         courseOffering: null,
-        employerInfo: null
+        courseStatus: null,
+        activityStatus: null,
+        employerInfo: null,
+        courseProgress: null,
+        upcomingDeadlinesNotEmpty: true
       }
     },
     created() {
@@ -1200,6 +1570,8 @@
           this.enrollmentName = displayName
           this.courseID = displayName.split('-').pop().trim()
           this.courseOffering = displayName.split('-').shift().trim()
+          this.courseStatus = this.enrollment.status
+          this.activityStatus = this.enrollment.active ? 'Active': 'Inactive'
         })
         .catch(e => {
           var errorMsg = e.message
@@ -1209,6 +1581,12 @@
       AXIOS.get(`/studentEnrollments/` + this.$route.params.id + `/courseTasks`)
         .then(response => {
           this.tasks = response.data._embedded.tasks;
+          var ret = getUpcomingDeadlines(this.tasks)
+          if (ret.length == 0) {
+            this.upcomingDeadlinesNotEmpty = false
+          } else {
+            this.upcomingDeadlinesNotEmpty = true
+          }
         })
         .catch(e => {
           var errorMsg = e.message;
@@ -1271,24 +1649,19 @@
         })
       },
       displayDate: function(d) {
-        d = parseDate(d)
-        var display = months[parseInt(d.month)] + ' ' + parseInt(d.day)
-        switch (d.day % 10) {
-          case 1:
-            display += 'st'
-            break
-          case 2:
-            display += 'nd'
-            break
-          case 3:
-            display += 'rd'
-            break
-          default:
-            display += 'th'
-            break
+        return moment(d).format("MMM Do, YYYY")
+      },
+      getCourseProgress: function() {
+        var completed = 0
+        for (var i in this.tasks) {
+          if (this.tasks[i].taskStatus != 'INCOMPLETE') {
+            completed++
+          }
         }
-        display += ', ' + d.year
-        return display
+
+        var progress = Math.round((completed / this.tasks.length) * 100)
+        this.courseProgress = progress + '%'
+        return 'c100 p' + progress + ' big green'
       }
     },
     computed: {
@@ -1302,42 +1675,13 @@
         })
         return pt
       },
-      upcomingDeadlines: function(pTasks) {
-        var pTasks = []
-        for (var i in this.tasks) {
-          pTasks.push(this.tasks[i])
+      upcomingDeadlines: function() {
+        var ret = getUpcomingDeadlines(this.tasks)
+        if (ret.length == 0) {
+          this.upcomingDeadlinesNotEmpty = false
+        } else {
+          this.upcomingDeadlinesNotEmpty = true
         }
-        pTasks.sort(function(a, b) {
-          return compareDates(parseDate(a.dueDate), parseDate(b.dueDate))
-        })
-
-        var ret = []
-        var currDate = moment()
-        for (var i in pTasks) {
-          var dd = moment(pTasks[i].dueDate)
-          var timeDiff = Math.floor(moment.duration(dd.diff(currDate)).asDays())
-          if (timeDiff < 1 && timeDiff > 0) {
-            ret.push({
-              task: pTasks[i],
-              dueTime: 'Due Today'
-            })
-          } else if (timeDiff < 2 && timeDiff > 0) {
-            ret.push({
-              task: pTasks[i],
-              dueTime: 'Due Tomorrow'
-            })
-          } else if (timeDiff <= 10 && timeDiff > 0) {
-            ret.push({
-              task: pTasks[i],
-              dueTime: 'Due In ' + timeDiff + ' Days'
-            })
-          }
-        }
-
-        if (ret === []) {
-          ret.push({task:{}})
-        }
-
         return ret
       },
     }
