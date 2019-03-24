@@ -52,11 +52,13 @@
             <hr>
           </div>
 
-          <div class="student-card">
-            <img src="https://image.flaticon.com/icons/svg/201/201818.svg" style="width:80%" class="student-icon">
-            <h2 class="student-fullname">{{student.firstName}} {{student.lastName}}</h2>
-            <h4 class="student-email">{{student.mcgillEmail}}</h4>
-          </div>
+          <transition name="slide-fade" appear>
+            <div class="student-card">
+              <img src="https://image.flaticon.com/icons/svg/201/201818.svg" style="width:80%" class="student-icon">
+              <h2 class="student-fullname">{{student.firstName}} {{student.lastName}}</h2>
+              <h4 class="student-email">{{student.mcgillEmail}}</h4>
+            </div>
+          </transition>
         </div>
       </div>
       <div class="col-sm-2 sidenav"></div>
@@ -127,6 +129,21 @@
     margin-right: auto;
     margin-bottom: 20px;
   }
+
+  /* Tab transition animations */
+  .slide-fade-enter-active {
+    transition: all .5s ease;
+  }
+
+  .slide-fade-leave-active {
+    transition: all .5s ease;
+  }
+
+  .slide-fade-enter,
+  .slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+  }
 </style>
 
 <script>
@@ -143,7 +160,8 @@
   export default {
     data() {
       return {
-        student: null
+        student: null,
+        studentID: this.$route.params.id
       }
     },
     created() {

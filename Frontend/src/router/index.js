@@ -45,7 +45,7 @@ export default new Router({
       component: StudentInformation
     },
     {
-      path: '/taskview/:id',
+      path: '/taskview/:enrollmentID/:id',
       name: 'TaskView',
       component: TaskView
     },

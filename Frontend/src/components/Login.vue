@@ -75,7 +75,6 @@
     color: #ffffff;
   }
 
-
   #welcome {
     max-width: 100%;
     margin-top: 0px;
