@@ -11,7 +11,7 @@ module.exports = {
     browser
       .url(devServer)
       .waitForElementVisible('#app', 6000)
-      .assert.title('frontend')
+      .assert.title('Co-Op-Erator')
       .waitForElementVisible('body', 2000)
       .assert.urlContains('login')
 
@@ -22,7 +22,7 @@ module.exports = {
       .click('button[id="login"]')
       .assert.containsText('#demo', 'Please Enter a Correct Student ID')
       .pause(500)
-      .setValue('input[id=usr]', '260123456')
+      .setValue('input[id=usr]', '260654321') // Student account for testing
       .pause(500)
       // Go to Dashboard
       .click('button[id="login"]')
@@ -43,9 +43,53 @@ module.exports = {
       .back()
   },
 
+  'RegisterCourse': function (browser) {
+    browser
+      .waitForElementVisible('#nav-bar button', 2000)
+      // Go to AcceptanceForm
+      .click('#nav-bar button')
+      .waitForElementVisible('#Acceptance-Form', 2000)
+      .assert.urlContains('acceptanceform')
+      .pause(500)
+      // Fill the AcceptanceForm
+    var courseId = 'ECSE450';
+    browser
+      .setValue('input[id="CourseID"]', courseId)
+      .setValue('select[id="CoopTerm"]', 1)
+    var academicTerm = 'Winter';
+    browser
+      .click('input[id=' + academicTerm + ']')
+      .setValue('input[id="JobID"]', 233233)
+      .setValue('input[id="Start"]', '0020190501')
+      .setValue('input[id="End"]', '0020190830')
+      .click('input[id="W-Yes"]')
+      .setValue('input[id="Company-Name"]', 'Microsoft')
+      .setValue('input[id="Employer-Email"]', 'ms@gmail.com')
+      .setValue('input[id="Address-Line-1"]', '100 Soft Street')
+      .setValue('input[id="Address-Line-2"]', '')
+      .setValue('input[id="City"]', 'Redmond')
+      .setValue('input[id="Province"]', 'Washington')
+      .setValue('input[id="Postal-Code"]', '98052')
+      .setValue('input[id="Country"]', 'US')
+      .setValue('input[id="Employer-Contract"]', 'https://www.microsoft.com')
+      .pause(500)
+      // Submit the AcceptanceForm
+      .click('.panel-body .row .row>div:last-child>button:last-child')
+      .pause(500)
+      .acceptAlert()
+      .pause(1500)
+      // Check if Course is added
+      .refresh()
+      .pause(1500)
+    var courseFullName = academicTerm + ' 2019' + ' - ' + courseId;
+    browser
+      .assert.visible('#course-list')
+      .assert.containsText('#course-list', courseFullName)
+  },
+
   'SubmitDocument': function (browser) {
     browser
-      .waitForElementVisible('#course-list', 2000)
+      .waitForElementVisible('#nav-bar button', 6000)
       .element('css selector', '#course-list div', function (result_c) {
         // If there is at least an active Course
         if (result_c.value.ELEMENT) {
@@ -102,10 +146,7 @@ module.exports = {
       .click('button[id="Logout-but"]')
       .waitForElementVisible('button[id="login"]', 2000)
       .assert.urlContains('login')
-  },
 
-  'Close': function (browser) {
-    browser
       .pause(2000)
       .end()
   }
