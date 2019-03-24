@@ -78,8 +78,8 @@
                 <!--Important To display the correct % change the
                 number inside the span, to make the grean bar grow the
                 correct amount change p# in " "-->
-                <div class="c100 p85 big green">
-                  <span>85%</span>
+                <div class="c100 p40 big green">
+                  <span>40%</span>
                   <div class="slice">
                     <div class="bar"></div>
                     <div class="fill"></div>
@@ -1082,138 +1082,6 @@
     color: #4db53c;
   }
 
-  /* CSS Percentage Circle*/
-  /*.pie, .c100 .bar, .c100.p51 .fill, .c100.p52 .fill, .c100.p53 .fill, .c100.p54 .fill, .c100.p55 .fill, .c100.p56 .fill, .c100.p57 .fill, .c100.p58 .fill, .c100.p59 .fill, .c100.p60 .fill, .c100.p61 .fill, .c100.p62 .fill, .c100.p63 .fill, .c100.p64 .fill, .c100.p65 .fill, .c100.p66 .fill, .c100.p67 .fill, .c100.p68 .fill, .c100.p69 .fill, .c100.p70 .fill, .c100.p71 .fill, .c100.p72 .fill, .c100.p73 .fill, .c100.p74 .fill, .c100.p75 .fill, .c100.p76 .fill, .c100.p77 .fill, .c100.p78 .fill, .c100.p79 .fill, .c100.p80 .fill, .c100.p81 .fill, .c100.p82 .fill, .c100.p83 .fill, .c100.p84 .fill, .c100.p85 .fill, .c100.p86 .fill, .c100.p87 .fill, .c100.p88 .fill, .c100.p89 .fill, .c100.p90 .fill, .c100.p91 .fill, .c100.p92 .fill, .c100.p93 .fill, .c100.p94 .fill, .c100.p95 .fill, .c100.p96 .fill, .c100.p97 .fill, .c100.p98 .fill, .c100.p99 .fill, .c100.p100 .fill {
-    position: absolute;
-    border: 0.08em solid #307bbb;
-    width: 0.84em;
-    height: 0.84em;
-    clip: rect(0em, 0.5em, 1em, 0em);
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
-    border-radius: 50%;
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  .c100 {
-    position: relative;
-    font-size: 120px;
-    width: 1em;
-    height: 1em;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
-    border-radius: 50%;
-    float: left;
-    margin: 0 0.1em 0.1em 0;
-    background-color: #cccccc;
-  }
-  /*filling in the green thing
-  .c100 *, .c100 *:before, .c100 *:after {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-  }
-  .c100.big {
-    font-size: 240px;
-  }
-  .c100 > span {
-    position: absolute;
-    width: 100%;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 5em;
-    line-height: 5em;
-    font-size: 0.2em;
-    color: #cccccc;
-    display: block;
-    text-align: center;
-    white-space: nowrap;
-    -webkit-transition-property: all;
-    -moz-transition-property: all;
-    -o-transition-property: all;
-    transition-property: all;
-    -webkit-transition-duration: 0.2s;
-    -moz-transition-duration: 0.2s;
-    -o-transition-duration: 0.2s;
-    transition-duration: 0.2s;
-    -webkit-transition-timing-function: ease-out;
-    -moz-transition-timing-function: ease-out;
-    -o-transition-timing-function: ease-out;
-    transition-timing-function: ease-out;
-  }
-  .c100:after {
-    position: absolute;
-    top: 0.08em;
-    left: 0.08em;
-    display: block;
-    content: " ";
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
-    border-radius: 50%;
-    background-color: whitesmoke;
-    width: 0.84em;
-    height: 0.84em;
-    -webkit-transition-property: all;
-    -moz-transition-property: all;
-    -o-transition-property: all;
-    transition-property: all;
-    -webkit-transition-duration: 0.2s;
-    -moz-transition-duration: 0.2s;
-    -o-transition-duration: 0.2s;
-    transition-duration: 0.2s;
-    -webkit-transition-timing-function: ease-in;
-    -moz-transition-timing-function: ease-in;
-    -o-transition-timing-function: ease-in;
-    transition-timing-function: ease-in;
-  }
-  .c100 .slice {
-    position: absolute;
-    width: 1em;
-    height: 1em;
-    clip: rect(0em, 1em, 1em, 0.5em);
-  }
-  /*Make the grean bar rotate
-  .c100.p50 .bar {
-    -webkit-transform: rotate(180deg);
-    -moz-transform: rotate(180deg);
-    -ms-transform: rotate(180deg);
-    -o-transform: rotate(180deg);
-    transform: rotate(180deg);
-  }
-  .c100:hover {
-    cursor: default;
-  }
-  .c100:hover > span {
-    width: 3.33em;
-    line-height: 3.33em;
-    font-size: 0.3em;
-    color: #307bbb;
-  }
-  .c100:hover:after {
-    top: 0.04em;
-    left: 0.04em;
-    width: 0.92em;
-    height: 0.92em;
-  }
-  /* make the color grean
-  .c100.green .bar, .c100.green .fill {
-    border-color: #4db53c !important;
-  }
-  .c100.green:hover > span {
-    color: #4db53c;
-  }
-  */
 </style>
 
 <script>
@@ -1448,23 +1316,28 @@
         for (var i in pTasks) {
           var dd = moment(pTasks[i].dueDate)
           var timeDiff = Math.floor(moment.duration(dd.diff(currDate)).asDays())
-          if (timeDiff < 1) {
+          if (timeDiff < 1 && timeDiff > 0) {
             ret.push({
               task: pTasks[i],
               dueTime: 'Due Today'
             })
-          } else if (timeDiff < 2) {
+          } else if (timeDiff < 2 && timeDiff > 0) {
             ret.push({
               task: pTasks[i],
               dueTime: 'Due Tomorrow'
             })
-          } else if (timeDiff <= 10) {
+          } else if (timeDiff <= 10 && timeDiff > 0) {
             ret.push({
               task: pTasks[i],
               dueTime: 'Due In ' + timeDiff + ' Days'
             })
           }
         }
+
+        if (ret === []) {
+          ret.push({task:{}})
+        }
+
         return ret
       },
     }
