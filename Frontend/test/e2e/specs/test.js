@@ -20,7 +20,6 @@ module.exports = {
       .assert.visible('#login')
       .waitForElementVisible('input[id="usr"]', 2000)
       .click('button[id="login"]')
-      .assert.containsText('#demo', 'Please Enter A Valid Student ID')
       .pause(500)
       .setValue('input[id=usr]', '260654321') // Student account for testing
       .pause(500)
@@ -51,21 +50,22 @@ module.exports = {
       .waitForElementVisible('#Acceptance-Form', 2000)
       .assert.urlContains('acceptanceform')
       .pause(500)
-      // Fill the AcceptanceForm
+    // Fill the AcceptanceForm
     var courseId = 'ECSE450';
     browser
       .setValue('input[id="CourseID"]', courseId)
       .setValue('select[id="CoopTerm"]', 1)
     var academicTerm = 'Winter';
+    var year = '2020'
     browser
       .click('input[id=' + academicTerm + ']')
       .setValue('input[id="JobID"]', 233233)
-      .setValue('input[id="Start"]', '0020190501')
-      .setValue('input[id="End"]', '0020190830')
+      .setValue('input[id="Start"]', '00' + year + '0501')
+      .setValue('input[id="End"]', '00' + year + '0830')
       .click('input[id="W-Yes"]')
       .setValue('input[id="Company-Name"]', 'Microsoft')
       .setValue('input[id="Employer-Email"]', 'ms@gmail.com')
-      .setValue('input[id="Address-Line-1"]', '100 Soft Street')
+      .setValue('input[id="Address-Line-1"]', '1001  Soft Street')
       .setValue('input[id="Address-Line-2"]', '')
       .setValue('input[id="City"]', 'Redmond')
       .setValue('input[id="Province"]', 'Washington')
@@ -74,14 +74,20 @@ module.exports = {
       .setValue('input[id="Employer-Contract"]', 'https://www.microsoft.com')
       .pause(500)
       // Submit the AcceptanceForm
-      .click('.panel-body .row .row>div:last-child>button:last-child')
+      .click('.panel-body .row .row>div:last-child>button:first-child')
       .pause(500)
-      .acceptAlert()
+      .waitForElementVisible('.modal-mask', 2000)
+      .click('.modal-mask button')
+      .pause(3000)
+      .waitForElementVisible('.modal-mask', 2000)
+      .click('.modal-mask button')
+
+
       .pause(1500)
       // Check if Course is added
       .refresh()
       .pause(1500)
-    var courseFullName = academicTerm + ' 2019' + ' - ' + courseId;
+    var courseFullName = academicTerm + ' 2020' + ' - ' + courseId;
     browser
       .assert.visible('#course-list')
       .assert.containsText('#course-list', courseFullName)
@@ -147,7 +153,7 @@ module.exports = {
       .waitForElementVisible('button[id="login"]', 2000)
       .assert.urlContains('login')
 
-      .pause(2000)
+      .pause(3000)
       .end()
   }
 }
