@@ -334,8 +334,11 @@
                 <slot>
                   <br>
                   <br>
-                  <button class="btn btn-primary" style="min-width:120px" @click="showModalWarningRegistration=false">
-                    <font size="3">Done</font>
+                  <button class="btn btn-primary" style="min-width:120px" @click="goToDashboard">
+                    <font size="3">Yes</font>
+                  </button>
+                  <button class="btn btn-secondary" style="min-width:120px" @click="showModalWarningRegistration=false">
+                    <font size="3">No</font>
                   </button>
                 </slot>
               </div>
