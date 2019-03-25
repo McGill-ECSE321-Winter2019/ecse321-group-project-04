@@ -61,8 +61,8 @@ co-op acceptance, submit required documents and track their co-op program progre
 
 |     Team members      |Total hours|                          Responsibility                        |
 |-----------------------|-----------|----------------------------------------------------------------|
-|**Remi Carriere**      |     19    |Backend Developer Lead / Supporting Frontend Developper (CTO)   |
-|**Naxin Fang**         |     16    |Supporting Frontend Developper                                  |
+|**Remi Carriere**      |     23    |Backend Developer Lead / Supporting Frontend Developper (CTO)   |
+|**Naxin Fang**         |     21    |Supporting Frontend Developper, Frontend Tester                                 |
 |**Boyang Ma**          |     24    |Frontend Developer Second                                       |
 |**Angel Ortiz Regules**|     24    |Frontend Developer Lead                                         |
 |**Marie Vu**           |     19    |Supporting Frontend Developper                                  |
@@ -74,6 +74,10 @@ co-op acceptance, submit required documents and track their co-op program progre
 [Report 3](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-3-Report)
 
 [Build System, Deployment and CI](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Build-System,-Deployment-and-CI)
+
+[Frontend Demonstartion](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Frontend-Demonstration-Instructions)
+
+[Testing Documentation (updated)](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Testing-Documentation)
 
 [RESTful API (updated)](https://documenter.getpostman.com/view/6755770/S11KQdui)
 
