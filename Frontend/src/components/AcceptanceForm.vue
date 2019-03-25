@@ -365,7 +365,10 @@
                   <br>
                   <br>
                   <button class="btn btn-primary" style="min-width:120px" @click="submitForm">
-                    <font size="3">Done</font>
+                    <font size="3">Yes</font>
+                  </button>
+                  <button class="btn btn-secondary" style="min-width:120px" @click="showModalConfirmRegistration=false">
+                    <font size="3">No</font>
                   </button>
                 </slot>
               </div>
