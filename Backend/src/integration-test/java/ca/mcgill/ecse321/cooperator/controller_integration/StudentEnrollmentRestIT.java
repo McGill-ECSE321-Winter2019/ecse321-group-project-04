@@ -213,7 +213,7 @@ public class StudentEnrollmentRestIT {
         HttpMethod.POST, entity, String.class);
 
     // Check Status
-    assertEquals(HttpStatus.I_AM_A_TEAPOT, response.getStatusCode());
+    assertEquals(HttpStatus.OK, response.getStatusCode());
     // Check Error Message
     result = response.getBody().toString();
     assertTrue(result.contains("Enrollment Already Exists"));
