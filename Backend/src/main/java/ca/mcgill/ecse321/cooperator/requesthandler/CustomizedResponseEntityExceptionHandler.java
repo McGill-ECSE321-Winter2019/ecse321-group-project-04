@@ -45,7 +45,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
       WebRequest request) {
     ErrorDetails errorDetails =
         new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-    return new ResponseEntity(errorDetails, HttpStatus.NOT_MODIFIED);
+    return new ResponseEntity(errorDetails, HttpStatus.OK);
   }
 
 }
