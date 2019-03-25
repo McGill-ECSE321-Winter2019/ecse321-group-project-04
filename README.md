@@ -77,7 +77,7 @@ co-op acceptance, submit required documents and track their co-op program progre
 
 [Frontend Demonstartion](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Frontend-Demonstration-Instructions)
 
-[Testing Documentation (updated)](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Testing-Documentation)
+[Additional Features](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-3-Additional-Features-(Bonus))
 
 [RESTful API (updated)](https://documenter.getpostman.com/view/6755770/S11KQdui)
 
