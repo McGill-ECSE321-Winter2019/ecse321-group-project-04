@@ -259,7 +259,7 @@
     </div>
     </div>
 
-    <!-- Sucessful Withdrawal Modal -->
+    <!-- Sucessful Modal -->
     <transition name="modal" mode="out-in">
       <div v-if="showModalSuccessRegistration" key="success">
         <div class="modal-mask">
@@ -275,6 +275,36 @@
                   <br>
                   <br>
                   <button class="btn btn-primary" style="min-width:120px" @click="goToDashboard">
+                    <font size="3">Done</font>
+                  </button>
+                </slot>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+
+    <!-- Failure Modal -->
+    <transition name="modal" mode="out-in">
+      <div v-if="showModalFailRegistration" key="success">
+        <div class="modal-mask">
+          <div class="modal-wrapper" @click="showModalFailRegistration=false">
+            <div class="modal-container" @click.stop>
+              <div class="modal-header">
+                <slot name="header">
+                  Failed Registration
+                </slot>
+              </div>
+              <div class="modal-body">
+                <h4 style="text-align:center">There was a problem processing your request.<br><br>Please try again later.</h4>
+                <br>
+              </div>
+              <div style="text-align:center">
+                <slot>
+                  <br>
+                  <br>
+                  <button class="btn btn-primary" style="min-width:120px" @click="showModalFailRegistration=false">
                     <font size="3">Done</font>
                   </button>
                 </slot>
@@ -534,7 +564,8 @@
     data() {
       return {
         employer: null,
-        showModalSuccessRegistration: false
+        showModalSuccessRegistration: false,
+        showModalFailRegistration: false
       }
     },
     methods: {
@@ -684,18 +715,22 @@
                         var errorMsg = e.message
                         console.log(errorMsg)
                         this.error = errorMsg
+                        this.showModalFailRegistration = true
                       })
                   })
                   .catch(e => {
                     var errorMsg = e.message
                     console.log(errorMsg)
                     this.error = errorMsg
+                    this.showModalFailRegistration = true
                   })
               })
               .catch(e => {
                 var errorMsg = e.message
                 console.log(errorMsg)
                 this.error = errorMsg
+                console.log('Hello')
+                this.showModalFailRegistration = true
               })
 
           }
