@@ -20,7 +20,7 @@ module.exports = {
       .assert.visible('#login')
       .waitForElementVisible('input[id="usr"]', 2000)
       .click('button[id="login"]')
-      .assert.containsText('#demo', 'Please Enter a Correct Student ID')
+      .assert.containsText('#demo', 'Please Enter A Valid Student ID')
       .pause(500)
       .setValue('input[id=usr]', '260654321') // Student account for testing
       .pause(500)
