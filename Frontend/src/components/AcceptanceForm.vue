@@ -287,7 +287,7 @@
 
     <!-- Failure Modal -->
     <transition name="modal" mode="out-in">
-      <div v-if="showModalFailRegistration" key="success">
+      <div v-if="showModalFailRegistration" key="failure">
         <div class="modal-mask">
           <div class="modal-wrapper" @click="showModalFailRegistration=false">
             <div class="modal-container" @click.stop>
@@ -317,7 +317,7 @@
 
     <!-- Warning Modal -->
     <transition name="modal" mode="out-in">
-      <div v-if="showModalWarningRegistration" key="success">
+      <div v-if="showModalWarningRegistration" key="warning">
         <div class="modal-mask">
           <div class="modal-wrapper" @click="showModalWarningRegistration=false">
             <div class="modal-container" @click.stop>
@@ -347,7 +347,7 @@
 
     <!-- Confirm Modal -->
     <transition name="modal" mode="out-in">
-      <div v-if="showModalConfirmRegistration" key="success">
+      <div v-if="showModalConfirmRegistration" key="confirm">
         <div class="modal-mask">
           <div class="modal-wrapper" @click="showModalConfirmRegistration=false">
             <div class="modal-container" @click.stop>
@@ -367,6 +367,37 @@
                   <button class="btn btn-primary" style="min-width:120px" @click="submitForm">
                     <font size="3">Done</font>
                   </button>
+                </slot>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+
+    <!-- Processing Modal -->
+    <transition name="modal" mode="out-in">
+      <div v-if="showModalProcessingRegistration" key="processing">
+        <div class="modal-mask">
+          <div class="modal-wrapper" @click="showModalProcessingRegistration=false">
+            <div class="modal-container" @click.stop>
+              <div class="modal-header">
+                <slot name="header">
+                  Processing Registration
+                </slot>
+              </div>
+              <div class="modal-body">
+                <h4 style="text-align:center">Your request is being processed.</h4>
+                <br>
+                <div style="text-align:center">
+                  <img src="https://user-images.githubusercontent.com/22506116/54891974-f9cba300-4e85-11e9-8842-9ab32c10658f.gif" width="200" height="200">
+                </div>
+                <br>
+              </div>
+              <div style="text-align:center">
+                <slot>
+                  <br>
+                  <br>
                 </slot>
               </div>
             </div>
@@ -627,7 +658,8 @@
         showModalSuccessRegistration: false,
         showModalFailRegistration: false,
         showModalConfirmRegistration: false,
-        showModalWarningRegistration: false
+        showModalWarningRegistration: false,
+        showModalProcessingRegistration: false
       }
     },
     methods: {
@@ -703,6 +735,9 @@
 
 
         if (valid) {
+          // Show processing modal
+          this.showModalProcessingRegistration = true
+
           //Get the Student Details
           var studentID = this.$route.params.id;
 
@@ -770,12 +805,14 @@
                       "workPermit": workPermit,
                       "jobID": jobID
                     }).then(response => {
+                      this.showModalProcessingRegistration = false
                       this.showModalSuccessRegistration = true
                     })
                     .catch(e => {
                       var errorMsg = e.message
                       console.log(errorMsg)
                       this.error = errorMsg
+                      this.showModalProcessingRegistration = false
                       this.showModalFailRegistration = true
                     })
                 })
@@ -783,6 +820,7 @@
                   var errorMsg = e.message
                   console.log(errorMsg)
                   this.error = errorMsg
+                  this.showModalProcessingRegistration = false
                   this.showModalFailRegistration = true
                 })
             })
@@ -791,6 +829,7 @@
               console.log(errorMsg)
               this.error = errorMsg
               console.log('Hello')
+              this.showModalProcessingRegistration = false
               this.showModalFailRegistration = true
             })
 
