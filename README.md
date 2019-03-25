@@ -62,7 +62,7 @@ co-op acceptance, submit required documents and track their co-op program progre
 |     Team members      |Total hours|                          Responsibility                        |
 |-----------------------|-----------|----------------------------------------------------------------|
 |**Remi Carriere**      |     19    |Backend Developer Lead / Supporting Frontend Developper (CTO)   |
-|**Naxin Fang**         |     16    |Supporting Frontend Developper                                  |
+|**Naxin Fang**         |     21    |Supporting Frontend Developper, Frontend Tester                                 |
 |**Boyang Ma**          |     24    |Frontend Developer Second                                       |
 |**Angel Ortiz Regules**|     24    |Frontend Developer Lead                                         |
 |**Marie Vu**           |     19    |Supporting Frontend Developper                                  |
