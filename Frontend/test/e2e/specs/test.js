@@ -10,22 +10,22 @@ module.exports = {
 
     browser
       .url(devServer)
-      .waitForElementVisible('#app', 6000)
+      .waitForElementVisible('#app', 5000)
       .assert.title('Co-Op-Erator')
-      .waitForElementVisible('body', 2000)
+      .waitForElementVisible('body', 5000)
       .assert.urlContains('login')
 
       // Test student log-in
       .assert.visible('.form-group')
       .assert.visible('#login')
-      .waitForElementVisible('input[id="usr"]', 2000)
+      .waitForElementVisible('input[id="usr"]', 5000)
       .click('button[id="login"]')
       .pause(500)
       .setValue('input[id=usr]', '260654321') // Student account for testing
       .pause(500)
       // Go to Dashboard
       .click('button[id="login"]')
-      .waitForElementVisible('#nav-bar', 2000)
+      .waitForElementVisible('#nav-bar', 5000)
       .assert.urlContains('dashboard')
   },
 
@@ -34,7 +34,7 @@ module.exports = {
       .assert.visible('#Account-but')
       .pause(500)
       .click('#Account-but')
-      .waitForElementVisible('#Student-Info', 2000)
+      .waitForElementVisible('#Student-Info', 5000)
       .assert.urlContains('studentinformation')
       .assert.visible('.student-card')
       // Go back to DashBoard
@@ -44,10 +44,10 @@ module.exports = {
 
   'RegisterCourse': function (browser) {
     browser
-      .waitForElementVisible('#nav-bar button', 2000)
+      .waitForElementVisible('#nav-bar button', 5000)
       // Go to AcceptanceForm
       .click('#nav-bar button')
-      .waitForElementVisible('#Acceptance-Form', 2000)
+      .waitForElementVisible('#Acceptance-Form', 5000)
       .assert.urlContains('acceptanceform')
       .pause(500)
     // Fill the AcceptanceForm
@@ -76,10 +76,10 @@ module.exports = {
       // Submit the AcceptanceForm
       .click('.panel-body .row .row>div:last-child>button:first-child')
       .pause(500)
-      .waitForElementVisible('.modal-mask', 2000)
+      .waitForElementVisible('.modal-mask', 5000)
       .click('.modal-mask button')
       .pause(3000)
-      .waitForElementVisible('.modal-mask', 2000)
+      .waitForElementVisible('.modal-mask', 5000)
       .click('.modal-mask button')
 
 
@@ -95,18 +95,18 @@ module.exports = {
 
   'SubmitDocument': function (browser) {
     browser
-      .waitForElementVisible('#nav-bar button', 6000)
+      .waitForElementVisible('#nav-bar button', 5000)
       .element('css selector', '#course-list div', function (result_c) {
         // If there is at least an active Course
         if (result_c.value.ELEMENT) {
           // Go to CourseInfo
           browser
             .click('#course-list>.row:first-child .panel-body>a')
-            .waitForElementVisible('#course-title', 2000)
+            .waitForElementVisible('#course-title', 5000)
             .assert.urlContains('courseinfo')
             .assert.visible('#nav-bar')
             .click('#nav-bar>.row>div>ul>li:nth-child(2)>a')
-            .waitForElementVisible('table', 2000)
+            .waitForElementVisible('table', 5000)
             .pause(500)
             .element('css selector', 'table>tbody>tr', function (result_t) {
               // If there is at least a Task
@@ -114,13 +114,13 @@ module.exports = {
                 browser
                   // Go to TaskView
                   .click('table>tbody>tr:first-child>td:first-child a')
-                  .waitForElementVisible('#task-submission', 2000)
+                  .waitForElementVisible('#task-submission', 5000)
                   .assert.urlContains('taskview')
                   .assert.visible('button[class="btn btn-success"]')
                   .pause(500)
                   // Open Document Submission modal
                   .click('button[class="btn btn-success"]')
-                  .waitForElementVisible('#task-submission .modal-mask', 2000)
+                  .waitForElementVisible('#task-submission .modal-mask', 5000)
                   .assert.visible('.modal-mask .modal-container')
                   .pause(500)
                 var docName = 'CoopReport 0001';
@@ -136,7 +136,7 @@ module.exports = {
                   // Check if Document is added
                   .pause(500)
                   .click('#task-submission>.row ul>li:nth-child(2)')
-                  .waitForElementVisible('table', 2000)
+                  .waitForElementVisible('table', 5000)
                   .assert.containsText('tbody', docName)
               }
             })
