@@ -89,21 +89,21 @@
 
                 <div class="form-check-inline">
                   <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optradio" id="Fall">
+                    <input type="radio" class="form-check-input" name="optradio" checked="true" id="Fall">
                     <h4 style="margin-left:5px">Fall</h4>
                   </label>
                 </div>
 
                 <div class="form-check-inline">
                   <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optradio" id="Summer">
+                    <input type="radio" class="form-check-input" name="optradio" id="Winter">
                     <h4 style="margin-left:5px">Winter</h4>
                   </label>
                 </div>
 
                 <div class="form-check-inline">
                   <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optradio" id="Winter">
+                    <input type="radio" class="form-check-input" name="optradio" id="Summer">
                     <h4 style="margin-left:5px">Summer</h4>
                   </label>
                 </div>
@@ -150,7 +150,7 @@
 
                 <div class="form-check-inline">
                   <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optradio" id="W-Yes">
+                    <input type="radio" class="form-check-input" name="optradio" checked="true" id="W-Yes">
                     <h4 style="margin-left:5px">Yes</h4>
                   </label>
                 </div>
@@ -214,6 +214,7 @@
                   <form class="form-inline" action="/action_page.php">
                     <label for="postalcode2" class="mb-2 mr-sm-2">Postal Code:</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" size="30" id="Postal-Code" placeholder="Postal Code" name="Postal Code">
+                    <p style="color:red" id="postalCodeErrorMsg"></p>
                   </form>
                 </div>
                 <div class="col-sm-6">
@@ -257,6 +258,34 @@
       </div>
     </div>
     </div>
+
+    <!-- Sucessful Withdrawal Modal -->
+    <transition name="modal" mode="out-in">
+      <div v-if="showModalSuccessRegistration" key="success">
+        <div class="modal-mask">
+          <div class="modal-wrapper" @click="showModalSuccessRegistration=false">
+            <div class="modal-container" @click.stop>
+              <div class="modal-header">
+                <slot name="header">
+                  Successful Registration
+                </slot>
+              </div>
+              <div style="text-align:center">
+                <slot>
+                  <br>
+                  <br>
+                  <button class="btn btn-primary" style="min-width:120px" @click="goToDashboard">
+                    <font size="3">Done</font>
+                  </button>
+                </slot>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+
+
   </body>
 
   </html>
@@ -412,6 +441,68 @@
     margin-left: 15px;
     min-width: 73%;
   }
+
+  .modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: table;
+    transition: opacity .3s ease;
+  }
+
+  .modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .modal-container {
+    width: 400px;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  .modal-header {
+    margin-top: 0;
+    font-size: 24px;
+  }
+
+  .modal-body {
+    margin: 0;
+  }
+
+  .modal-default-button {
+    float: right;
+  }
+
+  .modal-enter {
+    opacity: 0;
+  }
+
+  .modal-leave-active {
+    opacity: 0;
+    transition: all .3s ease;
+  }
+
+  /*.modal-enter-active {
+    opacity: 0;
+    transition: all .3s ease;
+  }*/
+
+  .modal-enter .modal-container,
+  .modal-leave-active .modal-container,
+  .modal-leave-to .modal-container {
+    /*-webkit-transform: scale(1.1);*/
+    transform: translateY(100px);
+  }
 </style>
 
 <script>
@@ -425,11 +516,25 @@
     baseURL: backendUrl
   })
 
+  function checkInput(elementID) {
+    var element = document.getElementById(elementID)
+    var value = element.value
+
+    if (value === '' || value === null) {
+      element.className = 'form-control form-control-lg is-invalid'
+      return false
+    } else {
+      element.className = 'form-control form-control-lg'
+      return true
+    }
+  }
+
   export default {
 
     data() {
       return {
-        employer: null
+        employer: null,
+        showModalSuccessRegistration: false
       }
     },
     methods: {
@@ -446,102 +551,154 @@
         }
       },
       submitForm: function() {
-
         var click = confirm("Do you want to register for this course?");
         if (click == true) {
-          //Get the Student Details
-          var studentID = this.$route.params.id;
+          // Format postal code correctly
+          var ps = document.getElementById("Postal-Code")
+          ps.value = ps.value.replace(/\s/g, '').toUpperCase()
 
-          //Get the Employer Details
-          var companyName = document.getElementById("Company-Name").value;
-          var employerEmail = document.getElementById("Employer-Email").value;
-          //Address
-          var addressline1 = document.getElementById("Address-Line-1").value;
-          var addressline2 = document.getElementById("Address-Line-2").value;
-          var city = document.getElementById("City").value;
-          var province = document.getElementById("Province").value;
-          var postalCode = document.getElementById("Postal-Code").value;
-          var country = document.getElementById("Country").value;
-          var address = addressline1 + " " + addressline2 + ", " + city + ", " + province + " " + postalCode + ", " + country
+          var cID = document.getElementById("CourseID")
+          cID.value = cID.value.replace(/[\s-]/g, '').toUpperCase()
 
-          // Get the course details
-          var courseID = document.getElementById("CourseID").value
-          var coopTerm = document.getElementById("CoopTerm").value
+          var valid = true
+          var elements = ["Company-Name",
+            "Employer-Email",
+            "Address-Line-1",
+            "City",
+            "Province",
+            "Postal-Code",
+            "Country",
+            "CourseID",
+            "JobID",
+            "Employer-Contract"
+          ]
 
-          // Get the offering Details
-          var active = true; //default for new course
-          var term = null;
-          var year = document.getElementById("Start").value.substring(0, 4)
-          var yearID = document.getElementById("Start").value.substring(2, 4);
-          if (document.getElementById("Fall").checked) {
-            term = "FALL";
-          } else if (document.getElementById("Winter").checked) {
-            term = "WINTER";
-          } else if (document.getElementById("Summer").checked) {
-            term = "SUMMER";
-          }
-          if (term != null)
-            var offeringID = courseID + "-" + term.charAt() + yearID;
-
-          // Get the Enrollment Details
-          var jobID = document.getElementById("JobID").value;
-          var startDate = document.getElementById("Start").value;
-          var endDate = document.getElementById("End").value;
-          var workPermit = document.getElementById("W-Yes").checked;
-          var status = "ONGOING"; //default for new enrollment
-          var employerContractURL = document.getElementById("Employer-Contract").value;
-          var coopAcceptanceForm = "www.urlforthisform.com" //Just a sample for now
-
-          //Create the employer, course and offering (Won't be created if already in DB)
-          AXIOS.post(`/employer/`, {
-            "name": companyName,
-            "email": employerEmail,
-            "address": address
-          })
-
-          AXIOS.post(`/coopCourse/`, {
-              "courseCode": courseID,
-              "coopTerm": coopTerm
-            }).then(response => {
-              AXIOS.post(`/coopCourseOffering?courseCode=` + courseID, {
-                  "year": year,
-                  "term": term,
-                  "active": active
-                }).then(response => {
-                  AXIOS.post(`studentEnrollment?courseOfferingID=` + offeringID + `&studentID=` + studentID + `&employerEmail=` + employerEmail + `&coopAcceptanceForm=` + coopAcceptanceForm + `&employerContract=` + employerContractURL, {
-                      "active": active,
-                      "status": status,
-                      "startDate": startDate,
-                      "endDate": endDate,
-                      "workPermit": workPermit,
-                      "jobID": jobID
-                    }).then(response => {
-
-                    })
-                    .catch(e => {
-                      var errorMsg = e.message
-                      console.log(errorMsg)
-                      this.error = errorMsg
-                    })
-                })
-                .catch(e => {
-                  var errorMsg = e.message
-                  console.log(errorMsg)
-                  this.error = errorMsg
-                })
-            })
-            .catch(e => {
-              var errorMsg = e.message
-              console.log(errorMsg)
-              this.error = errorMsg
-            })
-
-          this.$router.push({
-            name: 'Dashboard',
-            params: {
-              id: this.$route.params.id
+          // Check that the field elements aren't empty
+          elements.forEach(function(el) {
+            if (!checkInput(el)) {
+              valid = false
             }
           })
+
+          // Check that the postal code is valid
+          var canadianPC = /^[a-zA-Z]\d[a-zA-Z]\d[a-zA-Z]\d$/
+          var internationalPC = /^\d{5}$/
+          var inputPC = document.getElementById('Postal-Code').value
+          if (inputPC.search(canadianPC) == -1 && inputPC.search(internationalPC) == -1) {
+            valid = false
+            document.getElementById('Postal-Code').className = 'form-control mb-2 mr-sm-2 is-invalid'
+            document.getElementById("postalCodeErrorMsg").innerHTML = 'Please Enter A Valid Postal Code. e.g. H2XM3N or 94240'
+          } else {
+            document.getElementById('Postal-Code').className = 'form-control mb-2 mr-sm-2'
+            document.getElementById("postalCodeErrorMsg").innerHTML = ''
+          }
+
+          // Check that the input dates are valid
+          var startEl = document.getElementById("Start")
+          var endEl = document.getElementById("End")
+          if (startEl.value == "") {
+            valid = false
+            startEl.className = "form-control mb-2 mr-sm-2 is-invalid"
+          } else {
+            startEl.className = "form-control mb-2 mr-sm-2"
+          }
+          if (endEl.value == "") {
+            valid = false
+            endEl.className = "form-control mb-2 mr-sm-2 is-invalid"
+          } else {
+            endEl.className = "form-control mb-2 mr-sm-2"
+          }
+
+
+          if (valid) {
+            //Get the Student Details
+            var studentID = this.$route.params.id;
+
+            //Get the Employer Details
+            var companyName = document.getElementById("Company-Name").value;
+            var employerEmail = document.getElementById("Employer-Email").value;
+            //Address
+            var addressline1 = document.getElementById("Address-Line-1").value;
+            var addressline2 = document.getElementById("Address-Line-2").value;
+            var city = document.getElementById("City").value;
+            var province = document.getElementById("Province").value;
+            var postalCode = document.getElementById("Postal-Code").value;
+            var country = document.getElementById("Country").value;
+            var address = addressline1 + " " + addressline2 + ", " + city + ", " + province + " " + postalCode + ", " + country
+
+            // Get the course details
+            var courseID = document.getElementById("CourseID").value
+            var coopTerm = document.getElementById("CoopTerm").value
+
+            // Get the offering Details
+            var active = true; //default for new course
+            var term = null;
+            var year = document.getElementById("Start").value.substring(0, 4)
+            var yearID = document.getElementById("Start").value.substring(2, 4);
+            if (document.getElementById("Fall").checked) {
+              term = "FALL";
+            } else if (document.getElementById("Winter").checked) {
+              term = "WINTER";
+            } else if (document.getElementById("Summer").checked) {
+              term = "SUMMER";
+            }
+            if (term != null)
+              var offeringID = courseID + "-" + term.charAt() + yearID;
+
+            // Get the Enrollment Details
+            var jobID = document.getElementById("JobID").value;
+            var startDate = document.getElementById("Start").value;
+            var endDate = document.getElementById("End").value;
+            var workPermit = document.getElementById("W-Yes").checked;
+            var status = "ONGOING"; //default for new enrollment
+            var employerContractURL = document.getElementById("Employer-Contract").value;
+            var coopAcceptanceForm = "www.urlforthisform.com" //Just a sample for now
+
+            //Create the employer, course and offering (Won't be created if already in DB)
+            AXIOS.post(`/employer/`, {
+              "name": companyName,
+              "email": employerEmail,
+              "address": address
+            })
+
+            AXIOS.post(`/coopCourse/`, {
+                "courseCode": courseID,
+                "coopTerm": coopTerm
+              }).then(response => {
+                AXIOS.post(`/coopCourseOffering?courseCode=` + courseID, {
+                    "year": year,
+                    "term": term,
+                    "active": active
+                  }).then(response => {
+                    AXIOS.post(`studentEnrollment?courseOfferingID=` + offeringID + `&studentID=` + studentID + `&employerEmail=` + employerEmail + `&coopAcceptanceForm=` + coopAcceptanceForm + `&employerContract=` + employerContractURL, {
+                        "active": active,
+                        "status": status,
+                        "startDate": startDate,
+                        "endDate": endDate,
+                        "workPermit": workPermit,
+                        "jobID": jobID
+                      }).then(response => {
+                        this.showModalSuccessRegistration = true
+                      })
+                      .catch(e => {
+                        var errorMsg = e.message
+                        console.log(errorMsg)
+                        this.error = errorMsg
+                      })
+                  })
+                  .catch(e => {
+                    var errorMsg = e.message
+                    console.log(errorMsg)
+                    this.error = errorMsg
+                  })
+              })
+              .catch(e => {
+                var errorMsg = e.message
+                console.log(errorMsg)
+                this.error = errorMsg
+              })
+
+          }
         }
       },
       goToLogin: function() {
