@@ -13,7 +13,7 @@
 
     <div class="container-fluid" id="top-container">
       <div class="container text-center">
-          <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
+        <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
       </div>
     </div>
 
@@ -48,7 +48,7 @@
                   <font size="4"><b>Login</b></font>
                 </button>
                 <br>
-                <a href="#"><i><b>Need help?</b></i></a>
+                <a href="#" @click="showModalHelp=true"><i><b>Need help?</b></i></a>
               </div>
             </div>
           </div>
@@ -57,6 +57,40 @@
       </div>
       <div class="col-sm-2 sidenav"></div>
     </div>
+
+    <!-- URL Display Modal -->
+    <transition name="modal">
+      <div v-if="showModalHelp" key="helpModal">
+        <div class="modal-mask">
+          <div class="modal-wrapper" @click="showModalHelp=false">
+            <div class="modal-container" @click.stop>
+              <div class="modal-header">
+                <slot name="header">
+                  IT Help Information
+                </slot>
+              </div>
+              <div class="modal-body">
+                <h4 style="color:gray"><em>Email</em></h4>
+                <h4><b>it.helpdesk@cooperator.ca</b></h4>
+                <br>
+                <h4 style="color:gray"><em>Phone</em></h4>
+                <h4><b>438-382-2349</b></h4>
+                <br>
+              </div>
+              <br>
+              <div style="text-align:center">
+                <slot>
+                  <button class="btn btn-primary" style="min-width:120px" @click="showModalHelp=false">
+                    <font size="3">Done</font>
+                  </button>
+                </slot>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+
   </body>
 
   </html>
@@ -96,6 +130,68 @@
     font-style: oblique;
     color: #333335;
   }
+
+  .modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: table;
+    transition: opacity .3s ease;
+  }
+
+  .modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .modal-container {
+    width: 400px;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  .modal-header {
+    margin-top: 0;
+    font-size: 24px;
+  }
+
+  .modal-body {
+    margin: 0;
+  }
+
+  .modal-default-button {
+    float: right;
+  }
+
+  .modal-enter {
+    opacity: 0;
+  }
+
+  .modal-leave-active {
+    opacity: 0;
+    transition: all .3s ease;
+  }
+
+  /*.modal-enter-active {
+    opacity: 0;
+    transition: all .3s ease;
+  }*/
+
+  .modal-enter .modal-container,
+  .modal-leave-active .modal-container,
+  .modal-leave-to .modal-container {
+    /*-webkit-transform: scale(1.1);*/
+    transform: translateY(100px);
+  }
 </style>
 
 <script>
@@ -111,26 +207,21 @@
   })
 
   var checkInput = async (input) => {
-    if (input.length !== 9) {
-      console.log("length is not 9 😠 ");
-      return false;
+    if (input.trim().search(/\d{9}/) == -1) {
+      return 1; // Bad input
     } else {
       try {
         let response = await AXIOS.get(/students/ + input);
         if (response.data !== {}) {
-          console.log("successful request! 🙂 ");
-          return true;
+          return 0; // Student records found
         } else {
-          console.log("successful request but data is empty 😞");
-          return false;
+          return 2; // No matching records
         }
       } catch (e) {
-        console.log("unsuccessful request 😞");
-        return false;
+        return 3; // Error while making request
       }
 
     }
-    console.log("none of the if/else statements got entered");
     return false;
   }
 
@@ -138,7 +229,8 @@
     name: 'login',
     data() {
       return {
-        student: null
+        student: null,
+        showModalHelp: false
       }
     },
     methods: {
@@ -150,7 +242,7 @@
       goToDashboard: async function() {
         var input = document.getElementById("usr").value;
         var result = await checkInput(input);
-        if (result) {
+        if (result == 0) {
           this.$router.push({
             name: 'Dashboard',
             params: {
@@ -159,9 +251,12 @@
           })
         } else {
           document.getElementById("usr").className = 'form-control form-control-lg is-invalid'
-          console.log("b");
-          document.getElementById("demo").innerHTML = "Please Enter a Correct Student ID";
           document.getElementById("demo").style.color = 'red'
+          if (result == 1) {
+            document.getElementById("demo").innerHTML = "Please Enter A Valid Student ID";
+          } else if (result == 2 || result == 3) {
+            document.getElementById("demo").innerHTML = "There Are No Records For Student ID " + input;
+          }
         };
         //var result = checkInput(input).then(ret);
         console.log("hey")
