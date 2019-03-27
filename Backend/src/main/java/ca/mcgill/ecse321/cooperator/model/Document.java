@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.cooperator.model;
 
 import java.sql.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,7 +25,7 @@ public class Document {
   public void setUrl(String value) {
     this.url = value;
   }
-
+  @Column(columnDefinition="LONGVARCHAR")
   public String getUrl() {
     return this.url;
   }
