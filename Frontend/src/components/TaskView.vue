@@ -226,7 +226,7 @@
                   <h4><b>{{displayDocName}}</b></h4>
                   <br>
                   <h4 style="color:gray"><em>Document URL</em></h4>
-                  <h4><b>{{displayURLName}}</b></h4>
+                  <h4 style="word-wrap: break-word"><b>{{displayURLName}}</b></h4>
                   <br>
                 </div>
                 <br>
