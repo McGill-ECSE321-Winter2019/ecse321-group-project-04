@@ -228,13 +228,10 @@
             <br>
             <form class="form-inline">
               <label for="Employer-Contract" class="mb-2 mr-sm-2">Employer Contract:</label>
-              <input type="file" @change="onFileSelected">
-              <button @click="onUpload" type="button" class="btn btn-outline-secondary">
-                <font size="4">Upload</b></font>
-              </button>
-              <button @click="print" type="button" class="btn btn-outline-secondary">
-                <font size="4">Print</b></font>
-              </button>
+              <div class="custom-file">
+                <input type="file" @change="onFileSelected" class="custom-file-input" id="inputGroupFile01">
+                <label class="custom-file-label" for="inputGroupFile01" >{{selectedFileName}}</label>
+              </div>
             </form>
             <br>
             <br>
@@ -674,6 +671,7 @@
           showModalWarningRegistration: false,
           showModalProcessingRegistration: false,
           selectedFile : null,
+          selectedFileName : 'Choose File',
           ContractURL : null,
           AcceptanceFormURL: null
         }
@@ -693,13 +691,15 @@
         },
         onFileSelected(event){
           this.selectedFile = event.target.files[0]
+          this.selectedFileName = this.selectedFile.name
+          console.log(event.target.files[0])
         },
         print(event){
           console.log(this.ContractURL)
           console.log(this.AcceptanceFormURL)
         },
         async onUpload(){
-          this.genFile();
+          //this.genFile();
           const fd = new FormData();
           var id = Math.floor((Math.random() * 10000));
           var filename = this.selectedFile.name;
@@ -708,17 +708,14 @@
           filename = nameNoExt+id+'.'+ext;
 
           fd.append('doc', this.selectedFile, filename)
-          axios.post('https://us-central1-cooperator-2b466.cloudfunctions.net/uploadFile', fd,{
+          let response = await axios.post('https://us-central1-cooperator-2b466.cloudfunctions.net/uploadFile', fd,{
             onUploadProgress: uploadEvent =>{
               console.log('upload pregress: ' + Math.floor(uploadEvent.loaded / uploadEvent.total)*100 )
             }
           })
-          .then(res =>{
-            console.log(res)
-            console.log(res.data.shortURL)
-            this.ContractURL = res.data.shortURL
-
-          })
+          this.ContractURL = response.data.shortURL
+          console.log(this.ContractURL)
+          return response;
 
         },
         async genFile(){
@@ -796,22 +793,17 @@
           doc.text(20, 140,'Employer Email: ' + employerEmail);
           doc.text(20, 150,'Address: ' + address);
 
-
-
-
           var pdf = doc.output('blob')
           fd.append('doc', pdf, filename)
-          axios.post('https://us-central1-cooperator-2b466.cloudfunctions.net/uploadFile', fd,
+          let response = await axios.post('https://us-central1-cooperator-2b466.cloudfunctions.net/uploadFile', fd,
           {
             onUploadProgress: uploadEvent =>{
               console.log('upload pregress: ' + Math.floor(uploadEvent.loaded / uploadEvent.total)*100 )
             }
           })
-          .then(res =>{
-            console.log(res)
-            console.log(res.data.shortURL)
-            this.AcceptanceFormURL = res.data.shortURL
-          })
+          this.AcceptanceFormURL = response.data.shortURL
+          console.log(this.AcceptanceFormURL)
+          return response;
         },
         submitForm: async function() {
           this.showModalConfirmRegistration = false
@@ -870,6 +862,17 @@
           endEl.className = "form-control mb-2 mr-sm-2"
         }
 
+        //Check that the document is valid
+        var inputDoc = document.getElementById('inputGroupFile01').value
+        if(inputDoc === null || inputDoc === ''){
+          valid = false
+          document.getElementById('inputGroupFile01').className = 'form-control form-control-lg is-invalid'
+        }else {
+          valid = valid ? true : false
+          document.getElementById('inputGroupFile01').className = 'form-control form-control-lg'
+        }
+
+
 
         if (valid) {
           // Show processing modal
@@ -915,13 +918,11 @@
           var endDate = document.getElementById("End").value;
           var workPermit = document.getElementById("W-Yes").checked;
           var status = "ONGOING"; //default for new enrollment
-          var coopAcceptanceForm = "www.urlforthisform.com" //Just a sample for now
 
           //Push the two forms to firebase
-          //await this.genFile()
-          //await this.onUpload()
-
-
+          let wait1 = await this.genFile()
+          let wait2 = await this.onUpload()
+          
           //Create the employer, course and offering (Won't be created if already in DB)
           AXIOS.post(`/employer/`, {
             "name": companyName,
@@ -949,18 +950,18 @@
                 },
                 "acceptanceFormURL" : this.AcceptanceFormURL,
                 "employerContractURL" : this.ContractURL
-                }).then(response => {
-                  this.showModalProcessingRegistration = false
-                  this.showModalSuccessRegistration = true
-                })
-                .catch(e => {
-                  var errorMsg = e.message
-                  console.log(errorMsg)
-                  this.error = errorMsg
-                  this.showModalProcessingRegistration = false
-                  this.showModalFailRegistration = true
-                })
+              }).then(response => {
+                this.showModalProcessingRegistration = false
+                this.showModalSuccessRegistration = true
               })
+              .catch(e => {
+                var errorMsg = e.message
+                console.log(errorMsg)
+                this.error = errorMsg
+                this.showModalProcessingRegistration = false
+                this.showModalFailRegistration = true
+              })
+            })
             .catch(e => {
               var errorMsg = e.message
               console.log(errorMsg)
