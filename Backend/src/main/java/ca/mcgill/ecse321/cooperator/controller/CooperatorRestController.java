@@ -114,16 +114,17 @@ public class CooperatorRestController {
    */
 
   @PostMapping("/studentEnrollment")
-  public ResponseEntity<Object> createStudentEnrollment(@RequestBody StudentEnrollment se,
+  public ResponseEntity<Object> createStudentEnrollment(@RequestBody EnrollmentWrapper sew,
       @RequestParam(name = "courseOfferingID") String offerID,
       @RequestParam(name = "studentID") Integer id,
-      @RequestParam(name = "employerEmail") String email,
-      @RequestParam(name = "coopAcceptanceForm") String coopAcceptanceForm,
-      @RequestParam(name = "employerContract") String employerContract) {
+      @RequestParam(name = "employerEmail") String email) {
 
     CoopCourseOffering cco = service.getCoopCourseOffering(offerID);
     Student s = service.getStudent(id);
     Employer e = service.getEmployer(email);
+    String coopAcceptanceForm = sew.getAcceptanceFormURL();
+    String employerContract = sew.getEmployerContractURL();
+    StudentEnrollment se = sew.getSe();
 
     StudentEnrollment savedse =
         service.createStudentEnrollment(se, s, e, cco, coopAcceptanceForm, employerContract);

@@ -715,8 +715,8 @@
           })
           .then(res =>{
             console.log(res)
-            console.log(res.data.downloadURL)
-            this.ContractURL = res.data.downloadURL
+            console.log(res.data.shortURL)
+            this.ContractURL = res.data.shortURL
 
           })
 
@@ -809,8 +809,8 @@
           })
           .then(res =>{
             console.log(res)
-            console.log(res.data.downloadURL)
-            this.AcceptanceFormURL = res.data.downloadURL
+            console.log(res.data.shortURL)
+            this.AcceptanceFormURL = res.data.shortURL
           })
         },
         submitForm: async function() {
