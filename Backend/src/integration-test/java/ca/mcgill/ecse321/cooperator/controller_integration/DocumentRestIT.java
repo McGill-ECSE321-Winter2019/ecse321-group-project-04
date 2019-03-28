@@ -99,7 +99,7 @@ public class DocumentRestIT {
   public void createDocument() {
     Document document = new Document();
     document.setName("DocName");
-    document.setUrl("http://test-url.this/is/just/for/testing");
+    document.setUrl("https://storage.googleapis.com/cooperator-2b466.appspot.com/AcceptanceForm1137.pdf?GoogleAccessId=firebase-adminsdk-vlvqo%40cooperator-2b466.iam.gserviceaccount.com&Expires=16447017600&Signature=xGRNmYQjEn0WjNsHMmahqxNLXq%2B7cIHmickqsWyFGua9722wV9eovj3%2FcWiIUYuPAWwfvqfPNY1myHpFPFApbJOxHRp4mIwAhHS4boC4O3i8nrlRRlSvjyEckCn%2B%2FUyhCxAZ9FbvVXEki2kqrOL6p2bo95S5vfuRT8hPtZfwA8%2FTlnRCoICCeQqiGYebkHrzjaXy8PW0gHKtdkxu0iDnPjoog6ljIq2Oa%2FncMv20goQ5Mu%2FfWDfwZ65CWfo3v8IJts6afqqZHcJdBEGHCw83SJtXAH0cH5GN9ONB6V%2Bqy5KksIhgpjDkNNMd8QOOmyICklCYz8a8%2BTzmiSTe2DoEWg%3D%3D");
 
     HttpEntity<Document> entity = new HttpEntity<Document>(document, headers);
 

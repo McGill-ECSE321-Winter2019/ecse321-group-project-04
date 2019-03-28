@@ -14,6 +14,6 @@ public class CooperatorApplication {
 
   @RequestMapping("/")
   public String greeting() {
-    return "Co-Op-Erator Backend";
+    return "Co-Op-Erator Student View Backend";
   }
 }
