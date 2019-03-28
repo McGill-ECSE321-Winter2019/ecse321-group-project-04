@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import ca.mcgill.ecse321.cooperator.controller.EnrollmentWrapper;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
 import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
@@ -68,11 +69,11 @@ public class AllGetEndPointsRestIT {
 
   @Autowired
   private TaskRepository taskRepository;
-  
+
   @SuppressWarnings("deprecation")
-  private static final Date START_DATE = new Date(2019-1900, 05, 15);
+  private static final Date START_DATE = new Date(2019 - 1900, 05, 15);
   @SuppressWarnings("deprecation")
-  private static final Date END_DATE = new Date(2019-1900, 11, 15);
+  private static final Date END_DATE = new Date(2019 - 1900, 11, 15);
 
   @Before
   @After
@@ -300,7 +301,7 @@ public class AllGetEndPointsRestIT {
     assertTrue(result.contains("/studentEnrollments/260893874-EBUC1000-S19"));
     // Check attributes
     assertTrue(result.contains(" \"status\" : \"ONGOING\""));
-    assertTrue(result.contains("  \"active\" : true,"));    
+    assertTrue(result.contains("  \"active\" : true,"));
     assertTrue(result.contains("\"startDate\" :"));
     assertTrue(result.contains("\"endDate\" :"));
     assertTrue(result.contains("\"workPermit\" : true"));
@@ -500,20 +501,24 @@ public class AllGetEndPointsRestIT {
     studentEnrollment.setWorkPermit(true);
     studentEnrollment.setJobID("ABC123456");
 
-    HttpEntity<StudentEnrollment> entity =
-        new HttpEntity<StudentEnrollment>(studentEnrollment, headers);
+    EnrollmentWrapper ew = new EnrollmentWrapper();
+    ew.setSe(studentEnrollment);
+    ew.setAcceptanceFormURL("test");
+    ew.setEmployerContractURL("test2");
+
+
+    HttpEntity<EnrollmentWrapper> entity = new HttpEntity<EnrollmentWrapper>(ew, headers);
 
     restTemplate.exchange(
         createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
-            + "&studentID=260893874&employerEmail=tom@email.com"
-            + "&coopAcceptanceForm=url1&employerContract=url2"),
+            + "&studentID=260893874&employerEmail=tom@email.com"),
         HttpMethod.POST, entity, String.class);
   }
 
   private void createTask() {
     Task task = new Task();
     @SuppressWarnings("deprecation")
-    Date dueDate = new Date(2019-1900, 1, 1);
+    Date dueDate = new Date(2019 - 1900, 1, 1);
     task.setName("someTask");
     task.setDescription("some description");
     task.setDueDate(dueDate);

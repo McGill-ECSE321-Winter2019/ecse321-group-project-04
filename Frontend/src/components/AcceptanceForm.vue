@@ -938,25 +938,29 @@
               "term": term,
               "active": active
             }).then(response => {
-              AXIOS.post(`studentEnrollment?courseOfferingID=` + offeringID + `&studentID=` + studentID + `&employerEmail=` + employerEmail + `&coopAcceptanceForm=` + this.AcceptanceFormURL + `&employerContract=` + this.ContractURL, {
-                "active": active,
-                "status": status,
-                "startDate": startDate,
-                "endDate": endDate,
-                "workPermit": workPermit,
-                "jobID": jobID
-              }).then(response => {
-                this.showModalProcessingRegistration = false
-                this.showModalSuccessRegistration = true
+              AXIOS.post(`studentEnrollment?courseOfferingID=` + offeringID + `&studentID=` + studentID + `&employerEmail=` + employerEmail, {
+                "se" :{
+                  "active": active,
+                  "status": status,
+                  "startDate": startDate,
+                  "endDate": endDate,
+                  "workPermit": workPermit,
+                  "jobID": jobID 
+                },
+                "acceptanceFormURL" : this.AcceptanceFormURL,
+                "employerContractURL" : this.ContractURL
+                }).then(response => {
+                  this.showModalProcessingRegistration = false
+                  this.showModalSuccessRegistration = true
+                })
+                .catch(e => {
+                  var errorMsg = e.message
+                  console.log(errorMsg)
+                  this.error = errorMsg
+                  this.showModalProcessingRegistration = false
+                  this.showModalFailRegistration = true
+                })
               })
-              .catch(e => {
-                var errorMsg = e.message
-                console.log(errorMsg)
-                this.error = errorMsg
-                this.showModalProcessingRegistration = false
-                this.showModalFailRegistration = true
-              })
-            })
             .catch(e => {
               var errorMsg = e.message
               console.log(errorMsg)

@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import ca.mcgill.ecse321.cooperator.CooperatorApplication;
+import ca.mcgill.ecse321.cooperator.controller.EnrollmentWrapper;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseOfferingRepository;
 import ca.mcgill.ecse321.cooperator.dao.CoopCourseRepository;
 import ca.mcgill.ecse321.cooperator.dao.DocumentRepository;
@@ -216,13 +217,17 @@ public class TaskRestIT {
     studentEnrollment.setJobID("ABC123456");
 
 
-    HttpEntity<StudentEnrollment> entity =
-        new HttpEntity<StudentEnrollment>(studentEnrollment, headers);
+    EnrollmentWrapper ew = new EnrollmentWrapper();
+    ew.setSe(studentEnrollment);
+    ew.setAcceptanceFormURL("test");
+    ew.setEmployerContractURL("test2");
+
+
+    HttpEntity<EnrollmentWrapper> entity = new HttpEntity<EnrollmentWrapper>(ew, headers);
 
     restTemplate.exchange(
         createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
-            + "&studentID=260893874&employerEmail=tom@email.com"
-            + "&coopAcceptanceForm=url1&employerContract=url2"),
+            + "&studentID=260893874&employerEmail=tom@email.com"),
         HttpMethod.POST, entity, String.class);
   }
 

@@ -135,13 +135,18 @@ public class StudentEnrollmentRestIT {
     studentEnrollment.setJobID("ABC123456");
 
 
-    HttpEntity<StudentEnrollment> entity =
-        new HttpEntity<StudentEnrollment>(studentEnrollment, headers);
+    EnrollmentWrapper ew = new EnrollmentWrapper();
+    ew.setSe(studentEnrollment);
+    ew.setAcceptanceFormURL("test");
+    ew.setEmployerContractURL("test2");
+
+
+    HttpEntity<EnrollmentWrapper> entity =
+        new HttpEntity<EnrollmentWrapper>(ew, headers);
 
     ResponseEntity<String> response = restTemplate.exchange(
         createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
-            + "&studentID=260893874&employerEmail=tom@email.com"
-            + "&coopAcceptanceForm=url1&employerContract=url2"),
+            + "&studentID=260893874&employerEmail=tom@email.com"),
         HttpMethod.POST, entity, String.class);
 
     // Check Status
@@ -168,13 +173,18 @@ public class StudentEnrollmentRestIT {
     studentEnrollment.setActive(true);
     studentEnrollment.setStatus(null);
 
-    HttpEntity<StudentEnrollment> entity =
-        new HttpEntity<StudentEnrollment>(studentEnrollment, headers);
+    EnrollmentWrapper ew = new EnrollmentWrapper();
+    ew.setSe(studentEnrollment);
+    ew.setAcceptanceFormURL("test");
+    ew.setEmployerContractURL("test2");
+
+
+    HttpEntity<EnrollmentWrapper> entity =
+        new HttpEntity<EnrollmentWrapper>(ew, headers);
 
     ResponseEntity<String> response = restTemplate.exchange(
         createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
-            + "&studentID=260893874&employerEmail=tom@email.com"
-            + "&coopAcceptanceForm=url1&employerContract=url2"),
+            + "&studentID=260893874&employerEmail=tom@email.com"),
         HttpMethod.POST, entity, String.class);
 
     // Check Status
@@ -196,13 +206,18 @@ public class StudentEnrollmentRestIT {
     studentEnrollment.setJobID("ABC123456");
 
 
-    HttpEntity<StudentEnrollment> entity =
-        new HttpEntity<StudentEnrollment>(studentEnrollment, headers);
+    EnrollmentWrapper ew = new EnrollmentWrapper();
+    ew.setSe(studentEnrollment);
+    ew.setAcceptanceFormURL("test");
+    ew.setEmployerContractURL("test2");
+
+
+    HttpEntity<EnrollmentWrapper> entity =
+        new HttpEntity<EnrollmentWrapper>(ew, headers);
 
     ResponseEntity<String> response = restTemplate.exchange(
         createURLWithPort("/studentEnrollment?courseOfferingID=EBUC1000-S19"
-            + "&studentID=260893874&employerEmail=tom@email.com"
-            + "&coopAcceptanceForm=url1&employerContract=url2"),
+            + "&studentID=260893874&employerEmail=tom@email.com"),
         HttpMethod.POST, entity, String.class);
 
     // Check Status
