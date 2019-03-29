@@ -460,13 +460,15 @@ public class CooperatorService {
         se.getWorkPermit(), se.getJobID());
     return savedSe;
   }
-/**
- * Method that updates active and status for enrollment
- * @param id
- * @param active
- * @param status
- * @return
- */
+
+  /**
+   * Method that updates active and status for enrollment
+   * 
+   * @param id
+   * @param active
+   * @param status
+   * @return
+   */
   @Transactional
   public StudentEnrollment updateStudentEnrollment(String id, Boolean active, CourseStatus status) {
     if (active == null || status == null) {
@@ -512,15 +514,21 @@ public class CooperatorService {
     dateInTwoWeeks.add(Calendar.DAY_OF_MONTH, +14);
     Calendar dateInFourMonths = Calendar.getInstance();
     dateInFourMonths.add(Calendar.MONTH, +4);
-    createTask("Initial Workload Report",
+    Task t3 = createTask("Initial Workload Report",
         "Submit an initial report of the tasks and workload of the internship.",
         new Date(dateInTwoWeeks.getTimeInMillis()), TaskStatus.INCOMPLETE, se.getEnrollmentID());
+    createDocument("INSTRUCTIONS_tasks and work term planning",
+        "https://firebasestorage.googleapis.com/v0/b/cooperator-2b466.appspot.com/o/INSTRUCTIONS_tasks%20and%20work%20term%20planning%20.pdf?alt=media&token=08943aed-cf4d-4fb8-8e6a-0962289e4e84",
+        se.getEnrollmentID(), t3.getName());
     createTask("Technical Experience Report",
         "Submit the term technical report about the internship experience.",
         new Date(dateInFourMonths.getTimeInMillis()), TaskStatus.INCOMPLETE, se.getEnrollmentID());
-    createTask("Internship Evaluation Report",
+    Task t4 = createTask("Internship Evaluation Report",
         "Submit the final evaluation report for the internship experience.",
         new Date(dateInFourMonths.getTimeInMillis()), TaskStatus.INCOMPLETE, se.getEnrollmentID());
+    createDocument("INSTRUCTIONS_EIP__Semester_Report",
+        "https://firebasestorage.googleapis.com/v0/b/cooperator-2b466.appspot.com/o/INSTRUCTIONS_EIP__Semester_Report%20.pdf?alt=media&token=bbcf7835-2959-43c8-b5f9-4686d2a00c72",
+        se.getEnrollmentID(), t4.getName());
     return getStudentEnrollment(se.getEnrollmentID());
   }
 
@@ -696,6 +704,7 @@ public class CooperatorService {
     Calendar currentCal = Calendar.getInstance();
     Date currentDate = new Date(currentCal.getTimeInMillis());
     Task t = studentEnrollmentRepository.findByEnrollmentID(enrollmentID).getTask(taskName);
+    Date dueDate = t.getDueDate();
 
     if (t.getDocument(name) != null) {
       t.getDocument(name).setUrl(url);
@@ -708,6 +717,13 @@ public class CooperatorService {
       d.setUrl(url);
       d.setSubmissionDate(currentDate);
       t.addDocument(d);
+      if(name.contains("INSTRUCTIONS")) {
+        t.setTaskStatus(TaskStatus.INCOMPLETE);
+      }else if(currentDate.before(dueDate)){
+        t.setTaskStatus(TaskStatus.COMPLETED);
+      }else if(currentDate.after(dueDate)){
+        t.setTaskStatus(TaskStatus.LATE_COMPLETED);
+      }
       Task saved = taskRepository.save(t);
       return saved.getDocument(name);
     }

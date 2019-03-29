@@ -104,8 +104,17 @@ public class TestUtil {
 
     Document d1 = createDocument(D1_NAME, d1URL);
     Document d2 = createDocument(D2_NAME, d2URL);
+    Document d3 = createDocument("INSTRUCTIONS_tasks and work term planning",
+        "https://firebasestorage.googleapis.com/v0/b/cooperator-2b466.appspot.com/o/INSTRUCTIONS_tasks%20and%20work%20term%20planning%20.pdf?alt=media&token=08943aed-cf4d-4fb8-8e6a-0962289e4e84");
+    Document d4 = createDocument("INSTRUCTIONS_EIP__Semester_Report",
+        "https://firebasestorage.googleapis.com/v0/b/cooperator-2b466.appspot.com/o/INSTRUCTIONS_EIP__Semester_Report%20.pdf?alt=media&token=bbcf7835-2959-43c8-b5f9-4686d2a00c72");
+
     t1.addDocument(d1);
     t2.addDocument(d2);
+    t3.addDocument(d3);
+    t5.addDocument(d4);
+
+
 
     se.addCourseTasks(t1);
     se.addCourseTasks(t2);
