@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node server.js",
-    "build": "",
+    "build": "echo 'Skipping build step. Will use dist directory instead.'",
     "build_local": "node build/build.js",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run e2e"
