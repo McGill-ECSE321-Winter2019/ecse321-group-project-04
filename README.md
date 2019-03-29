@@ -59,6 +59,8 @@ co-op acceptance, submit required documents and track their co-op program progre
 
 ## Deliverable 3 (March 24, 2019)
 
+**ATTENTION GRADERS: The current deployed frontend build is FAILING, Furthermore, if you use `npm run dev` on the submission commit, you will no longer be able to register for a course or submit a document (a RESTful endpoint has been modified). If you wish to use the website at this moment, please use `npm run dev` in Root/Frontend with the most recent commit, the front end application will run locally.**
+
 |     Team members      |Total hours|                          Responsibility                        |
 |-----------------------|-----------|----------------------------------------------------------------|
 |**Remi Carriere**      |     23    |Backend Developer Lead / Supporting Frontend Developper (CTO)   |
