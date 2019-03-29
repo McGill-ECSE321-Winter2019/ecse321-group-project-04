@@ -723,6 +723,8 @@ public class CooperatorService {
         t.setTaskStatus(TaskStatus.COMPLETED);
       }else if(currentDate.after(dueDate)){
         t.setTaskStatus(TaskStatus.LATE_COMPLETED);
+      }else if(name.contains("CO-OP Position Acceptance Form") || name.contains("Employer Contract")) {
+        t.setTaskStatus(TaskStatus.COMPLETED);
       }
       Task saved = taskRepository.save(t);
       return saved.getDocument(name);
