@@ -58,7 +58,7 @@
       <div class="col-sm-2 sidenav"></div>
     </div>
 
-    <!-- URL Display Modal -->
+    <!-- Help Modal -->
     <transition name="modal">
       <div v-if="showModalHelp" key="helpModal">
         <div class="modal-mask">
@@ -83,6 +83,37 @@
                   <button class="btn btn-primary" style="min-width:120px" @click="showModalHelp=false">
                     <font size="3">Done</font>
                   </button>
+                </slot>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+
+    <!-- Processing Modal -->
+    <transition name="modal" mode="out-in">
+      <div v-if="showModalProcessingLogin" key="processing">
+        <div class="modal-mask">
+          <div class="modal-wrapper" @click="showModalProcessingLogin=false">
+            <div class="modal-container" @click.stop>
+              <div class="modal-header">
+                <slot name="header">
+                  Processing Login
+                </slot>
+              </div>
+              <div class="modal-body">
+                <h4 style="text-align:center">Your account information is being loaded.</h4>
+                <br>
+                <div style="text-align:center">
+                  <img src="https://user-images.githubusercontent.com/22506116/54891974-f9cba300-4e85-11e9-8842-9ab32c10658f.gif" width="200" height="200">
+                </div>
+                <br>
+              </div>
+              <div style="text-align:center">
+                <slot>
+                  <br>
+                  <br>
                 </slot>
               </div>
             </div>
@@ -225,41 +256,76 @@
     return false;
   }
 
+  function refreshErrorMessage(result) {
+    if (result == 0) {
+      document.getElementById("usr").className = 'form-control form-control-lg'
+      document.getElementById("demo").style.color = ''
+      document.getElementById("demo").innerHTML = ''
+    } else {
+      document.getElementById("usr").className = 'form-control form-control-lg is-invalid'
+      document.getElementById("demo").style.color = 'red'
+      if (result == 1) {
+        document.getElementById("demo").innerHTML = "Please Enter A Valid Student ID";
+      } else if (result == 2 || result == 3) {
+        var input = document.getElementById("usr").value
+        document.getElementById("demo").innerHTML = "There Are No Records For Student ID " + input;
+      }
+    }
+  }
+
   export default {
     name: 'login',
     data() {
       return {
         student: null,
-        showModalHelp: false
+        showModalHelp: false,
+        showModalProcessingLogin: false
       }
     },
     methods: {
-      printOut: async function() {
-        var result = await created();
-        console.log(result);
-      },
-
-      goToDashboard: async function() {
+      goToDashboard: function() {
+        this.showModalProcessingLogin = true
+        var result = 3
         var input = document.getElementById("usr").value;
-        var result = await checkInput(input);
-        if (result == 0) {
-          this.$router.push({
-            name: 'Dashboard',
-            params: {
-              id: input
-            }
-          })
+
+        if (input.trim().search(/\d{9}/) == -1) {
+          result = 1; // Bad input
+          refreshErrorMessage(result)
+          this.showModalProcessingLogin = false
+          console.log(1)
         } else {
-          document.getElementById("usr").className = 'form-control form-control-lg is-invalid'
-          document.getElementById("demo").style.color = 'red'
-          if (result == 1) {
-            document.getElementById("demo").innerHTML = "Please Enter A Valid Student ID";
-          } else if (result == 2 || result == 3) {
-            document.getElementById("demo").innerHTML = "There Are No Records For Student ID " + input;
+          try {
+            AXIOS.get(`/students/` + input)
+              .then(response => {
+                if (response.data !== {}) {
+                  result = 0; // Student records found
+                } else {
+                  result = 2; // No matching records
+                }
+
+                if (result == 0) {
+                  result = 0
+                  this.$router.push({
+                    name: 'Dashboard',
+                    params: {
+                      id: input
+                    }
+                  })
+                } else {
+                  console.log(1)
+                  refreshErrorMessage(result)
+                  this.showModalProcessingLogin = false
+                }
+              })
+              .catch(e => {
+                var errorMsg = e.message;
+                console.log(errorMsg);
+              })
+          } finally {
+            this.showModalProcessingLogin = false
+            refreshErrorMessage(result)
           }
-        };
-        //var result = checkInput(input).then(ret);
-        console.log("hey")
+        }
 
       },
     }
