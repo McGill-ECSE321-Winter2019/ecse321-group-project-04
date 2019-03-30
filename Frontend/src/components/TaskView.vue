@@ -104,6 +104,13 @@
                   <br>
                   <h4 style="color:gray"><em>Completion Status</em></h4>
                   <h4><b>{{taskStatus}}</b></h4>
+                  <br>
+                  <div v-if="instructionsInfo.length != 0">
+                    <h4 style="color:gray"><em>Attached Instructions</em></h4>
+                    <div v-for="s in instructionsInfo" @click="showDocInfo(s)">
+                      <h4><a href="#">{{s.name}}</a></h4>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -687,13 +694,32 @@
         var ret = []
         var currDate = moment(this.task.dueDate)
         for (var i in this.documents) {
-          var submissionDate = moment(this.documents[i].submissionDate)
-          ret.push({
-            name: this.documents[i].name,
-            date: moment(this.documents[i].submissionDate).format('MMM Do, YYYY'),
-            status: moment.duration(currDate.diff(submissionDate)).asDays() >= 0 ? 'On Time' : 'Late',
-            url: this.documents[i].url
-          })
+          if (this.documents[i].name.search(/INSTRUCTIONS_/) == -1) {
+            var submissionDate = moment(this.documents[i].submissionDate)
+            ret.push({
+              name: this.documents[i].name,
+              date: moment(this.documents[i].submissionDate).format('MMM Do, YYYY'),
+              status: moment.duration(currDate.diff(submissionDate)).asDays() >= 0 ? 'On Time' : 'Late',
+              url: this.documents[i].url
+            })
+          }
+        }
+        return ret
+      },
+      instructionsInfo: function() {
+        console.log(this.documents)
+        var ret = []
+        var currDate = moment(this.task.dueDate)
+        for (var i in this.documents) {
+          if (this.documents[i].name.search(/INSTRUCTIONS_/) != -1) {
+            var submissionDate = moment(this.documents[i].submissionDate)
+            ret.push({
+              name: this.documents[i].name.replace(/INSTRUCTIONS_/, ''),
+              date: moment(this.documents[i].submissionDate).format('MMM Do, YYYY'),
+              status: moment.duration(currDate.diff(submissionDate)).asDays() >= 0 ? 'On Time' : 'Late',
+              url: this.documents[i].url
+            })
+          }
         }
         return ret
       },
