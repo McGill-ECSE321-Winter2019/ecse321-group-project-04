@@ -31,6 +31,7 @@
                 </h2>
               </div>
               <hr>
+
             </div>
 
             <div class="panel panel-default text-center">
@@ -56,8 +57,12 @@
         <div id="footer">
           <div class="col-sm-2"> </div>
           <div class="col-sm-8">
-            <hr>
             <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <hr>
             <h3 id="message">{{getRandomMessage()}}</h3>
           </div>
           <div class="col-sm-2"> </div>
@@ -105,8 +110,9 @@
 </template>
 
 <style>
+
   #footer {
-    position: fixed;
+    position: relative;
     left: 0;
     bottom: 50px;
     width: 100%;
