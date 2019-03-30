@@ -35,7 +35,7 @@
         <div class="row">
           <div class="col-sm-3">
             <a href="https://cooperator-frontend-0000.herokuapp.com">
-              <button type="button" style="background-color: #1F618D; color: white;" class="btn ">
+              <button type="button" style="min-width: 150px; min-height: 70px;background-color: #1F618D; color: white;" class="btn ">
                 <font size="5"><b>Student</b></font>
               </button>
             </a>
@@ -43,21 +43,21 @@
 
           <div class="col-sm-3">
             <a href="https://employer-frontend-8888.herokuapp.com/#/login">
-              <button onclick="" type="button" style="background-color:#2471A3; color: white;" class="btn ">
+              <button onclick="" type="button" style=" min-width: 150px; min-height: 70px; background-color:#2471A3; color: white;" class="btn ">
                 <font size="5"><b>Employer</b></font>
               </button>
             </a>
           </div>
           <div class="col-sm-3">
             <a href="https://cooperator-frontend-123.herokuapp.com/#/">
-              <button onclick="" type="button" style="background-color: #2980B9; color: white;" class="btn ">
+              <button onclick="" type="button" style="min-width: 150px; min-height: 70px; background-color: #2980B9; color: white;" class="btn ">
                 <font size="5"><b>Admin</b></font>
               </button>
             </a>
           </div>
           <div class="col-sm-3">
             <a href="http://cooperatorapp-frontend-18.herokuapp.com/#/">
-              <button onclick="" type="button btn-primary" style="background-color:#5499C7; color: white;" class="btn ">
+              <button onclick="" type="button btn-primary" style="min-width: 150px; min-height: 70px; background-color:#5499C7; color: white;" class="btn ">
                 <font size="5"><b>Manager</b></font>
               </button>
             </a>
@@ -99,14 +99,6 @@
     font-family: Lucida;
     font-style: oblique;
     color: #333335;
-  }
-
-  .btn {
-    //background-color:;
-
-    min-width: 150px;
-    min-height: 70px;
-
   }
 </style>
 
