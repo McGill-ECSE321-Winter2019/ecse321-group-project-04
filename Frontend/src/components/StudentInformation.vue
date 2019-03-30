@@ -7,6 +7,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   </head>
 
   <body>
@@ -17,18 +19,22 @@
           <div class="col-sm-6">
             <div class="container  text-left">
               <div @click="goToDashboard" style="display: inline-block;" id="img-container">
-                <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
+                <img
+                  src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png"
+                  width="300" height="100">
               </div>
             </div>
           </div>
           <div class="col-sm-6">
             <div class="row">
               <div class="col-sm-12">
-                <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but" style="min-width: 100px; margin-right: 0px; margin-top: 35px">
+                <button type="button" class="btn btn-primary" @click="goToAccount" id="Account-but"
+                  style="min-width: 100px; margin-right: 0px; margin-top: 35px">
                   <span class="glyphicon glyphicon-user"></span>
                   Account
                 </button>
-                <button type="button" class="btn btn-danger" @click="goToLogin" id="Logout-but" style="min-width: 100px; margin-left: 5px; margin-top: 35px">
+                <button type="button" class="btn btn-danger" @click="goToLogin" id="Logout-but"
+                  style="min-width: 100px; margin-left: 5px; margin-top: 35px">
                   Logout
                 </button>
               </div>
@@ -55,8 +61,10 @@
           <transition name="slide-fade" appear>
             <div class="student-card">
               <img src="https://image.flaticon.com/icons/svg/201/201818.svg" style="width:80%" class="student-icon">
-              <h2 class="student-fullname">{{student.firstName}} {{student.lastName}}</h2>
-              <h4 class="student-email">{{student.mcgillEmail}}</h4>
+              <h2 class="student-fullname" id="student-fullname">{{student.firstName}} {{student.lastName}}</h2>
+              <div class="copy-container">
+                <h4 @click="copyEmailAddress" class="student-email" id="student-email">{{student.mcgillEmail}}</h4>
+              </div>
             </div>
           </transition>
         </div>
@@ -138,10 +146,44 @@
   }
 
   .student-email {
+    transition: transform .1s;
     color: darkgray;
     margin-left: 15px;
     margin-right: 15px;
     margin-bottom: 20px;
+  }
+
+  .copy-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Pop-up text for copying email -- but looks ugly so not using it for now */
+  /* .copy-text {
+    visibility: hidden;
+    width: 120px;
+    border-style: dotted;
+    border-width: 2px;
+    border-color: darkgray;
+    background-color: white;
+    color: black;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    top: 3px;
+    left: 101.5%;
+  }
+
+  .copy-container:hover .copy-text {
+    visibility: visible;
+  } */
+
+  .student-email:hover {
+    color: grey;
   }
 
   /* Tab transition animations */
@@ -158,6 +200,7 @@
     transform: translateX(10px);
     opacity: 0;
   }
+
 </style>
 
 <script>
@@ -190,7 +233,7 @@
         })
     },
     methods: {
-      goToDashboard: function() {
+      goToDashboard: function () {
         this.$router.push({
           name: 'Dashboard',
           params: {
@@ -198,20 +241,31 @@
           }
         })
       },
-      goToLogin: function() {
+      goToLogin: function () {
         this.$router.push({
           name: 'Login',
         })
       },
       //not working here, i am not sure why, the id thing
-      goToAccount: function() {
+      goToAccount: function () {
         this.$router.push({
           name: 'StudentInformation',
           params: {
             id: this.$route.params.id
           }
         })
+      },
+      copyEmailAddress: function () {
+        var text = document.getElementById("student-email").innerHTML
+        var input = document.createElement("input")
+        input.setAttribute("value", text)
+        document.body.appendChild(input);
+        input.select()
+        document.execCommand("copy")
+        alert("McGill Email copied: " + input.value);
+        document.body.removeChild(input);
       }
     }
   }
+
 </script>
