@@ -104,7 +104,7 @@ public class TestDocument {
     Date currentDate = new Date(currentCal.getTimeInMillis());
     assertEquals(currentDate.toString(), d.getSubmissionDate().toString());
 
-    assertEquals(3, service.getAllDocuments().size());
+    assertEquals(5, service.getAllDocuments().size());
   }
 
   @Test
@@ -153,7 +153,7 @@ public class TestDocument {
     assertEquals(1, service.getStudentEnrollment(se.getEnrollmentID()).getTask(t.getName())
         .getDocuments().size());
 
-    assertEquals(3, service.getAllDocuments().size());
+    assertEquals(5, service.getAllDocuments().size());
   }
 
   @Test
