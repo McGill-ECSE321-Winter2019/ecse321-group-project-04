@@ -103,7 +103,7 @@
                   <h4><b>{{displayDate(task.dueDate)}}</b></h4>
                   <br>
                   <h4 style="color:gray"><em>Completion Status</em></h4>
-                  <h4><b>{{statusDisplay[task.taskStatus]}}</b></h4>
+                  <h4><b>{{taskStatus}}</b></h4>
                 </div>
               </div>
             </div>
@@ -148,7 +148,7 @@
         </div>
       </transition>
 
-      <!-- Modal -->
+      <!-- Submit Modal -->
       <transition name="modal" mode="out-in">
         <div v-if="showModal" key="submit">
           <div class="modal-mask">
@@ -170,14 +170,14 @@
 
                   <div class="custom-file">
                     <input type="file" @change="onFileSelected" class="custom-file-input" id="inputGroupFile01">
-                    <label class="custom-file-label" for="inputGroupFile01" >{{selectedFileName}}</label>
+                    <label class="custom-file-label" for="inputGroupFile01">{{selectedFileName}}</label>
                   </div>
                   <br>
                   <br>
                 </div>
                 <div style="text-align:center">
                   <slot>
-                    <button class="btn btn-primary" style="min-width:120px" @click="submitDocument">
+                    <button class="btn btn-primary" style="min-width:120px" @click="checkSubmitDocument">
                       <font size="3">Submit</font>
                     </button>
                   </slot>
@@ -187,8 +187,75 @@
             </div>
           </div>
         </div>
+      </transition>
 
-        <!-- Success Modal -->
+      <!-- Processing Modal -->
+      <transition name="modal" mode="out-in">
+        <div v-if="showModalProcessing" key="processing">
+          <div class="modal-mask">
+            <div class="modal-wrapper" @click="showModalProcessing=false">
+              <div class="modal-container" @click.stop>
+                <div class="modal-header">
+                  <slot name="header">
+                    Processing Registration
+                  </slot>
+                </div>
+                <div class="modal-body">
+                  <h4 style="text-align:center">Uploading document.</h4>
+                  <br>
+                  <div style="text-align:center">
+                    <img src="https://user-images.githubusercontent.com/22506116/54891974-f9cba300-4e85-11e9-8842-9ab32c10658f.gif" width="200" height="200">
+                  </div>
+                  <br>
+                </div>
+                <div style="text-align:center">
+                  <slot>
+                    <br>
+                    <br>
+                  </slot>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
+
+      <!-- Warning Modal -->
+      <transition name="modal" mode="out-in">
+        <div v-if="showModalWarning" key="confirm">
+          <div class="modal-mask">
+            <div class="modal-wrapper" @click="showModalWarning=false">
+              <div class="modal-container" @click.stop>
+                <div class="modal-header">
+                  <slot name="header">
+                    Warning
+                  </slot>
+                </div>
+                <div class="modal-body">
+                  <h4 style="text-align:center">A document with the name <b>{{this.existingDocName}}</b> already exists.</h4>
+                  <h4 style="text-align:center">This action will overwrite it.</h4>
+                  <h4 style="text-align:center">Do you want to continue?</h4>
+                </div>
+                <div style="text-align:center">
+                  <slot>
+                    <br>
+                    <br>
+                    <button class="btn btn-primary" style="min-width:120px" @click="submitDocument()">
+                      <font size="3">Yes</font>
+                    </button>
+                    <button class="btn btn-secondary" style="min-width:120px" @click="showModalWarning=false">
+                      <font size="3">No</font>
+                    </button>
+                  </slot>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
+
+      <!-- Success Modal -->
+      <transition name="modal" mode="out-in">
         <div v-if="showModalSuccess" key="success">
           <div class="modal-mask">
             <div class="modal-wrapper" @click="showModalSuccess=false">
@@ -369,69 +436,73 @@
     transition: all .3s ease;
     }*/
 
-    .modal-enter .modal-container,
-    .modal-leave-active .modal-container,
-    .modal-leave-to .modal-container {
-      /*-webkit-transform: scale(1.1);*/
-      transform: translateY(100px);
-    }
+  .modal-enter .modal-container,
+  .modal-leave-active .modal-container,
+  .modal-leave-to .modal-container {
+    /*-webkit-transform: scale(1.1);*/
+    transform: translateY(100px);
+  }
 
-    /* Tab transition animations */
-    .slide-fade-enter-active {
-      transition: all .3s ease;
-    }
+  /* Tab transition animations */
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
 
-    .slide-fade-leave-active {
-      transition: all .3s ease;
-    }
+  .slide-fade-leave-active {
+    transition: all .3s ease;
+  }
 
-    .slide-fade-enter,
-    .slide-fade-leave-to {
-      transform: translateX(10px);
-      opacity: 0;
-    }
-  </style>
+  .slide-fade-enter,
+  .slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+  }
+</style>
 
-  <script>
-    import Router from 'vue-router'
-    import axios from 'axios'
-    var moment = require('moment')
-    var config = require('../../config')
-    /* AXIOS object configuration */
-    var frontendUrl = 'https://' + config.dev.hoiust + ':' + config.dev.port
-    var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
+<script>
+  import Router from 'vue-router'
+  import axios from 'axios'
+  var moment = require('moment')
+  var config = require('../../config')
+  /* AXIOS object configuration */
+  var frontendUrl = 'https://' + config.dev.hoiust + ':' + config.dev.port
+  var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
 
-    var AXIOS = axios.create({
-      baseURL: backendUrl
-    })
+  var AXIOS = axios.create({
+    baseURL: backendUrl
+  })
 
-    export default {
-      name: 'courseinfo',
-      data() {
-        return {
-          selectedFile : null,
-          selectedFileName : 'Choose File',
-          docURL : null,
-          AcceptanceFormURL: null,
-          showModal: false,
-          showModalSuccess: false,
-          showModalURL: false,
-          tabs: ['Task Information', 'Submission History'],
-          selectedTab: 'Task Information',
-          task: null,
-          documents: null,
-          statusDisplay: {
-            COMPLETED: 'Completed',
-            INCOMPLETE: 'Incomplete',
-            LATE_COMPLETED: 'Late Completed'
-          },
-          displayDocName: null,
-          displayURLName: null,
-          courseStatus: null
-        }
-      },
-      created() {
-        AXIOS.get(`/tasks/` + this.$route.params.id)
+  export default {
+    name: 'courseinfo',
+    data() {
+      return {
+        selectedFile: null,
+        selectedFileName: 'Choose File',
+        docURL: null,
+        AcceptanceFormURL: null,
+        showModal: false,
+        showModalSuccess: false,
+        showModalProcessing: false,
+        showModalURL: false,
+        existingDocName: null,
+        showModalWarning: false,
+        tabs: ['Task Information', 'Submission History'],
+        selectedTab: 'Task Information',
+        task: null,
+        documents: null,
+        statusDisplay: {
+          COMPLETED: 'Completed',
+          INCOMPLETE: 'Incomplete',
+          LATE_COMPLETED: 'Late Completed'
+        },
+        displayDocName: null,
+        displayURLName: null,
+        courseStatus: null,
+        inputName: null
+      }
+    },
+    created() {
+      AXIOS.get(`/tasks/` + this.$route.params.id)
         .then(response => {
           this.task = response.data;
         })
@@ -440,7 +511,7 @@
           console.log(errorMsg);
           this.errorPerson = errorMsg;
         })
-        AXIOS.get(`/tasks/` + this.$route.params.id + `/documents`)
+      AXIOS.get(`/tasks/` + this.$route.params.id + `/documents`)
         .then(response => {
           this.documents = response.data._embedded.documents;
         })
@@ -449,7 +520,7 @@
           console.log(errorMsg);
           this.errorPerson = errorMsg;
         })
-        AXIOS.get(`/studentEnrollments/` + this.$route.params.enrollmentID)
+      AXIOS.get(`/studentEnrollments/` + this.$route.params.enrollmentID)
         .then(response => {
           this.courseStatus = response.data.status
         })
@@ -458,73 +529,71 @@
           console.log(errorMsg);
           this.errorPerson = errorMsg;
         })
+    },
+
+    methods: {
+      goToDashboard: function() {
+        var studentID = this.$route.params.enrollmentID.split('-').shift()
+        this.$router.push({
+          name: 'Dashboard',
+          params: {
+            id: studentID
+          }
+        })
       },
+      goToLogin: function() {
+        this.$router.push({
+          name: 'Login',
+        })
+      },
+      goToAccount: function() {
+        var studentID = this.$route.params.enrollmentID.split('-').shift()
+        this.$router.push({
+          name: 'StudentInformation',
+          params: {
+            id: studentID
+          }
+        })
+      },
+      displayDate: function(date) {
+        return moment(date).format("MMM Do, YYYY")
+      },
+      showDocInfo: function(s) {
+        this.displayDocName = s.name
+        this.displayURLName = s.url
+        this.showModalURL = true
+      },
+      onFileSelected(event) {
+        this.selectedFile = event.target.files[0]
+        this.selectedFileName = this.selectedFile.name
+        console.log(event.target.files[0])
+      },
+      async onUpload() {
+        //this.genFile();
+        const fd = new FormData();
+        var id = Math.floor((Math.random() * 10000));
+        var filename = this.selectedFile.name;
+        var nameNoExt = filename.split('.', 2)[0];
+        var ext = filename.split('.', 2)[1];
+        filename = nameNoExt + id + '.' + ext;
 
-      methods: {
-        goToDashboard: function() {
-          var studentID = this.$route.params.enrollmentID.split('-').shift()
-          this.$router.push({
-            name: 'Dashboard',
-            params: {
-              id: studentID
-            }
-          })
-        },
-        goToLogin: function() {
-          this.$router.push({
-            name: 'Login',
-          })
-        },
-        goToAccount: function() {
-          var studentID = this.$route.params.enrollmentID.split('-').shift()
-          this.$router.push({
-            name: 'StudentInformation',
-            params: {
-              id: studentID
-            }
-          })
-        },
-        displayDate: function(date) {
-          return moment(date).format("MMM Do, YYYY")
-        },
-        showDocInfo: function(s) {
-          this.displayDocName = s.name
-          this.displayURLName = s.url
-          this.showModalURL = true
-        },
-        onFileSelected(event){
-          this.selectedFile = event.target.files[0]
-          this.selectedFileName = this.selectedFile.name
-          console.log(event.target.files[0])
-        },
-        async onUpload(){
-          //this.genFile();
-          const fd = new FormData();
-          var id = Math.floor((Math.random() * 10000));
-          var filename = this.selectedFile.name;
-          var nameNoExt = filename.split('.',2)[0];
-          var ext = filename.split('.',2)[1];
-          filename = nameNoExt+id+'.'+ext;
-
-          fd.append('doc', this.selectedFile, filename)
-          let response = await axios.post('https://us-central1-cooperator-2b466.cloudfunctions.net/uploadFile', fd,{
-            onUploadProgress: uploadEvent =>{
-              console.log('upload pregress: ' + Math.floor(uploadEvent.loaded / uploadEvent.total)*100 )
-            }
-          })
-          this.docURL = response.data.shortURL
-          console.log(this.docURL)
-          return response;
-
-        },
-        redirectTo(){
-          document.getElementById("link2").setAttribute("href",this.displayURLName)
-        },
-        submitDocument: async function() {
-          var valid = true;
-          var inputName = document.getElementById('docName').value
-          var inputDoc = document.getElementById('inputGroupFile01').value
-
+        fd.append('doc', this.selectedFile, filename)
+        let response = await axios.post('https://us-central1-cooperator-2b466.cloudfunctions.net/uploadFile', fd, {
+          onUploadProgress: uploadEvent => {
+            console.log('upload pregress: ' + Math.floor(uploadEvent.loaded / uploadEvent.total) * 100)
+          }
+        })
+        this.docURL = response.data.shortURL
+        console.log(this.docURL)
+        return response;
+      },
+      redirectTo() {
+        document.getElementById("link2").setAttribute("href", this.displayURLName)
+      },
+      checkSubmitDocument: async function() {
+        var valid = true;
+        var inputName = document.getElementById('docName').value
+        var inputDoc = document.getElementById('inputGroupFile01').value
 
         // Check the inputs
         if (inputName === '' || inputName === null) {
@@ -538,45 +607,78 @@
           document.getElementById('nameMsg').style.color = ''
           document.getElementById("docName").className = 'form-control form-control-lg'
         }
-        if(inputDoc === null || inputDoc === ''){
+        if (inputDoc === null || inputDoc === '') {
           valid = false
           document.getElementById('inputGroupFile01').className = 'form-control form-control-lg is-invalid'
-        }else {
+        } else {
           valid = valid ? true : false
           document.getElementById('inputGroupFile01').className = 'form-control form-control-lg'
         }
 
         // Perform the POST request
-
-
         if (valid) {
-          let wait = await this.onUpload()
-          AXIOS.post(`/document?studentEnrollmentID=` + this.$route.params.enrollmentID + `&taskName=` + this.task.name, {
+          this.inputName = inputName
+
+          var existingDocName = null
+          for (var i in this.documents) {
+            if (this.documents[i].name === inputName) {
+              existingDocName = this.documents[i].name
+              break
+            }
+          }
+
+          this.selectedFileName = 'Choose File'
+
+          if (existingDocName === null) {
+            this.submitDocument()
+          } else {
+            this.existingDocName = existingDocName
+            this.showModal = false
+            this.showModalWarning = true
+          }
+        }
+      },
+      submitDocument: async function() {
+        this.showModal = false
+        this.showModalWarning = false
+        this.showModalProcessing = true
+
+        var inputName = this.inputName
+
+        let wait = await this.onUpload()
+        AXIOS.post(`/document?studentEnrollmentID=` + this.$route.params.enrollmentID + `&taskName=` + this.task.name, {
             "name": inputName,
             "url": this.docURL
           })
           .then(response => {
             AXIOS.get(`/tasks/` + this.$route.params.id + `/documents`)
-            .then(response => {
-              this.documents = response.data._embedded.documents;
-            })
-            .catch(e => {
-              var errorMsg = e.message;
-              console.log(errorMsg);
-              this.errorPerson = errorMsg;
-            })
+              .then(response => {
+                this.documents = response.data._embedded.documents;
+
+                AXIOS.get(`/tasks/` + this.$route.params.id)
+                  .then(response => {
+                    this.task = response.data;
+                    this.showModalProcessing = false;
+                    this.showModalSuccess = true;
+                  })
+                  .catch(e => {
+                    var errorMsg = e.message;
+                    console.log(errorMsg);
+                    this.errorPerson = errorMsg;
+                  })
+
+              })
+              .catch(e => {
+                var errorMsg = e.message;
+                console.log(errorMsg);
+                this.errorPerson = errorMsg;
+              })
           })
           .catch(e => {
             var errorMsg = e.message;
             console.log(errorMsg);
             this.errorPerson = errorMsg;
           })
-        }
-
-        if (valid) {
-          this.showModal = false
-          this.showModalSuccess = true
-        }
       }
     },
     computed: {
@@ -594,6 +696,9 @@
           })
         }
         return ret
+      },
+      taskStatus: function() {
+        return this.statusDisplay[this.task.taskStatus]
       }
     }
   }
