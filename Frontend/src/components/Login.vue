@@ -227,7 +227,7 @@
     return false;
   }
 
-  var randomDisplay = 'quotes'
+  var randomDisplay = 'puns'
   var quotes = [
     'Life is about making an impact, not making an income. -Kevin Kruse',
     'Whatever the mind of man can conceive and believe, it can achieve. –Napoleon Hill',
