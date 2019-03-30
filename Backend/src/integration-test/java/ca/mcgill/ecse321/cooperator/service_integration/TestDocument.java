@@ -106,6 +106,43 @@ public class TestDocument {
 
     assertEquals(5, service.getAllDocuments().size());
   }
+  
+  @Test
+  public void testcheckSubmissionStatus() {
+    // Create chain of objects required to create a task
+    Calendar currentCal = Calendar.getInstance();
+    Date dueDate = new Date(currentCal.getTimeInMillis());
+    CoopCourse c = service.createCoopCourse("ECSE302", 1);
+    CoopCourseOffering cco = service.createCoopCourseOffering(2019, Term.FALL, true, c);
+    Student s = service.createStudent("f_name", "l_name", 260654321, "test@mail.com");
+    Employer emp = service.createEmployer("Facebook", "fb@email.com", "123 Sherbrooke");
+    StudentEnrollment se = service.createStudentEnrollment(true, CourseStatus.PASSED, s, emp, cco,
+        "test-url-1", "test-url-2", START_DATE, END_DATE, WORK_PERMIT, JOB_ID);
+    Task t = service.createTask("Task name", "Some description", dueDate, TaskStatus.INCOMPLETE,
+        se.getEnrollmentID());
+    System.out.println("hey"+t.getTaskStatus());
+
+    Document param = new Document();
+    param.setName("doc name");
+    param.setUrl("http://test-url.this/is/just/for/testing");
+
+    try {
+      service.createDocument(param, se.getEnrollmentID(), t.getName());
+    } catch (InvalidParameterException e) {
+      fail();
+    }
+    Document d = service.getDocument("http://test-url.this/is/just/for/testing");
+
+    assertEquals("doc name", d.getName());
+    assertEquals("http://test-url.this/is/just/for/testing", d.getUrl());
+    Calendar currentCal1 = Calendar.getInstance();
+    Date currentDate = new Date(currentCal1.getTimeInMillis());
+    assertEquals(currentDate.toString(), d.getSubmissionDate().toString());
+
+    assertEquals(5, service.getAllDocuments().size());
+    Task t1 = service.getTask(t.getTaskID());
+    System.out.println(t1.getTaskStatus());
+  }
 
   @Test
   public void testOverwriteDocument() {

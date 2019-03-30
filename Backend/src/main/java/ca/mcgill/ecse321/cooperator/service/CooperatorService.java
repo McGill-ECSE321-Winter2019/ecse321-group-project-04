@@ -704,8 +704,18 @@ public class CooperatorService {
     Calendar currentCal = Calendar.getInstance();
     Date currentDate = new Date(currentCal.getTimeInMillis());
     Task t = studentEnrollmentRepository.findByEnrollmentID(enrollmentID).getTask(taskName);
+    
     Date dueDate = t.getDueDate();
-
+    
+    Calendar dueDateCal = Calendar.getInstance();
+    dueDateCal.setTime(dueDate);
+    dueDateCal.set(Calendar.HOUR_OF_DAY, 23);
+    dueDateCal.set(Calendar.MINUTE, 59);
+    dueDateCal.set(Calendar.SECOND, 59);
+    dueDateCal.set(Calendar.MILLISECOND, 999);
+    
+    Date dueDateEndOfDay = new Date(dueDateCal.getTimeInMillis());
+    dueDate =  dueDateEndOfDay;
     if (t.getDocument(name) != null) {
       t.getDocument(name).setUrl(url);
       t.getDocument(name).setSubmissionDate(currentDate);
@@ -717,11 +727,9 @@ public class CooperatorService {
       d.setUrl(url);
       d.setSubmissionDate(currentDate);
       t.addDocument(d);
-      if(name.contains("INSTRUCTIONS")) {
+      if(name.contains("INSTRUCTIONS_")) {
         t.setTaskStatus(TaskStatus.INCOMPLETE);
       }else if(currentDate.before(dueDate)){
-        t.setTaskStatus(TaskStatus.COMPLETED);
-      }else if(name.contains("CO-OP Position Acceptance Form") || name.contains("Employer Contract")) {
         t.setTaskStatus(TaskStatus.COMPLETED);
       }else if(currentDate.after(dueDate)){
         t.setTaskStatus(TaskStatus.LATE_COMPLETED);
