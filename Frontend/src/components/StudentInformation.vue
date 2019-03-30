@@ -117,10 +117,15 @@
 
   .student-icon {
     display: block;
+    transition: transform .2s;
     margin-left: auto;
     margin-right: auto;
-    margin-top: auto;
-    margin-bottom: auto;
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+
+  .student-icon:hover {
+    transform: scale(1.08);
   }
 
   .student-fullname {
