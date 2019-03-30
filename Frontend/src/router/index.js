@@ -6,6 +6,7 @@ import Login from '@/components/Login'
 import CourseInfo from '@/components/CourseInfo'
 import AcceptanceForm from '@/components/AcceptanceForm'
 import StudentInformation from '@/components/StudentInformation'
+import HomePage from '@/components/HomePage'
 import TaskView from '@/components/TaskView'
 import SampleModal from '@/components/SampleModal'
 
@@ -15,9 +16,7 @@ export default new Router({
   mode: 'history',
   routes: [{
       path: '/',
-      redirect: '/login',
-      name: 'Hello',
-      component: Hello
+      redirect: '/login'
     },
     {
       path: '/dashboard/:id',
@@ -45,14 +44,14 @@ export default new Router({
       component: StudentInformation
     },
     {
+      path: '/home/',
+      name: 'HomePage',
+      component: HomePage
+    },
+    {
       path: '/taskview/:enrollmentID/:id',
       name: 'TaskView',
       component: TaskView
-    },
-    {
-      path: '/modal',
-      name: 'SampleModal',
-      component: SampleModal
     }
   ]
 })
