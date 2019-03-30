@@ -17,7 +17,7 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="container  text-left">
-              <div @click="goToDashboard" style="display: inline-block;">
+              <div @click="goToDashboard" style="display: inline-block;" id="img-container">
                 <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
               </div>
             </div>
@@ -329,6 +329,10 @@
 </template>
 
 <style>
+  #img-container:hover img {
+    opacity: 0.8;
+  }
+
   #top-container {
     margin-bottom: 0;
     background-color: #333335;

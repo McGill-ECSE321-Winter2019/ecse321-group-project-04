@@ -12,7 +12,7 @@
   <body>
 
     <div class="container-fluid" id="top-container">
-      <div class="container text-center">
+      <div class="container text-center" id="img-container">
         <img src="https://user-images.githubusercontent.com/35735496/54735369-2f1d7b80-4b7c-11e9-93a2-505866f8ec69.png" width="300" height="100">
       </div>
     </div>
@@ -56,9 +56,9 @@
         <div id="footer">
           <div class="col-sm-2"> </div>
           <div class="col-sm-8">
-          <hr>
-          <br>
-          <h3 id="message">{{getRandomMessage()}}</h3>
+            <hr>
+            <br>
+            <h3 id="message">{{getRandomMessage()}}</h3>
           </div>
           <div class="col-sm-2"> </div>
         </div>
