@@ -381,7 +381,6 @@
     'A jumper cable walks into a bar. The bartender says, “I’ll serve you, but don’t start anything.”'
   ]
 
-
   export default {
     name: 'login',
     data() {

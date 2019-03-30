@@ -548,7 +548,7 @@
 
         // Perform the POST request
 
-        
+
         if (valid) {
           let wait = await this.onUpload()
           AXIOS.post(`/document?studentEnrollmentID=` + this.$route.params.enrollmentID + `&taskName=` + this.task.name, {

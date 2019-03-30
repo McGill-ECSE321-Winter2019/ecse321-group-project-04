@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">cooperator-android</string>
-    <string name="login_msg">Student ID:</string>
+    <string name="login_msg">Student ID</string>
     <string name="login_hint">Enter your student ID</string>
     <string name="login_btn">LOGIN</string>
+
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>

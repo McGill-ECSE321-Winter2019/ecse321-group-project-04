@@ -1651,7 +1651,7 @@
         taskStatusDisplay: {
           COMPLETED: 'Completed',
           INCOMPLETE: 'Incomplete',
-          LATE_SUBMITTED: 'Completed Late'
+          LATE_COMPLETED: 'Late Completed'
         },
         courseStatusDisplay: {
           PASSED: 'Passed',
@@ -1739,7 +1739,6 @@
           console.log(errorMsg);
           this.errorPerson = errorMsg;
         })
-
     },
     methods: {
       goToTask: function(task) {
