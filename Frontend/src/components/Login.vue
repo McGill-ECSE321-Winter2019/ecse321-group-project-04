@@ -53,9 +53,15 @@
           </div>
           <div class="col-sm-2"> </div>
         </div>
-        <br><br><br><br><br><br><br><br><br><br><br><br>
-        <hr>
-        <h3 id="message">{{getRandomMessage()}}</h3>
+        <div id="footer">
+          <div class="col-sm-2"> </div>
+          <div class="col-sm-8">
+          <hr>
+          <br>
+          <h3 id="message">{{getRandomMessage()}}</h3>
+          </div>
+          <div class="col-sm-2"> </div>
+        </div>
       </div>
       <div class="col-sm-2 sidenav"></div>
     </div>
@@ -99,6 +105,15 @@
 </template>
 
 <style>
+  #footer {
+    position: fixed;
+    left: 0;
+    bottom: 50px;
+    width: 100%;
+    color: white;
+    text-align: center;
+  }
+
   .panel {
     min-height: 80%;
     max-width: 100%;
