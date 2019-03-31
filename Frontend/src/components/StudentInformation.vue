@@ -260,7 +260,6 @@
         document.body.appendChild(input);
         input.select()
         document.execCommand("copy")
-        alert("McGill Email copied: " + input.value);
         document.body.removeChild(input);
       }
     }
