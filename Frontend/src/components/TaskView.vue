@@ -620,10 +620,10 @@
         }
         if (inputDoc === null || inputDoc === '') {
           valid = false
-          document.getElementById('inputGroupFile01').className = 'form-control form-control-lg is-invalid'
+          document.getElementById('inputGroupFile01').className = 'custom-file-input is-invalid'
         } else {
           valid = valid ? true : false
-          document.getElementById('inputGroupFile01').className = 'form-control form-control-lg'
+          document.getElementById('inputGroupFile01').className = 'custom-file-input form-control-lg'
         }
 
         // Perform the POST request
