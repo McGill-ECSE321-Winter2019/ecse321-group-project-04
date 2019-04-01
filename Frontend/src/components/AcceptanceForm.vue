@@ -844,7 +844,7 @@
         if (inputPC.search(canadianPC) == -1 && inputPC.search(internationalPC) == -1) {
           valid = false
           document.getElementById('Postal-Code').className = 'form-control mb-2 mr-sm-2 is-invalid'
-          document.getElementById("postalCodeErrorMsg").innerHTML = 'Please Enter A Valid Postal Code. e.g. H2XM3N or 94240'
+          document.getElementById("postalCodeErrorMsg").innerHTML = 'Please Enter A Valid Postal Code. e.g. H2X1V8 or 94240'
         } else {
           document.getElementById('Postal-Code').className = 'form-control mb-2 mr-sm-2'
           document.getElementById("postalCodeErrorMsg").innerHTML = ''

@@ -1660,7 +1660,7 @@
         courseStatusDisplay: {
           PASSED: 'Passed',
           FAILED: 'Failed',
-          WITHDRAWED: 'Withdrawed',
+          WITHDRAWED: 'Withdrew',
           ONGOING: 'Ongoing'
         },
         courseOffering: {},
