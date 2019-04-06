@@ -59,7 +59,6 @@ co-op acceptance, submit required documents and track their co-op program progre
 
 ## Deliverable 3 (March 24, 2019)
 
-**ATTENTION GRADERS: The submitted commit for this sprint will have limited features due to changing a RESTful service end point. Please visit the deployed version [here](https://cooperator-frontend-0000.herokuapp.com/login)**
 
 |     Team members      |Total hours|                          Responsibility                        |
 |-----------------------|-----------|----------------------------------------------------------------|
@@ -94,3 +93,7 @@ co-op acceptance, submit required documents and track their co-op program progre
 |**Marie Vu**           |           |                                                                |
 
 **Sprint 4 Documents**:
+
+[Report 4](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-4-Report)
+[Frontend Demonstartion](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Frontend-Demonstration-Instructions)
+[Additional Features](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Project-Additional-Features)
