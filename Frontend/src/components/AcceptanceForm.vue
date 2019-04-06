@@ -422,9 +422,9 @@
 </template>
 
 <style>
-#img-container:hover img {
-  opacity: 0.8;
-}
+  #img-container:hover img {
+    opacity: 0.8;
+  }
 
   .panel {
     min-height: 80%;
@@ -626,25 +626,21 @@
     transition: all .3s ease;
   }
 
-  /*.modal-enter-active {
-    opacity: 0;
-    transition: all .3s ease;
-    }*/
 
-    .modal-enter .modal-container,
-    .modal-leave-active .modal-container,
-    .modal-leave-to .modal-container {
-      /*-webkit-transform: scale(1.1);*/
-      transform: translateY(100px);
-    }
-  </style>
+  .modal-enter .modal-container,
+  .modal-leave-active .modal-container,
+  .modal-leave-to .modal-container {
+    /*-webkit-transform: scale(1.1);*/
+    transform: translateY(100px);
+  }
+</style>
 
-  <script>
-    import jsPDF from 'jspdf';
-    import axios from 'axios'
-    var config = require('../../config')
+<script>
+  import jsPDF from 'jspdf';
+  import axios from 'axios'
+  var config = require('../../config')
 
-    var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
+  var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
     var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
 
     var AXIOS = axios.create({
@@ -681,6 +677,9 @@
         }
       },
       methods: {
+
+
+        /* Method to cancel registration */
         alert: function() {
           var txt;
           var click = confirm("Do you want to cancel the registration?");
@@ -693,43 +692,57 @@
             })
           }
         },
+
+
+        /* Method to update the selected file */
         onFileSelected(event){
           this.selectedFile = event.target.files[0]
           this.selectedFileName = this.selectedFile.name
           console.log(event.target.files[0])
         },
-        print(event){
-          console.log(this.ContractURL)
-          console.log(this.AcceptanceFormURL)
-        },
+
+
+        /* Method to upload the employer contract */
         async onUpload(){
-          //this.genFile();
+          // Set up the file
           const fd = new FormData();
-          var id = Math.floor((Math.random() * 10000));
+          var id = Math.floor((Math.random() * 10000000));
           var filename = this.selectedFile.name;
           var nameNoExt = filename.split('.',2)[0];
           var ext = filename.split('.',2)[1];
-          filename = nameNoExt+id+'.'+ext;
+          filename = nameNoExt+id+'.'+ext; //add id to the file name
 
           fd.append('doc', this.selectedFile, filename)
-          let response = await axios.post('https://us-central1-cooperator-2b466.cloudfunctions.net/uploadFile', fd,{
-            onUploadProgress: uploadEvent =>{
-              console.log('upload pregress: ' + Math.floor(uploadEvent.loaded / uploadEvent.total)*100 )
-            }
-          })
-          this.ContractURL = response.data.shortURL
-          console.log(this.ContractURL)
-          return response;
-
+          // Upload the file to Firebase
+          try{
+            let response = await axios.post('https://us-central1-cooperator-2b466.cloudfunctions.net/uploadFile', fd,{
+              onUploadProgress: uploadEvent =>{
+                console.log('upload pregress: ' + Math.floor(uploadEvent.loaded / uploadEvent.total)*100 )
+              }
+            })
+            this.ContractURL = response.data.shortURL
+            console.log(this.ContractURL)
+            return response;
+          }
+          // show registration failed modal
+          catch(e){
+            this.error = e
+            this.showModalProcessingRegistration = false
+            this.showModalFailRegistration = true
+            console.log(e);
+          }
         },
+
+
+        /* Method to generate and store the coop acceptance form */
         async genFile(){
           // Set up the file
           const fd = new FormData();
-          var id = Math.floor((Math.random() * 10000));
+          var id = Math.floor((Math.random() * 10000000));
           var filename = "AcceptanceForm.pdf";
           var nameNoExt = filename.split('.',2)[0];
           var ext = filename.split('.',2)[1];
-          filename = nameNoExt+id+'.'+ext;
+          filename = nameNoExt+id+'.'+ext; //add id to the file name
 
           // Data for the PDF (Already checked by caller)
           var companyName = document.getElementById("Company-Name").value;
@@ -799,25 +812,39 @@
 
           var pdf = doc.output('blob')
           fd.append('doc', pdf, filename)
-          let response = await axios.post('https://us-central1-cooperator-2b466.cloudfunctions.net/uploadFile', fd,
-          {
-            onUploadProgress: uploadEvent =>{
-              console.log('upload pregress: ' + Math.floor(uploadEvent.loaded / uploadEvent.total)*100 )
-            }
-          })
-          this.AcceptanceFormURL = response.data.shortURL
-          console.log(this.AcceptanceFormURL)
-          return response;
+          // Upload the file to Firebase
+          try{
+            let response = await axios.post('https://us-central1-cooperator-2b466.cloudfunctions.net/uploadFile', fd,
+            {
+              onUploadProgress: uploadEvent =>{
+                console.log('upload pregress: ' + Math.floor(uploadEvent.loaded / uploadEvent.total)*100 )
+              }
+            })
+            this.AcceptanceFormURL = response.data.shortURL
+            console.log(this.AcceptanceFormURL)
+            return response;
+
+          }
+          // Show registration failed modal
+          catch(e){
+            this.error = e
+            this.showModalProcessingRegistration = false
+            this.showModalFailRegistration = true
+            console.log(e);
+          }
         },
+
+
+        /* Method submit the registration form */
         submitForm: async function() {
           this.showModalConfirmRegistration = false
         // Format postal code correctly
         var ps = document.getElementById("Postal-Code")
         ps.value = ps.value.replace(/\s/g, '').toUpperCase()
-
+        // Format course code correctly
         var cID = document.getElementById("CourseID")
         cID.value = cID.value.replace(/[\s-]/g, '').toUpperCase()
-
+        // Set up to check validity of input data
         var valid = true
         var elements = ["Company-Name",
         "Employer-Email",
@@ -876,8 +903,7 @@
           document.getElementById('inputGroupFile01').className = 'custom-file-input form-control-lg'
         }
 
-
-
+        // Register the student if all input data is valid
         if (valid) {
           // Show processing modal
           this.showModalProcessingRegistration = true
@@ -913,8 +939,9 @@
           } else if (document.getElementById("Summer").checked) {
             term = "SUMMER";
           }
-          if (term != null)
+          if (term != null){
             var offeringID = courseID + "-" + term.charAt() + yearID;
+          }
 
           // Get the Enrollment Details
           var jobID = document.getElementById("JobID").value;
@@ -924,40 +951,64 @@
           var status = "ONGOING"; //default for new enrollment
 
           //Push the two forms to firebase
-          let wait1 = await this.genFile()
-          let wait2 = await this.onUpload()
+          try{
+            let wait1 = await this.genFile() // Generate an acceptance form pdf
+            let wait2 = await this.onUpload() // Upload the employer contract
+          }catch(e){
+            this.error = e
+            this.showModalProcessingRegistration = false
+            this.showModalFailRegistration = true
+            console.log(e);
+          }
 
-          //Create the employer, course and offering (Won't be created if already in DB)
+          //Create the employer
           AXIOS.post(`/employer/`, {
             "name": companyName,
             "email": employerEmail,
             "address": address
           })
-
-          AXIOS.post(`/coopCourse/`, {
-            "courseCode": courseID,
-            "coopTerm": coopTerm
-          }).then(response => {
-            AXIOS.post(`/coopCourseOffering?courseCode=` + courseID, {
-              "year": year,
-              "term": term,
-              "active": active
-            }).then(response => {
-              AXIOS.post(`studentEnrollment?courseOfferingID=` + offeringID + `&studentID=` + studentID + `&employerEmail=` + employerEmail, {
-                "se" :{
-                  "active": active,
-                  "status": status,
-                  "startDate": startDate,
-                  "endDate": endDate,
-                  "workPermit": workPermit,
-                  "jobID": jobID
-                },
-                "acceptanceFormURL" : this.AcceptanceFormURL,
-                "employerContractURL" : this.ContractURL
-              }).then(response => {
-                this.showModalProcessingRegistration = false
-                this.showModalSuccessRegistration = true
+          // Create the course
+          .then(response => {
+            AXIOS.post(`/coopCourse/`, {
+              "courseCode": courseID,
+              "coopTerm": coopTerm
+            })
+            // Create the course offering
+            .then(response => {
+              AXIOS.post(`/coopCourseOffering?courseCode=` + courseID, {
+                "year": year,
+                "term": term,
+                "active": active
               })
+              // Create the registration (enrollment)
+              .then(response => {
+                AXIOS.post(`studentEnrollment?courseOfferingID=` + offeringID + `&studentID=` + studentID + `&employerEmail=` + employerEmail, {
+                  "se" :{
+                    "active": active,
+                    "status": status,
+                    "startDate": startDate,
+                    "endDate": endDate,
+                    "workPermit": workPermit,
+                    "jobID": jobID
+                  },
+                  "acceptanceFormURL" : this.AcceptanceFormURL,
+                  "employerContractURL" : this.ContractURL
+                })
+                // Show registration was successful modal
+                .then(response => {
+                  this.showModalProcessingRegistration = false
+                  this.showModalSuccessRegistration = true
+                })
+                // Show registration failed modal
+                .catch(e => {
+                  var errorMsg = e.message
+                  console.log(errorMsg)
+                  this.error = errorMsg
+                  this.showModalProcessingRegistration = false
+                  this.showModalFailRegistration = true
+                })
+              })
+              // Show registration failed modal
               .catch(e => {
                 var errorMsg = e.message
                 console.log(errorMsg)
@@ -966,30 +1017,37 @@
                 this.showModalFailRegistration = true
               })
             })
+            // Show registration failed modal
             .catch(e => {
               var errorMsg = e.message
               console.log(errorMsg)
               this.error = errorMsg
+              console.log('Hello')
               this.showModalProcessingRegistration = false
               this.showModalFailRegistration = true
             })
           })
+          // Show registration failed modal
           .catch(e => {
             var errorMsg = e.message
             console.log(errorMsg)
             this.error = errorMsg
-            console.log('Hello')
             this.showModalProcessingRegistration = false
             this.showModalFailRegistration = true
           })
-
         }
       },
+
+
+      /* Method to go to login page */
       goToLogin: function() {
         this.$router.push({
           name: 'Login',
         })
       },
+
+
+      /* Method to go to dashboard */
       goToDashboard: function() {
         this.$router.push({
           name: 'Dashboard',
@@ -998,6 +1056,9 @@
           }
         })
       },
+
+
+      /* Method to go to account info */
       goToAccount: function() {
         this.$router.push({
           name: 'StudentInformation',

@@ -447,36 +447,36 @@
     transition: all .3s ease;
     }*/
 
-  .modal-enter .modal-container,
-  .modal-leave-active .modal-container,
-  .modal-leave-to .modal-container {
-    /*-webkit-transform: scale(1.1);*/
-    transform: translateY(100px);
-  }
+    .modal-enter .modal-container,
+    .modal-leave-active .modal-container,
+    .modal-leave-to .modal-container {
+      /*-webkit-transform: scale(1.1);*/
+      transform: translateY(100px);
+    }
 
-  /* Tab transition animations */
-  .slide-fade-enter-active {
-    transition: all .3s ease;
-  }
+    /* Tab transition animations */
+    .slide-fade-enter-active {
+      transition: all .3s ease;
+    }
 
-  .slide-fade-leave-active {
-    transition: all .3s ease;
-  }
+    .slide-fade-leave-active {
+      transition: all .3s ease;
+    }
 
-  .slide-fade-enter,
-  .slide-fade-leave-to {
-    transform: translateX(10px);
-    opacity: 0;
-  }
-</style>
+    .slide-fade-enter,
+    .slide-fade-leave-to {
+      transform: translateX(10px);
+      opacity: 0;
+    }
+  </style>
 
-<script>
-  import Router from 'vue-router'
-  import axios from 'axios'
-  var moment = require('moment')
-  var config = require('../../config')
-  /* AXIOS object configuration */
-  var frontendUrl = 'https://' + config.dev.hoiust + ':' + config.dev.port
+  <script>
+    import Router from 'vue-router'
+    import axios from 'axios'
+    var moment = require('moment')
+    var config = require('../../config')
+    /* AXIOS object configuration */
+    var frontendUrl = 'https://' + config.dev.hoiust + ':' + config.dev.port
   var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
 
   var AXIOS = axios.create({
@@ -514,32 +514,32 @@
     },
     created() {
       AXIOS.get(`/tasks/` + this.$route.params.id)
-        .then(response => {
-          this.task = response.data;
-        })
-        .catch(e => {
-          var errorMsg = e.message;
-          console.log(errorMsg);
-          this.errorPerson = errorMsg;
-        })
+      .then(response => {
+        this.task = response.data;
+      })
+      .catch(e => {
+        var errorMsg = e.message;
+        console.log(errorMsg);
+        this.errorPerson = errorMsg;
+      })
       AXIOS.get(`/tasks/` + this.$route.params.id + `/documents`)
-        .then(response => {
-          this.documents = response.data._embedded.documents;
-        })
-        .catch(e => {
-          var errorMsg = e.message;
-          console.log(errorMsg);
-          this.errorPerson = errorMsg;
-        })
+      .then(response => {
+        this.documents = response.data._embedded.documents;
+      })
+      .catch(e => {
+        var errorMsg = e.message;
+        console.log(errorMsg);
+        this.errorPerson = errorMsg;
+      })
       AXIOS.get(`/studentEnrollments/` + this.$route.params.enrollmentID)
-        .then(response => {
-          this.courseStatus = response.data.status
-        })
-        .catch(e => {
-          var errorMsg = e.message;
-          console.log(errorMsg);
-          this.errorPerson = errorMsg;
-        })
+      .then(response => {
+        this.courseStatus = response.data.status
+      })
+      .catch(e => {
+        var errorMsg = e.message;
+        console.log(errorMsg);
+        this.errorPerson = errorMsg;
+      })
     },
 
     methods: {
@@ -574,39 +574,55 @@
         this.displayURLName = s.url
         this.showModalURL = true
       },
+
+      /* Method to update the selected file */
       onFileSelected(event) {
         this.selectedFile = event.target.files[0]
         this.selectedFileName = this.selectedFile.name
         console.log(event.target.files[0])
       },
+
+      /* Method to upload the selected file to firebase */
       async onUpload() {
-        //this.genFile();
+        // Set up the file
         const fd = new FormData();
-        var id = Math.floor((Math.random() * 10000));
+        var id = Math.floor((Math.random() * 10000000));
         var filename = this.selectedFile.name;
-        var nameNoExt = filename.split('.', 2)[0];
-        var ext = filename.split('.', 2)[1];
-        filename = nameNoExt + id + '.' + ext;
+        var nameNoExt = filename.split('.',2)[0];
+        var ext = filename.split('.',2)[1];
+        filename = nameNoExt+id+'.'+ext; //add id to the file name
 
         fd.append('doc', this.selectedFile, filename)
-        let response = await axios.post('https://us-central1-cooperator-2b466.cloudfunctions.net/uploadFile', fd, {
-          onUploadProgress: uploadEvent => {
-            console.log('upload pregress: ' + Math.floor(uploadEvent.loaded / uploadEvent.total) * 100)
-          }
-        })
-        this.docURL = response.data.shortURL
-        console.log(this.docURL)
-        return response;
+        // Upload the file to Firebase
+        try{
+          let response = await axios.post('https://us-central1-cooperator-2b466.cloudfunctions.net/uploadFile', fd, {
+            onUploadProgress: uploadEvent => {
+              console.log('upload pregress: ' + Math.floor(uploadEvent.loaded / uploadEvent.total) * 100)
+            }
+          })
+          this.docURL = response.data.shortURL
+          console.log(this.docURL)
+          return response;
+
+        }catch(e){
+          var errorMsg = e.message;
+          console.log(errorMsg);
+          this.errorPerson = errorMsg;
+        }
       },
+
+      /* Method to set the download url for a file */
       redirectTo() {
         document.getElementById("link2").setAttribute("href", this.displayURLName)
       },
+
+      /* Method to check if a document is valid and/or should be overwritten */
       checkSubmitDocument: async function() {
         var valid = true;
         var inputName = document.getElementById('docName').value
         var inputDoc = document.getElementById('inputGroupFile01').value
 
-        // Check the inputs
+        // Check the input name
         if (inputName === '' || inputName === null) {
           valid = false
           document.getElementById('nameMsg').innerHTML = 'Please Enter A Valid Document Name'
@@ -618,6 +634,7 @@
           document.getElementById('nameMsg').style.color = ''
           document.getElementById("docName").className = 'form-control form-control-lg'
         }
+        // Check the input file
         if (inputDoc === null || inputDoc === '') {
           valid = false
           document.getElementById('inputGroupFile01').className = 'custom-file-input is-invalid'
@@ -626,10 +643,9 @@
           document.getElementById('inputGroupFile01').className = 'custom-file-input form-control-lg'
         }
 
-        // Perform the POST request
+        // Check if a student has a doc with the same name for the same task
         if (valid) {
           this.inputName = inputName
-
           var existingDocName = null
           for (var i in this.documents) {
             if (this.documents[i].name === inputName) {
@@ -637,9 +653,8 @@
               break
             }
           }
-
           this.selectedFileName = 'Choose File'
-
+          // If no doc woth the same name was found, submit the doc. Otherwise, show averwrite modal
           if (existingDocName === null) {
             this.submitDocument()
           } else {
@@ -649,47 +664,57 @@
           }
         }
       },
+
+      /* Method to submit a document */
       submitDocument: async function() {
         this.showModal = false
         this.showModalWarning = false
         this.showModalProcessing = true
 
         var inputName = this.inputName
-
-        let wait = await this.onUpload()
+        // upload the file to firebase
+        try{
+          let wait = await this.onUpload()
+        }catch(e){
+          var errorMsg = e.message;
+          console.log(errorMsg);
+          this.errorPerson = errorMsg;
+        }
+        // Upload the file to heroku DB
         AXIOS.post(`/document?studentEnrollmentID=` + this.$route.params.enrollmentID + `&taskName=` + this.task.name, {
-            "name": inputName,
-            "url": this.docURL
-          })
+          "name": inputName,
+          "url": this.docURL
+        })
+        // Update the tasks and documents data
+        .then(response => {
+          AXIOS.get(`/tasks/` + this.$route.params.id + `/documents`)
           .then(response => {
-            AXIOS.get(`/tasks/` + this.$route.params.id + `/documents`)
-              .then(response => {
-                this.documents = response.data._embedded.documents;
+            this.documents = response.data._embedded.documents;
 
-                AXIOS.get(`/tasks/` + this.$route.params.id)
-                  .then(response => {
-                    this.task = response.data;
-                    this.showModalProcessing = false;
-                    this.showModalSuccess = true;
-                  })
-                  .catch(e => {
-                    var errorMsg = e.message;
-                    console.log(errorMsg);
-                    this.errorPerson = errorMsg;
-                  })
+            AXIOS.get(`/tasks/` + this.$route.params.id)
+            .then(response => {
+              this.task = response.data;
+              this.showModalProcessing = false;
+              this.showModalSuccess = true; // Show success modal
+            })
+            .catch(e => {
+              var errorMsg = e.message;
+              console.log(errorMsg);
+              this.errorPerson = errorMsg;
+            })
 
-              })
-              .catch(e => {
-                var errorMsg = e.message;
-                console.log(errorMsg);
-                this.errorPerson = errorMsg;
-              })
           })
           .catch(e => {
             var errorMsg = e.message;
             console.log(errorMsg);
             this.errorPerson = errorMsg;
           })
+        })
+        .catch(e => {
+          var errorMsg = e.message;
+          console.log(errorMsg);
+          this.errorPerson = errorMsg;
+        })
       }
     },
     computed: {
