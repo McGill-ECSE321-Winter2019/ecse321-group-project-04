@@ -95,5 +95,7 @@ co-op acceptance, submit required documents and track their co-op program progre
 **Sprint 4 Documents**:
 
 [Report 4](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Sprint-4-Report)
+
 [Frontend Demonstartion](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Frontend-Demonstration-Instructions)
+
 [Additional Features](https://github.com/McGill-ECSE321-Winter2019/ecse321-group-project-04/wiki/Project-Additional-Features)
