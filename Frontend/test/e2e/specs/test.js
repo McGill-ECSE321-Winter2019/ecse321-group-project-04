@@ -71,9 +71,13 @@ module.exports = {
       .setValue('input[id="Province"]', 'Washington')
       .setValue('input[id="Postal-Code"]', '98052')
       .setValue('input[id="Country"]', 'US')
-      .setValue('input[id="inputGroupFile01"]', require('path').resolve(__dirname + '../../../files/EmployerContract.pdf'))
+      .setValue('input[id="inputGroupFile01"]', ' ')
+      .pause(500)
+      .click('.panel-body .row .row>div:last-child>button:first-child')
 
-    browser
+      var contractPath = require('path').resolve(__dirname + '../../../files/EmployerContract.pdf')
+    browser 
+      .setValue('input[id="inputGroupFile01"]', contractPath)
       .pause(500)
       // Submit the AcceptanceForm
       .click('.panel-body .row .row>div:last-child>button:first-child')
@@ -126,14 +130,22 @@ module.exports = {
                   .pause(500)
     
                   var docName = 'TestReport'
+                  var docPath = require('path').resolve(__dirname + '../../../files/TestReport.pdf')
                 browser
                   .setValue('input[id="docName"]', docName)
-                  .setValue('input[id="inputGroupFile01"]', require('path').resolve(__dirname + '../../../files/TestReport.pdf'))
+                  .setValue('input[id="inputGroupFile01"]', docPath)
                   .pause(500)
                   // Submit Document
                   .click('.modal-container button')
                   .pause(1500)
-                  .waitForText('.modal-container button', 'Done')
+                  .element('css selector', '#task-submission>div:last-child>.modal-mask #warning-header', function(result_w) {
+                      if (result_w.value.ELEMENT) {
+                        browser.click('.modal-mask .modal-container .btn-primary')
+                      }
+                  }
+                  )
+                  
+                  .pause(1500)
                   .click('.modal-container button')
                   // Check if Document is added
                   .pause(500)
