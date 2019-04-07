@@ -71,7 +71,9 @@ module.exports = {
       .setValue('input[id="Province"]', 'Washington')
       .setValue('input[id="Postal-Code"]', '98052')
       .setValue('input[id="Country"]', 'US')
-      .setValue('input[id="Employer-Contract"]', 'https://www.microsoft.com')
+      .setValue('input[id="inputGroupFile01"]', require('path').resolve(__dirname + '../../../files/EmployerContract.pdf'))
+
+    browser
       .pause(500)
       // Submit the AcceptanceForm
       .click('.panel-body .row .row>div:last-child>button:first-child')
@@ -81,7 +83,6 @@ module.exports = {
       .pause(3000)
       .waitForElementVisible('.modal-mask', 5000)
       .click('.modal-mask button')
-
 
       .pause(1500)
       // Check if Course is added
@@ -123,15 +124,16 @@ module.exports = {
                   .waitForElementVisible('#task-submission .modal-mask', 5000)
                   .assert.visible('.modal-mask .modal-container')
                   .pause(500)
-                var docName = 'CoopReport 0001';
+    
+                  var docName = 'TestReport'
                 browser
                   .setValue('input[id="docName"]', docName)
-                  .setValue('input[id="docURL"]', 'https://www.dropbox.com/sh/coopreport0001')
+                  .setValue('input[id="inputGroupFile01"]', require('path').resolve(__dirname + '../../../files/TestReport.pdf'))
                   .pause(500)
                   // Submit Document
                   .click('.modal-container button')
-                  .pause(500)
-                  .assert.containsText('.modal-container button', 'Done')
+                  .pause(1500)
+                  .waitForText('.modal-container button', 'Done')
                   .click('.modal-container button')
                   // Check if Document is added
                   .pause(500)
