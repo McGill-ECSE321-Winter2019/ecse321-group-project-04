@@ -233,7 +233,7 @@
           <div class="modal-mask">
             <div class="modal-wrapper" @click="showModalWarning=false">
               <div class="modal-container" @click.stop>
-                <div class="modal-header">
+                <div class="modal-header" id="warning-header">
                   <slot name="header">
                     Warning
                   </slot>
