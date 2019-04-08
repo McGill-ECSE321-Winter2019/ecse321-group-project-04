@@ -63,7 +63,7 @@ co-op acceptance, submit required documents and track their co-op program progre
 |     Team members      |Total hours|                          Responsibility                        |
 |-----------------------|-----------|----------------------------------------------------------------|
 |**Remi Carriere**      |     23    |Backend Developer Lead / Supporting Frontend Developper (CTO)   |
-|**Naxin Fang**         |     21    |Supporting Frontend Developper, Frontend Tester                                 |
+|**Naxin Fang**         |     21    |Supporting Frontend Developper, Frontend Tester                 |
 |**Boyang Ma**          |     24    |Frontend Developer Second                                       |
 |**Angel Ortiz Regules**|     24    |Frontend Developer Lead                                         |
 |**Marie Vu**           |     19    |Supporting Frontend Developper                                  |
@@ -86,11 +86,11 @@ co-op acceptance, submit required documents and track their co-op program progre
 
 |     Team members      |Total hours|                          Responsibility                        |
 |-----------------------|-----------|----------------------------------------------------------------|
-|**Remi Carriere**      |           |                                                                |
-|**Naxin Fang**         |           |                                                                |
-|**Boyang Ma**          |           |                                                                |
-|**Angel Ortiz Regules**|           |                                                                |
-|**Marie Vu**           |           |                                                                |
+|**Remi Carriere**      |     18    |Backend Developer Lead / Supporting Frontend Developper (CTO)   |
+|**Naxin Fang**         |     16    |Supporting Frontend Developper, Frontend Tester                 |
+|**Boyang Ma**          |     16    |Frontend Developer Second                                       |
+|**Angel Ortiz Regules**|     18    |Frontend Developer Lead                                         |
+|**Marie Vu**           |     16    |Supporting Frontend Developper                                  |
 
 **Sprint 4 Documents**:
 
