@@ -1,5 +1,8 @@
 # ECSE321 Project Group 04 [![Build Status](https://travis-ci.com/McGill-ECSE321-Winter2019/ecse321-group-project-04.svg?token=KAZKVRpC6RVs5t8AvzT6&branch=master)](https://travis-ci.com/McGill-ECSE321-Winter2019/ecse321-group-project-04)
 
+## Note: 
+Team 04 would like to make this repository public
+
 ## Project  Overview
 The number of co-op programs may increase at McGill Univeristy in the future. 
 The objective of this project is to develop a software system called Co-op-perator
